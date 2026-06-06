@@ -30,6 +30,26 @@ Design branches own the values and expression:
 - Homepage and project-page composition.
 - Candidate blocks/pages for registry promotion.
 
+## Yrka Reference
+
+Use `C:\Users\james\projects\yrka` as the preferred reference for the configuration-panel layout and organization style, specifically:
+
+- `packages/design-tokens/src/business-theme-contract.ts`
+- `packages/design-tokens/src/business-theme-validation.ts`
+- `packages/design-tokens/src/business-theme-presets.ts`
+- `packages/design-tokens/src/business-theme-css-vars.ts`
+- `apps/web/lib/theme/workbench-*`
+- `apps/web/components/admin/dock/appearance-panel.tsx`
+- `apps/web/components/admin/dock/appearance-panel-controls.tsx`
+- `apps/web/components/admin/dock/appearance-theme-tab.tsx`
+- `apps/web/components/admin/dock/appearance-type-tab.tsx`
+- `apps/web/components/admin/dock/appearance-shell-tab.tsx`
+- `apps/web/components/admin/dock/appearance-manage-tab.tsx`
+
+The part to preserve is the neat, organized control surface: clear tabs, compact sections, explicit labels, swatches, sliders, token pickers, validation feedback, save/apply actions, and a clean split between contract, state, metadata, controls, and tabs.
+
+Do not copy Yrka's business-domain naming, persistence model, exact styling, or admin-shell assumptions. The reference is for layout discipline and operational neatness, not for carrying old product constraints into `jami.studio`.
+
 ## What Ships Before Branching
 
 Before the three design branches, build only the reusable system mechanics:

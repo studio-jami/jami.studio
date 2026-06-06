@@ -145,7 +145,7 @@ Repo guidance:
 
 - Build the token/dial contract before branching, not the final brand. Do not choose final colors, typography personality, or full component styling here.
 - Align with shadcn conventions and registry-readiness, but do not force public registry packaging unless it is cheap and useful during this site build.
-- The configuration panel should be clean, organized, and practical for internal use. It can draw lessons from `yrka.io`, but should not copy old structure blindly.
+- The configuration panel should be very neat, tidy, organized, and practical for internal use. Use `C:\Users\james\projects\yrka\apps\web\components\admin\dock\appearance-panel.tsx`, sibling `appearance-*` tab/control files, `apps\web\lib\theme\workbench-*`, and `packages\design-tokens\src\business-theme-*` as the preferred reference for panel organization and token workflow. Do not copy Yrka's business-domain naming, persistence assumptions, or exact styling.
 
 Primary areas:
 
