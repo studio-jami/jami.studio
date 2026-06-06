@@ -23,7 +23,7 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 
 - [x] The current `jami.studio` repo is docs-only: `AGENTS.md`, `docs/engineering/standards/*`, and `docs/engineering/agents/*`.
 - [x] The copied repo instructions originally described Intercal, so they must be refreshed for the marketing-site repo before implementation.
-- [x] The brand report defines the committed naming surface: `jami`, the Studio, `jami.studio`, `@jami-studio`, and `studio-jami`; brand tokens should become a resolved reusable source for site, docs, decks, and social surfaces.
+- [x] The brand report defines the committed naming surface: `jami`, the Studio, `jami.studio`, `@jami-studio`, and `studio-jami`; visual tokens should be resolved through the selected design branch, not locked before design exploration.
 - [x] The marketing report makes the website the first marketing artifact and calls for content-led developer credibility, technical docs/SEO, and AI-readable content.
 - [x] The product report positions `jami.studio` as the OSS foundations platform and hub for Harness, UI Registry, Orchestra, Intercal, and Collectiva.
 - [x] Intercal is live in a separate repo under `C:\Users\james\dev\orgs\oss\intercal.dev`; this marketing site should link to it without absorbing its runtime.
@@ -38,11 +38,11 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] Assume product pages can later move to independent repos, Vercel projects, subdomains, docs providers, or standalone domains without rewriting marketing components.
 - [x] Make AI-readability a core build output, not a later optimization.
 - [x] Keep implementation-status caveats out of primary marketing copy.
-- [x] After the shared foundation, content registry, routing, metadata, sitemap, robots, and AI-ingestion seams are stable, design exploration can run as three full-site branches. Each branch competes on the visual/site experience while consuming the same shared data and generated public-file pipeline.
+- [x] After the shared app foundation, content registry, routing, metadata, sitemap, robots, and AI-ingestion seams are stable, design exploration can run as three full-site branches. Each branch owns its own visual/brand system, layout language, homepage, and project pages while consuming the same shared data and generated public-file pipeline.
 
 ## Scope Boundaries
 
-- [x] In scope: marketing site, project pages, route model, content model, metadata, brand tokens, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
+- [x] In scope: marketing site, project pages, route model, content model, metadata, branch-specific brand/visual systems, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
 - [x] Out of scope: implementing Harness, Registry, Orchestra, Intercal runtime, Collectiva runtime, product auth, billing, runtime APIs, MCP servers, SDK packages, or protocol internals.
 - [x] Public claims must be product-positioning claims, not false implementation claims. Copy can describe the intended project family while links and docs reflect actual owned surfaces.
 - [x] Secrets stay out of tracked files. Deployment and analytics keys are documented as variable names only.
@@ -64,17 +64,16 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - Centralized project registry data containing slug, name, summary, positioning, subdomain, repo URL, docs URL, API URL, status label for internal use, public CTAs, social image, and AI summary.
 - Reusable metadata helpers for canonical URLs, Open Graph, Twitter/X cards, JSON-LD, sitemap, and AI-ingestion files.
 - `robots.txt`, `sitemap.xml`, `llms.txt`, and an expanded AI-readable source file generated from content data.
-- Brand tokens for color, type, spacing, radii, logos, handles, and page theming.
+- Brand and visual tokens for color, type, spacing, radii, logos, handles, and page theming, finalized from the selected design branch.
 - Vercel-ready build and deploy configuration.
 
 ## Cross-Stream Dependency Map
 
-- Workstream 1 establishes app foundation, build tooling, and repository shape.
-- Workstream 2 depends on Workstream 1 and creates brand tokens plus reusable UI primitives.
-- Workstream 3 depends on Workstreams 1-2 and creates the content model, project registry, route map, metadata helpers, sitemap, robots, and AI-ingestion pipeline.
-- Workstream 4 depends on Workstreams 1-3 and runs three complete design branches over the same shared foundation. Each branch builds the homepage and project pages.
-- Workstream 5 depends on the selected Workstream 4 branch and hardens the selected site.
-- Workstream 6 depends on all previous streams and closes deployment, visual QA, docs, and verification.
+- Workstream 1 establishes app foundation, build tooling, and repository shape with only a neutral shell.
+- Workstream 2 depends on Workstream 1 and creates the content model, project registry, route map, metadata helpers, sitemap, robots, and AI-ingestion pipeline.
+- Workstream 3 depends on Workstreams 1-2 and runs three complete design branches over the same shared foundation. Each branch builds its own visual system, homepage, and project pages.
+- Workstream 4 depends on the selected Workstream 3 branch and hardens the selected site.
+- Workstream 5 depends on all previous streams and closes deployment, visual QA, docs, and verification.
 
 ## Workstream 1: Web App Foundation
 
@@ -86,7 +85,7 @@ Depends on:
 
 Enables:
 
-- [ ] Brand system, content model, page builds, AI files, deployment.
+- [ ] Content model, route model, metadata/AI files, design branches, deployment.
 
 Repo guidance:
 
@@ -106,7 +105,7 @@ Implementation tasks:
 - [ ] Initialize the web app with TypeScript, strict linting, formatting, test runner, and build command.
 - [ ] Add `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify`.
 - [ ] Add `.gitignore` and `.env.example` with secret names only.
-- [ ] Add base route shell, global CSS, font loading strategy, and accessible document structure.
+- [ ] Add a neutral base route shell, global reset, font loading strategy, and accessible document structure.
 - [ ] Add a decision record for the selected framework and deployment target.
 
 Exit criteria:
@@ -124,57 +123,13 @@ Suggested verification:
 - `pnpm build`
 - `pnpm verify`
 
-## Workstream 2: Brand System And Reusable UI
-
-Goal: Establish a polished, reusable, global visual system for the marketing site.
-
-Depends on:
-
-- [ ] Workstream 1 app foundation.
-
-Enables:
-
-- [ ] Homepage, project pages, AI-readable consistent content blocks, social images.
-
-Repo guidance:
-
-- Brand tokens are shared source data. Do not hardcode one-off colors, type scales, spacing, or CTA styles inside individual pages.
-
-Primary areas:
-
-- `src/styles/`
-- `src/components/`
-- `src/content/brand.*`
-- `public/`
-
-Implementation tasks:
-
-- [ ] Add brand token source for colors, typography, spacing, radii, logo paths, and handles.
-- [ ] Build reusable layout, nav, footer, section, CTA, project-card, feature-grid, link-list, and prose components.
-- [ ] Add responsive constraints for desktop, tablet, and mobile.
-- [ ] Add accessible focus states, skip link, semantic headings, and motion-reduction handling.
-- [ ] Add social preview image strategy, even if the first pass uses generated/static templates.
-
-Exit criteria:
-
-- [ ] Pages can be assembled from reusable components without page-specific styling drift.
-- [ ] The brand system supports both main landing and project detail pages.
-
-Suggested verification:
-
-- `pnpm lint`
-- `pnpm typecheck`
-- `pnpm test`
-- Visual smoke at desktop and mobile widths.
-
-## Workstream 3: Shared Content, Routing, Metadata, And AI Files
+## Workstream 2: Shared Content, Routing, Metadata, And AI Files
 
 Goal: Centralize all public content, project data, route helpers, canonical metadata, sitemap, robots, and AI-readable files before design branching.
 
 Depends on:
 
 - [ ] Workstream 1 app foundation.
-- [ ] Workstream 2 brand/content primitives.
 
 Enables:
 
@@ -220,15 +175,14 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm build`
 
-## Workstream 4: Three Complete Design Direction Branches
+## Workstream 3: Three Complete Design Direction Branches
 
 Goal: Produce three complete site designs after the shared data and generated-file foundation is solid, then select one direction to merge.
 
 Depends on:
 
 - [ ] Workstream 1 app foundation.
-- [ ] Workstream 2 brand system baseline.
-- [ ] Workstream 3 content, routing, metadata, sitemap, robots, and AI-file seams.
+- [ ] Workstream 2 content, routing, metadata, sitemap, robots, and AI-file seams.
 
 Enables:
 
@@ -252,9 +206,9 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
-- [ ] Build Direction A as a complete homepage plus all project pages, not a partial mockup.
-- [ ] Build Direction B as a complete homepage plus all project pages, not a partial mockup.
-- [ ] Build Direction C as a complete homepage plus all project pages, not a partial mockup.
+- [ ] Build Direction A with its own visual tokens, component language, homepage, and all project pages.
+- [ ] Build Direction B with its own visual tokens, component language, homepage, and all project pages.
+- [ ] Build Direction C with its own visual tokens, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
 - [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
@@ -271,13 +225,13 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
 
-## Workstream 5: Selected Direction Hardening
+## Workstream 4: Selected Direction Hardening
 
 Goal: Merge the chosen design direction and harden the selected full site for production.
 
 Depends on:
 
-- [ ] Selected Workstream 4 design direction.
+- [ ] Selected Workstream 3 design direction.
 
 Enables:
 
@@ -299,6 +253,7 @@ Implementation tasks:
 
 - [ ] Merge the selected design branch to `main`.
 - [ ] Remove branch-comparison-only labels, temporary notes, and unused design-direction files.
+- [ ] Promote the selected branch's visual tokens and reusable components as the single brand system.
 - [ ] Tighten homepage and project-page copy using the shared content model.
 - [ ] Confirm the selected design still uses shared project registry data and shared metadata/AI-file generation.
 - [ ] Run responsive, accessibility, and visual polish on the selected full site.
@@ -315,13 +270,13 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px.
 
-## Workstream 6: Deployment, QA, And Closeout
+## Workstream 5: Deployment, QA, And Closeout
 
 Goal: Ship the site as a production-ready Vercel project with clean docs and verified public behavior.
 
 Depends on:
 
-- [ ] Workstreams 1-5.
+- [ ] Workstreams 1-4.
 
 Enables:
 
@@ -398,12 +353,12 @@ Suggested verification:
 1. Refresh repo docs and standards for the marketing-site codebase.
 2. Initialize the web app and verification commands.
 3. Add framework/deployment decision record.
-4. Build brand tokens and reusable UI primitives.
-5. Build content registry, route model, metadata, sitemap, robots, and AI-file generation.
-6. Cut three design branches from the same stable foundation commit.
-7. Finish each design branch as a complete homepage plus all project pages and compare locally or by preview deploy.
+4. Build content registry, route model, metadata, sitemap, robots, and AI-file generation.
+5. Cut three design branches from the same stable foundation commit.
+6. Finish each design branch with its own visual system, complete homepage, and all project pages.
+7. Compare locally or by preview deploy.
 8. Select one direction and merge it to `main`.
-9. Harden the selected full site without forking shared metadata or AI-file generation.
+9. Promote the selected visual system and harden the selected full site without forking shared metadata or AI-file generation.
 10. Add deploy/domain operations docs.
 11. Run full verification and visual QA.
 12. Update roadmap, docs, and closeout artifacts.
