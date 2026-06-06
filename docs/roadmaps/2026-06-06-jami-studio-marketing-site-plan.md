@@ -580,6 +580,32 @@ Suggested verification:
   `784ddf2b87cac1511469572587ac01105b79b8af`: numeric gate passed (6 files, 114 insertions,
   44 deletions), character classified as C - tests plus narrow content/metadata cleanup.
   Workstream 3 is closed. Next coordinator action: dispatch Workstream 4 pass 1.
+- [x] 2026-06-06T15:15:15.6822373-04:00 - Dispatched Workstream 4 Direction A pass 1 to subagent
+  `019e9e5d-4a14-7083-91d0-11a90d5921c1` (`Hooke`) on branch `design/direction-a` from base
+  `171b6a6a36d5e7107b3a37d77630d190f03276de`. Result 2026-06-06T18:14:24.1829536-04:00:
+  completed and pushed `535ee822b4fc4047d2e59486588cd3e0907d2480` to `origin/design/direction-a`.
+  Verification reported: lint, typecheck, tests, build, verify, targeted Prettier, diff check, HTTP
+  smoke, canonical metadata inspection, and Playwright desktop/mobile visual smoke. Next coordinator
+  action: run fresh Direction A pass 2 after Direction C pass 1 is available or when sequencing
+  allows.
+- [x] 2026-06-06T15:15:15.6822373-04:00 - Dispatched Workstream 4 Direction B pass 1 to subagent
+  `019e9e5d-5e55-72d3-8ef0-a2a6f6634085` (`Faraday`) on branch `design/direction-b` from base
+  `171b6a6a36d5e7107b3a37d77630d190f03276de`. Result 2026-06-06T18:14:24.1829536-04:00:
+  completed and pushed `ac6607c2887e179c31a8588a7bf3b88e59efe483` to `origin/design/direction-b`.
+  Verification reported: lint, typecheck, tests, build, verify, format check, diff check,
+  public-file inspection, canonical metadata inspection, and Playwright visual smoke at 1440px,
+  768px, and 390px. Next coordinator action: run fresh Direction B pass 2 after Direction C pass 1
+  is available or when sequencing allows.
+- [!] 2026-06-06T15:15:15.6822373-04:00 - Workstream 4 Direction C pass 1 dispatch was deferred
+  because the subagent thread limit was reached.
+- [~] 2026-06-06T18:14:24.1829536-04:00 - Dispatched Workstream 4 Direction C pass 1 to subagent
+  `019e9eff-8f24-7831-84d4-1eeb60c82d4b` (`Huygens`) on branch `design/direction-c` from base
+  `171b6a6a36d5e7107b3a37d77630d190f03276de`, preferably in separate worktree
+  `C:\Users\james\dev\orgs\oss\jami.studio-direction-c`. Ownership boundary: complete Direction C
+  operational command-center visual system, branch-owned token preset values, reusable
+  sections/components, homepage, `/projects`, all project pages, verification, visual smoke, and
+  branch docs/roadmap notes. Active workstreams: Workstream 4 Direction C only. Next coordinator
+  action: wait quietly.
 
 ## Expansion Track
 
