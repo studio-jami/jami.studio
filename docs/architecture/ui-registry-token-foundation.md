@@ -63,6 +63,20 @@ Before the three design branches, build only the reusable system mechanics:
 
 Do not lock final colors, type personality, component look, or page composition before branching.
 
+## Implemented Foundation
+
+The current source-owned contract lives in:
+
+- `src/tokens/schema.ts` for dial, preset, ownership, and registry metadata validation.
+- `src/tokens/presets.ts` for neutral foundation dials, dial definitions, and dial-derived preset generation.
+- `src/tokens/css-vars.ts` for shadcn-compatible CSS variable output plus site-specific surface, elevation, spacing, type, radius, and motion variables.
+- `src/registry/manifest.ts` for registry-readiness metadata and foundation-owned versus branch-owned responsibilities.
+- `src/components/config-panel/config-panel.tsx` and `src/components/system/token-swatch.tsx` for the internal dial inspector and token output panel.
+
+The foundation-owned contract is the schema, validation, CSS variable export, config panel, and registry metadata. Design branches own token values, visual treatment, component styling, homepage composition, and project-page composition.
+
+The neutral foundation preset is not the final brand. It exists so branches can prove that a token preset can be generated from dials and applied site-wide without rewriting the shared schema, route model, content registry, metadata helpers, sitemap, robots, or AI-file generation.
+
 ## Branch Rules
 
 Each design branch must:

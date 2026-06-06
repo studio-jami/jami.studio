@@ -151,12 +151,12 @@ Goal: Create the shared token/configuration engine that design branches use and 
 
 Depends on:
 
-- [ ] Workstream 1 app foundation.
+- [x] Workstream 1 app foundation.
 
 Enables:
 
-- [ ] Three design branches that vary look and feel without changing the underlying token contract.
-- [ ] Future Studio UI Registry items, blocks, and theme presets sourced from the same system.
+- [x] Three design branches that vary look and feel without changing the underlying token contract.
+- [x] Future Studio UI Registry items, blocks, and theme presets sourced from the same system.
 
 Repo guidance:
 
@@ -175,27 +175,37 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Define a typed token schema for color roles, typography roles, spacing, radii, surface depth, density, motion, logos, and handles.
-- [ ] Define parameterized dials for theme generation, such as accent, contrast, warmth, density, radius, surface depth, and motion intensity.
-- [ ] Add validation for token sets and theme presets.
-- [ ] Add shadcn-compatible CSS variable plumbing so branches can theme components through tokens rather than hardcoded values.
-- [ ] Add neutral primitive wrappers or adapters only where they clarify the future registry contract.
-- [ ] Add an internal configuration panel for inspecting and adjusting token dials.
-- [ ] Add a registry-readiness manifest or metadata shape for eventual Studio UI Registry promotion.
-- [ ] Document what is foundation-owned versus branch-owned.
+- [x] Define a typed token schema for color roles, typography roles, spacing, radii, surface depth, density, motion, logos, and handles.
+- [x] Define parameterized dials for theme generation, such as accent, contrast, warmth, density, radius, surface depth, and motion intensity.
+- [x] Add validation for token sets and theme presets.
+- [x] Add shadcn-compatible CSS variable plumbing so branches can theme components through tokens rather than hardcoded values.
+- [x] Add neutral primitive wrappers or adapters only where they clarify the future registry contract.
+- [x] Add an internal configuration panel for inspecting and adjusting token dials.
+- [x] Add a registry-readiness manifest or metadata shape for eventual Studio UI Registry promotion.
+- [x] Document what is foundation-owned versus branch-owned.
 
 Exit criteria:
 
-- [ ] A branch can define a token preset and apply it site-wide without changing the shared token schema.
-- [ ] The internal configuration panel renders the available dials and token output.
-- [ ] The token system is ready to become, or seed, a Studio UI Registry item later.
-- [ ] No final brand look is locked before the design branches.
+- [x] A branch can define a token preset and apply it site-wide without changing the shared token schema.
+- [x] The internal configuration panel renders the available dials and token output.
+- [x] The token system is ready to become, or seed, a Studio UI Registry item later.
+- [x] No final brand look is locked before the design branches.
 
 Suggested verification:
 
 - `pnpm test`
 - `pnpm typecheck`
 - `pnpm build`
+
+Pass 1 replacement closeout, 2026-06-06: Workstream 2 is complete in the live repo. The token
+contract now covers color roles, typography roles, spacing, radii, surfaces, elevation, density,
+motion, logos, handles, dial definitions, ownership metadata, and registry-readiness metadata.
+`src/tokens/presets.ts` can generate a branch preset from dials without changing the schema, and
+`src/tokens/css-vars.ts` emits shadcn-compatible variables plus site-owned surface, spacing, type,
+radius, elevation, and motion roles. The internal config panel is a client-side inspector/editor for
+dials, token output, and registry ownership; it uses a small system token swatch primitive. Durable
+docs now define foundation-owned versus branch-owned responsibilities. Verification passed:
+`pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify`.
 
 ## Workstream 3: Shared Content, Routing, Metadata, And AI Files
 
@@ -471,6 +481,33 @@ Suggested verification:
   desktop/mobile render smoke. Remaining pre-existing dirty file intentionally left unstaged:
   `docs/engineering/agents/goal.md`. Next coordinator action: close Workstream 1 and dispatch
   Workstream 2 when ready.
+- [x] 2026-06-06T13:42:48.8685812-04:00 - Coordinator gated Workstream 1 pass 2 commit
+  `e2fc19d72b41b4cdd2f4602308d5cb6c5df2fec4`: numeric gate passed (3 files, 122 insertions,
+  3 deletions), character classified as C - tests plus small doc/cleanup closeout. Workstream 1 is
+  closed. Repo status is clean except the pre-existing unstaged `docs/engineering/agents/goal.md`.
+  Next coordinator action: dispatch Workstream 2 pass 1.
+- [~] 2026-06-06T13:43:48.4604588-04:00 - Dispatched Workstream 2 pass 1 to subagent
+  `019e9e08-793e-73a1-bb9b-8d54a4c7779e` (`Poincare`). Ownership boundary: token/dial schema,
+  validation, shadcn-compatible CSS variable plumbing, internal configuration panel,
+  registry-readiness metadata, tests, and architecture docs for foundation-owned vs branch-owned
+  responsibilities. Active workstreams: Workstream 2 only. Next coordinator action: wait quietly,
+  then log terminal result and dispatch a fresh Workstream 2 pass 2 after pass 1 lands.
+- [!] 2026-06-06T14:19:32.5323075-04:00 - Workstream 2 pass 1 subagent
+  `019e9e08-793e-73a1-bb9b-8d54a4c7779e` was resumable after a continuation boundary but returned
+  no terminal result after three long quiet waits. Durable repo state showed no Workstream 2 commit
+  after `e2fc19d72b41b4cdd2f4602308d5cb6c5df2fec4`; repo status remained dirty only for
+  `docs/engineering/agents/goal.md` and this roadmap checkpoint. Next coordinator action: close the
+  stale handle and dispatch a replacement Workstream 2 pass 1.
+- [x] 2026-06-06T14:20:35.8409876-04:00 - Dispatched replacement Workstream 2 pass 1 to subagent
+  `019e9e2a-240d-7fe1-ab42-bb7b0d67dd0b` (`Linnaeus`). Ownership boundary: token/dial schema,
+  validation, shadcn-compatible CSS variable plumbing, internal configuration panel,
+  registry-readiness metadata, tests, and architecture docs for foundation-owned vs branch-owned
+  responsibilities. Active workstreams: Workstream 2 only. Result 2026-06-06: completed from live
+  repo state. Early scaffolding was preserved and expanded into the complete token/dial foundation,
+  internal config panel, registry metadata, tests, and docs parity. Verification passed:
+  `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `pnpm format:check`,
+  and `git diff --check`. Next coordinator action: gate this Workstream 2 commit and decide whether
+  to dispatch a fresh Workstream 2 pass 2 audit.
 
 ## Expansion Track
 

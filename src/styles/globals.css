@@ -134,7 +134,9 @@ a {
 .project-grid,
 .pillar-grid,
 .detail-grid,
-.dial-grid {
+.dial-grid,
+.token-grid,
+.ownership-grid {
   display: grid;
   gap: 1rem;
 }
@@ -149,7 +151,8 @@ a {
 .detail-grid section,
 .config-panel,
 .dial,
-.registry-note {
+.registry-note,
+.token-swatch {
   border-radius: var(--radius-lg);
 }
 
@@ -227,14 +230,55 @@ a {
 
 .config-panel {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
   gap: 1.25rem;
   padding: 1.25rem;
   margin-bottom: var(--section);
+  box-shadow: var(--shadow-sm);
 }
 
 .dial-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.config-panel-sidebar,
+.config-panel-body,
+.registry-stack {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.panel-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+}
+
+.panel-tabs button,
+.dial select {
+  min-height: var(--control-height);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--foreground);
+  font: inherit;
+}
+
+.panel-tabs button {
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.panel-tabs button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent);
 }
 
 .dial,
@@ -248,8 +292,81 @@ a {
   border: 1px solid var(--border);
 }
 
+.dial {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.dial span {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.dial small,
+.token-swatch code,
+.ownership-grid li {
+  color: var(--muted-foreground);
+}
+
+.dial output {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.dial input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.token-grid,
+.ownership-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.token-swatch {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.25rem 0.75rem;
+  padding: 0.85rem;
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.token-swatch-chip {
+  grid-row: span 2;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.value-chip {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--muted),
+    var(--muted) 3px,
+    var(--panel) 3px,
+    var(--panel) 6px
+  );
+}
+
+.token-swatch span,
+.token-swatch code {
+  overflow-wrap: anywhere;
+}
+
 .registry-note {
   grid-column: 1 / -1;
+}
+
+.ownership-grid h3 {
+  margin-top: 0;
+}
+
+.ownership-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
 }
 
 .project-detail dl {
@@ -288,7 +405,10 @@ a {
 
   .project-grid,
   .pillar-grid,
-  .detail-grid {
+  .detail-grid,
+  .dial-grid,
+  .token-grid,
+  .ownership-grid {
     grid-template-columns: 1fr;
   }
 }

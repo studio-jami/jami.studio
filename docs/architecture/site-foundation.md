@@ -35,6 +35,12 @@ theme preset shape, dial model, CSS variable output, and registry-candidate
 metadata. The current neutral preset is a foundation preset, not the final brand
 direction.
 
+Token values are applied through shadcn-compatible CSS variable roles such as
+`--background`, `--foreground`, `--card`, `--primary`, `--border`, and `--ring`,
+plus site-owned variables for surface depth, spacing, typography, radii, and
+motion. The internal configuration panel renders the available dials and token
+output from the same contract.
+
 Design branches may change token values, component expression, and page
 composition. They should not fork the content registry, route helpers, metadata
 helpers, sitemap, robots, or AI-file generation without a real source-owned bug.
