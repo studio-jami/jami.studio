@@ -16,3 +16,8 @@ This directory holds the durable operating guidance for the `jami.studio` market
 The active implementation roadmap is:
 
 - `docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md`
+
+Key architecture notes:
+
+- `docs/architecture/product-shape.md`
+- `docs/architecture/ui-registry-token-foundation.md`

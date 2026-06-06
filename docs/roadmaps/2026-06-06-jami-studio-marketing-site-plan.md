@@ -39,10 +39,12 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] Make AI-readability a core build output, not a later optimization.
 - [x] Keep implementation-status caveats out of primary marketing copy.
 - [x] After the shared app foundation, content registry, routing, metadata, sitemap, robots, and AI-ingestion seams are stable, design exploration can run as three full-site branches. Each branch owns its own visual/brand system, layout language, homepage, and project pages while consuming the same shared data and generated public-file pipeline.
+- [x] Build a shared token/dial contract before branching, but do not lock the final brand look before branching. The shared foundation owns the schema, shadcn-compatible plumbing, validation, and configuration surface; each branch chooses values, visual treatment, and page/block composition.
+- [x] Treat the marketing site's token/config system as a candidate seed for the future Studio UI Registry. It should be registry-ready and code-supported now, without forcing full public registry packaging before the marketing site needs it.
 
 ## Scope Boundaries
 
-- [x] In scope: marketing site, project pages, route model, content model, metadata, branch-specific brand/visual systems, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
+- [x] In scope: marketing site, project pages, route model, content model, metadata, shared token/dial contract, branch-specific brand/visual values, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
 - [x] Out of scope: implementing Harness, Registry, Orchestra, Intercal runtime, Collectiva runtime, product auth, billing, runtime APIs, MCP servers, SDK packages, or protocol internals.
 - [x] Public claims must be product-positioning claims, not false implementation claims. Copy can describe the intended project family while links and docs reflect actual owned surfaces.
 - [x] Secrets stay out of tracked files. Deployment and analytics keys are documented as variable names only.
@@ -64,16 +66,19 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - Centralized project registry data containing slug, name, summary, positioning, subdomain, repo URL, docs URL, API URL, status label for internal use, public CTAs, social image, and AI summary.
 - Reusable metadata helpers for canonical URLs, Open Graph, Twitter/X cards, JSON-LD, sitemap, and AI-ingestion files.
 - `robots.txt`, `sitemap.xml`, `llms.txt`, and an expanded AI-readable source file generated from content data.
-- Brand and visual tokens for color, type, spacing, radii, logos, handles, and page theming, finalized from the selected design branch.
+- A registry-compatible token contract for color, type, spacing, radii, density, surfaces, elevation, motion, logos, handles, and page theming.
+- Branch-specific token values and visual systems, finalized from the selected design branch.
+- A neat internal configuration panel for exploring token dials and theme values, aligned with the future Studio UI Registry direction.
 - Vercel-ready build and deploy configuration.
 
 ## Cross-Stream Dependency Map
 
 - Workstream 1 establishes app foundation, build tooling, and repository shape with only a neutral shell.
-- Workstream 2 depends on Workstream 1 and creates the content model, project registry, route map, metadata helpers, sitemap, robots, and AI-ingestion pipeline.
-- Workstream 3 depends on Workstreams 1-2 and runs three complete design branches over the same shared foundation. Each branch builds its own visual system, homepage, and project pages.
-- Workstream 4 depends on the selected Workstream 3 branch and hardens the selected site.
-- Workstream 5 depends on all previous streams and closes deployment, visual QA, docs, and verification.
+- Workstream 2 depends on Workstream 1 and creates the registry-compatible token/dial contract, shadcn-compatible plumbing, validation, and internal configuration panel.
+- Workstream 3 depends on Workstreams 1-2 and creates the content model, project registry, route map, metadata helpers, sitemap, robots, and AI-ingestion pipeline.
+- Workstream 4 depends on Workstreams 1-3 and runs three complete design branches over the same shared foundation. Each branch sets its own token values and builds its own homepage and project pages.
+- Workstream 5 depends on the selected Workstream 4 branch and hardens the selected site.
+- Workstream 6 depends on all previous streams and closes deployment, visual QA, docs, and verification.
 
 ## Workstream 1: Web App Foundation
 
@@ -85,7 +90,7 @@ Depends on:
 
 Enables:
 
-- [ ] Content model, route model, metadata/AI files, design branches, deployment.
+- [ ] Token contract, content model, route model, metadata/AI files, design branches, deployment.
 
 Repo guidance:
 
@@ -123,13 +128,66 @@ Suggested verification:
 - `pnpm build`
 - `pnpm verify`
 
-## Workstream 2: Shared Content, Routing, Metadata, And AI Files
+## Workstream 2: Registry-Compatible Token And Dial Foundation
+
+Goal: Create the shared token/configuration engine that design branches use and the future Studio UI Registry can adopt.
+
+Depends on:
+
+- [ ] Workstream 1 app foundation.
+
+Enables:
+
+- [ ] Three design branches that vary look and feel without changing the underlying token contract.
+- [ ] Future Studio UI Registry items, blocks, and theme presets sourced from the same system.
+
+Repo guidance:
+
+- Build the token/dial contract before branching, not the final brand. Do not choose final colors, typography personality, or full component styling here.
+- Align with shadcn conventions and registry-readiness, but do not force public registry packaging unless it is cheap and useful during this site build.
+- The configuration panel should be clean, organized, and practical for internal use. It can draw lessons from `yrka.io`, but should not copy old structure blindly.
+
+Primary areas:
+
+- `src/registry/`
+- `src/tokens/`
+- `src/components/system/`
+- `src/components/config-panel/`
+- `src/lib/theme.*`
+- `docs/architecture/`
+
+Implementation tasks:
+
+- [ ] Define a typed token schema for color roles, typography roles, spacing, radii, surface depth, density, motion, logos, and handles.
+- [ ] Define parameterized dials for theme generation, such as accent, contrast, warmth, density, radius, surface depth, and motion intensity.
+- [ ] Add validation for token sets and theme presets.
+- [ ] Add shadcn-compatible CSS variable plumbing so branches can theme components through tokens rather than hardcoded values.
+- [ ] Add neutral primitive wrappers or adapters only where they clarify the future registry contract.
+- [ ] Add an internal configuration panel for inspecting and adjusting token dials.
+- [ ] Add a registry-readiness manifest or metadata shape for eventual Studio UI Registry promotion.
+- [ ] Document what is foundation-owned versus branch-owned.
+
+Exit criteria:
+
+- [ ] A branch can define a token preset and apply it site-wide without changing the shared token schema.
+- [ ] The internal configuration panel renders the available dials and token output.
+- [ ] The token system is ready to become, or seed, a Studio UI Registry item later.
+- [ ] No final brand look is locked before the design branches.
+
+Suggested verification:
+
+- `pnpm test`
+- `pnpm typecheck`
+- `pnpm build`
+
+## Workstream 3: Shared Content, Routing, Metadata, And AI Files
 
 Goal: Centralize all public content, project data, route helpers, canonical metadata, sitemap, robots, and AI-readable files before design branching.
 
 Depends on:
 
 - [ ] Workstream 1 app foundation.
+- [ ] Workstream 2 token/dial foundation.
 
 Enables:
 
@@ -175,23 +233,25 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm build`
 
-## Workstream 3: Three Complete Design Direction Branches
+## Workstream 4: Three Complete Design Direction Branches
 
 Goal: Produce three complete site designs after the shared data and generated-file foundation is solid, then select one direction to merge.
 
 Depends on:
 
 - [ ] Workstream 1 app foundation.
-- [ ] Workstream 2 content, routing, metadata, sitemap, robots, and AI-file seams.
+- [ ] Workstream 2 token/dial foundation.
+- [ ] Workstream 3 content, routing, metadata, sitemap, robots, and AI-file seams.
 
 Enables:
 
-- [ ] A confident design choice without compromising the shared content, route, metadata, sitemap, or AI-file architecture.
+- [ ] A confident design choice without compromising the shared token contract, content, route, metadata, sitemap, or AI-file architecture.
 - [ ] Homepage and project pages already exist in each branch as complete comparable site experiences.
 
 Repo guidance:
 
 - Do not branch before the shared seams are stable. Each design branch must keep the same content registry, route helpers, metadata helpers, sitemap, robots, AI-file generation, tests, and public route contract.
+- Each branch can choose its own token preset, colors, density, surface treatment, component styling, and page/block composition within the shared token/dial contract.
 - Prefer local branch/worktree review first. Use Vercel preview deploys only if comparing in browser locally is not enough or if remote review is useful.
 - Keep each branch production-intent complete: homepage, project pages, responsive states, accessibility, and verification should all work in that branch. Branches may tune page composition and visual hierarchy, but must not fork the metadata or generated-file machinery.
 
@@ -206,9 +266,9 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
-- [ ] Build Direction A with its own visual tokens, component language, homepage, and all project pages.
-- [ ] Build Direction B with its own visual tokens, component language, homepage, and all project pages.
-- [ ] Build Direction C with its own visual tokens, component language, homepage, and all project pages.
+- [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
+- [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
+- [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
 - [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
@@ -216,6 +276,7 @@ Implementation tasks:
 Exit criteria:
 
 - [ ] All three design branches build and render complete site experiences over the same shared content, route, metadata, sitemap, robots, and AI-file seams.
+- [ ] All three design branches use the shared token/dial contract instead of hardcoded one-off styling.
 - [ ] The selected branch is merged to `main`.
 - [ ] Non-selected branches are left as review history or deleted after selection; their changes are not blended into `main` unless explicitly chosen.
 
@@ -225,13 +286,13 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
 
-## Workstream 4: Selected Direction Hardening
+## Workstream 5: Selected Direction Hardening
 
 Goal: Merge the chosen design direction and harden the selected full site for production.
 
 Depends on:
 
-- [ ] Selected Workstream 3 design direction.
+- [ ] Selected Workstream 4 design direction.
 
 Enables:
 
@@ -253,7 +314,8 @@ Implementation tasks:
 
 - [ ] Merge the selected design branch to `main`.
 - [ ] Remove branch-comparison-only labels, temporary notes, and unused design-direction files.
-- [ ] Promote the selected branch's visual tokens and reusable components as the single brand system.
+- [ ] Promote the selected branch's token preset, visual treatment, and reusable components as the single marketing-site brand system.
+- [ ] Mark any selected components, blocks, or page sections that should be considered candidate Studio UI Registry items.
 - [ ] Tighten homepage and project-page copy using the shared content model.
 - [ ] Confirm the selected design still uses shared project registry data and shared metadata/AI-file generation.
 - [ ] Run responsive, accessibility, and visual polish on the selected full site.
@@ -263,6 +325,7 @@ Exit criteria:
 - [ ] The selected branch is the only design system on `main`.
 - [ ] Homepage and every project page are complete, responsive, and copy-polished.
 - [ ] Metadata, sitemap, robots, and AI files still come from the shared foundation.
+- [ ] Candidate registry items are identified without blocking the marketing-site launch.
 
 Suggested verification:
 
@@ -270,13 +333,13 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px.
 
-## Workstream 5: Deployment, QA, And Closeout
+## Workstream 6: Deployment, QA, And Closeout
 
 Goal: Ship the site as a production-ready Vercel project with clean docs and verified public behavior.
 
 Depends on:
 
-- [ ] Workstreams 1-4.
+- [ ] Workstreams 1-5.
 
 Enables:
 
@@ -341,6 +404,7 @@ Suggested verification:
 - [ ] The homepage is polished, on-brand, responsive, accessible, and copy-complete.
 - [ ] Harness, Registry, Orchestra, Intercal, and Collectiva each have complete project pages.
 - [ ] Three design directions were either run to complete comparable branches after the shared foundation or explicitly skipped by owner decision.
+- [ ] The shared token/dial system is reusable as a Studio UI Registry seed or candidate item set.
 - [ ] All project URLs, subdomains, repos, docs links, CTAs, and summaries are centralized.
 - [ ] Subdomain or standalone-domain changes require metadata edits, not component rewrites.
 - [ ] The site emits complete canonical metadata, sitemap, robots, and AI-readable files.
@@ -353,15 +417,17 @@ Suggested verification:
 1. Refresh repo docs and standards for the marketing-site codebase.
 2. Initialize the web app and verification commands.
 3. Add framework/deployment decision record.
-4. Build content registry, route model, metadata, sitemap, robots, and AI-file generation.
-5. Cut three design branches from the same stable foundation commit.
-6. Finish each design branch with its own visual system, complete homepage, and all project pages.
-7. Compare locally or by preview deploy.
-8. Select one direction and merge it to `main`.
-9. Promote the selected visual system and harden the selected full site without forking shared metadata or AI-file generation.
-10. Add deploy/domain operations docs.
-11. Run full verification and visual QA.
-12. Update roadmap, docs, and closeout artifacts.
+4. Build the registry-compatible token/dial contract, validation, shadcn-compatible plumbing, and internal configuration panel.
+5. Build content registry, route model, metadata, sitemap, robots, and AI-file generation.
+6. Cut three design branches from the same stable foundation commit.
+7. Finish each design branch with its own token preset, visual system, complete homepage, and all project pages.
+8. Compare locally or by preview deploy.
+9. Select one direction and merge it to `main`.
+10. Promote the selected visual system and harden the selected full site without forking shared metadata or AI-file generation.
+11. Identify candidate components/blocks/page sections for future Studio UI Registry promotion.
+12. Add deploy/domain operations docs.
+13. Run full verification and visual QA.
+14. Update roadmap, docs, and closeout artifacts.
 
 ## Expansion Track
 
