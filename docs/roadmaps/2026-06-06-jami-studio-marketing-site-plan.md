@@ -207,14 +207,24 @@ dials, token output, and registry ownership; it uses a small system token swatch
 docs now define foundation-owned versus branch-owned responsibilities. Verification passed:
 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify`.
 
+Pass 2 closeout, 2026-06-06: fresh-context audit confirmed the pass-1 token/dial foundation is
+source-owned and cohesive. Follow-up work added focused config-panel render/tab coverage and fixed
+neutral-shell responsive issues found during visual smoke: the desktop hero title no longer runs
+under the project map, and the mobile header/heading stack no longer clips at the viewport edge.
+Verification passed: `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm verify`,
+`pnpm format:check`, `git diff --check`, HTTP smoke for `/`, `/projects`, `/projects/registry`,
+`/robots.txt`, `/sitemap.xml`, and `/llms.txt`, and Chrome-headless desktop/mobile screenshot smoke
+for the homepage plus tall mobile capture reaching the internal config panel. Workstream 2 is quiet;
+proceed to Workstream 3 when ready.
+
 ## Workstream 3: Shared Content, Routing, Metadata, And AI Files
 
 Goal: Centralize all public content, project data, route helpers, canonical metadata, sitemap, robots, and AI-readable files before design branching.
 
 Depends on:
 
-- [ ] Workstream 1 app foundation.
-- [ ] Workstream 2 token/dial foundation.
+- [x] Workstream 1 app foundation.
+- [x] Workstream 2 token/dial foundation.
 
 Enables:
 
@@ -506,8 +516,22 @@ Suggested verification:
   repo state. Early scaffolding was preserved and expanded into the complete token/dial foundation,
   internal config panel, registry metadata, tests, and docs parity. Verification passed:
   `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `pnpm format:check`,
-  and `git diff --check`. Next coordinator action: gate this Workstream 2 commit and decide whether
-  to dispatch a fresh Workstream 2 pass 2 audit.
+  and `git diff --check`; local HTTP smoke passed for `/`, `/robots.txt`, `/sitemap.xml`, and
+  `/llms.txt`. Visual screenshot smoke was not run in pass 1. Next coordinator action: dispatch a
+  fresh Workstream 2 pass 2 audit.
+- [~] 2026-06-06T14:33:41.4072589-04:00 - Dispatched Workstream 2 pass 2 to subagent
+  `019e9e36-2612-7250-bd0f-8de24f1fb852` (`Parfit`). Ownership boundary: fresh-context
+  Workstream 2 audit/execute pass over pass-1 token/dial foundation, config panel, validation,
+  CSS variables, registry-readiness manifest, tests, docs, and the visual-smoke gap if tooling is
+  available. Active workstreams: Workstream 2 only. Next coordinator action: wait quietly, then log
+  terminal result and gate Workstream 2 per the second-pass commit rules.
+- [x] 2026-06-06 - Workstream 2 pass 2 completed from live repo state. Audit found the shared
+  token/dial schema, dial-derived preset generation, validation, shadcn-compatible CSS variables,
+  registry-readiness manifest, and ownership docs present. Follow-up changes added config-panel
+  component coverage and narrow responsive shell fixes proven by Chrome-headless desktop/mobile
+  smoke. Verification passed: `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`,
+  `pnpm verify`, `pnpm format:check`, `git diff --check`, local HTTP smoke, and screenshot smoke.
+  Next coordinator action: gate Workstream 2 as closed and dispatch Workstream 3 when ready.
 
 ## Expansion Track
 
