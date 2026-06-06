@@ -3,6 +3,7 @@ import { registryManifest } from "@/registry/manifest";
 import { inlineCssVariables, tokenCssVariables } from "@/tokens/css-vars";
 import {
   createTokenPresetFromDials,
+  directionBResearchLabPreset,
   dialDefinitions,
   neutralFoundationDials,
   neutralFoundationPreset
@@ -62,5 +63,18 @@ describe("token foundation", () => {
     });
     expect(registryManifest.ownership.foundationOwned).toContain("token schema");
     expect(registryManifest.items[0]?.branchMutable).toContain("color");
+  });
+
+  it("defines Direction B as a branch-owned research lab preset", () => {
+    expect(validateTokenPreset(directionBResearchLabPreset)).toMatchObject({
+      id: "direction-b-research-lab",
+      name: "Direction B Research Lab"
+    });
+    expect(directionBResearchLabPreset.registry.item).toBe(
+      "@jami-studio/theme/direction-b-research-lab"
+    );
+    expect(registryManifest.items.map((item) => item.name)).toContain(
+      "@jami-studio/theme/direction-b-research-lab"
+    );
   });
 });

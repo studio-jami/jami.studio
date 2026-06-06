@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Studio system map</title>
+  <desc id="desc">Abstract research-lab map of connected Studio project surfaces.</desc>
+  <rect width="1200" height="630" fill="#e8f0ed"/>
+  <path d="M120 150h960M120 315h960M120 480h960M260 80v470M600 80v470M940 80v470" stroke="#bed0ca" stroke-width="2"/>
+  <rect x="118" y="118" width="260" height="146" rx="8" fill="#fbfdfc" stroke="#0b6f64" stroke-width="4"/>
+  <rect x="470" y="84" width="260" height="146" rx="8" fill="#fbfdfc" stroke="#8a5a30" stroke-width="4"/>
+  <rect x="822" y="118" width="260" height="146" rx="8" fill="#fbfdfc" stroke="#37586b" stroke-width="4"/>
+  <rect x="294" y="366" width="260" height="146" rx="8" fill="#fbfdfc" stroke="#37586b" stroke-width="4"/>
+  <rect x="646" y="366" width="260" height="146" rx="8" fill="#fbfdfc" stroke="#0b6f64" stroke-width="4"/>
+  <path d="M378 191h92M730 157h92M952 264v102M554 439h92M424 366V264" stroke="#10201d" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="248" cy="191" r="34" fill="#0b6f64"/>
+  <circle cx="600" cy="157" r="34" fill="#8a5a30"/>
+  <circle cx="952" cy="191" r="34" fill="#37586b"/>
+  <circle cx="424" cy="439" r="34" fill="#37586b"/>
+  <circle cx="776" cy="439" r="34" fill="#0b6f64"/>
+  <path d="M216 214l64-46M568 180l64-46M920 214l64-46M392 462l64-46M744 462l64-46" stroke="#fbfdfc" stroke-width="12" stroke-linecap="round"/>
+</svg>

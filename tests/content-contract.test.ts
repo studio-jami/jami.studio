@@ -36,6 +36,7 @@ describe("project content contract", () => {
       expect(project.aiSummary.length).toBeGreaterThan(40);
       expect(project.ctas.some((cta) => cta.href === project.route)).toBe(true);
       expect(project.ctas.every((cta) => cta.href.length > 0)).toBe(true);
+      expect(existsSync(join(process.cwd(), "public", project.visualImage))).toBe(true);
       expect(existsSync(join(process.cwd(), "public", project.socialImage))).toBe(true);
     }
   });

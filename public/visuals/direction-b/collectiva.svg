@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Collectiva visual</title>
+  <desc id="desc">Abstract agent society and governance network.</desc>
+  <rect width="900" height="560" fill="#e8f0ed"/>
+  <rect x="104" y="94" width="692" height="372" rx="8" fill="#fbfdfc" stroke="#bed0ca" stroke-width="2"/>
+  <path d="M450 180l180 104-180 104-180-104Z" fill="none" stroke="#10201d" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M450 180v208M270 284h360M330 226l240 116M570 226L330 342" stroke="#bed0ca" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="450" cy="180" r="34" fill="#0b6f64"/>
+  <circle cx="630" cy="284" r="34" fill="#8a5a30"/>
+  <circle cx="450" cy="388" r="34" fill="#37586b"/>
+  <circle cx="270" cy="284" r="34" fill="#0b6f64"/>
+</svg>

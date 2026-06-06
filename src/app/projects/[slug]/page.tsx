@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
@@ -44,18 +45,27 @@ export default async function ProjectPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="section-heading">
-        <p className="meta">{project.subdomain}</p>
-        <h1>{project.name}</h1>
-        <p>{project.positioning}</p>
-        <div className="button-row">
-          {project.ctas.map((cta) => (
-            <a key={cta.href} className="button secondary" href={cta.href}>
-              {cta.label}
-            </a>
-          ))}
+      <header className="project-detail-hero">
+        <div className="section-heading">
+          <p className="meta">{project.subdomain}</p>
+          <h1>{project.name}</h1>
+          <p>{project.positioning}</p>
+          <div className="button-row">
+            {project.ctas.map((cta) => (
+              <a key={cta.href} className="button secondary" href={cta.href}>
+                {cta.label}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+        <Image
+          src={project.visualImage}
+          alt={`${project.name} visual preview`}
+          width={900}
+          height={560}
+          priority
+        />
+      </header>
 
       <div className="detail-grid">
         <section>

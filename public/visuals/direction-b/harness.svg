@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Harness visual</title>
+  <desc id="desc">Abstract policy-gated runtime loop.</desc>
+  <rect width="900" height="560" fill="#e8f0ed"/>
+  <rect x="96" y="88" width="708" height="384" rx="8" fill="#fbfdfc" stroke="#bed0ca" stroke-width="2"/>
+  <path d="M190 280c0-103 84-187 187-187h146c103 0 187 84 187 187s-84 187-187 187H377c-103 0-187-84-187-187Z" fill="none" stroke="#0b6f64" stroke-width="18"/>
+  <path d="M312 280h276" stroke="#10201d" stroke-width="16" stroke-linecap="round"/>
+  <path d="M450 170v220" stroke="#8a5a30" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="312" cy="280" r="34" fill="#37586b"/>
+  <circle cx="588" cy="280" r="34" fill="#0b6f64"/>
+</svg>

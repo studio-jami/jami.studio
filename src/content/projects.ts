@@ -27,13 +27,14 @@ export type StudioProject = {
   capabilities: string[];
   proofPoints: string[];
   ctas: ProjectLink[];
+  visualImage: `/visuals/direction-b/${ProjectSlug}.svg`;
   socialImage: string;
   internalStatus: "planned" | "foundation" | "live";
 };
 
 type RawProjectLink = Omit<ProjectLink, "href">;
 
-type RawStudioProject = Omit<StudioProject, "route" | "domainTarget" | "ctas"> & {
+type RawStudioProject = Omit<StudioProject, "route" | "domainTarget" | "ctas" | "visualImage"> & {
   ctas: RawProjectLink[];
 };
 
@@ -99,6 +100,10 @@ function projectDomainTarget(subdomain: string): string {
   return `https://${subdomain}`;
 }
 
+function projectVisualImage(slug: ProjectSlug): `/visuals/direction-b/${ProjectSlug}.svg` {
+  return `/visuals/direction-b/${slug}.svg`;
+}
+
 function resolveProjectLink(project: RawStudioProject, target: RawProjectLink["target"]): string {
   switch (target) {
     case "route":
@@ -122,6 +127,7 @@ function materializeProject(project: RawStudioProject): StudioProject {
     ...project,
     route: projectRoute(project.slug),
     domainTarget: projectDomainTarget(project.subdomain),
+    visualImage: projectVisualImage(project.slug),
     ctas: project.ctas.map((cta) => ({
       ...cta,
       href: resolveProjectLink(project, cta.target)

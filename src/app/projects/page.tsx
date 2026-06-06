@@ -11,21 +11,31 @@ export const metadata: Metadata = createMetadata({
 
 export default function ProjectsPage() {
   return (
-    <section className="section page-hero">
-      <div className="section-heading">
-        <p className="meta">Studio OSS family</p>
-        <h1>Projects</h1>
-        <p>
-          The Studio family is modeled as separate products over shared foundations. This site keeps
-          their public routes, repositories, docs, APIs, and AI summaries in one source-owned
-          registry.
-        </p>
-      </div>
-      <div className="project-grid">
+    <>
+      <section className="section page-hero">
+        <div className="section-heading">
+          <p className="meta">Studio OSS family</p>
+          <h1>Project briefs</h1>
+          <p>
+            The Studio family is modeled as separate products over shared foundations. This site
+            keeps their public routes, repositories, docs, APIs, and AI summaries in one
+            source-owned registry.
+          </p>
+        </div>
+        <div className="route-ledger" aria-label="Project route ledger">
+          {projects.map((project) => (
+            <a key={project.slug} href={project.route}>
+              <span>{project.shortName}</span>
+              <code>{project.route}</code>
+            </a>
+          ))}
+        </div>
+      </section>
+      <div className="section project-grid">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
-    </section>
+    </>
   );
 }

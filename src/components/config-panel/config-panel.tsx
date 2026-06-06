@@ -7,8 +7,8 @@ import { registryManifest } from "@/registry/manifest";
 import { tokenCssVariables } from "@/tokens/css-vars";
 import {
   createTokenPresetFromDials,
-  dialDefinitions,
-  neutralFoundationDials
+  directionBResearchLabDials,
+  dialDefinitions
 } from "@/tokens/presets";
 import type { Accent, ThemeDials } from "@/tokens/schema";
 
@@ -21,7 +21,7 @@ function formatDialValue(value: ThemeDials[keyof ThemeDials]) {
 
 export function ConfigPanel() {
   const [activeTab, setActiveTab] = useState<PanelTab>("Dials");
-  const [dials, setDials] = useState<ThemeDials>(neutralFoundationDials);
+  const [dials, setDials] = useState<ThemeDials>(directionBResearchLabDials);
   const preset = useMemo(() => createTokenPresetFromDials(dials), [dials]);
   const cssVars = useMemo(() => tokenCssVariables(preset), [preset]);
 
@@ -39,8 +39,8 @@ export function ConfigPanel() {
         <p className="meta">Internal token foundation</p>
         <h2 id="config-panel-title">Theme dials and registry seed</h2>
         <p>
-          Inspect the shared token contract without freezing a final marketing look. Design branches
-          can change values while keeping the schema, metadata, and CSS variable pipeline.
+          Inspect Direction B token values over the shared schema, metadata, and CSS variable
+          pipeline.
         </p>
         <div className="panel-tabs" aria-label="Configuration panel views">
           {panelTabs.map((tab) => (

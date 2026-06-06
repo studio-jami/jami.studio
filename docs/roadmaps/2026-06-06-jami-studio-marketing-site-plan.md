@@ -326,7 +326,7 @@ Implementation tasks:
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
 - [ ] Push all three design branches to the remote before substantial branch work starts.
 - [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
-- [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
+- [x] Build Direction B with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
@@ -580,6 +580,30 @@ Suggested verification:
   `784ddf2b87cac1511469572587ac01105b79b8af`: numeric gate passed (6 files, 114 insertions,
   44 deletions), character classified as C - tests plus narrow content/metadata cleanup.
   Workstream 3 is closed. Next coordinator action: dispatch Workstream 4 pass 1.
+- [~] 2026-06-06T15:15:15.6822373-04:00 - Dispatched Workstream 4 Direction A pass 1 to subagent
+  `019e9e5d-4a14-7083-91d0-11a90d5921c1` (`Hooke`) on branch `design/direction-a` from base
+  `171b6a6a36d5e7107b3a37d77630d190f03276de`. Ownership boundary: complete Direction A visual
+  system, branch-owned token preset values, reusable sections/components, homepage, `/projects`, all
+  project pages, verification, visual smoke, branch docs/roadmap notes. Active workstreams:
+  Workstream 4 Direction A and Direction B only. Next coordinator action: wait quietly.
+- [~] 2026-06-06T15:15:15.6822373-04:00 - Dispatched Workstream 4 Direction B pass 1 to subagent
+  `019e9e5d-5e55-72d3-8ef0-a2a6f6634085` (`Faraday`) on branch `design/direction-b` from base
+  `171b6a6a36d5e7107b3a37d77630d190f03276de`. Ownership boundary: complete Direction B visual
+  system, branch-owned token preset values, reusable sections/components, homepage, `/projects`, all
+  project pages, verification, visual smoke, branch docs/roadmap notes. Active workstreams:
+  Workstream 4 Direction A and Direction B only. Next coordinator action: wait quietly.
+- [!] 2026-06-06T15:15:15.6822373-04:00 - Workstream 4 Direction C pass 1 dispatch was deferred
+  because the subagent thread limit was reached. Next coordinator action: dispatch Direction C on
+  `design/direction-c` from base `171b6a6a36d5e7107b3a37d77630d190f03276de` as soon as a slot frees.
+- [x] 2026-06-06 - Workstream 4 Direction B pass 1 completed on branch `design/direction-b`.
+  Direction B now has a branch-owned research-lab token preset, editorial homepage composition,
+  project index, complete project detail pages, centralized branch visual assets, and project visual
+  image fields derived from shared project registry data. The shared route, metadata, sitemap,
+  robots, and AI-ingestion machinery remained intact. Verification passed: `pnpm lint`,
+  `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `pnpm format:check`,
+  `git diff --check`, local public-file inspection for `/robots.txt`, `/sitemap.xml`, `/llms.txt`,
+  canonical metadata inspection for `/projects/intercal`, and Playwright visual smoke for `/`,
+  `/projects`, `/projects/intercal`, and `/projects/collectiva` at 1440px, 768px, and 390px.
 
 ## Expansion Track
 

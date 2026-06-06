@@ -125,6 +125,16 @@ export const neutralFoundationDials = validateThemeDials({
   motion: 36
 });
 
+export const directionBResearchLabDials = validateThemeDials({
+  accent: "green",
+  contrast: 88,
+  warmth: 22,
+  density: 72,
+  radius: 6,
+  surfaceDepth: 54,
+  motion: 30
+});
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
@@ -288,4 +298,73 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 }
 
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
-export const tokenPresets = [neutralFoundationPreset] as const;
+
+const directionBBasePreset = createTokenPresetFromDials(directionBResearchLabDials);
+
+export const directionBResearchLabPreset = validateTokenPreset({
+  ...directionBBasePreset,
+  id: "direction-b-research-lab",
+  name: "Direction B Research Lab",
+  description:
+    "An editorial research-lab preset for a spacious, provenance-oriented Studio public hub.",
+  color: {
+    background: "#eef3f1",
+    foreground: "#10201d",
+    muted: "#dce8e4",
+    mutedForeground: "#50625d",
+    panel: "#fbfdfc",
+    panelForeground: "#10201d",
+    border: "#bfd0c9",
+    ring: "#1f9f8b",
+    accent: "#0b6f64",
+    accentForeground: "#f7fffc"
+  },
+  typography: {
+    ...directionBBasePreset.typography,
+    display: "Georgia, 'Times New Roman', serif",
+    scale: {
+      ...directionBBasePreset.typography.scale,
+      hero: "clamp(3.75rem, 12vw, 9rem)"
+    },
+    lineHeight: {
+      tight: 0.95,
+      body: 1.66
+    }
+  },
+  spacing: {
+    ...directionBBasePreset.spacing,
+    density: "open",
+    unit: "1.125rem",
+    control: "3rem",
+    section: "clamp(5rem, 10vw, 9rem)",
+    container: "min(1180px, calc(100vw - 2rem))"
+  },
+  radii: {
+    sm: "3px",
+    md: "6px",
+    lg: "8px",
+    pill: "999px"
+  },
+  surface: {
+    canvas: "#eef3f1",
+    panel: "#fbfdfc",
+    panelRaised: "#ffffff",
+    overlay: "#f7fbf9",
+    inverse: "#10201d"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 2px rgb(16 32 29 / 0.07)",
+    md: "0 22px 54px rgb(16 32 29 / 0.12)"
+  },
+  logos: {
+    ...directionBBasePreset.logos,
+    markShape: "frame"
+  },
+  registry: {
+    ...directionBBasePreset.registry,
+    item: "@jami-studio/theme/direction-b-research-lab"
+  }
+});
+
+export const tokenPresets = [neutralFoundationPreset, directionBResearchLabPreset] as const;

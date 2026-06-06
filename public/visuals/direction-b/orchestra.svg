@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Orchestra visual</title>
+  <desc id="desc">Abstract multi-agent coordination lanes.</desc>
+  <rect width="900" height="560" fill="#e8f0ed"/>
+  <rect x="98" y="96" width="704" height="368" rx="8" fill="#fbfdfc" stroke="#bed0ca" stroke-width="2"/>
+  <path d="M180 184h540M180 280h540M180 376h540" stroke="#bed0ca" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="260" cy="184" r="32" fill="#0b6f64"/>
+  <circle cx="450" cy="184" r="32" fill="#37586b"/>
+  <circle cx="640" cy="184" r="32" fill="#8a5a30"/>
+  <circle cx="354" cy="280" r="32" fill="#8a5a30"/>
+  <circle cx="546" cy="280" r="32" fill="#0b6f64"/>
+  <circle cx="260" cy="376" r="32" fill="#37586b"/>
+  <circle cx="640" cy="376" r="32" fill="#0b6f64"/>
+  <path d="M260 216l94 64 96-64M546 312l94 64" stroke="#10201d" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg>
