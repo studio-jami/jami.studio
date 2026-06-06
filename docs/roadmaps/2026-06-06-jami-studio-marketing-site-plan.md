@@ -38,7 +38,7 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] Assume product pages can later move to independent repos, Vercel projects, subdomains, docs providers, or standalone domains without rewriting marketing components.
 - [x] Make AI-readability a core build output, not a later optimization.
 - [x] Keep implementation-status caveats out of primary marketing copy.
-- [x] After the shared foundation, content registry, routing, and metadata seams are stable, design exploration can run as three full-build branches. Each branch must consume the same data seams and finish the complete site experience; the losing branches are review artifacts, not partial prototypes.
+- [x] After the shared foundation, content registry, routing, metadata, sitemap, robots, and AI-ingestion seams are stable, design exploration can run as three full-site branches. Each branch competes on the visual/site experience while consuming the same shared data and generated public-file pipeline.
 
 ## Scope Boundaries
 
@@ -71,12 +71,10 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 
 - Workstream 1 establishes app foundation, build tooling, and repository shape.
 - Workstream 2 depends on Workstream 1 and creates brand tokens plus reusable UI primitives.
-- Workstream 3 depends on Workstreams 1-2 and creates the content model, project registry, route map, and metadata helpers.
-- Workstream 4 depends on Workstreams 1-3 and runs three complete design branches over the same shared foundation.
-- Workstream 5 depends on the selected Workstream 4 branch and builds or finalizes the homepage.
-- Workstream 6 depends on the selected Workstream 4 branch and builds or finalizes project pages.
-- Workstream 7 depends on Workstreams 3, 5, and 6 and adds AI-readability, SEO, sitemap, robots, and structured metadata.
-- Workstream 8 depends on all previous streams and closes deployment, visual QA, docs, and verification.
+- Workstream 3 depends on Workstreams 1-2 and creates the content model, project registry, route map, metadata helpers, sitemap, robots, and AI-ingestion pipeline.
+- Workstream 4 depends on Workstreams 1-3 and runs three complete design branches over the same shared foundation. Each branch builds the homepage and project pages.
+- Workstream 5 depends on the selected Workstream 4 branch and hardens the selected site.
+- Workstream 6 depends on all previous streams and closes deployment, visual QA, docs, and verification.
 
 ## Workstream 1: Web App Foundation
 
@@ -115,7 +113,7 @@ Exit criteria:
 
 - [ ] The app builds locally.
 - [ ] `pnpm verify` runs the full local gate.
-- [ ] The root route renders a valid placeholder shell that will be replaced by Workstream 5 after design selection.
+- [ ] The root route renders a valid placeholder shell that design branches replace with complete site experiences.
 
 Suggested verification:
 
@@ -169,9 +167,9 @@ Suggested verification:
 - `pnpm test`
 - Visual smoke at desktop and mobile widths.
 
-## Workstream 3: Content, Routing, And Project Registry
+## Workstream 3: Shared Content, Routing, Metadata, And AI Files
 
-Goal: Centralize all public project, route, CTA, and metadata data.
+Goal: Centralize all public content, project data, route helpers, canonical metadata, sitemap, robots, and AI-readable files before design branching.
 
 Depends on:
 
@@ -180,7 +178,7 @@ Depends on:
 
 Enables:
 
-- [ ] Homepage project sections, detail pages, sitemap, AI files, redirects, deploy routing.
+- [ ] Homepage branches, project-page branches, generated sitemap, generated AI files, redirects, deploy routing.
 
 Repo guidance:
 
@@ -191,6 +189,9 @@ Primary areas:
 - `src/content/`
 - `src/lib/routes.*`
 - `src/lib/metadata.*`
+- `src/lib/sitemap.*`
+- `src/lib/ai-public-files.*`
+- `public/robots.txt`
 - `src/app/` or route files
 
 Implementation tasks:
@@ -198,13 +199,20 @@ Implementation tasks:
 - [ ] Add project registry entries for Harness, Registry, Orchestra, Intercal, and Collectiva.
 - [ ] Add route helpers for canonical URLs, product subdomains, docs/API/repo links, and future standalone domains.
 - [ ] Add page content models for homepage sections, project detail sections, FAQs, CTAs, and AI summaries.
+- [ ] Add canonical metadata generation for every route.
+- [ ] Add Open Graph and Twitter/X metadata helpers.
+- [ ] Add JSON-LD helpers for Organization, WebSite, and project/software surfaces where appropriate.
+- [ ] Add generated sitemap.
+- [ ] Add robots policy.
+- [ ] Add generated `llms.txt` and expanded AI-readable source file from the shared content registry.
 - [ ] Add validation tests for required project fields and URL shape.
-- [ ] Add route generation for `/`, `/projects`, and each project page.
+- [ ] Add route and generated-file tests that fail if a public route is missing metadata, sitemap coverage, or AI-file coverage.
 
 Exit criteria:
 
 - [ ] All public routes and links resolve from typed or validated content data.
 - [ ] Product subdomain targets can change from one source file.
+- [ ] Metadata, sitemap, robots, and AI-readable files are generated from shared data before design branches begin.
 
 Suggested verification:
 
@@ -212,26 +220,26 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm build`
 
-## Workstream 4: Three Design Direction Branches
+## Workstream 4: Three Complete Design Direction Branches
 
-Goal: Produce three complete visual directions after the shared foundation is solid, then select one direction to merge.
+Goal: Produce three complete site designs after the shared data and generated-file foundation is solid, then select one direction to merge.
 
 Depends on:
 
 - [ ] Workstream 1 app foundation.
 - [ ] Workstream 2 brand system baseline.
-- [ ] Workstream 3 content, routing, project registry, and metadata seams.
+- [ ] Workstream 3 content, routing, metadata, sitemap, robots, and AI-file seams.
 
 Enables:
 
-- [ ] A confident design choice without compromising the shared content/data architecture.
-- [ ] Homepage and project pages finalized from the selected direction.
+- [ ] A confident design choice without compromising the shared content, route, metadata, sitemap, or AI-file architecture.
+- [ ] Homepage and project pages already exist in each branch as complete comparable site experiences.
 
 Repo guidance:
 
-- Do not branch before the shared seams are stable. Each design branch must keep the same content registry, route helpers, metadata helpers, tests, and generated public artifacts.
+- Do not branch before the shared seams are stable. Each design branch must keep the same content registry, route helpers, metadata helpers, sitemap, robots, AI-file generation, tests, and public route contract.
 - Prefer local branch/worktree review first. Use Vercel preview deploys only if comparing in browser locally is not enough or if remote review is useful.
-- Keep each branch production-intent complete: homepage, project pages, responsive states, metadata, AI files, accessibility, and verification should all work in that branch.
+- Keep each branch production-intent complete: homepage, project pages, responsive states, accessibility, and verification should all work in that branch. Branches may tune page composition and visual hierarchy, but must not fork the metadata or generated-file machinery.
 
 Primary areas:
 
@@ -244,16 +252,16 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
-- [ ] Build Direction A as a complete site, not a partial mockup.
-- [ ] Build Direction B as a complete site, not a partial mockup.
-- [ ] Build Direction C as a complete site, not a partial mockup.
+- [ ] Build Direction A as a complete homepage plus all project pages, not a partial mockup.
+- [ ] Build Direction B as a complete homepage plus all project pages, not a partial mockup.
+- [ ] Build Direction C as a complete homepage plus all project pages, not a partial mockup.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
 - [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
 
 Exit criteria:
 
-- [ ] All three design branches build and render complete site experiences over the same shared content/data seams.
+- [ ] All three design branches build and render complete site experiences over the same shared content, route, metadata, sitemap, robots, and AI-file seams.
 - [ ] The selected branch is merged to `main`.
 - [ ] Non-selected branches are left as review history or deleted after selection; their changes are not blended into `main` unless explicitly chosen.
 
@@ -263,149 +271,57 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
 
-## Workstream 5: Homepage
+## Workstream 5: Selected Direction Hardening
 
-Goal: Build the main `www.jami.studio` landing page as the complete first impression.
+Goal: Merge the chosen design direction and harden the selected full site for production.
 
 Depends on:
 
-- [ ] Workstream 2 brand system.
-- [ ] Workstream 3 content model.
 - [ ] Selected Workstream 4 design direction.
 
 Enables:
 
-- [ ] Production public hub, social sharing, AI-readable homepage summary.
+- [ ] Final production candidate for deployment and QA.
 
 Repo guidance:
 
-- The homepage should be the product experience, not a marketing placeholder. It must avoid dev-log and "coming soon" framing.
+- Do not rebuild homepage, project pages, metadata, or AI files from scratch here. This stream polishes the selected complete branch and removes comparison-only leftovers.
 
 Primary areas:
 
 - `src/app/page.*` or homepage route
-- `src/components/marketing/`
-- `src/content/home.*`
+- `src/app/projects/`
+- `src/components/`
+- `src/styles/`
+- `src/content/`
 
 Implementation tasks:
 
-- [ ] Build hero with clear brand signal and concise platform positioning.
-- [ ] Add project-family overview with reusable project cards.
-- [ ] Add sections for runtime, registry, orchestration, knowledge, and collective governance.
-- [ ] Add OSS/community/developer credibility sections without vanity metrics or fake proof.
-- [ ] Add primary CTAs for project exploration, Intercal, GitHub, docs, and contact/list capture when the mechanism exists.
-- [ ] Add responsive and accessibility polish.
+- [ ] Merge the selected design branch to `main`.
+- [ ] Remove branch-comparison-only labels, temporary notes, and unused design-direction files.
+- [ ] Tighten homepage and project-page copy using the shared content model.
+- [ ] Confirm the selected design still uses shared project registry data and shared metadata/AI-file generation.
+- [ ] Run responsive, accessibility, and visual polish on the selected full site.
 
 Exit criteria:
 
-- [ ] Homepage is visually complete, copy-polished, responsive, and generated from shared content.
-- [ ] No primary homepage copy exposes internal implementation status or apology language.
+- [ ] The selected branch is the only design system on `main`.
+- [ ] Homepage and every project page are complete, responsive, and copy-polished.
+- [ ] Metadata, sitemap, robots, and AI files still come from the shared foundation.
 
 Suggested verification:
 
+- `pnpm test`
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px.
 
-## Workstream 6: Project Pages
-
-Goal: Build polished project pages for each OSS project in the Studio family.
-
-Depends on:
-
-- [ ] Workstream 2 brand system.
-- [ ] Workstream 3 project registry.
-- [ ] Selected Workstream 4 design direction.
-
-Enables:
-
-- [ ] Subdomain CTAs, project SEO, AI-readable project summaries, future docs/API expansion.
-
-Repo guidance:
-
-- Pages can describe the intended final project shape while avoiding false claims about implementation state in this repo.
-
-Primary areas:
-
-- `src/app/projects/`
-- `src/content/projects/`
-- `src/components/project/`
-
-Implementation tasks:
-
-- [ ] Build reusable project page template.
-- [ ] Add Harness page.
-- [ ] Add Registry page.
-- [ ] Add Orchestra page.
-- [ ] Add Intercal page with live-surface CTA.
-- [ ] Add Collectiva page.
-- [ ] Add related-project navigation and next-step CTAs.
-
-Exit criteria:
-
-- [ ] Every project has a complete page with canonical metadata, CTAs, and AI summary.
-- [ ] Intercal links to the live product surface through centralized metadata.
-
-Suggested verification:
-
-- `pnpm test`
-- `pnpm build`
-- Visual smoke for at least one detail page and one mobile detail page.
-
-## Workstream 7: AI Readiness, SEO, And Public Metadata
-
-Goal: Make the site natively legible to search engines, social previews, and AI agents.
-
-Depends on:
-
-- [ ] Workstream 3 content model.
-- [ ] Workstream 5 homepage.
-- [ ] Workstream 6 project pages.
-
-Enables:
-
-- [ ] Agent discovery, high-quality technical SEO, stable public references.
-
-Repo guidance:
-
-- AI-readable output should be generated from the same content source as human pages.
-
-Primary areas:
-
-- `public/robots.txt`
-- generated `sitemap.xml`
-- generated `llms.txt`
-- generated expanded AI source file
-- metadata helpers
-- route tests
-
-Implementation tasks:
-
-- [ ] Add canonical metadata for every route.
-- [ ] Add Open Graph and Twitter/X metadata.
-- [ ] Add JSON-LD for Organization, WebSite, SoftwareSourceCode or SoftwareApplication where appropriate.
-- [ ] Add generated sitemap.
-- [ ] Add robots policy.
-- [ ] Add `llms.txt` and expanded AI-readable source.
-- [ ] Add tests or build checks that fail if required AI/SEO files drift or omit routes.
-
-Exit criteria:
-
-- [ ] Every public page has canonical metadata and appears in sitemap output.
-- [ ] AI files are generated from validated content and include all project surfaces.
-
-Suggested verification:
-
-- `pnpm test`
-- `pnpm build`
-- Inspect generated metadata files.
-
-## Workstream 8: Deployment, QA, And Closeout
+## Workstream 6: Deployment, QA, And Closeout
 
 Goal: Ship the site as a production-ready Vercel project with clean docs and verified public behavior.
 
 Depends on:
 
-- [ ] Workstreams 1-7.
+- [ ] Workstreams 1-5.
 
 Enables:
 
@@ -483,16 +399,14 @@ Suggested verification:
 2. Initialize the web app and verification commands.
 3. Add framework/deployment decision record.
 4. Build brand tokens and reusable UI primitives.
-5. Build content registry and route model.
+5. Build content registry, route model, metadata, sitemap, robots, and AI-file generation.
 6. Cut three design branches from the same stable foundation commit.
-7. Finish each design branch as a complete site and compare locally or by preview deploy.
+7. Finish each design branch as a complete homepage plus all project pages and compare locally or by preview deploy.
 8. Select one direction and merge it to `main`.
-9. Finalize homepage from the selected direction.
-10. Finalize project pages from the selected direction.
-11. Generate AI/SEO files and metadata.
-12. Add deploy/domain operations docs.
-13. Run full verification and visual QA.
-14. Update roadmap, docs, and closeout artifacts.
+9. Harden the selected full site without forking shared metadata or AI-file generation.
+10. Add deploy/domain operations docs.
+11. Run full verification and visual QA.
+12. Update roadmap, docs, and closeout artifacts.
 
 ## Expansion Track
 
