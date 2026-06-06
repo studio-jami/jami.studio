@@ -86,11 +86,11 @@ Goal: Create the production web-app foundation and verification commands for the
 
 Depends on:
 
-- [ ] Refreshed repo instructions and active roadmap.
+- [x] Refreshed repo instructions and active roadmap.
 
 Enables:
 
-- [ ] Token contract, content model, route model, metadata/AI files, design branches, deployment.
+- [x] Token contract, content model, route model, metadata/AI files, design branches, deployment.
 
 Repo guidance:
 
@@ -107,26 +107,35 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Initialize the web app with TypeScript, strict linting, formatting, test runner, and build command.
-- [ ] Add `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify`.
-- [ ] Add `.gitignore` and `.env.example` with secret names only.
-- [ ] Add a neutral base route shell, global reset, font loading strategy, and accessible document structure.
-- [ ] Add a decision record for the selected framework and deployment target.
+- [x] Initialize the web app with TypeScript, strict linting, formatting, test runner, and build command.
+- [x] Add `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify`.
+- [x] Add `.gitignore` and `.env.example` with secret names only.
+- [x] Add a neutral base route shell, global reset, font loading strategy, and accessible document structure.
+- [x] Add a decision record for the selected framework and deployment target.
 
 Exit criteria:
 
-- [ ] The app builds locally.
-- [ ] `pnpm verify` runs the full local gate.
-- [ ] The root route renders a valid placeholder shell that design branches replace with complete site experiences.
+- [x] The app builds locally.
+- [x] `pnpm verify` runs the full local gate.
+- [x] The root route renders a valid placeholder shell that design branches replace with complete site experiences.
 
 Suggested verification:
 
 - `pnpm install`
 - `pnpm lint`
+- `pnpm format:check`
 - `pnpm typecheck`
 - `pnpm test`
 - `pnpm build`
 - `pnpm verify`
+
+Pass 1 closeout, 2026-06-06: Workstream 1 foundation is complete in the live repo. `pnpm lint`,
+`pnpm format:check`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm verify` pass locally.
+Browser smoke against `/`, `/projects`, and `/projects/intercal` passes at 1440px desktop and 390px
+mobile with no console errors or 404s. Public-file smoke confirms `robots.txt`, `sitemap.xml`,
+`llms.txt`, `llms-full.txt`, `icon.svg`, and representative social assets return 200. The existing
+prior-agent foundation also includes early Workstream 2 and Workstream 3 scaffolding; those later
+workstreams still need their own focused passes before being marked complete.
 
 ## Workstream 2: Registry-Compatible Token And Dial Foundation
 
@@ -431,6 +440,16 @@ Suggested verification:
 12. Add deploy/domain operations docs.
 13. Run full verification and visual QA.
 14. Update roadmap, docs, and closeout artifacts.
+
+## Orchestrator Checkpoints
+
+- [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
+  `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
+  verification scripts, neutral route shell, `.gitignore`/`.env.example`, framework/deploy
+  decision docs, and Workstream 1 roadmap/doc parity only. Active workstreams: Workstream 1 only.
+  Next coordinator action: poll in short intervals until terminal result, then log result under
+  `docs/engineering/agents/orchestrator-logs/` and dispatch a fresh Workstream 1 pass 2 if pass 1
+  lands a commit.
 
 ## Expansion Track
 

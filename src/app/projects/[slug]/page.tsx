@@ -1,0 +1,102 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getProject, projects } from "@/content/projects";
+import { createMetadata } from "@/lib/metadata";
+
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export function generateStaticParams() {
+  return projects.map((project) => ({ slug: project.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
+
+  if (!project) {
+    return createMetadata({
+      title: "Project not found",
+      description: "No Studio project exists for this route.",
+      path: `/projects/${slug}`
+    });
+  }
+
+  return createMetadata({
+    title: project.name,
+    description: project.summary,
+    path: project.route,
+    image: project.socialImage
+  });
+}
+
+export default async function ProjectPage({ params }: PageProps) {
+  const { slug } = await params;
+  const project = getProject(slug);
+
+  if (!project) {
+    notFound();
+  }
+
+  return (
+    <article className="section project-detail">
+      <div className="section-heading">
+        <p className="meta">{project.subdomain}</p>
+        <h1>{project.name}</h1>
+        <p>{project.positioning}</p>
+      </div>
+
+      <div className="detail-grid">
+        <section>
+          <h2>Who it serves</h2>
+          <p>{project.audience}</p>
+        </section>
+        <section>
+          <h2>Link contract</h2>
+          <dl>
+            <div>
+              <dt>Route</dt>
+              <dd>{project.route}</dd>
+            </div>
+            <div>
+              <dt>Subdomain</dt>
+              <dd>{project.subdomain}</dd>
+            </div>
+            <div>
+              <dt>Repository</dt>
+              <dd>
+                <a href={project.repoUrl}>{project.repoUrl}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>Docs</dt>
+              <dd>
+                <a href={project.docsUrl}>{project.docsUrl}</a>
+              </dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+
+      <div className="detail-grid">
+        <section>
+          <h2>Capabilities</h2>
+          <ul>
+            {project.capabilities.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>Proof posture</h2>
+          <ul>
+            {project.proofPoints.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </article>
+  );
+}

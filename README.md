@@ -14,7 +14,15 @@ This repo owns `www.jami.studio`: the landing page, project pages, AI-readable p
 
 ## Current State
 
-The repo currently contains the engineering standards and active roadmap needed to scaffold the production marketing site. Follow [AGENTS.md](AGENTS.md) and the active roadmap in [docs/roadmaps](docs/roadmaps).
+The repo contains the static-first Next.js foundation for the production marketing site: route shell, project registry, generated public-file helpers, token foundation, verification scripts, and durable operating docs. Follow [AGENTS.md](AGENTS.md), [docs/README.md](docs/README.md), and the active roadmap in [docs/roadmaps](docs/roadmaps).
+
+## Local Commands
+
+- `pnpm lint`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
+- `pnpm verify`
 
 ## Documentation
 

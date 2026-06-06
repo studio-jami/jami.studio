@@ -37,9 +37,49 @@ When the web app is scaffolded, add and verify:
 - Analytics/privacy configuration.
 - Rollback instructions.
 
+## Current App Deployment Shape
+
+- Framework: Next.js.
+- Package manager: pnpm.
+- Build command: `pnpm build`.
+- Local full gate: `pnpm verify`.
+- Local production preview: `pnpm exec next start --hostname 127.0.0.1 --port 3000` after a
+  successful build.
+- Vercel framework preset: Next.js.
+- Output mode: Vercel-managed Next.js build; no static export or standalone self-hosting mode is
+  configured.
+
+## Environment Variables
+
+Tracked files may document names only:
+
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_ANALYTICS_PROVIDER`
+- `NEXT_PUBLIC_ANALYTICS_SITE_ID`
+- `VERCEL_PROJECT_ID`
+- `VERCEL_ORG_ID`
+
+Real values belong in local `.env`, Vercel project settings, or the host secret
+store.
+
+## Domain Mapping Checklist
+
+- Map `www.jami.studio` to the marketing site project.
+- Redirect `jami.studio` to `www.jami.studio`.
+- Keep product subdomains owned through centralized project metadata.
+- Route `intercal.jami.studio` to the Intercal product surface.
+- Reserve `harness.jami.studio`, `registry.jami.studio`,
+  `orchestra.jami.studio`, and `collectiva.jami.studio` for their owning
+  projects or docs surfaces.
+
+## Preview And Rollback
+
+Use Vercel preview deployments for branch review when local browser comparison
+is not enough. Roll back by promoting the previous known-good Vercel deployment
+or reverting the selected branch commit and redeploying.
+
 ## Open Decisions
 
-- Whether the marketing site is Next.js or Astro.
 - Whether docs pages are hosted in this repo, in each project repo, or through a docs provider.
 - Whether product subdomains eventually move off `jami.studio` to standalone domains.
 
