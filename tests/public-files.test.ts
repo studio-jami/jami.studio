@@ -19,6 +19,9 @@ describe("generated public files", () => {
       expect(full).toContain(project.docsUrl);
       expect(full).toContain(project.apiUrl);
       expect(full).toContain(project.domainTarget);
+      for (const cta of project.ctas) {
+        expect(full).toContain(`${cta.label}: ${cta.href}`);
+      }
     }
   });
 

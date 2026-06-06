@@ -280,6 +280,16 @@ the source-owned content and generated-public-file ownership. Verification passe
 inspection after build confirmed `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`
 return generated content from shared data.
 
+Pass 2 closeout, 2026-06-06: fresh-context audit confirmed Workstream 3 pass 1 was present in the
+live repo at commit `37038cf99ba74d6a4290e71900e3cb7d6706d256`. Follow-up work tightened the
+central registry by deriving project routes, domain targets, and CTA hrefs from typed slug,
+subdomain, repository, docs, and API fields instead of carrying duplicate free-form CTA URLs.
+`llms-full.txt` now includes source-owned calls to action, and tests assert CTA derivation plus
+AI-file CTA coverage. Durable architecture docs were updated to match the source-owned link
+materialization contract. Verification passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`,
+`pnpm build`, `pnpm verify`, `pnpm format:check`, `git diff --check`, and local public-file
+inspection for `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`.
+
 ## Workstream 4: Three Complete Design Direction Branches
 
 Goal: Produce three complete site designs after the shared data and generated-file foundation is solid, then select one direction to merge.
@@ -556,6 +566,16 @@ Suggested verification:
   `pnpm build`, `pnpm verify`, `pnpm format:check`, `git diff --check`, and local HTTP inspection of
   `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/llms-full.txt`, and sampled canonical metadata. Next
   coordinator action: gate Workstream 3 and dispatch a fresh Workstream 3 pass 2 audit if required.
+- [~] 2026-06-06T15:06:16.7023413-04:00 - Dispatched Workstream 3 pass 2 to subagent
+  `019e9e53-fa2c-7521-b7be-182abc85bda7` (`Descartes`). Ownership boundary: fresh-context
+  Workstream 3 audit/execute pass over centralized content, route helpers, canonical metadata,
+  sitemap, robots, AI files, public route coverage, generated-file tests, and docs/roadmap parity.
+  Active workstreams: Workstream 3 only. Result 2026-06-06: completed from live repo state with
+  source-owned route/domain/CTA materialization, expanded AI-source CTA coverage, tests for CTA
+  derivation and generated-file coverage, and site-foundation docs parity. Verification passed:
+  `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `pnpm format:check`,
+  `git diff --check`, and local public-file inspection. Next coordinator action: gate Workstream 3
+  per the second-pass commit rules.
 
 ## Expansion Track
 

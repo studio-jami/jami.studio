@@ -20,10 +20,12 @@ the same shape consumed by pages, metadata helpers, route helpers, sitemap, and
 AI-ingestion files. `src/content/links.ts` owns shared external link roots such
 as the Studio GitHub organization.
 
-Project URL formatting is centralized in `src/lib/routes.ts`: canonical project
-routes, product subdomain targets, repository links, docs links, API links, and
-project-page link contracts are derived there before being rendered by routes
-or included in generated public files.
+Project URL formatting is centralized before rendering: `src/content/projects.ts`
+derives project routes, domain targets, and CTA hrefs from typed slug,
+subdomain, repository, docs, and API fields, while `src/lib/routes.ts` exposes
+canonical project routes, product subdomain targets, repository links, docs
+links, API links, and project-page link contracts for pages and generated public
+files.
 
 ## Generated Public Surface
 
@@ -38,7 +40,8 @@ The app generates these public surfaces from shared helpers:
 - `llms-full.txt`
 
 Tests under `tests/` verify that the project registry, public routes, generated
-sitemap, route metadata, project JSON-LD, and AI-readable files stay in sync.
+sitemap, route metadata, project JSON-LD, project CTAs, and AI-readable files
+stay in sync.
 
 ## Token Foundation
 

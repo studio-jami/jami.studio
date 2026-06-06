@@ -35,6 +35,7 @@ describe("project content contract", () => {
       expect(project.summary.length).toBeGreaterThan(20);
       expect(project.aiSummary.length).toBeGreaterThan(40);
       expect(project.ctas.some((cta) => cta.href === project.route)).toBe(true);
+      expect(project.ctas.every((cta) => cta.href.length > 0)).toBe(true);
       expect(existsSync(join(process.cwd(), "public", project.socialImage))).toBe(true);
     }
   });
@@ -53,6 +54,18 @@ describe("project content contract", () => {
         "Docs",
         "API"
       ]);
+
+      for (const cta of project.ctas) {
+        const expectedHrefByTarget = {
+          route: project.route,
+          subdomain: project.domainTarget,
+          repo: project.repoUrl,
+          docs: project.docsUrl,
+          api: project.apiUrl
+        };
+
+        expect(cta.href).toBe(expectedHrefByTarget[cta.target]);
+      }
     }
   });
 });

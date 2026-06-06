@@ -59,6 +59,9 @@ ${project.capabilities.map((item) => `- ${item}`).join("\n")}
 
 Proof points:
 ${project.proofPoints.map((item) => `- ${item}`).join("\n")}
+
+Calls to action:
+${project.ctas.map((cta) => `- ${cta.label}: ${cta.href}`).join("\n")}
 `
     )
     .join("\n");

@@ -5,6 +5,7 @@ export type ProjectSlug = "harness" | "registry" | "orchestra" | "intercal" | "c
 
 export type ProjectLink = {
   label: string;
+  target: "route" | "subdomain" | "repo" | "docs" | "api";
   href: string;
   kind: "primary" | "secondary" | "repo" | "docs" | "api";
 };
@@ -30,11 +31,17 @@ export type StudioProject = {
   internalStatus: "planned" | "foundation" | "live";
 };
 
+type RawProjectLink = Omit<ProjectLink, "href">;
+
+type RawStudioProject = Omit<StudioProject, "route" | "domainTarget" | "ctas"> & {
+  ctas: RawProjectLink[];
+};
+
 const projectSlugSchema = z.enum(["harness", "registry", "orchestra", "intercal", "collectiva"]);
 
 const projectLinkSchema = z.object({
   label: z.string().min(2),
-  href: z.string().min(1),
+  target: z.enum(["route", "subdomain", "repo", "docs", "api"]),
   kind: z.enum(["primary", "secondary", "repo", "docs", "api"])
 });
 
@@ -42,11 +49,7 @@ const projectSchema = z.object({
   slug: projectSlugSchema,
   name: z.string().min(2),
   shortName: z.string().min(2),
-  route: z.custom<`/projects/${ProjectSlug}`>((value) => {
-    return typeof value === "string" && /^\/projects\/[a-z-]+$/.test(value);
-  }),
   subdomain: z.string().regex(/^[a-z0-9-]+\.jami\.studio$/),
-  domainTarget: z.string().url(),
   repoUrl: z.string().url(),
   docsUrl: z.string().url(),
   apiUrl: z.string().url().optional(),
@@ -77,30 +80,61 @@ const projectsSchema = z
 
       slugs.add(project.slug);
 
-      if (project.route !== `/projects/${project.slug}`) {
-        context.addIssue({
-          code: "custom",
-          message: `${project.slug} route must match /projects/${project.slug}`
-        });
-      }
-
-      if (project.domainTarget !== `https://${project.subdomain}`) {
-        context.addIssue({
-          code: "custom",
-          message: `${project.slug} domain target must derive from its subdomain`
-        });
+      for (const cta of project.ctas) {
+        if (cta.target === "api" && !project.apiUrl) {
+          context.addIssue({
+            code: "custom",
+            message: `${project.slug} CTA references an API URL that is not listed`
+          });
+        }
       }
     }
   });
+
+function projectRoute(slug: ProjectSlug): `/projects/${ProjectSlug}` {
+  return `/projects/${slug}`;
+}
+
+function projectDomainTarget(subdomain: string): string {
+  return `https://${subdomain}`;
+}
+
+function resolveProjectLink(project: RawStudioProject, target: RawProjectLink["target"]): string {
+  switch (target) {
+    case "route":
+      return projectRoute(project.slug);
+    case "subdomain":
+      return projectDomainTarget(project.subdomain);
+    case "repo":
+      return project.repoUrl;
+    case "docs":
+      return project.docsUrl;
+    case "api":
+      if (!project.apiUrl) {
+        throw new Error(`${project.slug} does not list an API URL`);
+      }
+      return project.apiUrl;
+  }
+}
+
+function materializeProject(project: RawStudioProject): StudioProject {
+  return {
+    ...project,
+    route: projectRoute(project.slug),
+    domainTarget: projectDomainTarget(project.subdomain),
+    ctas: project.ctas.map((cta) => ({
+      ...cta,
+      href: resolveProjectLink(project, cta.target)
+    }))
+  };
+}
 
 const rawProjects = [
   {
     slug: "harness",
     name: "Jami Agent Harness",
     shortName: "Harness",
-    route: "/projects/harness",
     subdomain: "harness.jami.studio",
-    domainTarget: "https://harness.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/harness`,
     docsUrl: "https://harness.jami.studio/docs",
     apiUrl: "https://harness.jami.studio/api",
@@ -123,8 +157,8 @@ const rawProjects = [
       "Keeps runtime implementation outside the marketing site"
     ],
     ctas: [
-      { label: "Explore Harness", href: "/projects/harness", kind: "primary" },
-      { label: "Repository", href: `${studioLinks.githubOrg}/harness`, kind: "repo" }
+      { label: "Explore Harness", target: "route", kind: "primary" },
+      { label: "Repository", target: "repo", kind: "repo" }
     ],
     socialImage: "/social/harness.svg",
     internalStatus: "foundation"
@@ -133,9 +167,7 @@ const rawProjects = [
     slug: "registry",
     name: "Studio UI Registry",
     shortName: "UI Registry",
-    route: "/projects/registry",
     subdomain: "registry.jami.studio",
-    domainTarget: "https://registry.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/ui`,
     docsUrl: "https://registry.jami.studio/docs",
     apiUrl: "https://registry.jami.studio/api",
@@ -158,8 +190,8 @@ const rawProjects = [
       "Seeds the marketing site's own theme foundation"
     ],
     ctas: [
-      { label: "Explore UI Registry", href: "/projects/registry", kind: "primary" },
-      { label: "Repository", href: `${studioLinks.githubOrg}/ui`, kind: "repo" }
+      { label: "Explore UI Registry", target: "route", kind: "primary" },
+      { label: "Repository", target: "repo", kind: "repo" }
     ],
     socialImage: "/social/registry.svg",
     internalStatus: "foundation"
@@ -168,9 +200,7 @@ const rawProjects = [
     slug: "orchestra",
     name: "Orchestra",
     shortName: "Orchestra",
-    route: "/projects/orchestra",
     subdomain: "orchestra.jami.studio",
-    domainTarget: "https://orchestra.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/orchestra`,
     docsUrl: "https://orchestra.jami.studio/docs",
     apiUrl: "https://orchestra.jami.studio/api",
@@ -193,8 +223,8 @@ const rawProjects = [
       "Turns coordination state into durable source, not chat memory"
     ],
     ctas: [
-      { label: "Explore Orchestra", href: "/projects/orchestra", kind: "primary" },
-      { label: "Repository", href: `${studioLinks.githubOrg}/orchestra`, kind: "repo" }
+      { label: "Explore Orchestra", target: "route", kind: "primary" },
+      { label: "Repository", target: "repo", kind: "repo" }
     ],
     socialImage: "/social/orchestra.svg",
     internalStatus: "foundation"
@@ -203,9 +233,7 @@ const rawProjects = [
     slug: "intercal",
     name: "Intercal",
     shortName: "Intercal",
-    route: "/projects/intercal",
     subdomain: "intercal.jami.studio",
-    domainTarget: "https://intercal.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/intercal`,
     docsUrl: "https://intercal.jami.studio/docs",
     apiUrl: "https://intercal.jami.studio/api",
@@ -228,8 +256,8 @@ const rawProjects = [
       "Links can move through centralized metadata"
     ],
     ctas: [
-      { label: "Explore Intercal", href: "/projects/intercal", kind: "primary" },
-      { label: "Live surface", href: "https://intercal.jami.studio", kind: "secondary" }
+      { label: "Explore Intercal", target: "route", kind: "primary" },
+      { label: "Live surface", target: "subdomain", kind: "secondary" }
     ],
     socialImage: "/social/intercal.svg",
     internalStatus: "live"
@@ -238,9 +266,7 @@ const rawProjects = [
     slug: "collectiva",
     name: "Collectiva",
     shortName: "Collectiva",
-    route: "/projects/collectiva",
     subdomain: "collectiva.jami.studio",
-    domainTarget: "https://collectiva.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/collectiva`,
     docsUrl: "https://collectiva.jami.studio/docs",
     apiUrl: "https://collectiva.jami.studio/api",
@@ -262,15 +288,17 @@ const rawProjects = [
       "Central metadata owns the route and link contract"
     ],
     ctas: [
-      { label: "Explore Collectiva", href: "/projects/collectiva", kind: "primary" },
-      { label: "Repository", href: `${studioLinks.githubOrg}/collectiva`, kind: "repo" }
+      { label: "Explore Collectiva", target: "route", kind: "primary" },
+      { label: "Repository", target: "repo", kind: "repo" }
     ],
     socialImage: "/social/collectiva.svg",
     internalStatus: "planned"
   }
-] satisfies StudioProject[];
+] satisfies RawStudioProject[];
 
-export const projects = projectsSchema.parse(rawProjects) satisfies StudioProject[];
+export const projects = projectsSchema
+  .parse(rawProjects)
+  .map(materializeProject) satisfies StudioProject[];
 
 export function getProject(slug: string): StudioProject | undefined {
   return projects.find((project) => project.slug === slug);
