@@ -38,6 +38,7 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] Assume product pages can later move to independent repos, Vercel projects, subdomains, docs providers, or standalone domains without rewriting marketing components.
 - [x] Make AI-readability a core build output, not a later optimization.
 - [x] Keep implementation-status caveats out of primary marketing copy.
+- [x] After the shared foundation, content registry, routing, and metadata seams are stable, design exploration can run as three full-build branches. Each branch must consume the same data seams and finish the complete site experience; the losing branches are review artifacts, not partial prototypes.
 
 ## Scope Boundaries
 
@@ -71,10 +72,11 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - Workstream 1 establishes app foundation, build tooling, and repository shape.
 - Workstream 2 depends on Workstream 1 and creates brand tokens plus reusable UI primitives.
 - Workstream 3 depends on Workstreams 1-2 and creates the content model, project registry, route map, and metadata helpers.
-- Workstream 4 depends on Workstreams 2-3 and builds the homepage.
-- Workstream 5 depends on Workstreams 2-3 and builds project pages.
-- Workstream 6 depends on Workstreams 3-5 and adds AI-readability, SEO, sitemap, robots, and structured metadata.
-- Workstream 7 depends on all previous streams and closes deployment, visual QA, docs, and verification.
+- Workstream 4 depends on Workstreams 1-3 and runs three complete design branches over the same shared foundation.
+- Workstream 5 depends on the selected Workstream 4 branch and builds or finalizes the homepage.
+- Workstream 6 depends on the selected Workstream 4 branch and builds or finalizes project pages.
+- Workstream 7 depends on Workstreams 3, 5, and 6 and adds AI-readability, SEO, sitemap, robots, and structured metadata.
+- Workstream 8 depends on all previous streams and closes deployment, visual QA, docs, and verification.
 
 ## Workstream 1: Web App Foundation
 
@@ -113,7 +115,7 @@ Exit criteria:
 
 - [ ] The app builds locally.
 - [ ] `pnpm verify` runs the full local gate.
-- [ ] The root route renders a valid placeholder shell that will be replaced by Workstream 4.
+- [ ] The root route renders a valid placeholder shell that will be replaced by Workstream 5 after design selection.
 
 Suggested verification:
 
@@ -210,7 +212,58 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm build`
 
-## Workstream 4: Homepage
+## Workstream 4: Three Design Direction Branches
+
+Goal: Produce three complete visual directions after the shared foundation is solid, then select one direction to merge.
+
+Depends on:
+
+- [ ] Workstream 1 app foundation.
+- [ ] Workstream 2 brand system baseline.
+- [ ] Workstream 3 content, routing, project registry, and metadata seams.
+
+Enables:
+
+- [ ] A confident design choice without compromising the shared content/data architecture.
+- [ ] Homepage and project pages finalized from the selected direction.
+
+Repo guidance:
+
+- Do not branch before the shared seams are stable. Each design branch must keep the same content registry, route helpers, metadata helpers, tests, and generated public artifacts.
+- Prefer local branch/worktree review first. Use Vercel preview deploys only if comparing in browser locally is not enough or if remote review is useful.
+- Keep each branch production-intent complete: homepage, project pages, responsive states, metadata, AI files, accessibility, and verification should all work in that branch.
+
+Primary areas:
+
+- `src/styles/`
+- `src/components/`
+- `src/app/` or route files
+- `src/content/`
+- `public/`
+
+Implementation tasks:
+
+- [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
+- [ ] Build Direction A as a complete site, not a partial mockup.
+- [ ] Build Direction B as a complete site, not a partial mockup.
+- [ ] Build Direction C as a complete site, not a partial mockup.
+- [ ] Run the same verification and visual smoke for all three directions.
+- [ ] Capture local URLs or preview URLs and concise notes for comparison.
+- [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
+
+Exit criteria:
+
+- [ ] All three design branches build and render complete site experiences over the same shared content/data seams.
+- [ ] The selected branch is merged to `main`.
+- [ ] Non-selected branches are left as review history or deleted after selection; their changes are not blended into `main` unless explicitly chosen.
+
+Suggested verification:
+
+- `pnpm verify`
+- `pnpm build`
+- Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
+
+## Workstream 5: Homepage
 
 Goal: Build the main `www.jami.studio` landing page as the complete first impression.
 
@@ -218,6 +271,7 @@ Depends on:
 
 - [ ] Workstream 2 brand system.
 - [ ] Workstream 3 content model.
+- [ ] Selected Workstream 4 design direction.
 
 Enables:
 
@@ -252,7 +306,7 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px.
 
-## Workstream 5: Project Pages
+## Workstream 6: Project Pages
 
 Goal: Build polished project pages for each OSS project in the Studio family.
 
@@ -260,6 +314,7 @@ Depends on:
 
 - [ ] Workstream 2 brand system.
 - [ ] Workstream 3 project registry.
+- [ ] Selected Workstream 4 design direction.
 
 Enables:
 
@@ -296,15 +351,15 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke for at least one detail page and one mobile detail page.
 
-## Workstream 6: AI Readiness, SEO, And Public Metadata
+## Workstream 7: AI Readiness, SEO, And Public Metadata
 
 Goal: Make the site natively legible to search engines, social previews, and AI agents.
 
 Depends on:
 
 - [ ] Workstream 3 content model.
-- [ ] Workstream 4 homepage.
-- [ ] Workstream 5 project pages.
+- [ ] Workstream 5 homepage.
+- [ ] Workstream 6 project pages.
 
 Enables:
 
@@ -344,13 +399,13 @@ Suggested verification:
 - `pnpm build`
 - Inspect generated metadata files.
 
-## Workstream 7: Deployment, QA, And Closeout
+## Workstream 8: Deployment, QA, And Closeout
 
 Goal: Ship the site as a production-ready Vercel project with clean docs and verified public behavior.
 
 Depends on:
 
-- [ ] Workstreams 1-6.
+- [ ] Workstreams 1-7.
 
 Enables:
 
@@ -414,6 +469,7 @@ Suggested verification:
 - [ ] `www.jami.studio` is a complete production marketing site, not a placeholder.
 - [ ] The homepage is polished, on-brand, responsive, accessible, and copy-complete.
 - [ ] Harness, Registry, Orchestra, Intercal, and Collectiva each have complete project pages.
+- [ ] Three design directions were either run to complete comparable branches after the shared foundation or explicitly skipped by owner decision.
 - [ ] All project URLs, subdomains, repos, docs links, CTAs, and summaries are centralized.
 - [ ] Subdomain or standalone-domain changes require metadata edits, not component rewrites.
 - [ ] The site emits complete canonical metadata, sitemap, robots, and AI-readable files.
@@ -428,12 +484,15 @@ Suggested verification:
 3. Add framework/deployment decision record.
 4. Build brand tokens and reusable UI primitives.
 5. Build content registry and route model.
-6. Build homepage.
-7. Build project pages.
-8. Generate AI/SEO files and metadata.
-9. Add deploy/domain operations docs.
-10. Run full verification and visual QA.
-11. Update roadmap, docs, and closeout artifacts.
+6. Cut three design branches from the same stable foundation commit.
+7. Finish each design branch as a complete site and compare locally or by preview deploy.
+8. Select one direction and merge it to `main`.
+9. Finalize homepage from the selected direction.
+10. Finalize project pages from the selected direction.
+11. Generate AI/SEO files and metadata.
+12. Add deploy/domain operations docs.
+13. Run full verification and visual QA.
+14. Update roadmap, docs, and closeout artifacts.
 
 ## Expansion Track
 
