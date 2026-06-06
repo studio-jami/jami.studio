@@ -1,3 +1,4 @@
+import { studioLinks } from "./links";
 import { projects } from "./projects";
 
 export const site = {
@@ -14,7 +15,7 @@ export const site = {
   nav: [
     { label: "Projects", href: "/projects" },
     { label: "AI index", href: "/llms.txt" },
-    { label: "GitHub", href: "https://github.com/studio-jami" }
+    { label: "GitHub", href: studioLinks.githubOrg }
   ],
   home: {
     eyebrow: "OSS foundations for agent-native products",
@@ -43,6 +44,23 @@ export const site = {
     proof:
       "Every public route, project link, metadata field, sitemap entry, and AI-ingestion file is generated from shared source data."
   },
+  faqs: [
+    {
+      question: "What does this repository own?",
+      answer:
+        "This repository owns the public marketing hub, project pages, metadata, sitemap, robots policy, AI-readable files, and shared presentation foundations for the Studio project family."
+    },
+    {
+      question: "Where do the product runtimes live?",
+      answer:
+        "Harness, Studio UI Registry, Orchestra, Intercal, and Collectiva are separate implementation surfaces. This site links to their routes, repositories, docs, APIs, and subdomains through centralized project metadata."
+    },
+    {
+      question: "Why include AI-readable files?",
+      answer:
+        "The site publishes compact and expanded AI source files so agents can resolve the product family, public routes, project summaries, and source boundaries from stable generated text."
+    }
+  ],
   footerLinks: [
     ...projects.map((project) => ({ label: project.shortName, href: project.route })),
     { label: "Robots", href: "/robots.txt" },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import type { StudioProject } from "@/content/projects";
 import { site } from "@/content/site";
-import { absoluteUrl } from "@/lib/routes";
+import { absoluteUrl, projectCanonicalUrl, projectRepositoryUrl } from "@/lib/routes";
 
 type MetadataInput = {
   title: string;
@@ -42,6 +43,15 @@ export function createMetadata({
   };
 }
 
+export function createProjectMetadata(project: StudioProject): Metadata {
+  return createMetadata({
+    title: project.name,
+    description: project.summary,
+    path: project.route,
+    image: project.socialImage
+  });
+}
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -59,5 +69,21 @@ export function websiteJsonLd() {
     name: site.name,
     url: site.canonicalHost,
     description: site.description
+  };
+}
+
+export function projectJsonLd(project: StudioProject) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: project.name,
+    description: project.summary,
+    url: projectCanonicalUrl(project),
+    codeRepository: projectRepositoryUrl(project),
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.canonicalHost
+    }
   };
 }

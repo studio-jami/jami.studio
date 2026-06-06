@@ -1,6 +1,14 @@
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { absoluteUrl, publicRoutes } from "@/lib/routes";
+import {
+  absoluteUrl,
+  projectApiUrl,
+  projectCanonicalUrl,
+  projectDocsUrl,
+  projectRepositoryUrl,
+  projectSubdomainUrl,
+  publicRoutes
+} from "@/lib/routes";
 
 export function createLlmsTxt(): string {
   const routes = publicRoutes()
@@ -34,11 +42,11 @@ export function createLlmsFullTxt(): string {
     .map(
       (project) => `## ${project.name}
 
-Route: ${absoluteUrl(project.route)}
-Subdomain target: ${project.domainTarget}
-Repository: ${project.repoUrl}
-Docs: ${project.docsUrl}
-API: ${project.apiUrl ?? "No public API URL listed"}
+Route: ${projectCanonicalUrl(project)}
+Subdomain target: ${projectSubdomainUrl(project)}
+Repository: ${projectRepositoryUrl(project)}
+Docs: ${projectDocsUrl(project)}
+API: ${projectApiUrl(project) ?? "No public API URL listed"}
 
 Summary: ${project.summary}
 

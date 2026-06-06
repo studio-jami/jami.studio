@@ -15,18 +15,30 @@ The project roster, routes, subdomains, repository URLs, docs URLs, API URLs,
 CTAs, project summaries, and AI summaries live in `src/content/`. Components
 consume that data instead of hardcoding project links or copy.
 
+`src/content/projects.ts` validates the project registry at module load with
+the same shape consumed by pages, metadata helpers, route helpers, sitemap, and
+AI-ingestion files. `src/content/links.ts` owns shared external link roots such
+as the Studio GitHub organization.
+
+Project URL formatting is centralized in `src/lib/routes.ts`: canonical project
+routes, product subdomain targets, repository links, docs links, API links, and
+project-page link contracts are derived there before being rendered by routes
+or included in generated public files.
+
 ## Generated Public Surface
 
 The app generates these public surfaces from shared helpers:
 
 - canonical metadata for every route
+- Open Graph and Twitter/X metadata for site and project pages
+- JSON-LD for the organization, website, and project/source-code surfaces
 - `robots.txt`
 - `sitemap.xml`
 - `llms.txt`
 - `llms-full.txt`
 
 Tests under `tests/` verify that the project registry, public routes, generated
-sitemap, and AI-readable files stay in sync.
+sitemap, route metadata, project JSON-LD, and AI-readable files stay in sync.
 
 ## Token Foundation
 

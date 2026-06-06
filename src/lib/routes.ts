@@ -16,6 +16,42 @@ export function projectPath(project: StudioProject): `/projects/${StudioProject[
   return project.route;
 }
 
+export function projectCanonicalUrl(project: StudioProject): string {
+  return absoluteUrl(projectPath(project));
+}
+
+export function projectSubdomainUrl(project: StudioProject): string {
+  return project.domainTarget;
+}
+
+export function projectRepositoryUrl(project: StudioProject): string {
+  return project.repoUrl;
+}
+
+export function projectDocsUrl(project: StudioProject): string {
+  return project.docsUrl;
+}
+
+export function projectApiUrl(project: StudioProject): string | undefined {
+  return project.apiUrl;
+}
+
+export function projectLinkTargets(project: StudioProject) {
+  return [
+    { label: "Route", href: projectCanonicalUrl(project), value: projectPath(project) },
+    { label: "Subdomain", href: projectSubdomainUrl(project), value: project.subdomain },
+    {
+      label: "Repository",
+      href: projectRepositoryUrl(project),
+      value: projectRepositoryUrl(project)
+    },
+    { label: "Docs", href: projectDocsUrl(project), value: projectDocsUrl(project) },
+    ...(projectApiUrl(project)
+      ? [{ label: "API", href: projectApiUrl(project), value: projectApiUrl(project) }]
+      : [])
+  ];
+}
+
 export function publicRoutes(): PublicRoute[] {
   return [
     {

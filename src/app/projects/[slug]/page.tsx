@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
+import { projectLinkTargets } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -23,12 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     });
   }
 
-  return createMetadata({
-    title: project.name,
-    description: project.summary,
-    path: project.route,
-    image: project.socialImage
-  });
+  return createProjectMetadata(project);
 }
 
 export default async function ProjectPage({ params }: PageProps) {
@@ -39,12 +35,26 @@ export default async function ProjectPage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = projectJsonLd(project);
+  const linkTargets = projectLinkTargets(project);
+
   return (
     <article className="section project-detail">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="section-heading">
         <p className="meta">{project.subdomain}</p>
         <h1>{project.name}</h1>
         <p>{project.positioning}</p>
+        <div className="button-row">
+          {project.ctas.map((cta) => (
+            <a key={cta.href} className="button secondary" href={cta.href}>
+              {cta.label}
+            </a>
+          ))}
+        </div>
       </div>
 
       <div className="detail-grid">
@@ -55,26 +65,14 @@ export default async function ProjectPage({ params }: PageProps) {
         <section>
           <h2>Link contract</h2>
           <dl>
-            <div>
-              <dt>Route</dt>
-              <dd>{project.route}</dd>
-            </div>
-            <div>
-              <dt>Subdomain</dt>
-              <dd>{project.subdomain}</dd>
-            </div>
-            <div>
-              <dt>Repository</dt>
-              <dd>
-                <a href={project.repoUrl}>{project.repoUrl}</a>
-              </dd>
-            </div>
-            <div>
-              <dt>Docs</dt>
-              <dd>
-                <a href={project.docsUrl}>{project.docsUrl}</a>
-              </dd>
-            </div>
+            {linkTargets.map((target) => (
+              <div key={target.label}>
+                <dt>{target.label}</dt>
+                <dd>
+                  <a href={target.href}>{target.value}</a>
+                </dd>
+              </div>
+            ))}
           </dl>
         </section>
       </div>

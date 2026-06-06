@@ -3,6 +3,7 @@ import { ConfigPanel } from "@/components/config-panel/config-panel";
 import { ProjectCard } from "@/components/marketing/project-card";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
+import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
   return (
@@ -23,7 +24,7 @@ export default function HomePage() {
         </div>
         <div className="system-map" aria-label="Studio project family map">
           {projects.map((project) => (
-            <Link key={project.slug} href={project.route}>
+            <Link key={project.slug} href={projectPath(project)}>
               <span>{project.shortName}</span>
               <small>{project.summary}</small>
             </Link>
@@ -51,6 +52,21 @@ export default function HomePage() {
             <p>{pillar.body}</p>
           </article>
         ))}
+      </section>
+
+      <section className="section">
+        <div className="section-heading">
+          <p className="meta">Source boundaries</p>
+          <h2>Designed for human and agent readers</h2>
+        </div>
+        <div className="detail-grid">
+          {site.faqs.map((faq) => (
+            <section key={faq.question}>
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </section>
+          ))}
+        </div>
       </section>
 
       <ConfigPanel />

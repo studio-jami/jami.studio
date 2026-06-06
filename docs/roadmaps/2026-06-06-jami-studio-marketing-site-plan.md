@@ -228,7 +228,7 @@ Depends on:
 
 Enables:
 
-- [ ] Homepage branches, project-page branches, generated sitemap, generated AI files, redirects, deploy routing.
+- [x] Homepage branches, project-page branches, generated sitemap, generated AI files, redirects, deploy routing.
 
 Repo guidance:
 
@@ -246,23 +246,23 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Add project registry entries for Harness, Registry, Orchestra, Intercal, and Collectiva.
-- [ ] Add route helpers for canonical URLs, product subdomains, docs/API/repo links, and future standalone domains.
-- [ ] Add page content models for homepage sections, project detail sections, FAQs, CTAs, and AI summaries.
-- [ ] Add canonical metadata generation for every route.
-- [ ] Add Open Graph and Twitter/X metadata helpers.
-- [ ] Add JSON-LD helpers for Organization, WebSite, and project/software surfaces where appropriate.
-- [ ] Add generated sitemap.
-- [ ] Add robots policy.
-- [ ] Add generated `llms.txt` and expanded AI-readable source file from the shared content registry.
-- [ ] Add validation tests for required project fields and URL shape.
-- [ ] Add route and generated-file tests that fail if a public route is missing metadata, sitemap coverage, or AI-file coverage.
+- [x] Add project registry entries for Harness, Registry, Orchestra, Intercal, and Collectiva.
+- [x] Add route helpers for canonical URLs, product subdomains, docs/API/repo links, and future standalone domains.
+- [x] Add page content models for homepage sections, project detail sections, FAQs, CTAs, and AI summaries.
+- [x] Add canonical metadata generation for every route.
+- [x] Add Open Graph and Twitter/X metadata helpers.
+- [x] Add JSON-LD helpers for Organization, WebSite, and project/software surfaces where appropriate.
+- [x] Add generated sitemap.
+- [x] Add robots policy.
+- [x] Add generated `llms.txt` and expanded AI-readable source file from the shared content registry.
+- [x] Add validation tests for required project fields and URL shape.
+- [x] Add route and generated-file tests that fail if a public route is missing metadata, sitemap coverage, or AI-file coverage.
 
 Exit criteria:
 
-- [ ] All public routes and links resolve from typed or validated content data.
-- [ ] Product subdomain targets can change from one source file.
-- [ ] Metadata, sitemap, robots, and AI-readable files are generated from shared data before design branches begin.
+- [x] All public routes and links resolve from typed or validated content data.
+- [x] Product subdomain targets can change from one source file.
+- [x] Metadata, sitemap, robots, and AI-readable files are generated from shared data before design branches begin.
 
 Suggested verification:
 
@@ -270,15 +270,25 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm build`
 
+Pass 1 closeout, 2026-06-06: Workstream 3 is complete from the live repo state.
+The existing content, route, metadata, sitemap, robots, and AI-file scaffolding was preserved and
+expanded into a validated central project registry, shared external link roots, project URL/link
+helpers, project metadata helpers, conservative project JSON-LD, project-detail CTA/link rendering
+from registry data, and route/metadata/generated-file tests. Durable architecture docs now record
+the source-owned content and generated-public-file ownership. Verification passed: `pnpm lint`,
+`pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, and `git diff --check`. Local public-file
+inspection after build confirmed `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`
+return generated content from shared data.
+
 ## Workstream 4: Three Complete Design Direction Branches
 
 Goal: Produce three complete site designs after the shared data and generated-file foundation is solid, then select one direction to merge.
 
 Depends on:
 
-- [ ] Workstream 1 app foundation.
-- [ ] Workstream 2 token/dial foundation.
-- [ ] Workstream 3 content, routing, metadata, sitemap, robots, and AI-file seams.
+- [x] Workstream 1 app foundation.
+- [x] Workstream 2 token/dial foundation.
+- [x] Workstream 3 content, routing, metadata, sitemap, robots, and AI-file seams.
 
 Enables:
 
@@ -536,6 +546,16 @@ Suggested verification:
   `783b180f90d288c3541ab7e9ab1523e3506cbf5d`: numeric gate passed (3 files, 82 insertions,
   6 deletions), character classified as C - tests plus small doc/cleanup. Workstream 2 is closed.
   Next coordinator action: dispatch Workstream 3 pass 1.
+- [~] 2026-06-06T14:50:46.6415344-04:00 - Dispatched Workstream 3 pass 1 to subagent
+  `019e9e45-c9e7-7f13-a60c-a2e26d782625` (`Ampere`). Ownership boundary: centralized content,
+  route helpers, canonical metadata, sitemap, robots, AI public-file helpers, public route coverage,
+  tests, and Workstream 3 docs/roadmap parity. Active workstreams: Workstream 3 only. Result
+  2026-06-06: completed from live repo state with validated content registry, route/link helpers,
+  project metadata and JSON-LD helpers, generated-file coverage, homepage FAQ content model, docs
+  parity, and focused tests. Verification passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`,
+  `pnpm build`, `pnpm verify`, `pnpm format:check`, `git diff --check`, and local HTTP inspection of
+  `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/llms-full.txt`, and sampled canonical metadata. Next
+  coordinator action: gate Workstream 3 and dispatch a fresh Workstream 3 pass 2 audit if required.
 
 ## Expansion Track
 

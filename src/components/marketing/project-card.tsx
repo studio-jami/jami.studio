@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { StudioProject } from "@/content/projects";
+import { projectPath } from "@/lib/routes";
 
 export function ProjectCard({ project }: { project: StudioProject }) {
   return (
@@ -9,7 +10,7 @@ export function ProjectCard({ project }: { project: StudioProject }) {
         <h3>{project.name}</h3>
         <p>{project.summary}</p>
       </div>
-      <Link href={project.route} className="text-link">
+      <Link href={projectPath(project)} className="text-link">
         Open project
       </Link>
     </article>
