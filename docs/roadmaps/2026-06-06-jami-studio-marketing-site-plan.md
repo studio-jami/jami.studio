@@ -137,6 +137,14 @@ mobile with no console errors or 404s. Public-file smoke confirms `robots.txt`, 
 prior-agent foundation also includes early Workstream 2 and Workstream 3 scaffolding; those later
 workstreams still need their own focused passes before being marked complete.
 
+Pass 2 closeout, 2026-06-06: fresh-context audit found no Workstream 1 code, tooling, public-file,
+secret-handling, or docs-parity fixes needed. Current verification passed: `pnpm lint`,
+`pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `git diff --check`, tracked secret-file
+scan, HTTP smoke for `/`, `/projects`, `/projects/intercal`, `/robots.txt`, `/sitemap.xml`,
+`/llms.txt`, `/llms-full.txt`, `/icon.svg`, and `/social/jami-studio.svg`, canonical metadata
+inspection for sampled routes, and Playwright render smoke at 1440px and 390px. Workstream 1 is
+quiet; proceed to Workstream 2.
+
 ## Workstream 2: Registry-Compatible Token And Dial Foundation
 
 Goal: Create the shared token/configuration engine that design branches use and the future Studio UI Registry can adopt.
@@ -447,9 +455,22 @@ Suggested verification:
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
   verification scripts, neutral route shell, `.gitignore`/`.env.example`, framework/deploy
   decision docs, and Workstream 1 roadmap/doc parity only. Active workstreams: Workstream 1 only.
-  Next coordinator action: poll in short intervals until terminal result, then log result under
-  `docs/engineering/agents/orchestrator-logs/` and dispatch a fresh Workstream 1 pass 2 if pass 1
-  lands a commit.
+  Result 2026-06-06T13:33:39.1097901-04:00: completed and pushed commit
+  `06f435a7c6ce3e5a53ab315a2bca75d8ad55d52f` (`feat: establish marketing site foundation`).
+  Verification reported: `pnpm format:check`, `pnpm verify`, HTTP smoke, Playwright smoke at 1440px
+  and 390px, secret-pattern scan. Remaining dirty file reported and confirmed:
+  `docs/engineering/agents/goal.md`. Next coordinator action: dispatch fresh Workstream 1 pass 2.
+- [~] 2026-06-06T13:34:52.8107319-04:00 - Dispatched Workstream 1 pass 2 to subagent
+  `019e9e00-4aee-70e2-aee8-de59bfb91fed` (`Banach`). Ownership boundary: fresh-context
+  Workstream 1 audit/execute pass over pass-1 foundation, verification wiring, docs/roadmap parity,
+  and unsafe overreach/secret checks. Active workstreams: Workstream 1 only. Next coordinator action:
+  wait quietly, then log terminal result and gate Workstream 1 per the second-pass commit rules.
+  Result 2026-06-06: pass 2 found no code or config gaps. Verification passed: `pnpm lint`,
+  `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify`, `git diff --check`, tracked
+  secret-file scan, local HTTP/public-file smoke, canonical metadata inspection, and Playwright
+  desktop/mobile render smoke. Remaining pre-existing dirty file intentionally left unstaged:
+  `docs/engineering/agents/goal.md`. Next coordinator action: close Workstream 1 and dispatch
+  Workstream 2 when ready.
 
 ## Expansion Track
 
