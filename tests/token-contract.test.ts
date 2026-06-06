@@ -3,6 +3,7 @@ import { registryManifest } from "@/registry/manifest";
 import { inlineCssVariables, tokenCssVariables } from "@/tokens/css-vars";
 import {
   createTokenPresetFromDials,
+  directionCCommandPreset,
   dialDefinitions,
   neutralFoundationDials,
   neutralFoundationPreset
@@ -62,5 +63,16 @@ describe("token foundation", () => {
     });
     expect(registryManifest.ownership.foundationOwned).toContain("token schema");
     expect(registryManifest.items[0]?.branchMutable).toContain("color");
+  });
+
+  it("registers the Direction C command-center preset as branch-owned theme output", () => {
+    expect(validateTokenPreset(directionCCommandPreset).id).toBe("direction-c-command-center");
+    expect(directionCCommandPreset.color.background).toBe("#0d1110");
+    expect(directionCCommandPreset.registry.item).toBe(
+      "@jami-studio/theme/direction-c-command-center"
+    );
+    expect(registryManifest.items.map((item) => item.name)).toContain(
+      "@jami-studio/theme/direction-c-command-center"
+    );
   });
 });

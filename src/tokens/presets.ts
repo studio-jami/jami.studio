@@ -288,4 +288,105 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 }
 
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
-export const tokenPresets = [neutralFoundationPreset] as const;
+
+export const directionCCommandDials = validateThemeDials({
+  accent: "green",
+  contrast: 92,
+  warmth: 28,
+  density: 24,
+  radius: 4,
+  surfaceDepth: 82,
+  motion: 44
+});
+
+export const directionCCommandPreset = validateTokenPreset({
+  ...neutralFoundationPreset,
+  id: "direction-c-command-center",
+  name: "Direction C Command Center",
+  description: "An operational command-center preset for agent and OSS project routing surfaces.",
+  dials: directionCCommandDials,
+  color: {
+    background: "#0d1110",
+    foreground: "#eef4ef",
+    muted: "#16201d",
+    mutedForeground: "#91a39a",
+    panel: "#111815",
+    panelForeground: "#eef4ef",
+    border: "#26342f",
+    ring: "#49c981",
+    accent: "#49c981",
+    accentForeground: "#06110c"
+  },
+  typography: {
+    ...neutralFoundationPreset.typography,
+    sans: "Inter, ui-sans-serif, system-ui, sans-serif",
+    mono: "JetBrains Mono, ui-monospace, SFMono-Regular, Consolas, monospace",
+    display: "Inter Tight, Inter, ui-sans-serif, system-ui, sans-serif",
+    scale: {
+      xs: "0.75rem",
+      sm: "0.875rem",
+      base: "1rem",
+      lg: "1.125rem",
+      xl: "1.45rem",
+      hero: "clamp(3.5rem, 10vw, 8.5rem)"
+    },
+    lineHeight: {
+      tight: 0.94,
+      body: 1.55
+    }
+  },
+  spacing: {
+    density: "compact",
+    unit: "0.75rem",
+    control: "2.55rem",
+    section: "clamp(4rem, 8vw, 7rem)",
+    container: "min(1180px, calc(100vw - 2rem))"
+  },
+  radii: {
+    sm: "2px",
+    md: "4px",
+    lg: "6px",
+    pill: "999px"
+  },
+  surface: {
+    canvas: "#0d1110",
+    panel: "#111815",
+    panelRaised: "#151f1b",
+    overlay: "#192520",
+    inverse: "#eef4ef"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 0 rgb(255 255 255 / 0.05), 0 10px 24px rgb(0 0 0 / 0.22)",
+    md: "0 1px 0 rgb(255 255 255 / 0.06), 0 24px 70px rgb(0 0 0 / 0.38)"
+  },
+  motion: {
+    duration: "220ms",
+    durationFast: "130ms",
+    easing: "cubic-bezier(.16,1,.3,1)",
+    intensity: 44
+  },
+  logos: {
+    markShape: "frame",
+    wordmark: "jami.studio",
+    favicon: "/icon.svg"
+  },
+  registry: {
+    ...neutralFoundationPreset.registry,
+    item: "@jami-studio/theme/direction-c-command-center",
+    branchMutable: [
+      "dials",
+      "color",
+      "typography",
+      "spacing",
+      "radii",
+      "surface",
+      "elevation",
+      "motion",
+      "componentExpression",
+      "pageComposition"
+    ]
+  }
+});
+
+export const tokenPresets = [neutralFoundationPreset, directionCCommandPreset] as const;

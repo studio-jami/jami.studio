@@ -327,7 +327,7 @@ Implementation tasks:
 - [ ] Push all three design branches to the remote before substantial branch work starts.
 - [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
-- [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
+- [x] Build Direction C with its own token preset, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
 - [ ] Leave all three branches available for owner review until one is selected.
@@ -345,6 +345,18 @@ Suggested verification:
 - `pnpm verify`
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
+
+Direction C pass 1 closeout, 2026-06-06: `design/direction-c` was created from foundation commit
+`171b6a6a36d5e7107b3a37d77630d190f03276de`, pushed early, and completed as the operational
+command-center design branch. The branch keeps shared Workstream 1-3 content, route helpers,
+metadata, sitemap, robots, AI-ingestion files, and token schema intact while adding the
+`direction-c-command-center` branch token preset, command-center homepage, topology routing panel,
+visual project cards, `/projects` command index, and complete visual project detail pages over the
+centralized project registry. Verification passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`,
+`pnpm build`, `pnpm format:check`, `pnpm verify`, local HTTP smoke for `/`, `/projects`, every
+project route, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`, sampled canonical
+metadata inspection, and Playwright visual smoke at 1440px, 768px, and 390px. Workstream 4 remains
+open for design comparison, owner selection, and downstream merge/hardening.
 
 ## Workstream 5: Selected Direction Hardening
 

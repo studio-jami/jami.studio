@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
@@ -44,24 +45,46 @@ export default async function ProjectPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="section-heading">
-        <p className="meta">{project.subdomain}</p>
-        <h1>{project.name}</h1>
-        <p>{project.positioning}</p>
-        <div className="button-row">
-          {project.ctas.map((cta) => (
-            <a key={cta.href} className="button secondary" href={cta.href}>
-              {cta.label}
-            </a>
-          ))}
+      <header className="project-detail-hero">
+        <div className="section-heading command-panel">
+          <p className="meta">{project.subdomain}</p>
+          <h1>{project.name}</h1>
+          <p>{project.positioning}</p>
+          <div className="button-row">
+            {project.ctas.map((cta) => (
+              <a key={cta.href} className="button secondary" href={cta.href}>
+                {cta.label}
+              </a>
+            ))}
+          </div>
         </div>
+        <div className="project-visual-panel">
+          <Image src={project.socialImage} alt="" width={1200} height={630} priority />
+          <dl>
+            <div>
+              <dt>Route</dt>
+              <dd>{project.route}</dd>
+            </div>
+            <div>
+              <dt>Surface</dt>
+              <dd>{project.subdomain}</dd>
+            </div>
+          </dl>
+        </div>
+      </header>
+
+      <div className="project-brief">
+        <span>
+          <strong>Audience</strong>
+          <small>{project.audience}</small>
+        </span>
+        <span>
+          <strong>AI summary</strong>
+          <small>{project.aiSummary}</small>
+        </span>
       </div>
 
       <div className="detail-grid">
-        <section>
-          <h2>Who it serves</h2>
-          <p>{project.audience}</p>
-        </section>
         <section>
           <h2>Link contract</h2>
           <dl>
@@ -75,9 +98,6 @@ export default async function ProjectPage({ params }: PageProps) {
             ))}
           </dl>
         </section>
-      </div>
-
-      <div className="detail-grid">
         <section>
           <h2>Capabilities</h2>
           <ul>
@@ -86,6 +106,9 @@ export default async function ProjectPage({ params }: PageProps) {
             ))}
           </ul>
         </section>
+      </div>
+
+      <div className="detail-grid">
         <section>
           <h2>Proof posture</h2>
           <ul>
@@ -93,6 +116,14 @@ export default async function ProjectPage({ params }: PageProps) {
               <li key={item}>{item}</li>
             ))}
           </ul>
+        </section>
+        <section>
+          <h2>Marketing boundary</h2>
+          <p>
+            This page presents the public route, source links, positioning, and AI-readable
+            description for {project.shortName}. The product runtime remains owned by its separate
+            implementation surface.
+          </p>
         </section>
       </div>
     </article>

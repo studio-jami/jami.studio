@@ -77,6 +77,20 @@ The foundation-owned contract is the schema, validation, CSS variable export, co
 
 The neutral foundation preset is not the final brand. It exists so branches can prove that a token preset can be generated from dials and applied site-wide without rewriting the shared schema, route model, content registry, metadata helpers, sitemap, robots, or AI-file generation.
 
+## Direction C Branch Output
+
+The `design/direction-c` branch defines `direction-c-command-center` in
+`src/tokens/presets.ts` as a branch-owned command-center theme preset. The preset keeps the shared
+schema, validation, CSS variable export, registry manifest, route helpers, metadata helpers,
+sitemap, robots, and AI-file pipeline intact while changing color values, density, radius, surface
+depth, typography scale, elevation, motion, component expression, homepage composition, project
+index composition, and project-detail composition.
+
+Direction C's reusable section language is operational and project-routing oriented: command
+panels, topology nodes, signal boards, registry-ready project cards, visual social-image panels, and
+compact link-contract sections. These are comparison-branch outputs, not a selected final brand
+until a later hardening stream promotes one direction.
+
 ## Branch Rules
 
 Each design branch must:
