@@ -252,6 +252,7 @@ Repo guidance:
 
 - Do not branch before the shared seams are stable. Each design branch must keep the same content registry, route helpers, metadata helpers, sitemap, robots, AI-file generation, tests, and public route contract.
 - Each branch can choose its own token preset, colors, density, surface treatment, component styling, and page/block composition within the shared token/dial contract.
+- Run the three design branches in parallel from the same foundation commit. Use separate branches or worktrees, push every branch to the remote early, keep them isolated, and do not merge any direction into `main` until the owner selects one.
 - Prefer local branch/worktree review first. Use Vercel preview deploys only if comparing in browser locally is not enough or if remote review is useful.
 - Keep each branch production-intent complete: homepage, project pages, responsive states, accessibility, and verification should all work in that branch. Branches may tune page composition and visual hierarchy, but must not fork the metadata or generated-file machinery.
 
@@ -266,11 +267,13 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
+- [ ] Push all three design branches to the remote before substantial branch work starts.
 - [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
 - [ ] Capture local URLs or preview URLs and concise notes for comparison.
+- [ ] Leave all three branches available for owner review until one is selected.
 - [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
 
 Exit criteria:
