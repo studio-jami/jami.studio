@@ -325,7 +325,7 @@ Implementation tasks:
 
 - [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
 - [ ] Push all three design branches to the remote before substantial branch work starts.
-- [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
+- [x] Build Direction A with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
 - [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
 - [ ] Run the same verification and visual smoke for all three directions.
@@ -345,6 +345,24 @@ Suggested verification:
 - `pnpm verify`
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
+
+Direction A pass 1 closeout, 2026-06-06: `design/direction-a` was created from
+foundation commit `171b6a6a36d5e7107b3a37d77630d190f03276de` and pushed before
+substantial work. The branch now applies `directionASystemsPreset` through the
+shared token/dial contract and builds a quiet high-credibility OSS systems site:
+homepage project map, source-owned proof band, asset-backed project cards,
+featured Intercal band, dense `/projects` registry index, and reusable project
+detail pages for every centralized project. Shared Workstream 1-3 content,
+routes, metadata, sitemap, robots, AI-ingestion files, and validation tests were
+kept intact. Verification passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`,
+`pnpm build`, `pnpm verify`, targeted Prettier check for changed files,
+`git diff --check`, HTTP smoke for `/`, `/projects`, `/projects/harness`,
+`/projects/intercal`, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
+`/llms-full.txt`, canonical metadata inspection for `/`, `/projects`, and
+`/projects/intercal`, and Playwright CLI visual smoke at 1440px desktop and
+390px mobile with zero console warnings or errors. Full-repo `pnpm format:check`
+was not used as the closeout gate because this separate Windows worktree reports
+line-ending drift across untouched files; changed files were checked directly.
 
 ## Workstream 5: Selected Direction Hardening
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
@@ -39,25 +40,30 @@ export default async function ProjectPage({ params }: PageProps) {
   const linkTargets = projectLinkTargets(project);
 
   return (
-    <article className="section project-detail">
+    <article className="project-detail">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="section-heading">
-        <p className="meta">{project.subdomain}</p>
-        <h1>{project.name}</h1>
-        <p>{project.positioning}</p>
-        <div className="button-row">
-          {project.ctas.map((cta) => (
-            <a key={cta.href} className="button secondary" href={cta.href}>
-              {cta.label}
-            </a>
-          ))}
+      <section className="section project-hero">
+        <div className="section-heading">
+          <p className="meta">{project.subdomain}</p>
+          <h1>{project.name}</h1>
+          <p>{project.positioning}</p>
+          <div className="button-row">
+            {project.ctas.map((cta) => (
+              <a key={cta.href} className="button secondary" href={cta.href}>
+                {cta.label}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+        <div className="project-asset" aria-hidden="true">
+          <Image src={project.socialImage} alt="" width={1200} height={630} priority />
+        </div>
+      </section>
 
-      <div className="detail-grid">
+      <section className="section detail-grid">
         <section>
           <h2>Who it serves</h2>
           <p>{project.audience}</p>
@@ -75,9 +81,9 @@ export default async function ProjectPage({ params }: PageProps) {
             ))}
           </dl>
         </section>
-      </div>
+      </section>
 
-      <div className="detail-grid">
+      <section className="section detail-grid">
         <section>
           <h2>Capabilities</h2>
           <ul>
@@ -94,7 +100,7 @@ export default async function ProjectPage({ params }: PageProps) {
             ))}
           </ul>
         </section>
-      </div>
+      </section>
     </article>
   );
 }

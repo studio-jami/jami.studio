@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
-import { neutralFoundationPreset } from "@/tokens/presets";
+import { directionASystemsPreset } from "@/tokens/presets";
 import { inlineCssVariables } from "@/tokens/css-vars";
 import "@/styles/globals.css";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = createMetadata({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const themeVars = inlineCssVariables(neutralFoundationPreset);
+  const themeVars = inlineCssVariables(directionASystemsPreset);
 
   return (
     <html lang="en">

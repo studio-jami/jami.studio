@@ -87,6 +87,19 @@ Each design branch must:
 - Avoid hardcoded one-off styling where a token role or dial belongs.
 - Keep shared content, routes, metadata, sitemap, robots, and AI-file generation untouched unless a real bug is found.
 
+## Direction A Branch Note
+
+The `design/direction-a` branch defines `directionASystemsPreset` in
+`src/tokens/presets.ts` and applies it from `src/app/layout.tsx`. The preset is
+branch-owned: it changes color values, density, radii, surface depth, elevation,
+and mark shape while preserving the shared schema, validation, CSS variable
+export, content registry, route helpers, metadata helpers, sitemap, robots, and
+AI-file generation.
+
+Direction A's page composition is owned by the branch as well. It keeps project
+copy and links in `src/content/`, then renders a denser OSS systems homepage,
+project index, and reusable project detail route over that centralized data.
+
 ## Promotion Rules
 
 After a design direction is selected:

@@ -288,4 +288,82 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 }
 
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
-export const tokenPresets = [neutralFoundationPreset] as const;
+
+export const directionADials = validateThemeDials({
+  accent: "cyan",
+  contrast: 92,
+  warmth: 22,
+  density: 36,
+  radius: 6,
+  surfaceDepth: 64,
+  motion: 24
+});
+
+const directionABasePreset = createTokenPresetFromDials(directionADials);
+
+export const directionASystemsPreset = validateTokenPreset({
+  ...directionABasePreset,
+  id: "direction-a-systems",
+  name: "Direction A Systems",
+  description:
+    "A quiet high-credibility OSS systems preset with precise neutrals and a sharp teal accent.",
+  color: {
+    ...directionABasePreset.color,
+    background: "#f4f5f2",
+    foreground: "#111512",
+    muted: "#e4e7e1",
+    mutedForeground: "#56615b",
+    panel: "#fcfdf9",
+    panelForeground: "#111512",
+    border: "#cfd6cf",
+    ring: "#0da89b",
+    accent: "#007f73",
+    accentForeground: "#f7fffb"
+  },
+  surface: {
+    canvas: "#f4f5f2",
+    panel: "#fcfdf9",
+    panelRaised: "#ffffff",
+    overlay: "#f8faf4",
+    inverse: "#111512"
+  },
+  typography: {
+    ...directionABasePreset.typography,
+    sans: "Inter, ui-sans-serif, system-ui, sans-serif",
+    mono: "JetBrains Mono, ui-monospace, SFMono-Regular, Consolas, monospace",
+    display: "Inter Tight, Inter, ui-sans-serif, system-ui, sans-serif",
+    lineHeight: {
+      tight: 0.94,
+      body: 1.56
+    }
+  },
+  spacing: {
+    ...directionABasePreset.spacing,
+    density: "compact",
+    unit: "0.875rem",
+    control: "2.5rem",
+    section: "clamp(4.5rem, 8vw, 7.5rem)",
+    container: "min(1180px, calc(100vw - 2rem))"
+  },
+  radii: {
+    sm: "3px",
+    md: "6px",
+    lg: "8px",
+    pill: "999px"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 2px rgb(17 21 18 / 0.07)",
+    md: "0 18px 46px rgb(17 21 18 / 0.12)"
+  },
+  logos: {
+    ...directionABasePreset.logos,
+    markShape: "frame"
+  },
+  registry: {
+    ...directionABasePreset.registry,
+    item: "@jami-studio/theme/direction-a-systems"
+  }
+});
+
+export const tokenPresets = [neutralFoundationPreset, directionASystemsPreset] as const;
