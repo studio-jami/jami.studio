@@ -70,6 +70,6 @@ Visual smoke (Playwright Chromium, local production server):
 
 ## Commit / push
 
-- Commit: `500c5b30c094043c60cef815780553f97de2a5d2`
+- Commit: `3a5528760745eb95ed4905a6f7b2075c2c678afe`
 - Subject: `polish(design): elevate Obsidian Atlas rerun-a pass 2`
-- Push: `origin/design/rerun-a` updated (`ece3d4c..500c5b3`)
+- Push: `origin/design/rerun-a` updated (`ece3d4c..3a55287`)
