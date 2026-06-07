@@ -1,11 +1,32 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
+import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { AtlasFooter } from "@/components/rerun-a/atlas-footer";
+import { AtlasHeader } from "@/components/rerun-a/atlas-header";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
-import { neutralFoundationPreset } from "@/tokens/presets";
 import { inlineCssVariables } from "@/tokens/css-vars";
+import { rerunAObsidianAtlasPreset } from "@/tokens/presets";
 import "@/styles/globals.css";
+import "@/styles/direction-rerun-a.css";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display-stack",
+  display: "swap"
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans-stack",
+  display: "swap"
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono-stack",
+  display: "swap"
+});
 
 export const metadata: Metadata = createMetadata({
   title: site.name,
@@ -14,10 +35,14 @@ export const metadata: Metadata = createMetadata({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const themeVars = inlineCssVariables(neutralFoundationPreset);
+  const themeVars = inlineCssVariables(rerunAObsidianAtlasPreset);
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      data-direction="rerun-a"
+      className={`${fraunces.variable} ${dmSans.variable} ${ibmPlexMono.variable}`}
+    >
       <head>
         <style>{`:root {${themeVars}}`}</style>
       </head>
@@ -26,9 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SiteHeader />
+        <AtlasHeader />
         <main>{children}</main>
-        <SiteFooter />
+        <AtlasFooter />
       </body>
     </html>
   );
