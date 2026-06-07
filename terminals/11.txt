@@ -1,0 +1,11 @@
+---
+pid: 6084
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "Set-Location \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-b\"; node ./node_modules/next/dist/bin/next start --port 3118 -H 127.0.0.1"
+started_at: 2026-06-07T02:58:34.825Z
+running_for_ms: 254989   
+---
+▲ Next.js 16.2.7
+- Local:         http://127.0.0.1:3118
+- Network:       http://127.0.0.1:3118
+✓ Ready in 334ms

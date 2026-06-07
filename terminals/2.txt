@@ -1,0 +1,8 @@
+---
+pid: 32452
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "Set-Location \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-a\"; $env:PORT=\"3108\"; pnpm start"
+started_at: 2026-06-07T02:52:33.479Z
+running_for_ms: 639989   
+---
+

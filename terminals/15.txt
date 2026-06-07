@@ -1,0 +1,11 @@
+---
+pid: 7548
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "cmd /c \"cd /d C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-a && node node_modules\\next\\dist\\bin\\next start -p 3111\""
+started_at: 2026-06-07T03:20:46.698Z
+running_for_ms: 159997   
+---
+▲ Next.js 16.2.7
+- Local:         http://localhost:3111
+- Network:       http://169.254.83.107:3111
+✓ Ready in 329ms

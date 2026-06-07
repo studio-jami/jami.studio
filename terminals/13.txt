@@ -1,0 +1,12 @@
+---
+pid: 18136
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "cmd /c \"cd /d C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-c && set PORT=3456 && pnpm start\""
+started_at: 2026-06-07T03:09:13.133Z
+running_for_ms: 55004    
+---
+
+> jami-studio-site@0.1.0 start C:\Users\james\dev\orgs\oss\jami.studio-rerun-c
+> next start
+
+

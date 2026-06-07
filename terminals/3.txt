@@ -1,0 +1,12 @@
+---
+pid: 20300
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio-rerun-a"
+command: "Set-Location \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-a\"; npx next start -p 3109"
+started_at: 2026-06-07T02:53:22.989Z
+running_for_ms: 590002   
+---
+ParserError: 
+Line |
+   1 |  . et-Location "C:\Users\james\dev\orgs\oss\jami.studio-rerun-a"; npx ne .
+     |                                                                 ~
+     | Missing closing ')' in expression.

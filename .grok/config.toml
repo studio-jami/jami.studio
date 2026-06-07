@@ -1,0 +1,38 @@
+[features]
+goals = true
+goal = true
+goal_tracking = true
+autonomous_goals = true
+experimental_goals = true
+todo_gate_enabled = true
+
+[goals]
+enabled = true
+
+[goal]
+enabled = true
+
+[session]
+todo_gate = true
+goal_enabled = true
+
+# Project-level override to force goal feature on for this workspace
+# This should make /goal available and register the GoalUpdateHandle
+
+[features]
+goals = true
+goal = true
+goal_tracking = true
+autonomous_goals = true
+experimental_goals = true
+todo_gate_enabled = true
+
+[goals]
+enabled = true
+
+[goal]
+enabled = true
+
+[session]
+todo_gate = true
+goal_enabled = true

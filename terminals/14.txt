@@ -1,0 +1,8 @@
+---
+pid: 28044
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "cd \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-a\" && npx next start -p 3111"
+started_at: 2026-06-07T03:20:06.213Z
+running_for_ms: 200002   
+---
+

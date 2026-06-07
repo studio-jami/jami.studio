@@ -1,0 +1,8 @@
+---
+pid: 23480
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "cd \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-b\" && pnpm dev --port 3117"
+started_at: 2026-06-07T02:52:28.540Z
+running_for_ms: 619994   
+---
+

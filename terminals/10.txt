@@ -1,0 +1,7 @@
+---
+pid: 18524
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio-rerun-a"
+command: "node ./node_modules/next/dist/bin/next start -p 3111"
+started_at: 2026-06-07T02:58:25.142Z
+running_for_ms: 285006   
+---

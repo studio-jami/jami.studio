@@ -1,0 +1,9 @@
+---
+pid: 15528
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio"
+command: "cd \"C:\\Users\\james\\dev\\orgs\\oss\\jami.studio-rerun-b\" && npx next start --port 3117 -H 127.0.0.1 2>&1"
+started_at: 2026-06-07T02:53:56.948Z
+running_for_ms: 520012   
+---
+npm warn exec The following package was not found and will be installed: next@16.2.7
+

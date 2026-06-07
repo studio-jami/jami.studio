@@ -1,0 +1,8 @@
+---
+pid: 30260
+cwd: "C:\Users\james\dev\orgs\oss\jami.studio-rerun-a"
+command: "npx next start -p 3110"
+started_at: 2026-06-07T02:55:49.761Z
+running_for_ms: 439994   
+---
+
