@@ -36,12 +36,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <style>{`:root {${themeVars}}`}</style>
       </head>
       <body className="lg-body">
+        <a href="#main-content" className="lg-skip-link">
+          Skip to main content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <LuminousHeader />
-        <main className="lg-main">{children}</main>
+        <main id="main-content" className="lg-main">
+          {children}
+        </main>
         <LuminousFooter />
       </body>
     </html>

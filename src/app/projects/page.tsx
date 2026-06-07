@@ -21,7 +21,7 @@ export default function ProjectsPage() {
           registry.
         </p>
       </section>
-      <section className="lg-section" style={{ paddingTop: 0 }}>
+      <section className="lg-section lg-section--flush-top">
         <div className="lg-project-grid">
           {projects.map((project) => (
             <LuminousProjectCard key={project.slug} project={project} />

@@ -27,12 +27,14 @@ export function LuminousHeader() {
             const isActive =
               isInternal &&
               (pathname === item.href || pathname.startsWith(`${item.href}/`));
+            const isExternal = !isInternal;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={isActive ? "lg-nav-link lg-nav-link--active" : "lg-nav-link"}
                 {...(isActive ? { "aria-current": "page" as const } : {})}
+                {...(isExternal ? { rel: "noopener noreferrer", target: "_blank" } : {})}
               >
                 {item.label}
               </Link>

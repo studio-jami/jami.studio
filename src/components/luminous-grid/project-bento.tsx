@@ -21,15 +21,21 @@ export function ProjectBento({
           <p className="lg-lead">{project.positioning}</p>
         </div>
         <div className="lg-button-row">
-          {project.ctas.map((cta) => (
-            <a
-              key={cta.href}
-              href={cta.href}
-              className={cta.kind === "primary" ? "lg-button lg-button--primary" : "lg-button lg-button--secondary"}
-            >
-              {cta.label}
-            </a>
-          ))}
+          {project.ctas.map((cta) => {
+            const isExternal = cta.href.startsWith("http");
+            return (
+              <a
+                key={cta.href}
+                href={cta.href}
+                className={
+                  cta.kind === "primary" ? "lg-button lg-button--primary" : "lg-button lg-button--secondary"
+                }
+                {...(isExternal ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+              >
+                {cta.label}
+              </a>
+            );
+          })}
         </div>
       </section>
 
@@ -50,7 +56,14 @@ export function ProjectBento({
             <div key={target.label}>
               <dt>{target.label}</dt>
               <dd>
-                <a href={target.href}>{target.value}</a>
+                <a
+                  href={target.href}
+                  {...(target.href.startsWith("http")
+                    ? { rel: "noopener noreferrer", target: "_blank" }
+                    : {})}
+                >
+                  {target.value}
+                </a>
               </dd>
             </div>
           ))}

@@ -9,11 +9,19 @@ export function LuminousFooter() {
           <p>{site.description}</p>
         </div>
         <nav className="lg-footer-nav" aria-label="Footer navigation">
-          {site.footerLinks.map((item) => (
-            <a key={item.href} href={item.href} className="lg-footer-link">
-              {item.label}
-            </a>
-          ))}
+          {site.footerLinks.map((item) => {
+            const isExternal = item.href.startsWith("http");
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className="lg-footer-link"
+                {...(isExternal ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
       </div>
       <div className="lg-footer-meta">
