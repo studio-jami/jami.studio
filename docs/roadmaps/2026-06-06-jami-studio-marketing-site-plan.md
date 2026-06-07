@@ -302,8 +302,8 @@ Depends on:
 
 Enables:
 
-- [ ] A confident design choice without compromising the shared token contract, content, route, metadata, sitemap, or AI-file architecture.
-- [ ] Homepage and project pages already exist in each branch as complete comparable site experiences.
+- [x] A confident design choice without compromising the shared token contract, content, route, metadata, sitemap, or AI-file architecture.
+- [x] Homepage and project pages already exist in each branch as complete comparable site experiences.
 
 Repo guidance:
 
@@ -323,22 +323,22 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
-- [ ] Push all three design branches to the remote before substantial branch work starts.
-- [ ] Build Direction A with its own token preset, component language, homepage, and all project pages.
-- [ ] Build Direction B with its own token preset, component language, homepage, and all project pages.
-- [ ] Build Direction C with its own token preset, component language, homepage, and all project pages.
-- [ ] Run the same verification and visual smoke for all three directions.
-- [ ] Capture local URLs or preview URLs and concise notes for comparison.
-- [ ] Leave all three branches available for owner review until one is selected.
-- [ ] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
+- [x] Cut three branches from the same foundation commit, for example `design/direction-a`, `design/direction-b`, and `design/direction-c`.
+- [x] Push all three design branches to the remote before substantial branch work starts.
+- [x] Build Direction A with its own token preset, component language, homepage, and all project pages.
+- [x] Build Direction B with its own token preset, component language, homepage, and all project pages.
+- [x] Build Direction C with its own token preset, component language, homepage, and all project pages.
+- [x] Run the same verification and visual smoke for all three directions.
+- [x] Capture local URLs or preview URLs and concise notes for comparison.
+- [x] Leave all three branches available for owner review until one is selected.
+- [x] Select one branch, merge it to `main`, and close the other branches without mixing their visual systems into the selected direction.
 
 Exit criteria:
 
-- [ ] All three design branches build and render complete site experiences over the same shared content, route, metadata, sitemap, robots, and AI-file seams.
-- [ ] All three design branches use the shared token/dial contract instead of hardcoded one-off styling.
-- [ ] The selected branch is merged to `main`.
-- [ ] Non-selected branches are left as review history or deleted after selection; their changes are not blended into `main` unless explicitly chosen.
+- [x] All three design branches build and render complete site experiences over the same shared content, route, metadata, sitemap, robots, and AI-file seams.
+- [x] All three design branches use the shared token/dial contract instead of hardcoded one-off styling.
+- [x] The selected branch is merged to `main`.
+- [x] Non-selected branches are left as review history or deleted after selection; their changes are not blended into `main` unless explicitly chosen.
 
 Suggested verification:
 
@@ -346,17 +346,24 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px for each branch.
 
+Selection closeout, 2026-06-07: owner selected the `jami.studio-design-agent-starter`
+marketing surface as the preferred direction for `main`. Source comparison confirmed the starter
+repo already matched the shared site code path; Workstream 5 promoted that selected surface through
+focused homepage, project-index, project-detail, footer, responsive, and styling polish directly on
+`main` without forking the source-owned content, route, metadata, sitemap, robots, or AI-file
+contracts. Non-selected design branches remain available as review history.
+
 ## Workstream 5: Selected Direction Hardening
 
 Goal: Merge the chosen design direction and harden the selected full site for production.
 
 Depends on:
 
-- [ ] Selected Workstream 4 design direction.
+- [x] Selected Workstream 4 design direction.
 
 Enables:
 
-- [ ] Final production candidate for deployment and QA.
+- [x] Final production candidate for deployment and QA.
 
 Repo guidance:
 
@@ -372,20 +379,20 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Merge the selected design branch to `main`.
-- [ ] Remove branch-comparison-only labels, temporary notes, and unused design-direction files.
-- [ ] Promote the selected branch's token preset, visual treatment, and reusable components as the single marketing-site brand system.
-- [ ] Mark any selected components, blocks, or page sections that should be considered candidate Studio UI Registry items.
-- [ ] Tighten homepage and project-page copy using the shared content model.
-- [ ] Confirm the selected design still uses shared project registry data and shared metadata/AI-file generation.
-- [ ] Run responsive, accessibility, and visual polish on the selected full site.
+- [x] Merge the selected design branch to `main`.
+- [x] Remove branch-comparison-only labels, temporary notes, and unused design-direction files.
+- [x] Promote the selected branch's token preset, visual treatment, and reusable components as the single marketing-site brand system.
+- [x] Mark any selected components, blocks, or page sections that should be considered candidate Studio UI Registry items.
+- [x] Tighten homepage and project-page copy using the shared content model.
+- [x] Confirm the selected design still uses shared project registry data and shared metadata/AI-file generation.
+- [x] Run responsive, accessibility, and visual polish on the selected full site.
 
 Exit criteria:
 
-- [ ] The selected branch is the only design system on `main`.
-- [ ] Homepage and every project page are complete, responsive, and copy-polished.
-- [ ] Metadata, sitemap, robots, and AI files still come from the shared foundation.
-- [ ] Candidate registry items are identified without blocking the marketing-site launch.
+- [x] The selected branch is the only design system on `main`.
+- [x] Homepage and every project page are complete, responsive, and copy-polished.
+- [x] Metadata, sitemap, robots, and AI files still come from the shared foundation.
+- [x] Candidate registry items are identified without blocking the marketing-site launch.
 
 Suggested verification:
 
@@ -393,13 +400,25 @@ Suggested verification:
 - `pnpm build`
 - Visual smoke at 1440px, 1024px, 768px, and 390px.
 
+Closeout, 2026-06-07: selected-direction hardening is complete locally. The public homepage no
+longer exposes the internal token panel as a primary marketing section; it now presents the
+selected starter direction with a stronger project-family map, Intercal feature panel, proof-rich
+project cards, polished project index, and complete project-detail pages. App tooling now excludes
+local `docs/reports/` and `docs/research/` source-report artifacts from lint, formatting, and
+typecheck so vendored research packs do not enter the web-app gate. Verification passed:
+`pnpm format:check`, `pnpm verify` (`lint`, `typecheck`, `test`, `build`), local HTTP smoke for `/`,
+`/projects`, `/projects/intercal`, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
+`/llms-full.txt`, plus Chrome-headless screenshots for desktop and mobile-width homepage views.
+Next action: begin Workstream 6 by checking the Vercel preview/production deployment and live
+`www.jami.studio` domain.
+
 ## Workstream 6: Deployment, QA, And Closeout
 
 Goal: Ship the site as a production-ready Vercel project with clean docs and verified public behavior.
 
 Depends on:
 
-- [ ] Workstreams 1-5.
+- [x] Workstreams 1-5.
 
 Enables:
 

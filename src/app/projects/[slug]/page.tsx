@@ -44,42 +44,50 @@ export default async function ProjectPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="section-heading">
-        <p className="meta">{project.subdomain}</p>
-        <h1>{project.name}</h1>
-        <p>{project.positioning}</p>
-        <div className="button-row">
-          {project.ctas.map((cta) => (
-            <a key={cta.href} className="button secondary" href={cta.href}>
-              {cta.label}
+      <div className="project-hero">
+        <div className="section-heading">
+          <p className="meta">{project.subdomain}</p>
+          <h1>{project.name}</h1>
+          <p>{project.positioning}</p>
+          <div className="button-row">
+            {project.ctas.map((cta, index) => (
+              <a
+                key={cta.href}
+                className={`button ${index === 0 ? "primary" : "secondary"}`}
+                href={cta.href}
+              >
+                {cta.label}
+              </a>
+            ))}
+          </div>
+        </div>
+        <aside className="project-facts" aria-label={`${project.name} public links`}>
+          {linkTargets.map((target) => (
+            <a key={target.label} href={target.href}>
+              <span>{target.label}</span>
+              <strong>{target.value}</strong>
             </a>
           ))}
-        </div>
+        </aside>
       </div>
 
-      <div className="detail-grid">
+      <div className="detail-grid project-overview">
         <section>
+          <p className="meta">Audience</p>
           <h2>Who it serves</h2>
           <p>{project.audience}</p>
         </section>
         <section>
-          <h2>Link contract</h2>
-          <dl>
-            {linkTargets.map((target) => (
-              <div key={target.label}>
-                <dt>{target.label}</dt>
-                <dd>
-                  <a href={target.href}>{target.value}</a>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <p className="meta">AI summary</p>
+          <h2>Agent-readable shape</h2>
+          <p>{project.aiSummary}</p>
         </section>
       </div>
 
       <div className="detail-grid">
         <section>
-          <h2>Capabilities</h2>
+          <p className="meta">Capabilities</p>
+          <h2>What it provides</h2>
           <ul>
             {project.capabilities.map((item) => (
               <li key={item}>{item}</li>
@@ -87,7 +95,8 @@ export default async function ProjectPage({ params }: PageProps) {
           </ul>
         </section>
         <section>
-          <h2>Proof posture</h2>
+          <p className="meta">Proof posture</p>
+          <h2>Why the boundary holds</h2>
           <ul>
             {project.proofPoints.map((item) => (
               <li key={item}>{item}</li>

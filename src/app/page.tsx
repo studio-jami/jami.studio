@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { ConfigPanel } from "@/components/config-panel/config-panel";
 import { ProjectCard } from "@/components/marketing/project-card";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
+  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
+
   return (
     <>
       <section className="hero">
@@ -23,6 +24,11 @@ export default function HomePage() {
           </div>
         </div>
         <div className="system-map" aria-label="Studio project family map">
+          <div className="map-orbit" aria-hidden="true">
+            <span>runtime</span>
+            <span>interface</span>
+            <span>memory</span>
+          </div>
           {projects.map((project) => (
             <Link key={project.slug} href={projectPath(project)}>
               <span>{project.shortName}</span>
@@ -32,12 +38,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section split-section">
         <div className="section-heading">
           <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces</h2>
+          <h2>One public hub, separate implementation surfaces.</h2>
           <p>{site.home.proof}</p>
         </div>
+        <div className="feature-panel">
+          <p className="meta">Live integration</p>
+          <h3>{featuredProject.name}</h3>
+          <p>{featuredProject.positioning}</p>
+          <Link className="text-link" href={projectPath(featuredProject)}>
+            Explore {featuredProject.shortName}
+          </Link>
+        </div>
+      </section>
+
+      <section className="section">
         <div className="project-grid">
           {projects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
@@ -68,8 +85,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      <ConfigPanel />
     </>
   );
 }

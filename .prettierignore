@@ -6,3 +6,8 @@ build/
 out/
 pnpm-lock.yaml
 tsconfig.tsbuildinfo
+mcps/
+terminals/
+tmp-next-start.*.log
+docs/reports/
+docs/research/

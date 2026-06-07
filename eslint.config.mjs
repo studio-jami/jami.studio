@@ -11,6 +11,8 @@ const eslintConfig = [
       "references/**",
       "yrka/**",
       "_legacy/**",
+      "docs/reports/**",
+      "docs/research/**",
       "coverage/**",
       "dist/**"
     ]

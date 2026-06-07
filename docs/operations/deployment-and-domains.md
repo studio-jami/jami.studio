@@ -48,6 +48,11 @@ When the web app is scaffolded, add and verify:
 - Vercel framework preset: Next.js.
 - Output mode: Vercel-managed Next.js build; no static export or standalone self-hosting mode is
   configured.
+- Selected public design: design-agent-starter direction promoted to `main` on
+  2026-06-07.
+- Current local deploy candidate verification: `pnpm format:check`, `pnpm verify`, local HTTP smoke
+  for `/`, `/projects`, `/projects/intercal`, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
+  `/llms-full.txt`, plus Chrome-headless desktop and mobile-width screenshot smoke.
 
 ## Environment Variables
 
@@ -64,7 +69,8 @@ store.
 
 ## Domain Mapping Checklist
 
-- Map `www.jami.studio` to the marketing site project.
+- Map `www.jami.studio` to the marketing site project. Owner reported this domain is configured in
+  Vercel as of 2026-06-07; live deploy validation is the next Workstream 6 action.
 - Redirect `jami.studio` to `www.jami.studio`.
 - Keep product subdomains owned through centralized project metadata.
 - Route `intercal.jami.studio` to the Intercal product surface.

@@ -14,6 +14,9 @@ export function SiteFooter() {
           </a>
         ))}
       </nav>
+      <p className="footer-note">
+        Canonical public surface for developers, agents, and the Studio project family.
+      </p>
     </footer>
   );
 }

@@ -11,21 +11,24 @@ export const metadata: Metadata = createMetadata({
 
 export default function ProjectsPage() {
   return (
-    <section className="section page-hero">
-      <div className="section-heading">
-        <p className="meta">Studio OSS family</p>
-        <h1>Projects</h1>
-        <p>
-          The Studio family is modeled as separate products over shared foundations. This site keeps
-          their public routes, repositories, docs, APIs, and AI summaries in one source-owned
-          registry.
-        </p>
-      </div>
-      <div className="project-grid">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </div>
-    </section>
+    <>
+      <section className="section page-hero">
+        <div className="section-heading">
+          <p className="meta">Studio OSS family</p>
+          <h1>Projects</h1>
+          <p>
+            Separate products over shared foundations: governed agents, trusted UI, coordination,
+            temporal knowledge, and open agent society.
+          </p>
+        </div>
+      </section>
+      <section className="section project-index">
+        <div className="project-grid">
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

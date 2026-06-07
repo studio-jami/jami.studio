@@ -56,9 +56,24 @@ plus site-owned variables for surface depth, spacing, typography, radii, and
 motion. The internal configuration panel renders the available dials and token
 output from the same contract.
 
-Design branches may change token values, component expression, and page
+The selected public surface is the design-agent-starter direction promoted on
+2026-06-07. It keeps the registry-compatible token plumbing and uses the shared
+content registry for the homepage, project index, and project-detail pages. The
+internal configuration panel remains available as a source component and
+registry-readiness surface, but it is not presented as a primary public
+homepage section.
+
+Future visual changes may tune token values, component expression, and page
 composition. They should not fork the content registry, route helpers, metadata
 helpers, sitemap, robots, or AI-file generation without a real source-owned bug.
+
+## Tooling Boundary
+
+Source reports and research artifacts can exist under `docs/reports/` and
+`docs/research/`, including vendored research packs. They are not web-app source
+and are excluded from TypeScript, ESLint, and Prettier gates. Durable product,
+architecture, operations, and decision docs remain under the documented docs
+owners and continue to be reviewed as first-class project context.
 
 ## Runtime Boundary
 
