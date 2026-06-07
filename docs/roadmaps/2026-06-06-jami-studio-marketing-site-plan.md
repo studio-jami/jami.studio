@@ -592,6 +592,16 @@ Suggested verification:
   `784ddf2b87cac1511469572587ac01105b79b8af`: numeric gate passed (6 files, 114 insertions,
   44 deletions), character classified as C - tests plus narrow content/metadata cleanup.
   Workstream 3 is closed. Next coordinator action: dispatch Workstream 4 pass 1.
+- [x] 2026-06-06 - Workstream 4 Direction C pass 2 completed from live branch state at
+  `cc2afdc4803fa3d89a3e5299229e85761efba511`. Audit confirmed the branch consumes the shared
+  project registry, route helpers, metadata helpers, sitemap, robots, AI files, and
+  `directionCCommandPreset` token contract. Follow-up fixes tightened mobile shrink behavior for
+  panels, project/social images, and the homepage brand heading, and replaced a project-index metric
+  with less status-like public copy. Verification passed: `pnpm format:check`, `pnpm verify`,
+  `git diff --check`, HTTP smoke for `/`, `/projects`, all five project pages, generated public
+  files, and CDP viewport smoke at 1440px, 1024px, 768px, and 390px across all seven route surfaces
+  with zero horizontal overflow. Next coordinator action: compare Direction C against the other
+  design-direction pass-2 outputs when they are available.
 
 ## Expansion Track
 

@@ -32,8 +32,8 @@ export default function ProjectsPage() {
             <small>hub registry</small>
           </span>
           <span>
-            <strong>0</strong>
-            <small>component link forks</small>
+            <strong>1</strong>
+            <small>link contract</small>
           </span>
         </div>
       </section>
