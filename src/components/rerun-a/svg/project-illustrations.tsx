@@ -1,171 +1,239 @@
 import type { ReactNode } from "react";
 import type { ProjectSlug } from "@/content/projects";
+import { atlasPalette } from "./atlas-palette";
 
 type IllustrationProps = {
   className?: string;
 };
 
+function IllustrationFrame({ className, children, label }: IllustrationProps & { children: ReactNode; label: string }) {
+  return (
+    <svg className={className} viewBox="0 0 480 200" role="img" aria-label={label}>
+      <defs>
+        <radialGradient id={`${label}-vignette`} cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stopColor={atlasPalette.gold} stopOpacity="0.1" />
+          <stop offset="55%" stopColor={atlasPalette.panel} stopOpacity="0.25" />
+          <stop offset="100%" stopColor={atlasPalette.background} stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id={`${label}-gold`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={atlasPalette.gold} stopOpacity="0.8" />
+          <stop offset="100%" stopColor={atlasPalette.slate} stopOpacity="0.25" />
+        </linearGradient>
+        <filter id={`${label}-soft`} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <rect width="480" height="200" fill={`url(#${label}-vignette)`} />
+      {children}
+    </svg>
+  );
+}
+
 function HarnessIllustration({ className }: IllustrationProps) {
   return (
-    <svg className={className} viewBox="0 0 480 200" role="img" aria-hidden="true">
-      <defs>
-        <linearGradient id="harness-ring" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#c9a962" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#6b7a94" stopOpacity="0.3" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="240" cy="100" rx="160" ry="70" fill="none" stroke="#2a3548" strokeWidth="0.75" />
-      <ellipse cx="240" cy="100" rx="110" ry="48" fill="none" stroke="#3a4658" strokeWidth="0.5" />
-      <circle cx="240" cy="100" r="36" fill="#10182a" stroke="url(#harness-ring)" strokeWidth="1.5" />
+    <IllustrationFrame className={className} label="harness-loop">
+      <ellipse cx="240" cy="100" rx="168" ry="72" fill="none" stroke={atlasPalette.border} strokeWidth="0.7" opacity="0.55" />
+      <ellipse cx="240" cy="100" rx="118" ry="52" fill="none" stroke={atlasPalette.borderSoft} strokeWidth="0.5" opacity="0.4" />
+      <circle cx="240" cy="100" r="38" fill={atlasPalette.panel} stroke="url(#harness-loop-gold)" strokeWidth="1.5" />
+      <path d="M240 62 L240 138 M202 100 L278 100" stroke={atlasPalette.gold} strokeWidth="1" opacity="0.55" />
+      <circle cx="240" cy="100" r="9" fill={atlasPalette.gold} />
+      <circle cx="240" cy="100" r="3" fill={atlasPalette.goldBright} opacity="0.5" />
+      {[
+        [118, 100],
+        [362, 100],
+        [240, 28],
+        [240, 172]
+      ].map(([cx, cy]) => (
+        <g key={`${cx}-${cy}`} filter="url(#harness-loop-soft)">
+          <circle cx={cx} cy={cy} r="7" fill={atlasPalette.panelRaised} stroke={atlasPalette.slate} strokeWidth="1" />
+          <circle cx={cx} cy={cy} r="2" fill={atlasPalette.gold} opacity="0.5" />
+        </g>
+      ))}
       <path
-        d="M240 64 L240 136 M204 100 L276 100"
-        stroke="#c9a962"
-        strokeWidth="1"
-        opacity="0.6"
+        d="M125 100 L202 100 M278 100 L355 100 M240 35 L240 62 M240 138 L240 165"
+        stroke={atlasPalette.gold}
+        strokeWidth="0.7"
+        opacity="0.38"
       />
-      <circle cx="240" cy="100" r="8" fill="#c9a962" />
-      <circle cx="120" cy="100" r="6" fill="#141f34" stroke="#6b7a94" />
-      <circle cx="360" cy="100" r="6" fill="#141f34" stroke="#6b7a94" />
-      <circle cx="240" cy="30" r="5" fill="#141f34" stroke="#6b7a94" />
-      <circle cx="240" cy="170" r="5" fill="#141f34" stroke="#6b7a94" />
-      <path
-        d="M126 100 L204 100 M276 100 L354 100 M240 35 L240 64 M240 136 L240 165"
-        stroke="#c9a962"
-        strokeWidth="0.75"
-        opacity="0.4"
-      />
-      <rect x="210" y="88" width="60" height="24" rx="4" fill="none" stroke="#c9a962" strokeWidth="0.75" opacity="0.5" />
-    </svg>
+      <rect x="208" y="86" width="64" height="28" rx="5" fill="none" stroke={atlasPalette.gold} strokeWidth="0.7" opacity="0.45" />
+      <path d="M214 100 H266" stroke={atlasPalette.slate} strokeWidth="0.5" strokeDasharray="3 4" opacity="0.4" />
+    </IllustrationFrame>
   );
 }
 
 function RegistryIllustration({ className }: IllustrationProps) {
+  const tiles = [
+    [80, 38],
+    [200, 38],
+    [320, 38],
+    [140, 118],
+    [260, 118]
+  ];
+
   return (
-    <svg className={className} viewBox="0 0 480 200" role="img" aria-hidden="true">
-      <g stroke="#2a3548" strokeWidth="0.75" fill="none">
-        <rect x="80" y="40" width="80" height="56" rx="6" />
-        <rect x="200" y="40" width="80" height="56" rx="6" />
-        <rect x="320" y="40" width="80" height="56" rx="6" />
-        <rect x="140" y="120" width="80" height="56" rx="6" />
-        <rect x="260" y="120" width="80" height="56" rx="6" />
+    <IllustrationFrame className={className} label="registry-grid">
+      <g stroke={atlasPalette.border} strokeWidth="0.7" fill="none" opacity="0.7">
+        {tiles.map(([x, y]) => (
+          <rect key={`${x}-${y}`} x={x} y={y} width="80" height="56" rx="6" />
+        ))}
       </g>
-      <g fill="#c9a962" opacity="0.7">
-        <rect x="96" y="56" width="48" height="8" rx="2" />
-        <rect x="216" y="56" width="48" height="8" rx="2" />
-        <rect x="336" y="56" width="48" height="8" rx="2" />
-        <rect x="156" y="136" width="48" height="8" rx="2" />
-        <rect x="276" y="136" width="48" height="8" rx="2" />
+      <g fill={atlasPalette.gold} opacity="0.65">
+        {tiles.map(([x, y]) => (
+          <rect key={`bar-${x}`} x={x + 16} y={y + 18} width="48" height="7" rx="2" />
+        ))}
       </g>
-      <path
-        d="M160 68 L200 68 M280 68 L320 68 M200 96 L220 120 M280 96 L260 120"
-        stroke="#c9a962"
-        strokeWidth="0.75"
-        opacity="0.45"
-      />
-      <circle cx="240" cy="100" r="4" fill="#c9a962" />
-    </svg>
+      <g stroke={atlasPalette.gold} strokeWidth="0.7" fill="none" opacity="0.42">
+        <path d="M160 66 L200 66 M280 66 L320 66" />
+        <path d="M200 94 L220 118 M280 94 L260 118" />
+        <path d="M120 66 L80 94 M360 66 L400 94" opacity="0.25" />
+      </g>
+      <circle cx="240" cy="98" r="5" fill={atlasPalette.panel} stroke={atlasPalette.gold} strokeWidth="1.25" />
+      <circle cx="240" cy="98" r="2" fill={atlasPalette.gold} />
+      <rect x="36" y="82" width="28" height="20" rx="4" fill={atlasPalette.panelRaised} stroke={atlasPalette.borderSoft} strokeWidth="0.6" opacity="0.6" />
+      <rect x="416" y="82" width="28" height="20" rx="4" fill={atlasPalette.panelRaised} stroke={atlasPalette.borderSoft} strokeWidth="0.6" opacity="0.6" />
+    </IllustrationFrame>
   );
 }
 
 function OrchestraIllustration({ className }: IllustrationProps) {
+  const lanes = [100, 180, 260, 340, 420];
+
   return (
-    <svg className={className} viewBox="0 0 480 200" role="img" aria-hidden="true">
+    <IllustrationFrame className={className} label="orchestra-score">
       <path
-        d="M60 120 Q120 60 180 100 T300 80 T420 110 T460 90"
+        d="M48 124 Q108 58 176 98 T296 76 T416 106 T452 84"
         fill="none"
-        stroke="#c9a962"
-        strokeWidth="1.25"
-        opacity="0.7"
+        stroke={atlasPalette.gold}
+        strokeWidth="1.35"
+        opacity="0.75"
       />
       <path
-        d="M60 140 Q140 90 200 130 T320 110 T440 130"
+        d="M48 142 Q128 88 188 128 T308 108 T432 128"
         fill="none"
-        stroke="#6b7a94"
-        strokeWidth="0.75"
+        stroke={atlasPalette.slate}
+        strokeWidth="0.8"
         opacity="0.5"
       />
       <path
-        d="M60 160 Q100 150 160 155 T280 145 T400 158"
+        d="M48 162 Q92 152 152 158 T272 146 T392 160"
         fill="none"
-        stroke="#2a3548"
-        strokeWidth="0.75"
-        opacity="0.6"
+        stroke={atlasPalette.border}
+        strokeWidth="0.7"
+        opacity="0.55"
       />
-      {[100, 180, 260, 340, 420].map((x, i) => (
+      {lanes.map((x, i) => (
         <g key={x}>
-          <line x1={x} y1={60 + i * 4} x2={x} y2={170 - i * 2} stroke="#2a3548" strokeWidth="0.5" opacity="0.4" />
-          <circle cx={x} cy={100 + (i % 2 === 0 ? -15 : 15)} r="5" fill="#141f34" stroke="#c9a962" strokeWidth="1" />
+          <line
+            x1={x}
+            y1={52 + i * 3}
+            x2={x}
+            y2={168 - i * 2}
+            stroke={atlasPalette.borderSoft}
+            strokeWidth="0.45"
+            opacity="0.38"
+          />
+          <circle
+            cx={x}
+            cy={98 + (i % 2 === 0 ? -14 : 14)}
+            r="6"
+            fill={atlasPalette.panelRaised}
+            stroke={atlasPalette.gold}
+            strokeWidth="1"
+          />
+          <circle cx={x} cy={98 + (i % 2 === 0 ? -14 : 14)} r="2" fill={atlasPalette.gold} opacity="0.55" />
         </g>
       ))}
-      <circle cx="240" cy="95" r="10" fill="#10182a" stroke="#c9a962" strokeWidth="1.5" />
-    </svg>
+      <circle cx="240" cy="92" r="12" fill={atlasPalette.panel} stroke={atlasPalette.gold} strokeWidth="1.5" />
+      <circle cx="240" cy="92" r="4" fill={atlasPalette.goldBright} />
+      <line x1="28" y1="178" x2="452" y2="178" stroke={atlasPalette.border} strokeWidth="0.5" opacity="0.35" />
+    </IllustrationFrame>
   );
 }
 
 function IntercalIllustration({ className }: IllustrationProps) {
   return (
-    <svg className={className} viewBox="0 0 480 200" role="img" aria-hidden="true">
+    <IllustrationFrame className={className} label="intercal-layers">
       {[0, 1, 2, 3, 4].map((layer) => (
-        <g key={layer} opacity={0.5 + layer * 0.1}>
+        <g key={layer} opacity={0.45 + layer * 0.11}>
           <path
-            d={`M60 ${50 + layer * 22} H420`}
-            stroke="#2a3548"
-            strokeWidth="0.75"
-            strokeDasharray="4 6"
+            d={`M52 ${48 + layer * 22} H428`}
+            stroke={atlasPalette.border}
+            strokeWidth="0.65"
+            strokeDasharray="5 7"
           />
           <rect
-            x={100 + layer * 18}
-            y={42 + layer * 22}
-            width={60 + layer * 12}
-            height="12"
+            x={96 + layer * 16}
+            y={40 + layer * 22}
+            width={64 + layer * 10}
+            height="13"
             rx="3"
-            fill="#141f34"
-            stroke="#6b7a94"
-            strokeWidth="0.75"
+            fill={atlasPalette.panelRaised}
+            stroke={atlasPalette.slate}
+            strokeWidth="0.7"
           />
-          <circle cx={380 - layer * 20} cy={48 + layer * 22} r="4" fill="#c9a962" opacity={0.5 + layer * 0.1} />
+          <rect
+            x={104 + layer * 16}
+            y={44 + layer * 22}
+            width={24 + layer * 4}
+            height="4"
+            rx="1"
+            fill={atlasPalette.gold}
+            opacity={0.35 + layer * 0.12}
+          />
+          <circle cx={388 - layer * 18} cy={46.5 + layer * 22} r="4.5" fill={atlasPalette.gold} opacity={0.45 + layer * 0.1} />
         </g>
       ))}
       <path
-        d="M200 50 L200 170"
-        stroke="#c9a962"
+        d="M196 44 L196 168"
+        stroke={atlasPalette.gold}
         strokeWidth="1"
-        opacity="0.5"
-        strokeDasharray="2 4"
+        opacity="0.48"
+        strokeDasharray="3 5"
       />
-      <text x="208" y="115" fill="#9a9286" fontSize="9" fontFamily="ui-monospace, monospace">
-        Δ
+      <circle cx="196" cy="106" r="8" fill="none" stroke={atlasPalette.gold} strokeWidth="0.7" opacity="0.4" />
+      <text x="208" y="110" fill={atlasPalette.ivory} fontSize="11" fontFamily="ui-monospace, monospace">
+        Δt
       </text>
-    </svg>
+    </IllustrationFrame>
   );
 }
 
 function CollectivaIllustration({ className }: IllustrationProps) {
+  const nodes: [number, number][] = [
+    [140, 58],
+    [340, 58],
+    [388, 132],
+    [92, 132],
+    [240, 174],
+    [176, 142],
+    [304, 142]
+  ];
+
   return (
-    <svg className={className} viewBox="0 0 480 200" role="img" aria-hidden="true">
-      <g stroke="#c9a962" strokeWidth="0.75" opacity="0.4" fill="none">
-        <path d="M240 100 L140 60" />
-        <path d="M240 100 L340 60" />
-        <path d="M240 100 L380 130" />
-        <path d="M240 100 L100 130" />
-        <path d="M240 100 L240 170" />
-        <path d="M140 60 L340 60" opacity="0.25" />
-        <path d="M100 130 L380 130" opacity="0.25" />
+    <IllustrationFrame className={className} label="collectiva-mesh">
+      <g stroke={atlasPalette.gold} strokeWidth="0.7" opacity="0.38" fill="none">
+        {nodes.map(([cx, cy]) => (
+          <path key={`link-${cx}`} d={`M240 100 L${cx} ${cy}`} />
+        ))}
+        <path d="M140 58 L340 58" opacity="0.22" />
+        <path d="M92 132 L388 132" opacity="0.22" />
+        <path d="M176 142 L304 142" opacity="0.18" />
       </g>
-      <circle cx="240" cy="100" r="14" fill="#10182a" stroke="#c9a962" strokeWidth="1.5" />
-      {[
-        [140, 60],
-        [340, 60],
-        [380, 130],
-        [100, 130],
-        [240, 170],
-        [180, 140],
-        [300, 140]
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="7" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
+      <circle cx="240" cy="100" r="18" fill="none" stroke={atlasPalette.gold} strokeWidth="0.5" opacity="0.28" />
+      <circle cx="240" cy="100" r="15" fill={atlasPalette.panel} stroke={atlasPalette.gold} strokeWidth="1.5" />
+      {nodes.map(([cx, cy]) => (
+        <g key={`node-${cx}`}>
+          <circle cx={cx} cy={cy} r="8" fill={atlasPalette.panelRaised} stroke={atlasPalette.slate} strokeWidth="1" />
+          <circle cx={cx} cy={cy} r="2.5" fill={atlasPalette.gold} opacity="0.5" />
+        </g>
       ))}
-      <circle cx="240" cy="100" r="5" fill="#c9a962" />
-    </svg>
+      <circle cx="240" cy="100" r="5.5" fill={atlasPalette.gold} />
+      <circle cx="237" cy="97" r="1.5" fill={atlasPalette.goldBright} opacity="0.45" />
+    </IllustrationFrame>
   );
 }
 

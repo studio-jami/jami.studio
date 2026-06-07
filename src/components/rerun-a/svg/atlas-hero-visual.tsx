@@ -1,3 +1,5 @@
+import { atlasPalette } from "./atlas-palette";
+
 export function AtlasHeroVisual() {
   return (
     <svg
@@ -8,17 +10,21 @@ export function AtlasHeroVisual() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <radialGradient id="atlas-glow" cx="50%" cy="42%" r="55%">
-          <stop offset="0%" stopColor="#c9a962" stopOpacity="0.18" />
-          <stop offset="55%" stopColor="#10182a" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#080c14" stopOpacity="0" />
+        <radialGradient id="atlas-hero-glow" cx="50%" cy="42%" r="58%">
+          <stop offset="0%" stopColor={atlasPalette.gold} stopOpacity="0.2" />
+          <stop offset="50%" stopColor={atlasPalette.panel} stopOpacity="0.45" />
+          <stop offset="100%" stopColor={atlasPalette.background} stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="atlas-line" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#c9a962" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#6b7a94" stopOpacity="0.25" />
+        <linearGradient id="atlas-hero-line" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor={atlasPalette.gold} stopOpacity="0.75" />
+          <stop offset="100%" stopColor={atlasPalette.slate} stopOpacity="0.22" />
         </linearGradient>
-        <filter id="atlas-soft" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
+        <radialGradient id="atlas-hero-hub" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={atlasPalette.goldBright} stopOpacity="0.95" />
+          <stop offset="100%" stopColor={atlasPalette.gold} stopOpacity="0.7" />
+        </radialGradient>
+        <filter id="atlas-hero-soft" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="1.8" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -26,87 +32,150 @@ export function AtlasHeroVisual() {
         </filter>
       </defs>
 
-      <rect width="640" height="520" fill="url(#atlas-glow)" />
+      <rect width="640" height="520" fill="url(#atlas-hero-glow)" />
 
-      {/* Contour rings */}
-      <ellipse cx="320" cy="250" rx="220" ry="140" fill="none" stroke="#2a3548" strokeWidth="0.75" opacity="0.6" />
-      <ellipse cx="320" cy="250" rx="170" ry="108" fill="none" stroke="#2a3548" strokeWidth="0.5" opacity="0.45" />
-      <ellipse cx="320" cy="250" rx="118" ry="74" fill="none" stroke="#3a4658" strokeWidth="0.5" opacity="0.35" />
-
-      {/* Iso lines */}
-      <path
-        d="M80 180 Q200 120 320 150 T560 200"
+      {/* Topographic contour rings */}
+      <ellipse
+        cx="320"
+        cy="250"
+        rx="228"
+        ry="148"
         fill="none"
-        stroke="#2a3548"
-        strokeWidth="0.6"
-        opacity="0.5"
+        stroke={atlasPalette.border}
+        strokeWidth="0.75"
+        opacity="0.55"
       />
-      <path
-        d="M60 300 Q220 360 320 330 T580 280"
+      <ellipse
+        cx="320"
+        cy="250"
+        rx="176"
+        ry="114"
         fill="none"
-        stroke="#2a3548"
-        strokeWidth="0.6"
-        opacity="0.4"
+        stroke={atlasPalette.border}
+        strokeWidth="0.55"
+        opacity="0.42"
       />
-      <path
-        d="M120 100 Q280 60 420 90 T520 160"
+      <ellipse
+        cx="320"
+        cy="250"
+        rx="122"
+        ry="78"
         fill="none"
-        stroke="#2a3548"
+        stroke={atlasPalette.borderSoft}
         strokeWidth="0.5"
-        opacity="0.3"
+        opacity="0.32"
       />
+
+      {/* Iso contour lines */}
+      <path
+        d="M72 178 Q196 108 320 142 T568 196"
+        fill="none"
+        stroke={atlasPalette.border}
+        strokeWidth="0.55"
+        opacity="0.45"
+      />
+      <path
+        d="M52 304 Q216 368 320 334 T588 276"
+        fill="none"
+        stroke={atlasPalette.border}
+        strokeWidth="0.55"
+        opacity="0.38"
+      />
+      <path
+        d="M108 96 Q272 48 428 84 T532 158"
+        fill="none"
+        stroke={atlasPalette.borderSoft}
+        strokeWidth="0.45"
+        opacity="0.28"
+      />
+
+      {/* Meridian ticks */}
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
+        const rad = (angle * Math.PI) / 180;
+        const inner = 118;
+        const outer = 132;
+        const cx = 320;
+        const cy = 250;
+        return (
+          <line
+            key={angle}
+            x1={cx + inner * Math.cos(rad)}
+            y1={cy + (inner * 0.64) * Math.sin(rad)}
+            x2={cx + outer * Math.cos(rad)}
+            y2={cy + (outer * 0.64) * Math.sin(rad)}
+            stroke={atlasPalette.borderSoft}
+            strokeWidth="0.5"
+            opacity="0.35"
+          />
+        );
+      })}
 
       {/* Connection paths */}
-      <g stroke="url(#atlas-line)" strokeWidth="1" fill="none" opacity="0.65">
+      <g stroke="url(#atlas-hero-line)" strokeWidth="1" fill="none" opacity="0.7">
         <path d="M320 250 L180 160" />
         <path d="M320 250 L460 150" />
         <path d="M320 250 L520 280" />
         <path d="M320 250 L420 380" />
         <path d="M320 250 L140 340" />
-        <path d="M180 160 L460 150" opacity="0.35" />
-        <path d="M140 340 L420 380" opacity="0.35" />
-        <path d="M460 150 L520 280" opacity="0.35" />
-        <path d="M520 280 L420 380" opacity="0.35" />
+        <path d="M180 160 L460 150" opacity="0.3" />
+        <path d="M140 340 L420 380" opacity="0.3" />
+        <path d="M460 150 L520 280" opacity="0.3" />
+        <path d="M520 280 L420 380" opacity="0.3" />
       </g>
 
-      {/* Secondary nodes */}
-      <g filter="url(#atlas-soft)">
-        <circle cx="180" cy="160" r="5" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
-        <circle cx="460" cy="150" r="5" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
-        <circle cx="520" cy="280" r="5" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
-        <circle cx="420" cy="380" r="5" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
-        <circle cx="140" cy="340" r="5" fill="#141f34" stroke="#6b7a94" strokeWidth="1" />
+      {/* Satellite nodes */}
+      <g filter="url(#atlas-hero-soft)">
+        {[
+          [180, 160],
+          [460, 150],
+          [520, 280],
+          [420, 380],
+          [140, 340]
+        ].map(([cx, cy]) => (
+          <g key={`${cx}-${cy}`}>
+            <circle cx={cx} cy={cy} r="7" fill={atlasPalette.panelRaised} stroke={atlasPalette.slate} strokeWidth="1" />
+            <circle cx={cx} cy={cy} r="2.5" fill={atlasPalette.gold} opacity="0.55" />
+          </g>
+        ))}
       </g>
 
       {/* Central hub */}
-      <circle cx="320" cy="250" r="28" fill="#10182a" stroke="#c9a962" strokeWidth="1.5" />
-      <circle cx="320" cy="250" r="12" fill="#c9a962" opacity="0.9" />
-      <circle cx="320" cy="250" r="38" fill="none" stroke="#c9a962" strokeWidth="0.5" opacity="0.35" />
+      <circle cx="320" cy="250" r="42" fill="none" stroke={atlasPalette.gold} strokeWidth="0.5" opacity="0.3" />
+      <circle cx="320" cy="250" r="30" fill={atlasPalette.panel} stroke={atlasPalette.gold} strokeWidth="1.5" />
+      <circle cx="320" cy="250" r="13" fill="url(#atlas-hero-hub)" />
+      <circle cx="316" cy="246" r="4" fill={atlasPalette.goldBright} opacity="0.35" />
 
       {/* Node labels */}
-      <g fill="#9a9286" fontSize="10" fontFamily="ui-monospace, monospace" letterSpacing="0.08em">
-        <text x="180" y="145" textAnchor="middle">
+      <g fill={atlasPalette.ivory} fontSize="10" fontFamily="ui-monospace, monospace" letterSpacing="0.1em">
+        <text x="180" y="142" textAnchor="middle">
           HARNESS
         </text>
-        <text x="460" y="135" textAnchor="middle">
+        <text x="460" y="132" textAnchor="middle">
           REGISTRY
         </text>
-        <text x="535" y="275" textAnchor="start">
+        <text x="538" y="272" textAnchor="start">
           ORCHESTRA
         </text>
-        <text x="420" y="405" textAnchor="middle">
+        <text x="420" y="402" textAnchor="middle">
           INTERCAL
         </text>
-        <text x="125" y="365" textAnchor="end">
+        <text x="122" y="362" textAnchor="end">
           COLLECTIVA
         </text>
       </g>
 
-      {/* Accent markers on contour */}
-      <circle cx="100" cy="220" r="2" fill="#c9a962" opacity="0.5" />
-      <circle cx="540" cy="200" r="2" fill="#c9a962" opacity="0.4" />
-      <circle cx="500" cy="400" r="2" fill="#c9a962" opacity="0.35" />
-      <circle cx="200" cy="420" r="2" fill="#c9a962" opacity="0.45" />
+      {/* Accent survey markers */}
+      {[
+        [96, 218],
+        [544, 198],
+        [504, 404],
+        [204, 424]
+      ].map(([cx, cy], i) => (
+        <g key={`marker-${cx}`} opacity={0.35 + i * 0.05}>
+          <circle cx={cx} cy={cy} r="2.5" fill={atlasPalette.gold} />
+          <circle cx={cx} cy={cy} r="5" fill="none" stroke={atlasPalette.gold} strokeWidth="0.5" opacity="0.5" />
+        </g>
+      ))}
     </svg>
   );
 }

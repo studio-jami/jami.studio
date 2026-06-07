@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
@@ -58,7 +59,11 @@ export function AtlasHomepage() {
 
       <section className="atlas-section atlas-pillars">
         {site.home.pillars.map((pillar, index) => (
-          <article key={pillar.title} className="atlas-glass-card" style={{ animationDelay: `${index * 80}ms` }}>
+          <article
+            key={pillar.title}
+            className="atlas-glass-card atlas-pillar-card"
+            style={{ "--pillar-index": index } as CSSProperties}
+          >
             <span className="atlas-pillar-index" aria-hidden="true">
               {String(index + 1).padStart(2, "0")}
             </span>

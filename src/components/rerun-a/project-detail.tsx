@@ -7,7 +7,7 @@ export function AtlasProjectDetail({ project }: { project: StudioProject }) {
 
   return (
     <article className="atlas-page atlas-project-detail">
-      <header className="atlas-project-hero atlas-glass-card">
+      <header className="atlas-project-hero atlas-glass-panel">
         <div className="atlas-project-hero-copy">
           <p className="atlas-eyebrow">{project.subdomain}</p>
           <h1 className="atlas-display-title atlas-display-title-sm">{project.name}</h1>
@@ -29,43 +29,44 @@ export function AtlasProjectDetail({ project }: { project: StudioProject }) {
         </div>
       </header>
 
-      <section className="atlas-section atlas-detail-grid">
-        <article className="atlas-glass-card">
-          <h2>Who it serves</h2>
-          <p>{project.audience}</p>
-        </article>
-        <article className="atlas-glass-card">
-          <h2>Link contract</h2>
-          <dl className="atlas-link-list">
-            {linkTargets.map((target) => (
-              <div key={target.label}>
-                <dt>{target.label}</dt>
-                <dd>
-                  <a href={target.href}>{target.value}</a>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </article>
-      </section>
-
-      <section className="atlas-section atlas-detail-grid">
-        <article className="atlas-glass-card">
-          <h2>Capabilities</h2>
-          <ul className="atlas-bullet-list">
-            {project.capabilities.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-        <article className="atlas-glass-card">
-          <h2>Proof posture</h2>
-          <ul className="atlas-bullet-list">
-            {project.proofPoints.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
+      <section className="atlas-section atlas-detail-stack">
+        <div className="atlas-detail-grid">
+          <article className="atlas-glass-card">
+            <h2>Who it serves</h2>
+            <p>{project.audience}</p>
+          </article>
+          <article className="atlas-glass-card">
+            <h2>Link contract</h2>
+            <dl className="atlas-link-list">
+              {linkTargets.map((target) => (
+                <div key={target.label}>
+                  <dt>{target.label}</dt>
+                  <dd>
+                    <a href={target.href}>{target.value}</a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        </div>
+        <div className="atlas-detail-grid">
+          <article className="atlas-glass-card">
+            <h2>Capabilities</h2>
+            <ul className="atlas-bullet-list">
+              {project.capabilities.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="atlas-glass-card">
+            <h2>Proof posture</h2>
+            <ul className="atlas-bullet-list">
+              {project.proofPoints.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
       </section>
     </article>
   );
