@@ -5,7 +5,8 @@ import {
   createTokenPresetFromDials,
   dialDefinitions,
   neutralFoundationDials,
-  neutralFoundationPreset
+  neutralFoundationPreset,
+  signalForgePreset
 } from "@/tokens/presets";
 import { validateThemeDials, validateTokenPreset } from "@/tokens/schema";
 
@@ -62,5 +63,14 @@ describe("token foundation", () => {
     });
     expect(registryManifest.ownership.foundationOwned).toContain("token schema");
     expect(registryManifest.items[0]?.branchMutable).toContain("color");
+  });
+
+  it("validates the Signal Forge branch preset for rerun C", () => {
+    expect(validateTokenPreset(signalForgePreset).id).toBe("signal-forge");
+    expect(signalForgePreset.color.background).toBe("#06080f");
+    expect(signalForgePreset.color.accent).toBe("#22d3ee");
+    expect(registryManifest.items.some((item) => item.name === "@jami-studio/theme/signal-forge")).toBe(
+      true
+    );
   });
 });

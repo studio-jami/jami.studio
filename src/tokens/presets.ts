@@ -288,4 +288,108 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 }
 
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
-export const tokenPresets = [neutralFoundationPreset] as const;
+
+export const signalForgeDials = validateThemeDials({
+  accent: "cyan",
+  contrast: 94,
+  warmth: 16,
+  density: 44,
+  radius: 10,
+  surfaceDepth: 78,
+  motion: 52
+});
+
+const signalForgeBasePreset = createTokenPresetFromDials(signalForgeDials);
+
+export const signalForgePreset = validateTokenPreset({
+  ...signalForgeBasePreset,
+  id: "signal-forge",
+  name: "Signal Forge",
+  description:
+    "A bold dark-mode forge preset with cyan-to-violet gradient accents and technical signal-wave geometry.",
+  dials: signalForgeDials,
+  color: {
+    background: "#06080f",
+    foreground: "#f0f4ff",
+    muted: "#12182a",
+    mutedForeground: "#8b9dc4",
+    panel: "#0c101c",
+    panelForeground: "#f0f4ff",
+    border: "#1e2a45",
+    ring: "#22d3ee",
+    accent: "#22d3ee",
+    accentForeground: "#041018"
+  },
+  typography: {
+    ...signalForgeBasePreset.typography,
+    sans: "var(--font-inter), ui-sans-serif, system-ui, sans-serif",
+    mono: "var(--font-jetbrains), ui-monospace, SFMono-Regular, Consolas, monospace",
+    display: "var(--font-inter), ui-sans-serif, system-ui, sans-serif",
+    scale: {
+      xs: "0.75rem",
+      sm: "0.875rem",
+      base: "1rem",
+      lg: "1.125rem",
+      xl: "1.5rem",
+      hero: "clamp(3.25rem, 11vw, 7.5rem)"
+    },
+    lineHeight: {
+      tight: 0.92,
+      body: 1.58
+    }
+  },
+  spacing: {
+    density: "comfortable",
+    unit: "1rem",
+    control: "2.75rem",
+    section: "clamp(5rem, 9vw, 8rem)",
+    container: "min(1200px, calc(100vw - 2.5rem))"
+  },
+  radii: {
+    sm: "4px",
+    md: "10px",
+    lg: "14px",
+    pill: "999px"
+  },
+  surface: {
+    canvas: "#06080f",
+    panel: "#0c101c",
+    panelRaised: "#111827",
+    overlay: "#151d30",
+    inverse: "#f0f4ff"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 0 rgb(255 255 255 / 0.06), 0 12px 32px rgb(0 0 0 / 0.35)",
+    md: "0 1px 0 rgb(255 255 255 / 0.08), 0 28px 80px rgb(0 0 0 / 0.5)"
+  },
+  motion: {
+    duration: "240ms",
+    durationFast: "140ms",
+    easing: "cubic-bezier(.16, 1, .3, 1)",
+    intensity: 52
+  },
+  logos: {
+    markShape: "frame",
+    wordmark: "jami.studio",
+    favicon: "/icon.svg"
+  },
+  registry: {
+    ...signalForgeBasePreset.registry,
+    item: "@jami-studio/theme/signal-forge",
+    branchMutable: [
+      "dials",
+      "color",
+      "typography",
+      "spacing",
+      "radii",
+      "surface",
+      "elevation",
+      "motion",
+      "componentExpression",
+      "pageComposition"
+    ]
+  }
+});
+
+export const tokenPresets = [neutralFoundationPreset, signalForgePreset] as const;
