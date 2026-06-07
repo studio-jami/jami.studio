@@ -10,6 +10,10 @@ Worktree: `C:\Users\james\dev\orgs\oss\jami.studio-rerun-c`
 
 Status: completed
 
+Commit: `7cc781623199cfe3a6b626d039b4da5b7b882ab3`
+
+Push: pushed to `origin/design/rerun-c`
+
 ## Scope
 
 Implemented the Signal Forge design direction for Workstream 4 Rerun C pass 1:
