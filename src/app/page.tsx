@@ -45,15 +45,15 @@ export default function HomePage() {
 
       <section className="section editorial-band" aria-labelledby="editorial-band-title">
         <div>
-          <p className="meta">Research lab direction</p>
+          <p className="meta">Research-led public hub</p>
           <h2 id="editorial-band-title">
             Publication-grade project narratives over source-owned data
           </h2>
         </div>
         <p>
-          Direction B treats the site as a public research hub: spacious sections, visible route
-          provenance, and precise project briefs that keep implementation ownership outside the
-          marketing repo.
+          The site presents the Studio family as a public research hub: spacious sections, visible
+          route provenance, and precise project briefs that keep implementation ownership outside
+          the marketing repo.
         </p>
       </section>
 

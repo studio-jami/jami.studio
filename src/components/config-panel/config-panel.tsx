@@ -39,7 +39,7 @@ export function ConfigPanel() {
         <p className="meta">Internal token foundation</p>
         <h2 id="config-panel-title">Theme dials and registry seed</h2>
         <p>
-          Inspect Direction B token values over the shared schema, metadata, and CSS variable
+          Inspect the research-led token values over the shared schema, metadata, and CSS variable
           pipeline.
         </p>
         <div className="panel-tabs" aria-label="Configuration panel views">

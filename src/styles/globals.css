@@ -25,7 +25,15 @@ a {
 
 img {
   display: block;
+  height: auto;
   max-width: 100%;
+}
+
+p,
+li,
+dd,
+code {
+  overflow-wrap: anywhere;
 }
 
 .site-header,
@@ -193,7 +201,7 @@ img {
 
 .hero-visual img {
   aspect-ratio: 1200 / 630;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .system-map {
@@ -284,6 +292,10 @@ img {
   box-shadow: var(--shadow-sm);
 }
 
+.editorial-band > * {
+  min-width: 0;
+}
+
 .editorial-band h2 {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 4rem);
@@ -303,6 +315,7 @@ img {
 .project-card,
 .pillar-grid article,
 .detail-grid section {
+  min-width: 0;
   padding: 1.25rem;
 }
 
@@ -595,7 +608,26 @@ img {
 
   .hero h1,
   .page-hero h1 {
-    font-size: clamp(3rem, 14cqi, 3.75rem);
+    font-size: clamp(2.6rem, 12cqi, 3.2rem);
+  }
+
+  .section-heading h2,
+  .config-panel h2,
+  .editorial-band h2 {
+    font-size: clamp(1.85rem, 8cqi, 2.15rem);
+    overflow-wrap: anywhere;
+  }
+
+  .lead,
+  .section-heading p,
+  .hero-copy p,
+  .editorial-band p:last-child,
+  .project-card p,
+  .project-card li,
+  .detail-grid p,
+  .detail-grid li,
+  .detail-grid dd {
+    max-width: 32ch;
   }
 
   .project-grid,
