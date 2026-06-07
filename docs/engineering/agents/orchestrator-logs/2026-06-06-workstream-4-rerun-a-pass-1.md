@@ -79,4 +79,6 @@ pnpm dev
 
 ## Commit / push
 
-Recorded after closeout in this file's terminal section.
+- Commit: `2a3972ae43d9e23b644ea18c877bb50d9b1afe45`
+- Subject: `feat(design): deliver Obsidian Atlas rerun-a marketing site`
+- Push: `origin/design/rerun-a` updated (`171b6a6..2a3972a`)
