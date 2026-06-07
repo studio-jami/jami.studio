@@ -343,7 +343,7 @@ export const signalForgePreset = validateTokenPreset({
     unit: "1rem",
     control: "2.75rem",
     section: "clamp(5rem, 9vw, 8rem)",
-    container: "min(1200px, calc(100vw - 2.5rem))"
+    container: "75rem"
   },
   radii: {
     sm: "4px",

@@ -4,15 +4,15 @@ export function ForgeMesh() {
       <svg className="forge-mesh-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
         <defs>
           <radialGradient id="forge-mesh-cyan" cx="30%" cy="25%" r="55%">
-            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.35" />
+            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.2" />
             <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="forge-mesh-violet" cx="75%" cy="65%" r="50%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.28" />
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.16" />
             <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="forge-grid-fade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.06" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.04" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
         </defs>

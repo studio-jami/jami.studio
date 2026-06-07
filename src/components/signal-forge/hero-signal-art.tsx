@@ -13,13 +13,6 @@ export function HeroSignalArt() {
             <stop offset="50%" stopColor="#6366f1" stopOpacity="0.35" />
             <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.15" />
           </linearGradient>
-          <filter id="signal-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
 
         <rect x="24" y="24" width="472" height="372" rx="14" fill="#0c101c" stroke="#1e2a45" />
@@ -29,9 +22,8 @@ export function HeroSignalArt() {
           d="M48 300 C120 220, 180 340, 260 260 S400 180, 472 220"
           fill="none"
           stroke="url(#signal-wave-gradient)"
-          strokeWidth="3"
+          strokeWidth="2.5"
           strokeLinecap="round"
-          filter="url(#signal-glow)"
         />
         <path
           d="M48 260 C140 180, 200 300, 280 220 S420 140, 472 180"
@@ -52,7 +44,7 @@ export function HeroSignalArt() {
 
         <circle cx="260" cy="210" r="52" fill="none" stroke="#1e2a45" strokeWidth="1" />
         <circle cx="260" cy="210" r="36" fill="none" stroke="#22d3ee" strokeOpacity="0.4" />
-        <circle cx="260" cy="210" r="8" fill="#22d3ee" filter="url(#signal-glow)" />
+        <circle cx="260" cy="210" r="8" fill="#22d3ee" fillOpacity="0.92" />
 
         <g stroke="#1e2a45" strokeWidth="1">
           <line x1="260" y1="158" x2="260" y2="72" />

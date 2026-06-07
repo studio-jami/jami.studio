@@ -53,7 +53,8 @@ export function tokenCssVariables(preset: TokenPreset): Record<string, string> {
     "--forge-cyan": "#22d3ee",
     "--forge-violet": "#8b5cf6",
     "--forge-gradient": "linear-gradient(135deg, #22d3ee 0%, #6366f1 52%, #8b5cf6 100%)",
-    "--forge-glow": "0 0 40px rgb(34 211 238 / 0.22), 0 0 80px rgb(139 92 246 / 0.14)"
+    "--forge-glow": "0 0 20px rgb(34 211 238 / 0.12), 0 0 40px rgb(139 92 246 / 0.07)",
+    "--gutter": "clamp(1rem, 4vw, 1.25rem)"
   };
 }
 

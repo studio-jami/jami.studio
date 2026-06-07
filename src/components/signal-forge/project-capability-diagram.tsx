@@ -16,13 +16,6 @@ function DiagramDefs() {
         <stop offset="55%" stopColor="#6366f1" />
         <stop offset="100%" stopColor="#8b5cf6" />
       </linearGradient>
-      <filter id="capability-glow">
-        <feGaussianBlur stdDeviation="2.5" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
     </defs>
   );
 }
@@ -66,7 +59,6 @@ function HarnessDiagram() {
         fill="none"
         stroke="url(#capability-gradient)"
         strokeWidth="2"
-        filter="url(#capability-glow)"
       />
     </svg>
   );
@@ -110,7 +102,6 @@ function RegistryDiagram() {
         d="M180 146 L300 146"
         stroke="url(#capability-gradient)"
         strokeWidth="2"
-        filter="url(#capability-glow)"
       />
       <polygon points="292,142 300,146 292,150" fill="#22d3ee" />
     </svg>
@@ -170,7 +161,7 @@ function IntercalDiagram() {
       {[80, 160, 240, 320, 400].map((x, index) => (
         <g key={x}>
           <line x1={x} y1="200" x2={x} y2={120 - index * 8} stroke="url(#capability-gradient)" strokeWidth="2" />
-          <circle cx={x} cy={120 - index * 8} r="6" fill="#22d3ee" filter="url(#capability-glow)" />
+          <circle cx={x} cy={120 - index * 8} r="5" fill="#22d3ee" fillOpacity="0.9" />
           <text x={x} y="228" textAnchor="middle" fill="#8b9dc4" fontSize="9" fontFamily="ui-monospace, monospace">
             t{index}
           </text>
