@@ -10,9 +10,9 @@ Worktree: `C:\Users\james\dev\orgs\oss\jami.studio-rerun-b`
 
 Status: completed
 
-Commit: `PENDING`
+Commit: `c69e2f5a27c4df303cd9aa61294b3814196c9e5f`
 
-Push: pending
+Push: pushed to `origin/design/rerun-b`
 
 ## Audit findings (pass 1 → pass 2)
 
