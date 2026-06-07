@@ -288,4 +288,103 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 }
 
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
-export const tokenPresets = [neutralFoundationPreset] as const;
+
+export const luminousGridDials = validateThemeDials({
+  accent: "violet",
+  contrast: 88,
+  warmth: 22,
+  density: 52,
+  radius: 11,
+  surfaceDepth: 58,
+  motion: 42
+});
+
+const luminousGridBasePreset = createTokenPresetFromDials(luminousGridDials);
+
+export const luminousGridPreset = validateTokenPreset({
+  ...luminousGridBasePreset,
+  id: "luminous-grid",
+  name: "Luminous Grid",
+  description:
+    "A premium light-mode preset with crisp surfaces, deep slate type, and electric cobalt accents.",
+  color: {
+    background: "#f8fafc",
+    foreground: "#0f172a",
+    muted: "#e2e8f0",
+    mutedForeground: "#64748b",
+    panel: "#ffffff",
+    panelForeground: "#0f172a",
+    border: "#e2e8f0",
+    ring: "#3b82f6",
+    accent: "#2563eb",
+    accentForeground: "#ffffff"
+  },
+  typography: {
+    ...luminousGridBasePreset.typography,
+    sans: "var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif",
+    display: "var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif",
+    mono: "var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Consolas, monospace",
+    scale: {
+      ...luminousGridBasePreset.typography.scale,
+      hero: "clamp(3.25rem, 8.5vw, 5.75rem)"
+    },
+    lineHeight: {
+      tight: 1.02,
+      body: 1.62
+    }
+  },
+  spacing: {
+    ...luminousGridBasePreset.spacing,
+    density: "comfortable",
+    unit: "1rem",
+    control: "2.75rem",
+    section: "clamp(4.5rem, 9vw, 7.5rem)",
+    container: "min(1200px, calc(100vw - 2.5rem))"
+  },
+  radii: {
+    sm: "6px",
+    md: "10px",
+    lg: "12px",
+    pill: "999px"
+  },
+  surface: {
+    canvas: "#f8fafc",
+    panel: "#ffffff",
+    panelRaised: "#ffffff",
+    overlay: "#ffffff",
+    inverse: "#0f172a"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06)",
+    md: "0 4px 6px rgb(15 23 42 / 0.04), 0 12px 32px rgb(15 23 42 / 0.08)"
+  },
+  motion: {
+    duration: "200ms",
+    durationFast: "120ms",
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    intensity: 42
+  },
+  logos: {
+    ...luminousGridBasePreset.logos,
+    markShape: "frame"
+  },
+  registry: {
+    ...luminousGridBasePreset.registry,
+    item: "@jami-studio/theme/luminous-grid",
+    branchMutable: [
+      "dials",
+      "color",
+      "typography",
+      "spacing",
+      "radii",
+      "surface",
+      "elevation",
+      "motion",
+      "componentExpression",
+      "pageComposition"
+    ]
+  }
+});
+
+export const tokenPresets = [neutralFoundationPreset, luminousGridPreset] as const;
