@@ -661,6 +661,19 @@ Suggested verification:
   `origin/design/direction-c` at `215de3483674cdec4c2d63bcfa11f3bb8c30f47b`. Next coordinator
   action: prepare concise comparison evidence and request/record owner selection before merging one
   design branch to `main`.
+- [x] 2026-06-06T23:45:00.0000000-04:00 - Owner requested Workstream 4 rerun with three new
+  high-polish design branches after the first GPT directions underwhelmed. Cut `design/rerun-a`,
+  `design/rerun-b`, and `design/rerun-c` from foundation `171b6a6a36d5e7107b3a37d77630d190f03276de`,
+  pushed all three branches to origin, and created worktrees
+  `C:\Users\james\dev\orgs\oss\jami.studio-rerun-a`,
+  `C:\Users\james\dev\orgs\oss\jami.studio-rerun-b`, and
+  `C:\Users\james\dev\orgs\oss\jami.studio-rerun-c`.
+- [x] 2026-06-06 - Workstream 4 rerun pass 1+2 completed for all three directions. Polish commits:
+  `origin/design/rerun-a` at `3a5528760745eb95ed4905a6f7b2075c2c678afe` (Obsidian Atlas),
+  `origin/design/rerun-b` at `c69e2f5a27c4df303cd9aa61294b3814196c9e5f` (Luminous Grid),
+  `origin/design/rerun-c` at `044d98c3a370bd93d1be715de6a20ce6dd880129` (Signal Forge). All branches
+  passed lint, typecheck, test, build, verify, HTTP smoke, and viewport visual smoke. Next coordinator
+  action: owner local review across the three rerun worktrees before selecting a direction for merge.
 
 ## Expansion Track
 
