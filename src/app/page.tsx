@@ -1,89 +1,80 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
+import { CTABand } from "@/components/marketing/cta-band";
+import { FAQ } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarsBand } from "@/components/marketing/pillars-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
+      <Hero
+        eyebrow={site.home.eyebrow}
+        title={site.home.title}
+        lead={site.home.lead}
+        primaryCta={site.home.primaryCta}
+        secondaryCta={site.home.secondaryCta}
+      />
+
+      {/* 01 — Pillars */}
+      <section className="section" aria-labelledby="pillars-heading">
+        <div className="section-number">01</div>
+        <h2 id="pillars-heading" style={{ marginBottom: "1.25rem" }}>
+          What this studio stands for
+        </h2>
+        <PillarsBand pillars={site.home.pillars} />
+      </section>
+
+      {/* 02 — Product family showcase (the centerpiece) */}
+      <section className="section" aria-labelledby="family-heading">
+        <div className="section-number">02</div>
+        <div style={{ maxWidth: "52ch", marginBottom: "1.5rem" }}>
+          <h2 id="family-heading">The Studio family</h2>
+          <p className="lead" style={{ marginTop: "0.5rem" }}>
+            Five distinct surfaces. Shared foundations. Every route, link, and metadata field is generated from a single source of truth.
+          </p>
+        </div>
+        <ShowcaseGrid projects={projects} />
+      </section>
+
+      {/* 03 — Proof / capability */}
+      <section className="section" aria-labelledby="proof-heading">
+        <div className="section-number">03</div>
+        <h2 id="proof-heading" style={{ marginBottom: "0.75rem" }}>
+          Built in the open
+        </h2>
+        <p style={{ maxWidth: "62ch", color: "var(--muted-foreground)", marginBottom: "1.5rem" }}>
+          {site.home.proof}
+        </p>
+
+        <div className="card" style={{ padding: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem" }}>
+            {projects.slice(0, 3).map((p) => (
+              <div key={p.slug}>
+                <div className="meta" style={{ marginBottom: "0.25rem" }}>{p.shortName}</div>
+                <div style={{ fontWeight: 700, marginBottom: "0.35rem" }}>{p.name}</div>
+                <div className="small">{p.positioning}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
       </section>
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
+      {/* 04 — FAQ */}
+      <section className="section" aria-labelledby="faq-heading">
+        <div className="section-number">04</div>
+        <h2 id="faq-heading" style={{ marginBottom: "1rem" }}>Questions</h2>
+        <FAQ items={site.faqs} />
       </section>
 
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
+      {/* Final CTA */}
+      <section className="section" style={{ paddingBottom: "calc(var(--section) * 0.6)" }}>
+        <CTABand
+          title="Ready to explore the full family?"
+          primary={{ label: "View all projects", href: "/projects" }}
+          secondary={{ label: "Read the AI index", href: "/llms.txt" }}
+        />
       </section>
     </>
   );
