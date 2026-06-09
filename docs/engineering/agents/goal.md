@@ -1,9 +1,34 @@
-# Goal Prompt
+# Orchestrator Goal — jami.studio
 
-Working from:
+This document is the orchestrator's standing brief. It is for the coordinator only; subagents work
+from the active roadmap, not from this file.
 
-`docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md` - the active roadmap for standing up
-the production-ready `www.jami.studio` marketing site and OSS project hub.
+**Active roadmap:** `docs/roadmaps/2026-06-09-jami-studio-marketing-rebuild.md`
+
+## Mission
+
+The shared site foundation (Next.js app, token/dial contract, centralized content registry,
+route/metadata helpers, generated robots/sitemap/`llms` surfaces) is built and lives on `main`. The
+current visual design is not acceptable. The mission is to rebuild the landing and marketing site to a
+world-class, production-grade, design-studio standard while reusing the shared data contracts and token
+system verbatim.
+
+The rebuild runs as five complete, parallel design-direction branches from the same `main` foundation
+commit, each on its own pushed branch, built by heterogeneous models: two Claude Opus 4.8, one Claude
+Fable 5, one Gemini, and one Grok. Each branch is a full, fresh rebuild of the landing and marketing
+pages — entirely new UI, reusing only the shared data/token contracts — with an elevated,
+distraction-free, design-agency/portfolio aesthetic (dark grainy-textured or clean editorial), dark and
+light themes, and full responsive behavior across mobile, tablet, and desktop. The Studio UI Registry
+and Jami Agent Harness must be first-class, with data-driven routing to `registry.jami.studio` and
+`harness.jami.studio`.
+
+When the branches are complete and gated, the owner selects one direction; the orchestrator then
+merges and hardens it. A fresh-context Claude Fable 5 adversarial agent audits the entire effort at
+closeout, treated like additional fresh passes, and its required findings are resolved before the run
+closes.
+
+The acceptance bar is the active roadmap's verification ladder: nothing closes unless it is 100%
+passing. No shortcuts, no blockers, no slop.
 
 ## Your Role: The Orchestrator
 
@@ -176,7 +201,7 @@ Before final response:
 
 ```text
 
-Working from: `docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md` (active roadmap). The
+Working from: `docs/roadmaps/2026-06-09-jami-studio-marketing-rebuild.md` (active roadmap). The
 live repository is the source of truth, not roadmap claims.
 
 <APPEND YOUR WORKSTREAM STEERING HERE>
