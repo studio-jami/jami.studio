@@ -1,34 +1,25 @@
-import type { Metadata } from "next";
-import { ProjectCard } from "@/components/marketing/project-card";
+import Link from "next/link";
 import { projects } from "@/content/projects";
-import { createMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = createMetadata({
-  title: "Projects",
-  description: "Project index for the Studio OSS family.",
-  path: "/projects"
-});
-
-export default function ProjectsPage() {
+export default function ProjectsIndexPage() {
   return (
-    <>
-      <section className="section page-hero">
-        <div className="section-heading">
-          <p className="meta">Studio OSS family</p>
-          <h1>Projects</h1>
-          <p>
-            Separate products over shared foundations: governed agents, trusted UI, coordination,
-            temporal knowledge, and open agent society.
-          </p>
+    <section className="section">
+      <div className="container">
+        <div className="section-header">
+          <h1 className="hero-heading">Studio Projects</h1>
+          <p className="lead">The open-core foundation for governed agents and trusted UI.</p>
         </div>
-      </section>
-      <section className="section project-index">
-        <div className="project-grid">
+        <div className="grid-3">
           {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <Link key={project.slug} href={project.route} className="project-card">
+              <span className="eyebrow">{project.shortName}</span>
+              <h3>{project.name}</h3>
+              <p className="summary">{project.summary}</p>
+              <div className="positioning">{project.positioning}</div>
+            </Link>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

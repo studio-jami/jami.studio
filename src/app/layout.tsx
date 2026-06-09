@@ -1,11 +1,32 @@
 import type { Metadata } from "next";
+import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeScript } from "@/components/theme-script";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
-import { neutralFoundationPreset } from "@/tokens/presets";
+import { geminiDarkPreset, geminiLightPreset } from "@/tokens/presets";
 import { inlineCssVariables } from "@/tokens/css-vars";
 import "@/styles/globals.css";
+
+const fontSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap"
+});
+
+const fontDisplay = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap"
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap"
+});
 
 export const metadata: Metadata = createMetadata({
   title: site.name,
@@ -14,21 +35,33 @@ export const metadata: Metadata = createMetadata({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const themeVars = inlineCssVariables(neutralFoundationPreset);
+  const darkVars = inlineCssVariables(geminiDarkPreset);
+  const lightVars = inlineCssVariables(geminiLightPreset);
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable}`}>
       <head>
-        <style>{`:root {${themeVars}}`}</style>
+        <ThemeScript />
+        <style>{`
+          :root {
+            ${lightVars}
+          }
+          :root[data-theme="dark"] {
+            ${darkVars}
+          }
+        `}</style>
       </head>
       <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <ThemeProvider>
+          <div className="grain-overlay" aria-hidden="true" />
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </ThemeProvider>
       </body>
     </html>
   );
