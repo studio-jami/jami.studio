@@ -19,7 +19,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
           <h1>{project.name}</h1>
           <p className="lead" style={{ maxWidth: "52ch" }}>{project.positioning}</p>
 
-          <div className="button-row" style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div className="button-row">
             <Button href={primaryCta.href} variant="primary">
               {primaryCta.label}
             </Button>

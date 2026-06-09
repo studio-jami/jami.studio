@@ -1,114 +1,106 @@
 /**
- * Headless visual smoke captures for the Nocturne design branch.
- * Captures representative views in dark + light at the required breakpoints.
- * Run after `pnpm build`.
+ * Headless visual smoke captures for the Nocturne design branch (design/grok).
+ * Starts its own production server, then captures every key page in dark + light
+ * at all four required breakpoints (1440 / 1024 / 768 / 390), flags any
+ * horizontal overflow, and writes full-page PNGs to docs/design/evidence/grok.
+ *
+ * Run after `pnpm build`:  node scripts/smoke-captures.mjs
+ *
+ * Playwright is resolved from the pnpm store directly so this works even when
+ * the package is only present transitively.
  */
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
-import { chromium } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const PORT = 3456;
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const pwPath = resolve(root, "node_modules/.pnpm/playwright@1.60.0/node_modules/playwright/index.js");
+const pw = await import(pathToFileURL(pwPath).href);
+const chromium = pw.chromium ?? pw.default?.chromium;
+
+const PORT = Number(process.env.PORT ?? 4399);
 const BASE = `http://127.0.0.1:${PORT}`;
-const OUT = "docs/design/evidence/grok";
+const OUT = resolve(root, "docs/design/evidence/grok");
 
-const BREAKPOINTS = [
-  { name: "1440", width: 1440, height: 900 },
-  { name: "1024", width: 1024, height: 768 },
-  { name: "768", width: 768, height: 1024 },
-  { name: "390", width: 390, height: 844 }
+const widths = [1440, 1024, 768, 390];
+const themes = ["dark", "light"];
+const pages = [
+  { name: "home", path: "/" },
+  { name: "projects", path: "/projects" },
+  { name: "projects-harness", path: "/projects/harness" },
+  { name: "projects-registry", path: "/projects/registry" }
 ];
 
-const PAGES = [
-  { path: "/", label: "home" },
-  { path: "/projects", label: "projects" },
-  { path: "/projects/harness", label: "harness" },
-  { path: "/projects/registry", label: "registry" }
-];
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-mkdirSync(OUT, { recursive: true });
-
-function wait(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+async function waitForReady() {
+  for (let i = 0; i < 60; i++) {
+    try {
+      const res = await fetch(`${BASE}/`);
+      if (res.ok) return true;
+    } catch {}
+    await wait(500);
+  }
+  return false;
 }
 
 async function startServer() {
-  const proc = spawn("node", ["node_modules/next/dist/bin/next", "start", "-p", String(PORT)], {
-    stdio: ["ignore", "pipe", "pipe"],
-    shell: false
-  });
-
-  let ready = false;
-  proc.stdout.on("data", (d) => {
-    if (d.toString().includes("Ready")) ready = true;
-  });
-  proc.stderr.on("data", () => {});
-
-  // Give it time
-  for (let i = 0; i < 40; i++) {
-    if (ready) break;
-    await wait(250);
+  const proc = spawn(
+    process.execPath,
+    [resolve(root, "node_modules/next/dist/bin/next"), "start", "-p", String(PORT)],
+    { cwd: root, stdio: ["ignore", "ignore", "inherit"], shell: false }
+  );
+  const ready = await waitForReady();
+  if (!ready) {
+    proc.kill("SIGTERM");
+    throw new Error("server did not become ready");
   }
-  await wait(600);
   return proc;
 }
 
-async function capture() {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ ignoreHTTPSErrors: true });
+await mkdir(OUT, { recursive: true });
+const server = await startServer();
+const browser = await chromium.launch();
+let overflowCount = 0;
 
-  const server = await startServer();
+try {
+  for (const theme of themes) {
+    const context = await browser.newContext({
+      deviceScaleFactor: 1,
+      colorScheme: theme === "light" ? "light" : "dark"
+    });
+    await context.addInitScript((t) => {
+      try {
+        localStorage.setItem("jami-theme", t);
+      } catch {}
+    }, theme);
 
-  try {
-    for (const theme of ["dark", "light"]) {
-      for (const bp of BREAKPOINTS) {
-        for (const page of PAGES) {
-          // Only capture a focused representative set to keep output small and useful:
-          // - home at 1440 dark/light
-          // - home at 390 dark
-          // - projects at 1024 dark
-          // - harness + registry at 1440 dark + light, and one at 768
-          const isKey =
-            (page.label === "home" && bp.name === "1440") ||
-            (page.label === "home" && bp.name === "390" && theme === "dark") ||
-            (page.label === "projects" && bp.name === "1024" && theme === "dark") ||
-            (page.label === "harness" && (bp.name === "1440" || bp.name === "768")) ||
-            (page.label === "registry" && bp.name === "1440");
-
-          if (!isKey) continue;
-
-          const viewport = { width: bp.width, height: bp.height };
-          const pageInst = await context.newPage();
-          await pageInst.setViewportSize(viewport);
-
-          // Visit, set theme, reload to ensure no flash state
-          await pageInst.goto(`${BASE}${page.path}`, { waitUntil: "networkidle" });
-          await pageInst.evaluate((t) => {
-            try {
-              localStorage.setItem("jami-theme", t);
-            } catch {}
-          }, theme);
-          await pageInst.reload({ waitUntil: "networkidle" });
-          // Give grain + layout one frame
-          await wait(120);
-
-          const safePath = page.path.replace(/\//g, "-").replace(/^-/, "") || "home";
-          const filename = `${OUT}/${safePath}-${theme}-${bp.name}.png`;
-          await pageInst.screenshot({ path: filename, fullPage: true });
-          console.log("captured", filename);
-
-          await pageInst.close();
+    const page = await context.newPage();
+    for (const p of pages) {
+      for (const w of widths) {
+        await page.setViewportSize({ width: w, height: 900 });
+        await page.goto(`${BASE}${p.path}`, { waitUntil: "networkidle" });
+        await page.waitForTimeout(300);
+        const m = await page.evaluate(() => {
+          const de = document.documentElement;
+          return { scrollW: de.scrollWidth, clientW: de.clientWidth, theme: de.dataset.theme };
+        });
+        const tag = `${p.name}-${theme}-${w}`;
+        if (m.scrollW > m.clientW + 1) {
+          overflowCount++;
+          console.log(`  OVERFLOW ${tag}: scrollW=${m.scrollW} clientW=${m.clientW}`);
         }
+        await page.screenshot({ path: resolve(OUT, `${tag}.png`), fullPage: true });
+        console.log(`captured ${tag} (theme=${m.theme})`);
       }
     }
-  } finally {
     await context.close();
-    await browser.close();
-    server.kill("SIGTERM");
-    await wait(200);
   }
+} finally {
+  await browser.close();
+  server.kill("SIGTERM");
+  await wait(200);
 }
 
-capture().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+console.log(`\nDONE — ${overflowCount === 0 ? "no overflow detected" : overflowCount + " overflow issue(s)"}; screenshots in ${OUT}`);

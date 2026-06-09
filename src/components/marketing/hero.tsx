@@ -20,11 +20,12 @@ export function Hero({
 }: HeroProps) {
   return (
     <section className="section hero">
+      <div className="atmosphere" aria-hidden="true" />
       <div className="hero-copy">
         <p className="meta">{eyebrow}</p>
         <h1>{title}</h1>
         <p className="lead">{lead}</p>
-        <div className="button-row" style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        <div className="button-row">
           <Button href={primaryCta.href} variant="primary">
             {primaryCta.label}
           </Button>

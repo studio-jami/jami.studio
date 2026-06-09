@@ -6,7 +6,7 @@ import { GrainOverlay } from "@/components/system/grain-overlay";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
 import { inlineCssVariables } from "@/tokens/css-vars";
-import { getPreset, defaultTheme } from "@/tokens/nocturne";
+import { getPreset } from "@/tokens/nocturne";
 import "@/styles/globals.css";
 
 const geistSans = Geist({
@@ -50,13 +50,19 @@ const themeBootstrap = `
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const activePreset = getPreset(defaultTheme);
-  const themeVars = inlineCssVariables(activePreset);
+
+  // Emit BOTH theme presets as CSS-var blocks so the [data-theme] switch (set
+  // before paint by themeBootstrap) actually re-skins the whole surface, not
+  // just the grain/atmosphere. Dark is the default on :root; light overrides
+  // when [data-theme="light"] is present.
+  const darkVars = inlineCssVariables(getPreset("dark"));
+  const lightVars = inlineCssVariables(getPreset("light"));
+  const themeCss = `:root,[data-theme="dark"]{${darkVars}}[data-theme="light"]{${lightVars}}`;
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${geistDisplay.variable}`}>
       <head>
-        <style>{`:root {${themeVars}}`}</style>
+        <style>{themeCss}</style>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
       </head>
       <body>
