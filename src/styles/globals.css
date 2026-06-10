@@ -1790,6 +1790,16 @@ html[data-js] .reveal[data-shown="true"] {
     display: block;
   }
 
+  /* Touch viewports: keep the persistent header controls at ≥44px targets. */
+  .theme-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .menu-button {
+    height: 2.75rem;
+  }
+
   .card-grid {
     grid-template-columns: 1fr;
   }

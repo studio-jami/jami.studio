@@ -13,6 +13,12 @@ type ProjectCardProps = {
    * `card` — the gallery panel used on the projects index.
    */
   variant?: "row" | "card";
+  /**
+   * Heading level so the card slots into any page outline without skips:
+   * `h3` under a section heading (home), `h2` directly under a page `h1`
+   * (projects index).
+   */
+  headingLevel?: "h2" | "h3";
 };
 
 /**
@@ -20,7 +26,12 @@ type ProjectCardProps = {
  * Uses a stretched link so the whole surface is clickable while the heading
  * structure stays clean for human and agent readers.
  */
-export function ProjectCard({ project, position, variant = "card" }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  position,
+  variant = "card",
+  headingLevel: Heading = "h3"
+}: ProjectCardProps) {
   const index = formatIndex(position);
 
   if (variant === "row") {
@@ -30,11 +41,11 @@ export function ProjectCard({ project, position, variant = "card" }: ProjectCard
           {index}
         </span>
         <div className="work-main">
-          <h3 className="work-name">
+          <Heading className="work-name">
             <Link href={projectPath(project)} className="stretched-link">
               {project.name}
             </Link>
-          </h3>
+          </Heading>
           <p className="work-sum">{project.summary}</p>
         </div>
         <span className="work-host">{project.subdomain}</span>
@@ -53,11 +64,11 @@ export function ProjectCard({ project, position, variant = "card" }: ProjectCard
         </span>
         <Tag>{project.shortName}</Tag>
       </div>
-      <h3 className="card-name">
+      <Heading className="card-name">
         <Link href={projectPath(project)} className="stretched-link">
           {project.name}
         </Link>
-      </h3>
+      </Heading>
       <p className="card-sum">{project.summary}</p>
       <p className="card-pos">{project.positioning}</p>
       <ul className="card-caps" aria-label={`${project.shortName} capability highlights`}>
