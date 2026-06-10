@@ -1,8 +1,9 @@
 /**
  * Headless visual smoke captures for the Nocturne design branch (design/grok).
- * Starts its own production server, then captures every key page in dark + light
- * at all four required breakpoints (1440 / 1024 / 768 / 390), flags any
- * horizontal overflow, and writes full-page PNGs to docs/design/evidence/grok.
+ * Starts its own production server, then captures every public route in dark +
+ * light at all four required breakpoints (1440 / 1024 / 768 / 390), flags any
+ * horizontal overflow, and writes full-page JPEGs (quality 80, scale 1) named
+ * `<route>-<width>-<theme>.jpg` to docs/design/evidence/grok.
  *
  * Run after `pnpm build`:  node scripts/smoke-captures.mjs
  *
@@ -29,7 +30,10 @@ const pages = [
   { name: "home", path: "/" },
   { name: "projects", path: "/projects" },
   { name: "projects-harness", path: "/projects/harness" },
-  { name: "projects-registry", path: "/projects/registry" }
+  { name: "projects-registry", path: "/projects/registry" },
+  { name: "projects-orchestra", path: "/projects/orchestra" },
+  { name: "projects-intercal", path: "/projects/intercal" },
+  { name: "projects-collectiva", path: "/projects/collectiva" }
 ];
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -86,12 +90,17 @@ try {
           const de = document.documentElement;
           return { scrollW: de.scrollWidth, clientW: de.clientWidth, theme: de.dataset.theme };
         });
-        const tag = `${p.name}-${theme}-${w}`;
+        const tag = `${p.name}-${w}-${theme}`;
         if (m.scrollW > m.clientW + 1) {
           overflowCount++;
           console.log(`  OVERFLOW ${tag}: scrollW=${m.scrollW} clientW=${m.clientW}`);
         }
-        await page.screenshot({ path: resolve(OUT, `${tag}.png`), fullPage: true });
+        await page.screenshot({
+          path: resolve(OUT, `${tag}.jpg`),
+          fullPage: true,
+          type: "jpeg",
+          quality: 80
+        });
         console.log(`captured ${tag} (theme=${m.theme})`);
       }
     }
