@@ -23,13 +23,18 @@ export function SiteHeader() {
   const [openedAt, setOpenedAt] = useState<string | null>(null);
   const isOpen = open && openedAt === pathname;
 
-  // Lock scroll while the sheet is open.
+  // Lock scroll while the sheet is open; close on Escape.
   useEffect(() => {
     if (!isOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen]);
 
@@ -39,6 +44,12 @@ export function SiteHeader() {
       if (next) setOpenedAt(pathname);
       return next;
     });
+  }
+
+  // Same-route navigations don't change `pathname`, so links also close
+  // explicitly — the sheet never lingers over the page it points at.
+  function closeMenu() {
+    setOpen(false);
   }
 
   return (
@@ -52,7 +63,12 @@ export function SiteHeader() {
         <nav className="site-nav" aria-label="Primary">
           {site.nav.map((item) =>
             isExternal(item.href) ? (
-              <a key={item.href} href={item.href} className="site-nav-link" rel="noreferrer noopener">
+              <a
+                key={item.href}
+                href={item.href}
+                className="site-nav-link"
+                rel="noreferrer noopener"
+              >
                 {item.label}
               </a>
             ) : (
@@ -87,12 +103,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div
-        id="mobile-menu"
-        className="mobile-menu"
-        data-open={isOpen}
-        hidden={!isOpen}
-      >
+      <div id="mobile-menu" className="mobile-menu" data-open={isOpen} hidden={!isOpen}>
         <nav className="mobile-menu-nav" aria-label="Mobile">
           {site.nav.map((item) =>
             isExternal(item.href) ? (
@@ -101,17 +112,27 @@ export function SiteHeader() {
                 href={item.href}
                 className="mobile-menu-link"
                 rel="noreferrer noopener"
+                onClick={closeMenu}
               >
                 {item.label}
                 <span aria-hidden="true">↗</span>
               </a>
             ) : (
-              <Link key={item.href} href={item.href} className="mobile-menu-link">
+              <Link
+                key={item.href}
+                href={item.href}
+                className="mobile-menu-link"
+                onClick={closeMenu}
+              >
                 {item.label}
               </Link>
             )
           )}
-          <Link href="/projects" className="btn btn--primary btn--lg mobile-menu-cta">
+          <Link
+            href="/projects"
+            className="btn btn--primary btn--lg mobile-menu-cta"
+            onClick={closeMenu}
+          >
             <span className="btn-label">View work</span>
           </Link>
         </nav>

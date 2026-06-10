@@ -14,10 +14,7 @@ export function Atmosphere() {
     <div className="atmosphere" aria-hidden="true">
       <div className="atmosphere-glow atmosphere-glow--1" />
       <div className="atmosphere-glow atmosphere-glow--2" />
-      <div
-        className="grain-overlay"
-        style={{ backgroundImage: `url("${GRAIN_DATA_URI}")` }}
-      />
+      <div className="grain-overlay" style={{ backgroundImage: `url("${GRAIN_DATA_URI}")` }} />
     </div>
   );
 }

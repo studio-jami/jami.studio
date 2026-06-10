@@ -11,13 +11,7 @@ import { FamilyLinks } from "@/components/marketing/family-links";
 import { ProjectLinks } from "@/components/marketing/project-links";
 import { ProofBand } from "@/components/marketing/proof-band";
 import type { StudioProject } from "@/content/projects";
-import { projectDocsUrl, projectRepositoryUrl, projectSubdomainUrl } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live surface",
-  foundation: "Foundation",
-  planned: "On the roadmap"
-};
+import { projectDocsUrl, projectRepositoryUrl } from "@/lib/routes";
 
 /** Maps a registry CTA to a rendered button, resolving internal vs. external. */
 function renderCta(project: StudioProject, cta: StudioProject["ctas"][number], primary: boolean) {
@@ -35,7 +29,14 @@ function renderCta(project: StudioProject, cta: StudioProject["ctas"][number], p
   }
 
   return (
-    <Button key={cta.label} href={cta.href} external variant={variant} size="lg" withArrow={primary}>
+    <Button
+      key={cta.label}
+      href={cta.href}
+      external
+      variant={variant}
+      size="lg"
+      withArrow={primary}
+    >
       {cta.label}
     </Button>
   );
@@ -47,6 +48,11 @@ function renderCta(project: StudioProject, cta: StudioProject["ctas"][number], p
  * cross-links, and a final CTA band. Driven entirely by registry data.
  */
 export function ProjectDetail({ project }: { project: StudioProject }) {
+  // Secondary deep-link: prefer a registry-declared public surface CTA when the
+  // shared data lists one; otherwise fall back to the docs target. Both resolve
+  // from central project data — no status reads, no hand-built hrefs.
+  const surfaceCta = project.ctas.find((cta) => cta.target === "subdomain");
+
   return (
     <article className="project-detail">
       <section className="project-hero" aria-labelledby="project-title">
@@ -59,7 +65,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
             <div className="project-hero-main">
               <div className="project-hero-meta">
                 <Eyebrow>{project.subdomain}</Eyebrow>
-                <Badge tone="accent">{statusLabel[project.internalStatus]}</Badge>
+                <Badge tone="accent">Studio family</Badge>
               </div>
               <h1 id="project-title" className="project-hero-title">
                 {project.name}
@@ -133,8 +139,8 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
           lead="Jump to the repository, the documentation, or the live surface — all resolved from shared project data."
           primary={{ label: "Repository", href: projectRepositoryUrl(project), external: true }}
           secondary={
-            project.internalStatus === "live"
-              ? { label: "Live surface", href: projectSubdomainUrl(project), external: true }
+            surfaceCta
+              ? { label: surfaceCta.label, href: surfaceCta.href, external: true }
               : { label: "Documentation", href: projectDocsUrl(project), external: true }
           }
         />

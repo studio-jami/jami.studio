@@ -189,6 +189,10 @@ body > *:not(.atmosphere) {
   top: 0.75rem;
   left: 0.75rem;
   z-index: 100;
+  /* Explicit box display: transforms do not apply to inline boxes, and the
+     off-screen hide below depends on the transform actually applying. */
+  display: inline-flex;
+  align-items: center;
   padding: 0.6rem 1rem;
   border-radius: var(--radius-md);
   background: var(--accent);
@@ -551,7 +555,8 @@ body > *:not(.atmosphere) {
   width: 100%;
   background: var(--foreground);
   border-radius: 2px;
-  transition: transform var(--motion-duration) var(--motion-easing),
+  transition:
+    transform var(--motion-duration) var(--motion-easing),
     opacity var(--motion-duration) var(--motion-easing);
 }
 
@@ -821,6 +826,18 @@ body > *:not(.atmosphere) {
   font-size: var(--text-sm);
   letter-spacing: 0.1em;
   color: var(--muted-foreground);
+}
+
+.project-card-domain {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  transition: color var(--motion-duration-fast) var(--motion-easing);
+}
+
+.project-card:hover .project-card-domain {
+  color: var(--accent-strong);
 }
 
 .project-card--featured .project-card-top {
@@ -1183,6 +1200,14 @@ details[open] .faq-icon::after {
   margin-top: 2rem;
 }
 
+/* 404 reuses the page-hero language; the extra height keeps the short page
+   composed instead of collapsing the footer up under the header. */
+.not-found {
+  display: grid;
+  align-content: center;
+  min-height: max(58vh, 26rem);
+}
+
 /* ----- Project detail ---------------------------------------------------- */
 .project-detail {
   display: block;
@@ -1384,6 +1409,7 @@ details[open] .faq-icon::after {
 }
 
 .family-link {
+  position: relative;
   display: grid;
   gap: 0.4rem;
   height: 100%;
@@ -1419,18 +1445,11 @@ details[open] .faq-icon::after {
 
 .family-link-arrow {
   position: absolute;
+  top: 1.3rem;
+  right: 1.4rem;
   color: var(--accent);
   opacity: 0;
   transition: opacity var(--motion-duration-fast) var(--motion-easing);
-}
-
-.family-link {
-  position: relative;
-}
-
-.family-link-arrow {
-  top: 1.3rem;
-  right: 1.4rem;
 }
 
 .family-link:hover .family-link-arrow {
@@ -1841,8 +1860,13 @@ a.handle-link:hover {
     transition-duration: 0.001ms !important;
   }
 
-  .reveal {
+  /* Final state immediately — must out-specify `.js-ready .reveal`'s hidden
+     start state so content is never gated on scroll for reduced-motion users. */
+  .reveal,
+  .js-ready .reveal {
     opacity: 1;
     transform: none;
+    transition: none;
+    will-change: auto;
   }
 }

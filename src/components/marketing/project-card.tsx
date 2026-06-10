@@ -1,13 +1,6 @@
 import Link from "next/link";
-import { Badge } from "@/components/primitives/badge";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live",
-  foundation: "Foundation",
-  planned: "Planned"
-};
 
 type ProjectCardProps = {
   project: StudioProject;
@@ -35,7 +28,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
     >
       <div className="project-card-top">
         {number ? <span className="project-card-index">{number}</span> : null}
-        <Badge tone="outline">{statusLabel[project.internalStatus]}</Badge>
+        <span className="project-card-domain">{project.subdomain}</span>
       </div>
 
       <div className="project-card-body">

@@ -72,7 +72,9 @@ export function SiteFooter() {
       </div>
 
       <div className="container site-footer-base">
-        <p>© {year} {site.legalName}. Open-core foundations for agent-native products.</p>
+        <p>
+          © {year} {site.legalName}. Open-core foundations for agent-native products.
+        </p>
         <p>Canonical surface for developers, agents, and the Studio project family.</p>
       </div>
     </footer>
