@@ -850,6 +850,17 @@ p, li, dd {
     width: 100%;
     justify-content: center;
   }
+
+  /* Stack the footer. The desktop two-column grid (1fr + auto nav) squeezed
+     the description to one word per line and let the first nav link overlap
+     the brand wordmark at 390. */
+  .site-footer .container {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer nav {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 390px) {
