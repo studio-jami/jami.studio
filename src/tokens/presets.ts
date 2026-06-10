@@ -182,7 +182,7 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
     logos: {
       markShape: "dot",
       wordmark: "jami.studio",
-      favicon: "/icon.svg"
+      favicon: "/icon.png"
     },
     handles: {
       github: "studio-jami",
@@ -211,9 +211,9 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
 export const neutralFoundationPreset = createTokenPresetFromDials(neutralFoundationDials);
 
 const commonTypography = {
-  sans: "var(--font-sans), ui-sans-serif, system-ui, sans-serif",
-  mono: "var(--font-mono), ui-monospace, SFMono-Regular, Consolas, monospace",
-  display: "var(--font-display), ui-sans-serif, system-ui, sans-serif",
+  sans: "var(--font-inter), ui-sans-serif, system-ui, sans-serif",
+  mono: "var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Consolas, monospace",
+  display: "var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif",
   scale: {
     xs: "0.75rem",
     sm: "0.875rem",
@@ -253,7 +253,7 @@ const commonMotion = {
 const commonLogos = {
   markShape: "dot" as const,
   wordmark: "jami.studio",
-  favicon: "/brand/logo-gold-bg.png"
+  favicon: "/icon.png"
 };
 
 const commonHandles = {

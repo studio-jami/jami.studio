@@ -1,5 +1,13 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { ProjectCard } from "@/components/marketing/project-card";
 import { projects } from "@/content/projects";
+import { createMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = createMetadata({
+  title: "Projects",
+  description: "Project index for the Studio OSS family.",
+  path: "/projects"
+});
 
 export default function ProjectsIndexPage() {
   return (
@@ -11,12 +19,7 @@ export default function ProjectsIndexPage() {
         </div>
         <div className="grid-3">
           {projects.map((project) => (
-            <Link key={project.slug} href={project.route} className="project-card">
-              <span className="eyebrow">{project.shortName}</span>
-              <h3>{project.name}</h3>
-              <p className="summary">{project.summary}</p>
-              <div className="positioning">{project.positioning}</div>
-            </Link>
+            <ProjectCard key={project.slug} project={project} headingLevel="h2" />
           ))}
         </div>
       </div>

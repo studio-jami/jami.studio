@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { site } from "@/content/site";
 
 export function SiteFooter() {
@@ -6,7 +7,10 @@ export function SiteFooter() {
       <div className="container">
         <div className="footer-content">
           <div className="footer-brand">
-            <strong>{site.name}</strong>
+            <span className="brand">
+              <Image src="/brand/mark-gold.png" alt="" width={64} height={64} className="brand-mark" />
+              <strong>{site.name}</strong>
+            </span>
             <p>{site.description}</p>
           </div>
           <nav aria-label="Footer navigation" className="footer-nav">

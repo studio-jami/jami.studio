@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProjectCard } from "@/components/marketing/project-card";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
 
@@ -45,12 +46,7 @@ export default function HomePage() {
           </div>
           <div className="grid-3">
             {projects.map((project) => (
-              <Link key={project.slug} href={project.route} className="project-card">
-                <span className="eyebrow">{project.shortName}</span>
-                <h3>{project.name}</h3>
-                <p className="summary">{project.summary}</p>
-                <div className="positioning">{project.positioning}</div>
-              </Link>
+              <ProjectCard key={project.slug} project={project} />
             ))}
           </div>
         </div>

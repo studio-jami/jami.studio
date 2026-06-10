@@ -12,19 +12,19 @@ import "@/styles/globals.css";
 
 const fontSans = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
   display: "swap"
 });
 
 const fontDisplay = Inter_Tight({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-inter-tight",
   display: "swap"
 });
 
 const fontMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap"
 });
 
@@ -57,9 +57,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <ThemeProvider>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
           <div className="grain-overlay" aria-hidden="true" />
           <SiteHeader />
-          <main>{children}</main>
+          <main id="main">{children}</main>
           <SiteFooter />
         </ThemeProvider>
       </body>

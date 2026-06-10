@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { ProjectCard } from "@/components/marketing/project-card";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
 import { projectLinkTargets } from "@/lib/routes";
@@ -120,14 +120,12 @@ export default async function ProjectPage({ params }: PageProps) {
             <div className="section-header">
               <h2 className="section-title">Part of the Studio Family</h2>
             </div>
-            <div className="grid-3">
-              {projects.filter(p => p.slug !== project.slug).slice(0, 3).map(p => (
-                <Link key={p.slug} href={p.route} className="project-card">
-                  <span className="eyebrow">{p.shortName}</span>
-                  <h3>{p.name}</h3>
-                  <div className="positioning">View Project</div>
-                </Link>
-              ))}
+            <div className="grid-4">
+              {projects
+                .filter((sibling) => sibling.slug !== project.slug)
+                .map((sibling) => (
+                  <ProjectCard key={sibling.slug} project={sibling} variant="compact" />
+                ))}
             </div>
           </div>
         </section>

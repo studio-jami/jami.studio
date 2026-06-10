@@ -1,12 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
+import { HeaderShell } from "./header-shell";
 import { ThemeToggle } from "../theme-toggle";
 
 export function SiteHeader() {
   return (
-    <header className="site-header">
+    <HeaderShell>
       <Link href="/" className="brand" aria-label="jami.studio home">
-        <img src="/brand/logo-gold-bg.png" alt="jami.studio" className="brand-mark" aria-hidden="true" />
+        <Image
+          src="/brand/mark-gold.png"
+          alt=""
+          width={64}
+          height={64}
+          className="brand-mark"
+          priority
+        />
         <span className="brand-wordmark">{site.name}</span>
       </Link>
       <nav aria-label="Primary navigation">
@@ -17,6 +26,6 @@ export function SiteHeader() {
         ))}
         <ThemeToggle />
       </nav>
-    </header>
+    </HeaderShell>
   );
 }

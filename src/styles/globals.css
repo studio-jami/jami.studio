@@ -54,6 +54,28 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-panel-raised);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transform: translateY(calc(-100% - 1.5rem));
+  transition: transform var(--motion-duration-fast) var(--motion-easing);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   margin: 0;
@@ -296,16 +318,27 @@ main {
   gap: var(--spacing-unit);
 }
 
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-unit);
+}
+
 @media (max-width: 1024px) {
-  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 768px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .hero-heading { font-size: clamp(2.5rem, 8vw, 4rem); }
   .section-title { font-size: 2rem; }
   .site-header { padding: 1rem; }
   .site-header nav { gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .brand-wordmark { display: none; }
+  .site-header nav { gap: 0.875rem; }
 }
 
 /* Project Cards */
@@ -534,11 +567,13 @@ main {
   max-width: 20rem;
 }
 
+.footer-brand .brand {
+  margin-bottom: 0.75rem;
+}
+
 .footer-brand strong {
-  display: block;
   font-family: var(--font-sans);
   font-size: var(--text-lg);
-  margin-bottom: 0.5rem;
 }
 
 .footer-brand p {
