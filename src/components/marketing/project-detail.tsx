@@ -7,14 +7,9 @@ import { Eyebrow } from "@/components/primitives/eyebrow";
 import { Reveal } from "@/components/primitives/reveal";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
+import { projectRole } from "@/components/marketing/project-role";
 import type { ProjectLink, StudioProject } from "@/content/projects";
 import { projectLinkTargets } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live surface",
-  foundation: "Reference foundation",
-  planned: "On the roadmap"
-};
 
 function ctaVariant(kind: ProjectLink["kind"], index: number): "primary" | "secondary" {
   if (kind === "primary" || index === 0) return "primary";
@@ -57,9 +52,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
         <div className="container container--wide">
           <div className="project-hero__top">
             <Eyebrow>{project.shortName}</Eyebrow>
-            <Badge tone={project.internalStatus === "live" ? "accent" : "outline"}>
-              {statusLabel[project.internalStatus]}
-            </Badge>
+            <Badge tone="accent">{projectRole[project.slug]}</Badge>
           </div>
 
           <div className="project-hero__grid">
@@ -74,10 +67,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
               </div>
             </div>
 
-            <aside
-              className="project-facts"
-              aria-label={`${project.name} public links`}
-            >
+            <aside className="project-facts" aria-label={`${project.name} public links`}>
               <p className="project-facts__title">Public surface</p>
               <ul className="project-facts__list">
                 {linkTargets.map((target) => {
@@ -87,9 +77,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
                       <a
                         href={target.href}
                         className="project-fact"
-                        {...(external
-                          ? { target: "_blank", rel: "noreferrer noopener" }
-                          : {})}
+                        {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
                       >
                         <span className="project-fact__label">{target.label}</span>
                         <span className="project-fact__value">{target.value}</span>
@@ -145,11 +133,7 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
 
       {/* Proof posture */}
       <Section size="compact" tone="sunken" bordered>
-        <SectionHeading
-          index="03"
-          eyebrow="Why the boundary holds"
-          title="Proof posture"
-        />
+        <SectionHeading index="03" eyebrow="Why the boundary holds" title="Proof posture" />
         <ul className="proof proof--detail">
           {project.proofPoints.map((point, index) => (
             <li key={point} className="proof__item">

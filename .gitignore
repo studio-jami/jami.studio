@@ -54,3 +54,6 @@ tmp/
 temp/
 .tmp/
 *.local
+
+# Visual smoke-capture output (scripts/shoot.mjs)
+.shots/

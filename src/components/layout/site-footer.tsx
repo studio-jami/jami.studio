@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { BrandMark } from "@/components/layout/brand-mark";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
@@ -32,14 +33,7 @@ export function SiteFooter() {
       <div className="container container--wide">
         <div className="footer__top">
           <div className="footer__brand">
-            <Link href="/" className="brand" aria-label="jami.studio — home">
-              <span className="brand__mark" aria-hidden="true">
-                <span className="brand__glyph" />
-              </span>
-              <span className="brand__word">
-                jami<span className="brand__dot">.</span>studio
-              </span>
-            </Link>
+            <BrandMark size="lg" />
             <p className="footer__blurb">{site.description}</p>
             <div className="footer__handles">
               <a

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { useEffect, useState } from "react";
+import { BrandMark } from "@/components/layout/brand-mark";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { site } from "@/content/site";
 
@@ -44,14 +45,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link href="/" className="brand" aria-label="jami.studio — home">
-          <span className="brand__mark" aria-hidden="true">
-            <span className="brand__glyph" />
-          </span>
-          <span className="brand__word">
-            jami<span className="brand__dot">.</span>studio
-          </span>
-        </Link>
+        <BrandMark />
 
         <nav className="nav nav--desktop" aria-label="Primary">
           {site.nav.map((item) => (

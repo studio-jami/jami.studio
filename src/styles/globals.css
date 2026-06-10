@@ -361,22 +361,44 @@ body > * {
   color: var(--foreground-strong);
 }
 
-.brand__mark {
-  display: grid;
-  place-items: center;
-  width: 1.55rem;
-  height: 1.55rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--surface-panel);
+.brand--lg {
+  gap: 0.7rem;
+  font-size: 1.2rem;
 }
 
-.brand__glyph {
-  width: 0.62rem;
-  height: 0.62rem;
-  border-radius: 1px;
-  background: var(--accent);
-  transform: rotate(45deg);
+.brand--lg .brand__mark {
+  width: 2.3rem;
+  height: 2.3rem;
+}
+
+.brand__mark {
+  position: relative;
+  display: block;
+  width: 1.85rem;
+  height: 1.85rem;
+  flex: none;
+  border-radius: var(--radius-pill);
+  background: var(--surface-panel);
+  box-shadow:
+    0 0 0 1px var(--border-strong),
+    0 0 0 3px var(--surface-canvas),
+    0 0 0 4px var(--accent-line);
+  overflow: hidden;
+  transition: box-shadow var(--motion-duration-fast) var(--motion-easing);
+}
+
+.brand__avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand:hover .brand__mark {
+  box-shadow:
+    0 0 0 1px var(--border-strong),
+    0 0 0 3px var(--surface-canvas),
+    0 0 0 4px var(--accent);
 }
 
 .brand__dot {
@@ -688,7 +710,7 @@ body > * {
    ========================================================================= */
 .showcase {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.25rem;
   margin-top: 3rem;
 }
@@ -698,7 +720,7 @@ body > * {
 }
 
 .showcase--featured .showcase__cell:first-child {
-  grid-column: span 3;
+  grid-column: span 4;
 }
 
 .project-card {
@@ -786,6 +808,8 @@ body > * {
   gap: 0.45rem;
   font-size: 0.85rem;
   font-weight: 560;
+  white-space: nowrap;
+  flex-shrink: 0;
   color: var(--foreground-strong);
   transition: color var(--motion-duration-fast) var(--motion-easing);
 }
@@ -809,8 +833,7 @@ body > * {
   gap: clamp(1.5rem, 4vw, 3.5rem);
   min-height: 0;
   background:
-    radial-gradient(80% 120% at 100% 0%, var(--accent-soft), transparent 60%),
-    var(--surface-panel);
+    radial-gradient(80% 120% at 100% 0%, var(--accent-soft), transparent 60%), var(--surface-panel);
 }
 
 .project-card--featured .project-card__head {
@@ -987,8 +1010,16 @@ body > * {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(60% 120% at 12% 0%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 60%),
-    radial-gradient(50% 120% at 100% 100%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%);
+    radial-gradient(
+      60% 120% at 12% 0%,
+      color-mix(in srgb, var(--accent) 40%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 120% at 100% 100%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 65%
+    );
   opacity: 0.55;
 }
 
@@ -1275,6 +1306,7 @@ body > * {
 
 .proof--detail {
   margin-top: 2.5rem;
+  border-top: 1px solid var(--hairline);
 }
 
 /* Cross links */
@@ -1287,6 +1319,12 @@ body > * {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
   overflow: hidden;
+}
+
+/* Each cell must fill its grid row, or the hairline gap background bleeds
+   through below shorter cards. */
+.cross-links > li {
+  display: grid;
 }
 
 .cross-link {
@@ -1630,22 +1668,7 @@ a.footer__handle:hover {
 /* =========================================================================
    RESPONSIVE
    ========================================================================= */
-@media (max-width: 1024px) {
-  .hero__lower,
-  .lead-block,
-  .project-positioning {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .project-hero__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pillars {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
+@media (max-width: 1280px) {
   .showcase {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1653,9 +1676,26 @@ a.footer__handle:hover {
   .showcase--featured .showcase__cell:first-child {
     grid-column: span 2;
   }
+}
+
+@media (max-width: 1024px) {
+  .hero__lower,
+  .lead-block,
+  .project-positioning {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .project-hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
   .footer__top {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1678,33 +1718,46 @@ a.footer__handle:hover {
 
   .capabilities,
   .cross-links {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Stack the featured tile. `nowrap` + auto basis matter: with the desktop
+     `wrap` + `flex-basis: 100%` foot still active, a column flex container
+     wraps the foot into a SECOND COLUMN and forces horizontal page overflow. */
   .project-card--featured {
     flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .project-card--featured .project-card__foot {
+    flex-basis: auto;
   }
 
   .config-panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .dial-grid,
   .token-grid,
   .ownership-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .showcase,
+  /* minmax(0, 1fr), NOT 1fr: a bare 1fr track has an `auto` minimum, so the
+     column inflates to the cards' intrinsic min-content (the single-line
+     tease + CTA row) and overflows the viewport. */
+  .showcase {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .showcase--featured .showcase__cell:first-child {
-    grid-template-columns: 1fr;
     grid-column: auto;
   }
 
   .pillars {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .hero__stats {
@@ -1719,7 +1772,7 @@ a.footer__handle:hover {
   }
 
   .footer__nav {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .footer__bottom {

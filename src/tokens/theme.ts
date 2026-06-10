@@ -30,8 +30,35 @@ export const atelierDials: ThemeDials = {
   motion: 30
 };
 
-/** The active site preset, generated through the shared schema machinery. */
-export const atelierPreset = createTokenPresetFromDials(atelierDials);
+/**
+ * The active site preset, generated through the shared schema machinery, with
+ * the branch-owned logo/wordmark fields set to the official jami.studio brand:
+ * the illustrated portrait framed as an avatar badge ("frame" mark shape)
+ * beside the lowercase rounded-sans wordmark, with the brand favicon.
+ */
+const generatedPreset = createTokenPresetFromDials(atelierDials);
+
+export const atelierPreset = {
+  ...generatedPreset,
+  logos: {
+    ...generatedPreset.logos,
+    markShape: "frame" as const,
+    wordmark: "jami.studio",
+    favicon: "/icon.png"
+  }
+};
+
+/** Brand asset paths (portrait variants live in /public/brand). */
+export const brand = {
+  /** Violet-bow portrait lockup — matches the Atelier violet accent. */
+  portrait: "/brand/logo-white-bg.jpg",
+  /** Warm-cream portrait lockup alternate. */
+  portraitWarm: "/brand/logo-cream-bg.jpg",
+  /** Square face crop of the portrait, used for the header/footer avatar. */
+  avatar: "/brand/avatar.png",
+  wordmark: "jami.studio",
+  favicon: "/icon.png"
+} as const;
 
 /**
  * Editorial type stacks. The CSS-variable names below are populated by
@@ -142,9 +169,9 @@ const darkTheme: Record<string, string> = {
   "--muted": "#1c1a17",
   "--muted-foreground": "#a39c8d",
   "--subtle-foreground": "#7e7768",
-  "--card": "#17151210",
+  "--card": "#1a1815",
   "--card-foreground": "#eee9df",
-  "--panel": "#19171300",
+  "--panel": "#1a1815",
   "--panel-foreground": "#eee9df",
   "--surface-panel": "#1a1815",
   "--surface-panel-raised": "#211e1a",

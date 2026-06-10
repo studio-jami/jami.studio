@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { Badge } from "@/components/primitives/badge";
+import { projectRole } from "@/components/marketing/project-role";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live",
-  foundation: "Foundation",
-  planned: "Roadmap"
-};
 
 export function ProjectCard({
   project,
@@ -30,9 +25,7 @@ export function ProjectCard({
         <span className="project-card__index" aria-hidden="true">
           {number}
         </span>
-        <Badge tone={project.internalStatus === "live" ? "accent" : "outline"}>
-          {statusLabel[project.internalStatus]}
-        </Badge>
+        <Badge tone="outline">{projectRole[project.slug]}</Badge>
       </div>
 
       <div className="project-card__body">
