@@ -365,6 +365,12 @@ img {
 
 .brand-mark {
   flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent-edge);
+  box-shadow: var(--shadow-sm);
+  object-fit: cover;
 }
 
 .wordmark-text {

@@ -52,10 +52,16 @@ const sharedMotion: TokenPreset["motion"] = {
   intensity: 30
 };
 
+/**
+ * The official brand mark is the illustrated studio portrait (round glasses,
+ * soft waves, ribbon-bow choker) above a lowercase wordmark. The portrait is
+ * presented as a circular cameo — the schema's closest mark shape is
+ * "monogram" (one identifying mark). Source variants: `public/brand/`.
+ */
 const sharedLogos: TokenPreset["logos"] = {
-  markShape: "frame",
+  markShape: "monogram",
   wordmark: "jami.studio",
-  favicon: "/icon.svg"
+  favicon: "/icon.png"
 };
 
 const sharedHandles: TokenPreset["handles"] = {

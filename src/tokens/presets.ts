@@ -261,7 +261,7 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
     logos: {
       markShape: "dot",
       wordmark: "jami.studio",
-      favicon: "/icon.svg"
+      favicon: "/icon.png"
     },
     handles: {
       github: "studio-jami",

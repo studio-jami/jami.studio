@@ -1,28 +1,23 @@
+import Image from "next/image";
+import mark from "../../../public/brand/jami-mark.png";
+
 /**
- * The ASH & IRIS mark: a hairline frame holding a single point of light —
- * the registry's "frame" mark shape rendered in currentColor + accent.
+ * The official jami.studio mark: the illustrated studio portrait (round
+ * glasses, soft waves, ribbon-bow choker) presented as a circular cameo with
+ * a hairline ring. Source variants live in `public/brand/`; the cameo crop is
+ * generated from the ivory variant so it sits on both themes.
  */
 export function BrandMark({ className }: { className?: string }) {
   return (
-    <svg
-      className={className ? `brand-mark ${className}` : "brand-mark"}
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-      fill="none"
+    <Image
+      src={mark}
+      alt=""
       aria-hidden="true"
-    >
-      <rect
-        x="3.25"
-        y="3.25"
-        width="17.5"
-        height="17.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        opacity="0.7"
-      />
-      <circle cx="12" cy="12" r="3" fill="var(--accent)" />
-    </svg>
+      width={28}
+      height={28}
+      className={className ? `brand-mark ${className}` : "brand-mark"}
+      priority
+    />
   );
 }
 
