@@ -46,9 +46,6 @@ export function SiteFooter() {
         <nav className="site-footer-col" aria-label="Site">
           <p className="site-footer-col-title">Resources</p>
           <ul>
-            <li>
-              <Link href="/projects">All projects</Link>
-            </li>
             {site.nav.map((item) =>
               isExternal(item.href) ? (
                 <li key={item.href}>

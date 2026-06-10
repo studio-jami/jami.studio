@@ -1791,7 +1791,15 @@ a.handle-link:hover {
 
   .project-card--featured {
     flex-direction: column;
+    /* The desktop feature tile wraps a row flow; a wrapping *column* flow
+       against `min-height` would push body/foot into a clipped second column,
+       so stacked mode must not wrap. */
+    flex-wrap: nowrap;
     align-items: stretch;
+  }
+
+  .project-card--featured .project-card-top {
+    flex-basis: auto;
   }
 
   .project-card--featured .project-card-body,
