@@ -130,6 +130,15 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  /* Enlarged hit area without layout shift (44px touch guideline). */
+  padding: 0.375rem;
+  margin: -0.375rem;
+  border-radius: var(--radius-md);
+}
+
+.brand:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
 .brand-mark {
@@ -157,6 +166,9 @@ main {
   font-weight: 500;
   color: var(--muted-foreground);
   transition: color var(--motion-duration-fast) var(--motion-easing);
+  /* Enlarged hit area without layout shift (44px touch guideline). */
+  padding: 0.875rem 0.25rem;
+  margin: -0.875rem -0.25rem;
 }
 
 .nav-link:hover, .nav-link:focus-visible {
@@ -171,8 +183,9 @@ main {
 
 /* Theme Toggle */
 .theme-toggle, .theme-toggle-placeholder {
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.375rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,7 +375,7 @@ main {
   box-shadow: var(--shadow-md);
 }
 
-.project-card h3 {
+.project-card :is(h2, h3) {
   font-size: var(--text-xl);
   margin-bottom: 0.5rem;
 }
@@ -396,7 +409,7 @@ main {
   border: 1px solid var(--border);
 }
 
-.pillar-panel h3 {
+.pillar-panel h2 {
   font-size: var(--text-xl);
   margin-bottom: 0.75rem;
 }
@@ -472,6 +485,12 @@ main {
 
 .fact-link:hover {
   border-color: var(--accent);
+}
+
+.fact-link:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
 .fact-link strong {
@@ -595,6 +614,24 @@ main {
 
 .footer-link:hover {
   color: var(--foreground);
+}
+
+.footer-link:focus-visible {
+  outline: none;
+  color: var(--foreground);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+@media (max-width: 768px) {
+  /* Comfortable touch targets for the stacked footer link list. */
+  .footer-nav {
+    gap: 0.25rem;
+  }
+
+  .footer-link {
+    padding-block: 0.875rem;
+  }
 }
 
 .footer-bottom {

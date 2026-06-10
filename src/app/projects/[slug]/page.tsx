@@ -72,12 +72,12 @@ export default async function ProjectPage({ params }: PageProps) {
             <div className="grid-2">
               <div className="pillar-panel">
                 <span className="eyebrow">Audience</span>
-                <h3>Who it serves</h3>
+                <h2>Who it serves</h2>
                 <p>{project.audience}</p>
               </div>
               <div className="pillar-panel">
                 <span className="eyebrow">AI Summary</span>
-                <h3>Agent-readable shape</h3>
+                <h2>Agent-readable shape</h2>
                 <p>{project.aiSummary}</p>
               </div>
             </div>

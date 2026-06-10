@@ -30,7 +30,7 @@ export default function HomePage() {
             {site.home.pillars.map((pillar, index) => (
               <article key={pillar.title} className="pillar-panel">
                 <span className="section-number">{(index + 1).toString().padStart(2, "0")}</span>
-                <h3>{pillar.title}</h3>
+                <h2>{pillar.title}</h2>
                 <p>{pillar.body}</p>
               </article>
             ))}
