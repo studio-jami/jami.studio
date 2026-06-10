@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ConfigPanel } from "@/components/config-panel/config-panel";
+import { ProjectDetail } from "@/components/marketing/project-detail";
+import { Reveal } from "@/components/ui/reveal";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
-import { projectLinkTargets } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -36,74 +40,30 @@ export default async function ProjectPage({ params }: PageProps) {
   }
 
   const jsonLd = projectJsonLd(project);
-  const linkTargets = projectLinkTargets(project);
 
   return (
-    <article className="section project-detail">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="project-hero">
-        <div className="section-heading">
-          <p className="meta">{project.subdomain}</p>
-          <h1>{project.name}</h1>
-          <p>{project.positioning}</p>
-          <div className="button-row">
-            {project.ctas.map((cta, index) => (
-              <a
-                key={cta.href}
-                className={`button ${index === 0 ? "primary" : "secondary"}`}
-                href={cta.href}
-              >
-                {cta.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        <aside className="project-facts" aria-label={`${project.name} public links`}>
-          {linkTargets.map((target) => (
-            <a key={target.label} href={target.href}>
-              <span>{target.label}</span>
-              <strong>{target.value}</strong>
-            </a>
-          ))}
-        </aside>
-      </div>
-
-      <div className="detail-grid project-overview">
-        <section>
-          <p className="meta">Audience</p>
-          <h2>Who it serves</h2>
-          <p>{project.audience}</p>
-        </section>
-        <section>
-          <p className="meta">AI summary</p>
-          <h2>Agent-readable shape</h2>
-          <p>{project.aiSummary}</p>
-        </section>
-      </div>
-
-      <div className="detail-grid">
-        <section>
-          <p className="meta">Capabilities</p>
-          <h2>What it provides</h2>
-          <ul>
-            {project.capabilities.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-        <section>
-          <p className="meta">Proof posture</p>
-          <h2>Why the boundary holds</h2>
-          <ul>
-            {project.proofPoints.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-      </div>
-    </article>
+      <ProjectDetail project={project}>
+        {project.slug === "registry" ? (
+          <Section className="detail-exhibit">
+            <Reveal>
+              <SectionHeading
+                number="03+"
+                kicker="Exhibit"
+                title="The vocabulary, live."
+                lead="This site runs on the same contract the registry publishes: schema-validated dials, generated CSS variables, and registry-ready metadata. Adjust the foundation preset below — nothing outside the specimen changes."
+              />
+            </Reveal>
+            <Reveal delay={80}>
+              <ConfigPanel />
+            </Reveal>
+          </Section>
+        ) : null}
+      </ProjectDetail>
+    </>
   );
 }

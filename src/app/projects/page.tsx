@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { Atmosphere } from "@/components/layout/atmosphere";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { ProjectCard } from "@/components/marketing/project-card";
+import { Reveal } from "@/components/ui/reveal";
+import { Section, Shell } from "@/components/ui/section";
 import { projects } from "@/content/projects";
+import { site } from "@/content/site";
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
@@ -12,23 +17,43 @@ export const metadata: Metadata = createMetadata({
 export default function ProjectsPage() {
   return (
     <>
-      <section className="section page-hero">
-        <div className="section-heading">
-          <p className="meta">Studio OSS family</p>
-          <h1>Projects</h1>
-          <p>
+      <section className="page-hero" aria-label="Projects introduction">
+        <Atmosphere variant="hero" />
+        <Shell className="page-hero-inner">
+          <p className="eyebrow">Studio OSS family</p>
+          <h1 className="page-title">
+            The <em className="page-title-em">index</em>.
+          </h1>
+          <p className="page-lead">
             Separate products over shared foundations: governed agents, trusted UI, coordination,
             temporal knowledge, and open agent society.
           </p>
-        </div>
+        </Shell>
       </section>
-      <section className="section project-index">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+
+      <Section className="project-index">
+        <div className="card-grid">
+          {projects.map((project, index) => (
+            <Reveal key={project.slug} delay={(index % 2) * 70}>
+              <ProjectCard project={project} position={index + 1} variant="card" />
+            </Reveal>
           ))}
         </div>
-      </section>
+      </Section>
+
+      <CtaBand
+        kicker="Machine readable"
+        title={
+          <>
+            The same family, as <em className="cta-em">source</em>.
+          </>
+        }
+        lead={site.home.proof}
+        actions={[
+          { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href },
+          { label: "Back to the studio", href: "/", variant: "secondary" }
+        ]}
+      />
     </>
   );
 }

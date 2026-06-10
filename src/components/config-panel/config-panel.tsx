@@ -19,6 +19,11 @@ function formatDialValue(value: ThemeDials[keyof ThemeDials]) {
   return typeof value === "number" ? String(value) : value;
 }
 
+/**
+ * The registry vocabulary, live: the foundation token contract rendered as an
+ * interactive specimen. Dials drive the shared preset generator; the output
+ * vars are scoped to the specimen surface only.
+ */
 export function ConfigPanel() {
   const [activeTab, setActiveTab] = useState<PanelTab>("Dials");
   const [dials, setDials] = useState<ThemeDials>(neutralFoundationDials);
@@ -30,19 +35,17 @@ export function ConfigPanel() {
   }
 
   return (
-    <section
-      className="config-panel"
-      aria-labelledby="config-panel-title"
-      style={cssVars as CSSProperties}
-    >
-      <div className="config-panel-sidebar">
-        <p className="meta">Internal token foundation</p>
-        <h2 id="config-panel-title">Theme dials and registry seed</h2>
-        <p>
+    <section className="config-panel" aria-labelledby="config-panel-title">
+      <div className="config-side">
+        <p className="eyebrow">Foundation contract</p>
+        <h3 id="config-panel-title" className="config-title">
+          Theme dials and registry seed
+        </h3>
+        <p className="config-lead">
           Inspect the shared token contract without freezing a final marketing look. Design branches
           can change values while keeping the schema, metadata, and CSS variable pipeline.
         </p>
-        <div className="panel-tabs" aria-label="Configuration panel views">
+        <div className="panel-tabs" role="group" aria-label="Configuration panel views">
           {panelTabs.map((tab) => (
             <button
               type="button"
@@ -56,7 +59,7 @@ export function ConfigPanel() {
         </div>
       </div>
 
-      <div className="config-panel-body">
+      <div className="config-body">
         {activeTab === "Dials" && (
           <div className="dial-grid">
             {dialDefinitions.map((dial) => {
@@ -64,7 +67,7 @@ export function ConfigPanel() {
 
               return (
                 <label className="dial" key={dial.id}>
-                  <span>
+                  <span className="dial-head">
                     <strong>{dial.label}</strong>
                     <small>{dial.description}</small>
                   </span>
@@ -80,8 +83,7 @@ export function ConfigPanel() {
                       ))}
                     </select>
                   ) : (
-                    <>
-                      <output>{formatDialValue(value)}</output>
+                    <span className="dial-control">
                       <input
                         type="range"
                         min={dial.min}
@@ -90,7 +92,8 @@ export function ConfigPanel() {
                         value={value as number}
                         onChange={(event) => updateDial(dial.id, Number(event.target.value))}
                       />
-                    </>
+                      <output>{formatDialValue(value)}</output>
+                    </span>
                   )}
                 </label>
               );
@@ -99,7 +102,7 @@ export function ConfigPanel() {
         )}
 
         {activeTab === "Tokens" && (
-          <div className="token-grid">
+          <div className="token-grid" style={cssVars as CSSProperties}>
             <TokenSwatch label="background" value={preset.color.background} />
             <TokenSwatch label="foreground" value={preset.color.foreground} />
             <TokenSwatch label="accent" value={preset.color.accent} />
@@ -114,24 +117,24 @@ export function ConfigPanel() {
         {activeTab === "Registry" && (
           <div className="registry-stack">
             <div className="registry-note">
-              <span>Registry item</span>
+              <span className="registry-key">Registry item</span>
               <strong>{registryManifest.items[0]?.name}</strong>
             </div>
             <div className="registry-note">
-              <span>Vocabulary</span>
+              <span className="registry-key">Vocabulary</span>
               <strong>{registryManifest.vocabularyVersion}</strong>
             </div>
             <div className="ownership-grid">
-              <div>
-                <h3>Foundation-owned</h3>
+              <div className="ownership-col">
+                <h4>Foundation-owned</h4>
                 <ul>
                   {registryManifest.ownership.foundationOwned.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
-              <div>
-                <h3>Branch-owned</h3>
+              <div className="ownership-col">
+                <h4>Branch-owned</h4>
                 <ul>
                   {registryManifest.ownership.branchOwned.map((item) => (
                     <li key={item}>{item}</li>

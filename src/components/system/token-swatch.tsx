@@ -10,12 +10,12 @@ export function TokenSwatch({
   return (
     <div className="token-swatch">
       {kind === "color" ? (
-        <span className="token-swatch-chip" style={{ backgroundColor: value }} aria-hidden="true" />
+        <span className="token-chip" style={{ backgroundColor: value }} aria-hidden="true" />
       ) : (
-        <span className="token-swatch-chip value-chip" aria-hidden="true" />
+        <span className="token-chip token-chip--value" aria-hidden="true" />
       )}
-      <span>{label}</span>
-      <code>{value}</code>
+      <span className="token-label">{label}</span>
+      <code className="token-value">{value}</code>
     </div>
   );
 }
