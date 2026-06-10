@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { fontClassName } from "@/app/fonts";
+import { Atmosphere } from "@/components/atmosphere/grain-overlay";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ThemeScript } from "@/components/theme/theme-script";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
-import { neutralFoundationPreset } from "@/tokens/presets";
-import { inlineCssVariables } from "@/tokens/css-vars";
+import { themeStylesheet } from "@/tokens/branch-preset";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = createMetadata({
@@ -14,20 +16,24 @@ export const metadata: Metadata = createMetadata({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const themeVars = inlineCssVariables(neutralFoundationPreset);
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" className={fontClassName} suppressHydrationWarning>
       <head>
-        <style>{`:root {${themeVars}}`}</style>
+        <style dangerouslySetInnerHTML={{ __html: themeStylesheet() }} />
+        <ThemeScript />
       </head>
       <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Atmosphere />
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <SiteHeader />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <SiteFooter />
       </body>
     </html>
