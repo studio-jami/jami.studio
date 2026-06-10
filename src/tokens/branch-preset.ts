@@ -28,7 +28,24 @@ export const branchDials: ThemeDials = {
   motion: 40
 };
 
-export const branchPreset: TokenPreset = createTokenPresetFromDials(branchDials);
+/**
+ * Branch preset values. The logo/wordmark fields are authored here (branch-owned
+ * expression over the shared schema): the brand mark is the official jami.studio
+ * character portrait, presented as a circular *frame* avatar, and the favicon
+ * points at the generated circular portrait icon (`src/app/icon.png`). The
+ * schema's `markShape` enum has no "portrait" member, so we use its nearest
+ * member — `frame` — for the contained, ringed avatar.
+ */
+const generatedPreset = createTokenPresetFromDials(branchDials);
+
+export const branchPreset: TokenPreset = {
+  ...generatedPreset,
+  logos: {
+    markShape: "frame",
+    wordmark: "jami.studio",
+    favicon: "/icon.png"
+  }
+};
 
 /**
  * The light theme is the foundation-generated set (warm off-white neutrals +

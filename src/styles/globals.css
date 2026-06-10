@@ -417,21 +417,46 @@ body > *:not(.atmosphere) {
   color: var(--foreground);
 }
 
-.brand-mark-frame {
-  fill: none;
-  stroke: var(--hairline-strong);
-  stroke-width: 1.4;
+.brand-mark {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--hairline-strong),
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent),
+    0 6px 18px -10px var(--glow-1);
+  transition: box-shadow var(--motion-duration-fast) var(--motion-easing);
 }
 
-.brand-mark-ring {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.6;
-  opacity: 0.85;
+.brand:hover .brand-mark {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 8px 22px -10px var(--glow-1);
 }
 
-.brand-mark-core {
-  fill: var(--accent);
+.brand-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Theme-aware portrait: reveal the variant matching the active canvas. */
+.brand-avatar--light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+:root[data-theme="light"] .brand-avatar--dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .brand-avatar--light {
+  opacity: 1;
 }
 
 .site-nav {
