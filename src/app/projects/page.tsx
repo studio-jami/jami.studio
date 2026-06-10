@@ -23,7 +23,8 @@ export default function ProjectsIndexPage() {
       </section>
 
       <section className="section" style={{ paddingTop: "1rem" }}>
-        <ShowcaseGrid projects={projects} />
+        {/* h2 cards: the only h1 on this page is "Projects" above — no outline skip */}
+        <ShowcaseGrid projects={projects} headingLevel="h2" />
       </section>
     </>
   );

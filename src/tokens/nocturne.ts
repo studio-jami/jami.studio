@@ -12,6 +12,13 @@ import { createTokenPresetFromDials } from "./presets";
  * Reuses the shared schema + generator machinery verbatim. Authors fresh values only.
  */
 
+// Both Nocturne themes set type in Geist via the next/font loader variables
+// (--font-geist-*), with resilient generic fallbacks if the loader is absent.
+const NOCTURNE_SANS_STACK = "var(--font-geist-sans, ui-sans-serif), system-ui, sans-serif";
+const NOCTURNE_MONO_STACK =
+  "var(--font-geist-mono, ui-monospace), SFMono-Regular, Consolas, monospace";
+const NOCTURNE_DISPLAY_STACK = "var(--font-geist-display, ui-sans-serif), system-ui, sans-serif";
+
 // Deep warm-leaning near-black canvas for Lane A. Not pure #000.
 const NOCTURNE_DARK: ThemeDials = validateThemeDials({
   accent: "violet",
@@ -55,7 +62,15 @@ function createDarkNocturnePreset(): TokenPreset {
       border: "#2a2a32",
       ring: "#8b7ee6",
       accent: "#8b7ee6",
-      accentForeground: "#f8f7ff"
+      // Dark ink on the lavender accent: 6.7:1 on #8b7ee6. The previous
+      // near-white (#f8f7ff) measured 3.17:1 — an AA failure for the bold
+      // 14px primary-button label, which is the only consumer of this role.
+      accentForeground: "#0c0c0f"
+    },
+    spacing: {
+      ...base.spacing,
+      // 44px controls (tap-target floor); the density dial yielded 43.4px.
+      control: "2.75rem"
     },
     surface: {
       canvas: "#0c0c0f",
@@ -72,10 +87,12 @@ function createDarkNocturnePreset(): TokenPreset {
     typography: {
       ...base.typography,
       // Sharp geometric display for cinematic confidence. Geist is tech-credible and free.
-      // Falls back gracefully if the Google import is unavailable.
-      display: "var(--font-display)",
-      sans: "var(--font-sans)",
-      mono: "var(--font-mono)"
+      // References the next/font loader variables (set on <html> by layout.tsx) —
+      // NOT the token role vars themselves, which would self-reference and
+      // invalidate the whole font stack (UA Times fallback).
+      display: NOCTURNE_DISPLAY_STACK,
+      sans: NOCTURNE_SANS_STACK,
+      mono: NOCTURNE_MONO_STACK
     },
     logos: {
       markShape: "frame",
@@ -123,6 +140,14 @@ function createLightNocturnePreset(): TokenPreset {
       none: "none",
       sm: "0 1px 1px rgb(20 18 15 / 0.06)",
       md: "0 12px 36px rgb(20 18 15 / 0.09)"
+    },
+    typography: {
+      ...base.typography,
+      // Same Geist stacks as the dark lane — the base preset's Inter literal
+      // never loads (no Inter webfont is shipped) and would silently fall back.
+      display: NOCTURNE_DISPLAY_STACK,
+      sans: NOCTURNE_SANS_STACK,
+      mono: NOCTURNE_MONO_STACK
     },
     logos: {
       markShape: "frame",

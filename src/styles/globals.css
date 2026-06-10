@@ -414,7 +414,9 @@ p, li, dd {
   margin-bottom: 0.25rem;
 }
 
-.project-card h3 {
+/* Card title may be h2 (projects index, under the page h1) or h3 (home, under
+   a section h2) so the document outline never skips a level. */
+.project-card :is(h2, h3) {
   font-size: var(--text-lg);
   margin-bottom: 0.5rem;
 }
@@ -717,12 +719,26 @@ p, li, dd {
   background: var(--surface-panel);
   color: var(--muted-foreground);
   cursor: pointer;
-  transition: all var(--motion-duration-fast) var(--motion-easing);
+  /* Explicit properties only — `all` also transitioned the focus outline,
+     fading the ring in instead of showing it instantly on keyboard focus. */
+  transition:
+    color var(--motion-duration-fast) var(--motion-easing),
+    border-color var(--motion-duration-fast) var(--motion-easing),
+    background-color var(--motion-duration-fast) var(--motion-easing);
 }
 
 .theme-toggle:hover {
   color: var(--foreground);
   border-color: var(--accent);
+}
+
+/* ≥44px tap target for the header control on touch and narrow viewports
+   (WCAG 2.5.5 / platform HIG); desktop pointer keeps the compact 36px square. */
+@media (pointer: coarse), (max-width: 768px) {
+  .theme-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
 .site-footer {

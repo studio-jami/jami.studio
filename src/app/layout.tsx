@@ -9,22 +9,28 @@ import { inlineCssVariables } from "@/tokens/css-vars";
 import { getPreset } from "@/tokens/nocturne";
 import "@/styles/globals.css";
 
+// IMPORTANT: these variable names must differ from the token-emitted role vars
+// (--font-sans/--font-mono/--font-display). When they collided, the token
+// <style> block (later in <head>) overrode next/font's declarations: dark
+// emitted a self-referential `--font-sans: var(--font-sans)` (invalid -> UA
+// serif fallback) and light emitted the base preset's Inter stack — so Geist
+// never rendered. Tokens now reference these loader vars instead.
 const geistSans = Geist({
-  variable: "--font-sans",
+  variable: "--font-geist-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap"
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-mono",
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap"
 });
 
 const geistDisplay = Geist({
-  variable: "--font-display",
+  variable: "--font-geist-display",
   subsets: ["latin"],
   weight: ["600", "700"],
   display: "swap"
