@@ -1,23 +1,62 @@
 import Link from "next/link";
+import { Badge } from "@/components/primitives/badge";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
 
-export function ProjectCard({ project }: { project: StudioProject }) {
+const statusLabel: Record<StudioProject["internalStatus"], string> = {
+  live: "Live",
+  foundation: "Foundation",
+  planned: "Roadmap"
+};
+
+export function ProjectCard({
+  project,
+  index,
+  featured = false
+}: {
+  project: StudioProject;
+  index: number;
+  featured?: boolean;
+}) {
+  const number = String(index + 1).padStart(2, "0");
+  const tease = project.capabilities[0];
+
   return (
-    <article className="project-card">
-      <div>
-        <p className="meta">{project.shortName}</p>
-        <h3>{project.name}</h3>
-        <p>{project.summary}</p>
+    <Link
+      href={projectPath(project)}
+      className={`project-card${featured ? " project-card--featured" : ""}`}
+    >
+      <div className="project-card__head">
+        <span className="project-card__index" aria-hidden="true">
+          {number}
+        </span>
+        <Badge tone={project.internalStatus === "live" ? "accent" : "outline"}>
+          {statusLabel[project.internalStatus]}
+        </Badge>
       </div>
-      <ul className="card-proof">
-        {project.proofPoints.slice(0, 2).map((point) => (
-          <li key={point}>{point}</li>
-        ))}
-      </ul>
-      <Link href={projectPath(project)} className="text-link">
-        Open project
-      </Link>
-    </article>
+
+      <div className="project-card__body">
+        <h3 className="project-card__name">{project.name}</h3>
+        <p className="project-card__summary">{project.summary}</p>
+        {featured ? <p className="project-card__positioning">{project.positioning}</p> : null}
+      </div>
+
+      <div className="project-card__foot">
+        <span className="project-card__tease">{tease}</span>
+        <span className="project-card__cta">
+          <span>Explore {project.shortName}</span>
+          <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+            <path
+              d="M3 8h9M8.5 4l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      </div>
+    </Link>
   );
 }

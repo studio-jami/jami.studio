@@ -1,90 +1,80 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
+import { CtaBand } from "@/components/marketing/cta-band";
+import { Faq } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarsBand } from "@/components/marketing/pillars-band";
+import { ProjectShowcase } from "@/components/marketing/project-showcase";
+import { ProofBand } from "@/components/marketing/proof-band";
+import { Section } from "@/components/primitives/section";
+import { SectionHeading } from "@/components/primitives/section-heading";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
+  const proofPoints = [
+    "One enforcement path for agent runtime, not UI backdoors",
+    "A tokenized UI vocabulary agents render without injecting code",
+    "Coordination state as durable source, separate from the agent loop",
+    "Provenance, freshness, and open governance as first-class surfaces"
+  ];
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <Hero />
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
+      <Section id="principles" width="wide" size="compact">
+        <SectionHeading
+          index="01"
+          eyebrow="What this studio stands for"
+          title="Four foundations, one coherent surface."
+          lead={site.home.proof}
+        />
+        <PillarsBand />
+      </Section>
 
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+      <Section id="work" width="wide" bordered>
+        <SectionHeading
+          index="02"
+          eyebrow="Selected work"
+          title="The product family."
+          lead="Separate products over shared foundations: governed runtime, trusted interfaces, durable coordination, and agent-readable knowledge."
+        />
+        <ProjectShowcase feature />
+      </Section>
 
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
+      <Section id="approach" width="wide" tone="sunken" bordered>
+        <div className="lead-block">
+          <SectionHeading
+            index="03"
+            eyebrow="The approach"
+            title="Built to be read by humans and agents alike."
+          />
+          <p className="lead-block__aside">
+            Every public route, project link, metadata field, sitemap entry, and AI-ingestion file is
+            generated from one shared source of truth — so the family stays consistent as it grows.
+          </p>
+        </div>
+        <ProofBand
+          points={proofPoints}
+          caption="Open-core foundations, published as public product infrastructure."
+        />
+      </Section>
 
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      <Section id="faq" width="wide" size="compact">
+        <SectionHeading index="04" eyebrow="Questions" title="What this repository owns." />
+        <Faq />
+      </Section>
+
+      <Section width="wide" size="compact">
+        <CtaBand
+          eyebrow={`${projects.length} products · open core`}
+          title="Explore the Studio family."
+          lead="Browse the products, or read the AI index for the agent-readable map of the whole surface."
+          actions={[
+            { label: site.home.primaryCta.label, href: site.home.primaryCta.href },
+            { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href }
+          ]}
+        />
+      </Section>
     </>
   );
 }
