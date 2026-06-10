@@ -354,6 +354,8 @@ body > * {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  /* ≥44px tap target; the lockup stays vertically centered inside it. */
+  min-height: 2.75rem;
   font-family: var(--font-display);
   font-weight: 580;
   font-size: 1.0625rem;
@@ -459,6 +461,9 @@ body > * {
 .theme-toggle {
   display: inline-grid;
   place-items: center;
+  /* ≥44px tap target around the visually smaller track. */
+  min-width: 2.75rem;
+  min-height: 2.75rem;
   padding: 0;
   background: none;
   border: none;
@@ -503,9 +508,10 @@ body > * {
   flex-direction: column;
   justify-content: center;
   gap: 5px;
-  width: 2.6rem;
-  height: 2.6rem;
-  padding: 0 0.65rem;
+  /* 2.75rem = 44px minimum tap target. */
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0 0.7rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--surface-panel);

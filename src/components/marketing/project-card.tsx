@@ -7,11 +7,18 @@ import { projectPath } from "@/lib/routes";
 export function ProjectCard({
   project,
   index,
-  featured = false
+  featured = false,
+  headingLevel: Heading = "h3"
 }: {
   project: StudioProject;
   index: number;
   featured?: boolean;
+  /**
+   * Document-outline level for the card name. Defaults to h3 (cards sit under
+   * an h2 section heading on the homepage); the /projects index passes h2 so
+   * the outline stays ordered directly under the page h1.
+   */
+  headingLevel?: "h2" | "h3";
 }) {
   const number = String(index + 1).padStart(2, "0");
   const tease = project.capabilities[0];
@@ -29,7 +36,7 @@ export function ProjectCard({
       </div>
 
       <div className="project-card__body">
-        <h3 className="project-card__name">{project.name}</h3>
+        <Heading className="project-card__name">{project.name}</Heading>
         <p className="project-card__summary">{project.summary}</p>
         {featured ? <p className="project-card__positioning">{project.positioning}</p> : null}
       </div>

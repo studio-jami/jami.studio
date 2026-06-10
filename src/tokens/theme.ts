@@ -121,7 +121,9 @@ const lightTheme: Record<string, string> = {
   "--foreground-strong": "#0c0b08",
   "--muted": "#ebe7dc",
   "--muted-foreground": "#5b564a",
-  "--subtle-foreground": "#7a7464",
+  /* ≥4.5:1 (WCAG AA) on canvas, panel, and sunken surfaces for the small
+     mono labels this role styles; #7a7464 measured ~4.0–4.2:1. */
+  "--subtle-foreground": "#6e6755",
   "--card": "#fffefb",
   "--card-foreground": "#16140f",
   "--panel": "#fffefb",
@@ -168,7 +170,9 @@ const darkTheme: Record<string, string> = {
   "--foreground-strong": "#fbf8f1",
   "--muted": "#1c1a17",
   "--muted-foreground": "#a39c8d",
-  "--subtle-foreground": "#7e7768",
+  /* ≥4.5:1 (WCAG AA) on the dark canvas and panel ramp; #7e7768 measured
+     ~4.0–4.3:1 for the small labels this role styles. */
+  "--subtle-foreground": "#8d8676",
   "--card": "#1a1815",
   "--card-foreground": "#eee9df",
   "--panel": "#1a1815",

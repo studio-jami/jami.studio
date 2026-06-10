@@ -27,7 +27,9 @@ export default function ProjectsPage() {
       </header>
 
       <Section width="wide" size="compact" bordered>
-        <ProjectShowcase feature />
+        {/* h2 card names: the grid sits directly under the page h1, so h3
+            would skip a level in the document outline. */}
+        <ProjectShowcase feature headingLevel="h2" />
       </Section>
 
       <Section width="wide" size="compact">
