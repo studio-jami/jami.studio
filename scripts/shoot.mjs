@@ -227,7 +227,7 @@ async function main() {
           sessionId
         );
         writeFileSync(
-          join(outDir, `${page.name}-${theme}-${view.tag}.jpg`),
+          join(outDir, `${page.name}-${view.tag}-${theme}.jpg`),
           Buffer.from(data, "base64")
         );
         count++;
