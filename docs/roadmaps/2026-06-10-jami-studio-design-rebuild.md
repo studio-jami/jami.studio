@@ -15,7 +15,7 @@ and this lane's own token preset values (dark + light). Out of scope: the founda
 (`schema`/`css-vars`/content/lib), any product runtime, and deployment.
 
 This plan is the official end-to-end work order. It is executed by one Opus 4.8 goal session per lane,
-then re-run by audit/fix goal sessions until a pass lands clean (see `docs/design-goal.md`). The live
+then re-run by audit/fix goal sessions until a pass lands clean (see `docs/engineering/agents/design-goal.md`). The live
 worktree is the source of truth; this plan is the contract for what "done" means, not proof that it is.
 
 ## Status Legend
