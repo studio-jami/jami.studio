@@ -36,15 +36,18 @@ and, for some templates, the React Export subscription — separate from the API
 ## Use
 
 ```bash
-npm run inspect            # read all configured projects -> out/<lane>.json
-node inspect.mjs messageai # just one (lane or template substring)
-npm run export             # unframer each lane's template -> <worktree>/src/framer
-node export.mjs fable      # just one lane
+npm run inspect             # extract all projects -> out/<lane>.json + out/<lane>.full.json
+node inspect.mjs message-ai # just one (lane or template substring)
+node shots.mjs              # optional full-page render -> out/<lane>.home.png
+node export.mjs nouva       # optional unframer React export -> <worktree>/src/framer
 ```
 
-`inspect.mjs` is read-only (never publishes/edits). It also self-documents the
-real SDK surface of whatever `framer-api` beta build is installed, into
-`out/<lane>.json` under `allClientMethods`.
+`inspect.mjs` is read-only (never publishes/edits). It extracts the template's
+real design system headless — `getNodesWithType` (every page/frame/text/component
+node with geometry + per-breakpoint styling) + `getColorStyles` / `getTextStyles`
+(the color + type token systems). `out/<lane>.json` is the compact brief; read it
+top to bottom. `out/<lane>.full.json` is the complete node tree. See
+`CONNECTIONS.md` for the verified per-template counts and the live SDK surface.
 
 ## Lane <-> template mapping (owner preference order; all Opus 4.8)
 
