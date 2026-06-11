@@ -54,12 +54,12 @@ goal sessions on the same lane at once.
 
 ## Hard prerequisite — NO BLOCKERS (satisfied)
 
-Lane work does not begin until the Framer connection is verified and documented — **done 2026-06-10**:
-all five templates connect headless via the Server API and `tools/framer-bridge/CONNECTIONS.md` records
-verified status. Before a lane's pass-1, the orchestrator (working from `main`, where the root `.env`
-lives) runs `node tools/framer-bridge/inspect.mjs <lane>` and deposits `out/<lane>.json` into that
-worktree (best-effort `export.mjs` → `src/framer/` too). The lane agent reads those artifacts and never
-needs `.env` in its worktree.
+Done 2026-06-10: each template's **full design system is extracted headless** via the Server API
+(`getNodesWithType` + `getColorStyles` + `getTextStyles`) — `CONNECTIONS.md` has the verified per-template
+counts. Before a lane's pass-1, the orchestrator (from `main`, where the root `.env` lives) runs
+`node tools/framer-bridge/inspect.mjs <lane>` and deposits `out/<lane>.json` (design brief),
+`out/<lane>.full.json` (full node tree), and `out/<lane>.home.png` (render) into that worktree. The lane
+agent reads those artifacts and never needs `.env` or the bridge in its worktree.
 
 ## Lane mapping (locked direction per lane)
 
