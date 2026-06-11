@@ -31,8 +31,10 @@ const themeStyles = [
 ].join("\n");
 
 // No-flash theme init: runs before paint, applies the stored/system theme so the first
-// frame already matches. Kept tiny and dependency-free.
-const themeInit = `(function(){try{var s=localStorage.getItem('jami-theme');var t=s==='light'||s==='dark'?s:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
+// frame already matches. Also marks the root as JS-enabled (`.js`) so the scroll-reveal
+// hidden state only applies when JS can actually reveal it — without JS (and for static
+// HTML / AI readers) all content stays fully visible. Kept tiny and dependency-free.
+const themeInit = `(function(){var d=document.documentElement;d.classList.add('js');try{var s=localStorage.getItem('jami-theme');var t=s==='light'||s==='dark'?s:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.setAttribute('data-theme',t);}catch(e){d.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];

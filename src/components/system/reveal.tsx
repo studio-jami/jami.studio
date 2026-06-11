@@ -33,6 +33,14 @@ export function Reveal({ children, as: Tag = "div", className, delay = 0 }: Reve
     // Under reduced motion the CSS gate shows the final state; no JS state change needed.
     if (reduced) return;
 
+    // Defensive: if IntersectionObserver isn't available, reveal on the next frame so the
+    // `html.js .reveal` hidden state can never strand content off-screen. Deferred (not a
+    // synchronous setState in the effect body) so it reads as an external-system callback.
+    if (typeof IntersectionObserver === "undefined") {
+      const raf = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(raf);
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

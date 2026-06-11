@@ -1312,6 +1312,8 @@ main {
 }
 
 .footer-link {
+  display: inline-flex;
+  align-items: center;
   color: var(--muted-foreground);
   font-size: var(--text-sm);
   transition: color var(--motion-duration-fast) var(--motion-easing);
@@ -1351,8 +1353,11 @@ main {
   font-size: var(--text-sm);
 }
 
-/* ---------- scroll reveal ---------- */
-.reveal {
+/* ---------- scroll reveal ----------
+   Progressive enhancement only: the hidden initial state applies *exclusively* when JS is
+   present (`html.js`, set pre-paint in layout.tsx) so the IntersectionObserver can reveal
+   it. Without JS — and in static HTML for AI readers — content renders fully visible. */
+html.js .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -1361,7 +1366,7 @@ main {
   will-change: opacity, transform;
 }
 
-.reveal.is-shown {
+html.js .reveal.is-shown {
   opacity: 1;
   transform: none;
 }
@@ -1627,6 +1632,22 @@ main {
     gap: 1.5rem;
   }
 
+  /* Mobile tap targets: footer links become ≥44px hit areas (the list gap collapses since
+     the link padding now carries the rhythm). Brief §9/§14 tap-target floor. */
+  .footer-column ul {
+    gap: 0;
+  }
+
+  .footer-link {
+    min-height: 44px;
+  }
+
+  .footer-email {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
   .footer-base {
     flex-direction: column;
   }
@@ -1668,8 +1689,11 @@ main {
     scroll-behavior: auto !important;
   }
 
+  /* Match the `html.js .reveal` specificity (and force) so reveals are shown immediately
+     under reduced motion even though the observer is intentionally skipped. */
+  html.js .reveal,
   .reveal {
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

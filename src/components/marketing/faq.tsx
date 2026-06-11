@@ -17,7 +17,7 @@ export function FAQ() {
     <Section className="faq" aria-labelledby="faq-title">
       <SectionHeading
         eyebrow="Source boundaries"
-        number="05"
+        number="04"
         title="Built for human and agent readers."
         lead="What this repository owns, where the runtimes live, and why the site publishes AI-readable source."
       />
