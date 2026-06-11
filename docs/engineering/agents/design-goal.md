@@ -68,17 +68,20 @@ never needs `.env` or the bridge in its worktree. The baseline is proven: `pnpm 
 
 ## Lane mapping (locked direction per lane)
 
-| # | Lane / branch | Worktree | Template | Primary lane | Accent |
+| # | Lane / branch | Worktree | Template | Primary lane | Primary accent |
 |---|---|---|---|---|---|
-| 1 | `design/message-ai` | `../jami.studio-message-ai` | Message AI | A — cinematic dark (prime) | `cyan` |
-| 2 | `design/nouva` | `../jami.studio-nouva` | Nouva | B — bold light editorial | `violet` |
-| 3 | `design/kirimo` | `../jami.studio-kirimo` | Kirimo | A — immersive dark creative | `rose` |
-| 4 | `design/noir` | `../jami.studio-noir` | Noir | A — high-contrast dark agency | `amber` |
-| 5 | `design/synk` | `../jami.studio-synk` | Synk | B — systematized light | `green` |
+| 1 | `design/message-ai` | `../jami.studio-message-ai` | Message AI | A — cinematic dark (prime) | `#175d5e` deep teal (dial `cyan`) |
+| 2 | `design/nouva` | `../jami.studio-nouva` | Nouva | B — bold light editorial | `#854780` magenta (dial `violet`) |
+| 3 | `design/kirimo` | `../jami.studio-kirimo` | Kirimo | A — immersive dark creative | `#854c63` wine-rose (dial `rose`) |
+| 4 | `design/noir` | `../jami.studio-noir` | Noir | A — high-contrast dark agency | `#a1704f` copper (dial `amber`) |
+| 5 | `design/synk` | `../jami.studio-synk` | Synk | B — systematized light | `#2b4173` indigo (dial `green` slot) |
 
 Differentiation is assigned, not left to chance: distinct template + aesthetic lane + accent per branch
-guarantees five distinct results that all clear the same bar. Each branch's roadmap carries its own
-"Active lane" block.
+guarantees five distinct results that all clear the same bar. The five accents are the locked brand
+palette — `#175d5e` teal, `#854780` magenta, `#854c63` wine-rose, `#a1704f` copper, `#2b4173` indigo —
+each authored as a `color.accent` token (→ `--accent`/`--primary`), never a component literal, so every
+lane stays swappable/retunable on the token system. Each branch's roadmap carries its own "Active lane"
+block.
 
 ## Definition of Done — per lane
 
