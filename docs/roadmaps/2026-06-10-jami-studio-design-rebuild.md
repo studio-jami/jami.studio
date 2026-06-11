@@ -106,12 +106,17 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
 **Content contracts (frozen — reuse verbatim, all copy comes from here):**
 
 - `src/content/site.ts` — `site.nav` (Projects, AI index, GitHub), `site.home.{eyebrow,title,lead,
-  primaryCta,secondaryCta,pillars[4],proof}`, `site.faqs[3]`, `site.footerLinks`, `site.handles`.
+  primaryCta,secondaryCta,pillars[4],proof}`, `site.faqs[3]`, `site.footerLinks`, `site.handles`
+  (`x` = `@studio_jami`), `site.email` (`hello@jami.studio`), `site.social[]` (GitHub, LinkedIn, X,
+  TikTok). **Surface `site.social` + `site.email` in the footer/contact area on every lane** — they are
+  shared studio identity, not optional.
 - `src/content/projects.ts` — exactly 5 projects (`harness, registry, orchestra, intercal,
   collectiva`). `StudioProject` fields: `name, shortName, route, summary, positioning, audience,
   capabilities[], proofPoints[], ctas[]` (each `ProjectLink` href is **resolved by
   `resolveProjectLink`** — never hand-build an href), `socialImage`, `internalStatus`. `getProject(slug)`.
-- `src/content/links.ts` — `studioLinks.githubOrg = https://github.com/studio-jami`.
+- `src/content/links.ts` — `studioLinks`: `githubOrg`, `linkedin`, `x` (`x.com/studio_jami`), `tiktok`,
+  `email` (`hello@jami.studio`), `emailHref` (`mailto:`). Single source of truth for external studio
+  links + contact; `lib/metadata.ts` `organizationJsonLd().sameAs` already publishes the four socials.
 
 **Lib + AI surfaces (frozen — keep wired):**
 

@@ -266,7 +266,7 @@ export function createTokenPresetFromDials(dials: ThemeDials): TokenPreset {
     handles: {
       github: "studio-jami",
       npm: "@jami-studio",
-      x: "@jami_studio"
+      x: "@studio_jami"
     },
     registry: {
       item: "@jami-studio/theme/neutral-foundation",

@@ -10,8 +10,15 @@ export const site = {
   handles: {
     github: "studio-jami",
     npm: "@jami-studio",
-    x: "@jami_studio"
+    x: "@studio_jami"
   },
+  email: studioLinks.email,
+  social: [
+    { label: "GitHub", href: studioLinks.githubOrg },
+    { label: "LinkedIn", href: studioLinks.linkedin },
+    { label: "X", href: studioLinks.x },
+    { label: "TikTok", href: studioLinks.tiktok }
+  ],
   nav: [
     { label: "Projects", href: "/projects" },
     { label: "AI index", href: "/llms.txt" },
