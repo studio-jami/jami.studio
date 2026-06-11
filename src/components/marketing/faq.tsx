@@ -10,7 +10,7 @@ export function FAQ() {
   return (
     <Section id="faq" aria-labelledby="faq-title">
       <SectionHeading
-        number="04"
+        number="03"
         eyebrow="Questions"
         title="How the hub fits the family"
         id="faq-title"

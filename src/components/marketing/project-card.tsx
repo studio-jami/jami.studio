@@ -10,6 +10,36 @@ const statusLabel: Record<StudioProject["internalStatus"], string> = {
   planned: "In design"
 };
 
+// Trailing function words that read as broken when a tease ends on them.
+const DANGLING = new Set([
+  "with",
+  "for",
+  "through",
+  "and",
+  "or",
+  "of",
+  "to",
+  "the",
+  "a",
+  "an",
+  "in",
+  "on",
+  "by"
+]);
+
+/**
+ * Condense a capability into a short noun-phrase tease without dangling on a function word.
+ * Takes the first few words, then trims any trailing preposition/conjunction/article so the pill
+ * never reads as a mid-sentence truncation ("Shared contracts for" → "Shared contracts").
+ */
+function capabilityTease(capability: string): string {
+  const words = capability.split(/\s+/).slice(0, 3);
+  while (words.length > 1 && DANGLING.has(words[words.length - 1].toLowerCase())) {
+    words.pop();
+  }
+  return words.join(" ");
+}
+
 /**
  * The portfolio unit — one Studio product. Name, summary, positioning hook, a short capability tease,
  * and a full-card link into the detail page. Looks intentional in a grid and standalone.
@@ -35,7 +65,7 @@ export function ProjectCard({ project, index }: { project: StudioProject; index?
 
       <div className="project-card-tags">
         {project.capabilities.slice(0, 3).map((capability) => (
-          <Badge key={capability}>{capability.split(" ").slice(0, 3).join(" ")}</Badge>
+          <Badge key={capability}>{capabilityTease(capability)}</Badge>
         ))}
       </div>
 

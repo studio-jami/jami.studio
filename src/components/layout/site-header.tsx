@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,8 @@ function NavLink({ href, label, onClick }: { href: string; label: string; onClic
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -44,6 +46,21 @@ export function SiteHeader() {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  // Dialog a11y: move focus into the open sheet, close on Escape, and restore focus to the trigger.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const trigger = menuTriggerRef.current;
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      trigger?.focus();
     };
   }, [menuOpen]);
 
@@ -72,6 +89,7 @@ export function SiteHeader() {
         <div className="header-mobile">
           <ThemeToggle />
           <button
+            ref={menuTriggerRef}
             type="button"
             className="menu-button"
             aria-label="Open menu"
@@ -91,6 +109,7 @@ export function SiteHeader() {
               <span>{site.name}</span>
             </Link>
             <button
+              ref={closeButtonRef}
               type="button"
               className="menu-button"
               aria-label="Close menu"

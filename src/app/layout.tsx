@@ -37,7 +37,7 @@ function themeBlock(selector: string, preset: Parameters<typeof tokenCssVariable
 
 // Default theme is light (the lane's primary character); the no-flash script promotes a stored or
 // system preference before first paint so the chosen theme is correct on the very first frame.
-const THEME_INIT = `(function(){try{var s=localStorage.getItem('jami-theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;var t=s==='dark'||s==='light'?s:(m?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+const THEME_INIT = `(function(){var d=document.documentElement;d.setAttribute('data-js','ready');try{var s=localStorage.getItem('jami-theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;var t=s==='dark'||s==='light'?s:(m?'dark':'light');d.setAttribute('data-theme',t);}catch(e){}})();`;
 
 const themeStyles = [
   `:root{color-scheme:light;${Object.entries(tokenCssVariables(lightPreset))

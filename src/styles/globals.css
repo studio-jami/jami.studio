@@ -1542,7 +1542,9 @@ main {
 }
 
 /* ----- Scroll reveal ---------------------------------------------------- */
-.reveal {
+/* Only hide reveals once JS has booted (data-js set by the inline head script before paint).
+   Without JS the IntersectionObserver never runs, so content must stay visible — static-first. */
+[data-js="ready"] .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -1551,7 +1553,7 @@ main {
   will-change: opacity, transform;
 }
 
-.reveal.is-visible {
+[data-js="ready"] .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
