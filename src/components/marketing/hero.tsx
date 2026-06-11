@@ -49,12 +49,12 @@ export function Hero() {
             </ol>
           </aside>
         </div>
+        <div className={styles.scrollCue} aria-hidden="true">
+          <span>{site.name}</span>
+          <span className={styles.scrollDot} />
+          <span>scroll</span>
+        </div>
       </Container>
-      <div className={styles.scrollCue} aria-hidden="true">
-        <span>{site.name}</span>
-        <span className={styles.scrollDot} />
-        <span>scroll</span>
-      </div>
     </header>
   );
 }

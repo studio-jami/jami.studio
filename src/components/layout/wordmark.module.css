@@ -1,6 +1,8 @@
 .brand {
   display: inline-flex;
   align-items: center;
+  /* ≥44px touch target around the inline brand lockup without enlarging the mark. */
+  min-height: 44px;
   gap: 0.6rem;
   font-family: var(--font-display);
   font-weight: 600;

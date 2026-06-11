@@ -40,7 +40,8 @@
 .socialLink {
   display: inline-flex;
   align-items: center;
-  padding: 0.4rem 0.75rem;
+  min-height: 44px;
+  padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
@@ -70,17 +71,27 @@
 .linkList {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
 }
 
 .footerLink {
+  display: inline-flex;
+  align-items: center;
+  /* ≥44px touch target with the text optically left-aligned; the negative
+     inline margin keeps the label flush to the column edge despite padding. */
+  min-height: 44px;
+  margin-inline-start: -0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
   font-size: var(--text-sm);
   color: var(--muted-foreground);
-  transition: color var(--motion-duration-fast) var(--motion-easing);
+  transition:
+    color var(--motion-duration-fast) var(--motion-easing),
+    background var(--motion-duration-fast) var(--motion-easing);
 }
 
 .footerLink:hover {
   color: var(--foreground);
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
 }
 
 .wordmarkBand {

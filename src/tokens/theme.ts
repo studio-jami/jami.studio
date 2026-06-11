@@ -116,7 +116,9 @@ export const darkPreset: TokenPreset = validateTokenPreset({
     border: "#2b2b30",
     ring: "#c68a5e",
     accent: "#a1704f",
-    accentForeground: "#15100c"
+    // Warm near-black so primary-button labels clear WCAG AA (4.5:1) on copper
+    // even at the 13px-bold `md` size — #15100c was 4.45, this is 4.62.
+    accentForeground: "#0f0b07"
   },
   typography: {
     sans: fontSans,
