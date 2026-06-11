@@ -33,11 +33,11 @@ worktree is the source of truth; this plan is the contract for what "done" means
 > lane's locked direction. Differentiation is assigned here on purpose — five branches must read as
 > five distinct studios, not one theme five times.
 
-**Active lane:** _(set on branch — see table)_
-**Template / reference:** _(set on branch)_
-**Primary aesthetic lane:** _(set on branch — A dark-cinematic or B light-editorial; both themes still ship)_
-**Assigned accent (schema enum):** _(set on branch — one of cyan | green | amber | rose | violet)_
-**Framer bridge key:** _(set on branch — used for `tools/framer-bridge/out/<lane>.json`)_
+**Active lane:** `design/nouva`
+**Template / reference:** Nouva
+**Primary aesthetic lane:** B — bold light editorial
+**Assigned accent (schema enum):** `violet`
+**Framer bridge key:** `nouva` → `tools/framer-bridge/out/nouva.json`
 
 | Branch | Template | Primary lane | Accent | Character to hit |
 |---|---|---|---|---|
