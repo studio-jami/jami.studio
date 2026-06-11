@@ -1,13 +1,6 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  planned: "Planned",
-  foundation: "Foundation",
-  live: "Live"
-};
 
 /**
  * The portfolio unit: one Studio product. Name, summary, positioning hook, a
@@ -25,7 +18,6 @@ export function ProjectCard({ project, index }: { project: StudioProject; index?
             {number ? <span className="project-card-number">{number}</span> : null}
             {project.shortName}
           </span>
-          <Badge tone="outline">{statusLabel[project.internalStatus]}</Badge>
         </div>
         <h3 className="project-card-title">{project.name}</h3>
         <p className="project-card-summary">{project.summary}</p>

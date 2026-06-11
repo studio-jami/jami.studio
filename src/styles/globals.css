@@ -1745,7 +1745,10 @@ main {
   .token-grid {
     grid-template-columns: 1fr;
   }
-  /* Comfortable ≥44px tap targets for the footer link lists on touch widths. */
+  /* Comfortable ≥44px tap targets for the footer link lists on touch widths.
+     inline-flex + a self-aligned start keeps the visible label left-aligned while
+     the hit area (incl. narrow single-glyph labels like "X") stays ≥44px tall and
+     wide enough to press. */
   .footer-col ul {
     gap: 0.1rem;
   }
@@ -1753,6 +1756,30 @@ main {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    min-width: 44px;
+  }
+  /* The brand wordmark (header + footer) and the mailto link are interactive too
+     — give them a comfortable vertical hit area on touch widths without altering
+     their look. */
+  .brand,
+  .footer-email {
+    min-height: 44px;
+  }
+  .footer-email {
+    display: inline-flex;
+    align-items: center;
+  }
+  /* Extend the compact theme-toggle's tappable area to 44px on touch widths
+     without enlarging the visible pill (the pseudo-element adds invisible hit
+     area centered on the already-relative control). */
+  .theme-toggle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: 44px;
+    transform: translate(-50%, -50%);
   }
 }
 

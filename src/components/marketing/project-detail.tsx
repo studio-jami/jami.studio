@@ -2,7 +2,6 @@ import Link from "next/link";
 import { CapabilityBand } from "@/components/marketing/capability-band";
 import { CTABand } from "@/components/marketing/cta-band";
 import { ProofBand } from "@/components/marketing/proof-band";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -10,12 +9,6 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { projects, type StudioProject } from "@/content/projects";
 import { projectLinkTargets } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  planned: "Planned",
-  foundation: "Foundation",
-  live: "Live"
-};
 
 const ctaVariant = (kind: StudioProject["ctas"][number]["kind"], index: number) =>
   index === 0 || kind === "primary" ? "primary" : "secondary";
@@ -41,7 +34,6 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
             <Eyebrow>{project.subdomain}</Eyebrow>
             <div className="project-hero-titlerow">
               <h1 id="project-title">{project.name}</h1>
-              <Badge tone="outline">{statusLabel[project.internalStatus]}</Badge>
             </div>
             <p className="project-hero-summary">{project.summary}</p>
             <p className="project-hero-positioning">{project.positioning}</p>
