@@ -1,13 +1,15 @@
 // Capture a full-page render of each template's home page via the Framer Server API.
-// This is the one rich, fully-headless read the Server API beta offers: screenshot()
-// returns a fixed-desktop-width (1200px) PNG of the entire scrolling page — the real
-// visual reference a design agent builds from. Writes out/<lane>.home.png.
+// screenshot(nodeId, options?) returns a PNG/JPEG of the entire scrolling page at the
+// page's desktop-breakpoint width (1200px in these templates) — the visual reference a
+// design agent builds from. Writes out/<lane>.home.png.
 //
 // Usage:  node shots.mjs            # all lanes
 //         node shots.mjs nouva      # one lane (by lane or template substring)
 //
-// Note: width is fixed by the API (no breakpoint control); pages other than home need
-// their node id (from the Framer editor URL ?node=) or the MCP plugin to enumerate.
+// Options exist for format ("png"|"jpeg"), quality, scale (0.5–4 pixel-density
+// multiplier), and clip — but there is no viewport/breakpoint width control; tablet/
+// phone renders are not available headless. Other pages' ids are in out/<lane>.json
+// (`pages[]`) — pass one to screenshot() for a non-home render.
 import { writeFileSync, mkdirSync } from "node:fs";
 import { connect } from "framer-api";
 import { PROJECTS } from "./projects.config.mjs";

@@ -1,16 +1,27 @@
 // Extract the REAL structure of each Framer template project, headless, via the
 // Server API. The full design system is reachable with the per-project key — no
-// publish, no screenshots, no editor, no babysitting. The trick is calling the
-// right methods: getNodesWithType (walks every page/frame/text/component as typed
-// arrays with full geometry + style) plus getColorStyles / getTextStyles (the
-// template's actual color + type token systems). getNode alone is shallow; these
-// are not.
+// publish, no screenshots, no editor, no babysitting. Three complementary reads:
+//
+//   1. getColorStyles / getTextStyles — the template's actual color + type token
+//      systems (named tokens, fonts, per-breakpoint type sizes).
+//   2. getNodesWithType("WebPageNode"|"FrameNode"|"TextNode"|"SVGNode"|
+//      "ComponentNode"|"ComponentInstanceNode") — every node of each type as a
+//      rich FLAT array (full geometry, background/border/radius, layout, links,
+//      inline text styling). Flat = no parent/child links; use the trees for that.
+//   3. framer.agent.getNode({ id: pageId }, { pagePath }) — the HIERARCHICAL
+//      tree of a whole page in one call: nested children, named sections,
+//      htmlTag, stack/grid layout, gap, padding, per-breakpoint frames. This is
+//      the real section structure and vertical rhythm. framer.agent.getContext()
+//      adds the project's own summary (fonts, components, tokens, style presets).
+//
+// getNode alone is shallow; the three reads above are not.
 //
 // Writes:
 //   out/<lane>.json       compact design brief (tokens, type, fonts, pages,
-//                         components, counts) — read this top to bottom.
-//   out/<lane>.full.json  the complete rich node arrays (frames/texts/svgs) for
-//                         drilling into exact layout/spacing/geometry.
+//                         components, counts, agent context) — read top to bottom.
+//   out/<lane>.full.json  pageTrees (hierarchical structure per page — start
+//                         here for layout/rhythm) + the complete flat node
+//                         arrays (frames/texts/svgs/instances) for exact values.
 //
 // Usage:
 //   node inspect.mjs            # all configured projects
@@ -60,10 +71,28 @@ for (const p of PROJECTS) {
     const frames = await safe("FrameNode", () => framer.getNodesWithType("FrameNode"), []);
     const texts = await safe("TextNode", () => framer.getNodesWithType("TextNode"), []);
     const svgs = await safe("SVGNode", () => framer.getNodesWithType("SVGNode"), []);
+    const instances = await safe(
+      "ComponentInstanceNode",
+      () => framer.getNodesWithType("ComponentInstanceNode"),
+      []
+    );
     const colorStyles = await safe("getColorStyles", () => framer.getColorStyles(), []);
     const textStyles = await safe("getTextStyles", () => framer.getTextStyles(), []);
     const collections = await safe("getCollections", () => framer.getCollections(), []);
     const customCode = await safe("getCustomCode", () => framer.getCustomCode(), null);
+    // Project-summary string from the agent namespace: fonts, components,
+    // tokens, style presets, site map. Verified working over the Server API.
+    const agentContext = await safe("agent.getContext", () => framer.agent.getContext(), null);
+    // Hierarchical tree per page — the structure/rhythm the flat arrays lack.
+    const pageTrees = [];
+    for (const w of webpages) {
+      const tree = await safe(
+        `agent.getNode ${w.path}`,
+        () => framer.agent.getNode({ id: w.id }, { pagePath: w.path }),
+        null
+      );
+      if (tree) pageTrees.push({ path: w.path, id: w.id, tree });
+    }
 
     const brief = {
       lane: p.lane,
@@ -74,6 +103,7 @@ for (const p of PROJECTS) {
       counts: {
         webpages: webpages.length, components: components.length,
         frames: frames.length, texts: texts.length, svgs: svgs.length,
+        instances: instances.length, pageTrees: pageTrees.length,
         colorStyles: colorStyles.length, textStyles: textStyles.length,
       },
       colorStyles,                                   // the real color token system
@@ -82,17 +112,26 @@ for (const p of PROJECTS) {
       components: (components || []).map((c) => ({ id: c.id, name: c.name })),
       collections,
       customCode,
+      agentContext,                                  // project self-summary (string)
     };
     writeFileSync(new URL(`./out/${p.lane}.json`, import.meta.url), JSON.stringify(brief, null, 2));
 
-    const full = { lane: p.lane, template: p.template, nodes: { webpages, components, frames, texts, svgs } };
+    const full = {
+      lane: p.lane,
+      template: p.template,
+      // Hierarchical structure per page (nested children, sections, layout,
+      // gap/padding, breakpoints) — start here for rhythm and composition.
+      pageTrees,
+      // Flat typed arrays — exact per-node geometry/style values.
+      nodes: { webpages, components, frames, texts, svgs, instances },
+    };
     writeFileSync(new URL(`./out/${p.lane}.full.json`, import.meta.url), JSON.stringify(full, null, 2));
 
     console.log(
       `  ok -> out/${p.lane}.json + .full.json  ` +
-      `(${brief.counts.webpages} pages, ${brief.counts.frames} frames, ${brief.counts.texts} texts, ` +
-      `${brief.counts.components} components, ${colorStyles.length} colors, ${textStyles.length} text styles, ` +
-      `${brief.fonts.length} fonts)`
+      `(${brief.counts.webpages} pages, ${pageTrees.length} page trees, ${brief.counts.frames} frames, ` +
+      `${brief.counts.texts} texts, ${instances.length} instances, ${brief.counts.components} components, ` +
+      `${colorStyles.length} colors, ${textStyles.length} text styles, ${brief.fonts.length} fonts)`
     );
   } catch (e) {
     console.error(`  FAILED to connect/read: ${e?.message || e}`);

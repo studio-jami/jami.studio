@@ -254,10 +254,12 @@ Set values in your **own** preset; consume via the CSS vars (`--font-display`, `
 
 - **Display** (`--font-display`): the personality. Big hero + section headings. Pick a refined,
   well-supported face with character at large sizes. Strong, well-supported choices for 2026:
-  **Geist** (sharp geometric, tech-credible, free, variable), **Aeonik** (neo-grotesque, premium —
-  licensed), **Cabinet Grotesk** (bold display personality), or an editorial **didone-adjacent**
-  face (e.g. Editorial New) for a Lane B fashion-annual feel. Inter Tight (current default) is the
-  safe baseline.
+  **Geist** (sharp geometric, tech-credible, free, variable), **Cabinet Grotesk** (bold display
+  personality — free for commercial use under the ITF Free Font License via Fontshare; self-host
+  the files), **Aeonik** (neo-grotesque, premium — licensed), or an editorial **didone-adjacent**
+  face (e.g. Editorial New — licensed) for a Lane B fashion-annual feel. Inter Tight (current
+  default) is the safe baseline. The extracted templates themselves use Google-Fonts faces (e.g.
+  Host Grotesk, DM Sans) — all self-hostable via `next/font/google`.
 - **Sans / body** (`--font-sans`): maximal legibility, neutral. **Inter** (current default) or
   **Geist Sans** are both excellent and self-hostable.
 - **Mono** (`--font-mono`): dev credibility — code-ish accents, eyebrows, labels, version tags, the
@@ -269,10 +271,12 @@ Set values in your **own** preset; consume via the CSS vars (`--font-display`, `
   body at default; letterspace small-caps labels/eyebrows positively. Line-height: `tight` (~1.0) for
   display, `body` (~1.5–1.6) for prose.
 - **Webfont strategy:** prefer **self-hosted** variable fonts via `next/font/local` (or
-  `next/font/google` for Geist/Inter) — `display: swap`, preload the display + body faces, subset to
-  Latin. Licensed faces (Aeonik, Cabinet Grotesk, Editorial New) require a purchased license and a
-  self-host plan; if an agent picks one, document the license need and provide a free fallback in the
-  font stack so the build never depends on an unlicensed asset.
+  `next/font/google` for any Google-Fonts face — Geist, Inter, Host Grotesk, DM Sans, …) —
+  `display: swap`, preload the display + body faces, subset to Latin. Cabinet Grotesk is free
+  (ITF Free Font License) but must be downloaded from Fontshare and shipped via `next/font/local`.
+  Truly licensed faces (Aeonik, Editorial New) require a purchased license; if an agent picks one,
+  document the license need and provide a free fallback in the font stack so the build never
+  depends on an unlicensed asset.
 
 ---
 
@@ -412,22 +416,28 @@ assigned template is already extracted into your worktree**, headless, no setup 
 
 - **`tools/framer-bridge/out/<lane>.json` — read this top to bottom.** A compact design brief pulled
   live from the real Framer project: the template's named **color token system** (`getColorStyles` →
-  e.g. `/Main/Primary`, `/Background/Surface`, light/dark values), its **type system** (`getTextStyles`
-  → named styles mapped to `h1/h2/p` tags, font family/weight, alignment, per-breakpoint sizes), its
-  **used fonts**, its **component inventory** (names like `NavBar`, `Hero`, `FeatureCard`,
-  `PricingPlans`, `Footer` reveal the section vocabulary), page list, and CMS/custom-code.
-- **`tools/framer-bridge/out/<lane>.full.json` — drill here for exact layout.** Every page/frame/text/
-  component node with full geometry (position/size/pins), background/border/radius, layout, and
-  per-breakpoint text styling. This is the real spacing, rhythm, and structure.
-- **`tools/framer-bridge/out/<lane>.home.png` — a full-page render** of the template's home page (a
-  visual anchor; the JSON above is the source of truth for values).
+  e.g. `/Main/Primary`, `/Background/Surface`; note many templates fill only the `light` slot even
+  when the design itself is dark — read the values, not the slot name), its **type system**
+  (`getTextStyles` → named styles mapped to `h1/h2/p` tags, font family/weight, alignment,
+  per-breakpoint sizes), its **used fonts**, its **component inventory** (names like `NavBar`, `Hero`,
+  `FeatureCard`, `PricingPlans`, `Footer` reveal the section vocabulary), page list, CMS/custom-code,
+  and `agentContext` — the project's own summary of fonts, components, tokens, and style presets.
+- **`tools/framer-bridge/out/<lane>.full.json` — drill here for exact layout.** Two complementary
+  views: **`pageTrees`** — each page as one nested hierarchy (named sections in order, `htmlTag`,
+  stack/grid layout, `gap`, `padding`, per-breakpoint frames) — **start here; this is the real
+  section structure and vertical rhythm** — and **`nodes`** — flat typed arrays of every
+  frame/text/svg/component/instance with exact geometry, background/border/radius (including
+  `backgroundImage` asset URLs), and per-breakpoint text styling. The flat arrays carry no
+  parent/child links; use `pageTrees` for structure and the arrays for exact values.
+- **`tools/framer-bridge/out/<lane>.home.png` — a full-page render** of the template's home page at
+  its desktop-breakpoint width (a visual anchor; the JSON above is the source of truth for values).
 
 This is produced headless by `node tools/framer-bridge/inspect.mjs <lane>` via the Framer **Server API**
-(`getNodesWithType` + `getColorStyles` + `getTextStyles`); you don't need to run it — the orchestrator
-deposits the files. **Map the template's color/type tokens onto our token contract and translate its
-section structure into our content — borrow the DNA, never clone the layout.** §3's digest is the
-art-direction guide; these files tighten fonts, colors, section rhythm, and spacing to the real thing.
-Connection status is tracked in `tools/framer-bridge/CONNECTIONS.md`.
+(`getColorStyles` + `getTextStyles` + `getNodesWithType` + `framer.agent.getNode`/`getContext`); you
+don't need to run it — the orchestrator deposits the files. **Map the template's color/type tokens onto
+our token contract and translate its section structure into our content — borrow the DNA, never clone
+the layout.** §3's digest is the art-direction guide; these files tighten fonts, colors, section rhythm,
+and spacing to the real thing. Connection status is tracked in `tools/framer-bridge/CONNECTIONS.md`.
 
 ---
 
