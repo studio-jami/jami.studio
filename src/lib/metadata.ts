@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { StudioProject } from "@/content/projects";
 import { site } from "@/content/site";
+import { studioLinks } from "@/content/links";
 import { absoluteUrl, projectCanonicalUrl, projectRepositoryUrl } from "@/lib/routes";
 
 type MetadataInput = {
@@ -36,6 +37,8 @@ export function createMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: site.handles.x,
+      creator: site.handles.x,
       title: fullTitle,
       description,
       images: [imageUrl]
@@ -58,7 +61,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: site.legalName,
     url: site.canonicalHost,
-    sameAs: [`https://github.com/${site.handles.github}`]
+    sameAs: [studioLinks.githubOrg, studioLinks.linkedin, studioLinks.x, studioLinks.tiktok]
   };
 }
 
