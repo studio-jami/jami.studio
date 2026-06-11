@@ -64,12 +64,13 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
   `themeDialSchema` (7 dials: accent, contrast, warmth, density, radius, surfaceDepth, motion),
   `validateTokenPreset`.
 - `src/tokens/css-vars.ts` — `tokenCssVariables(preset)` and `inlineCssVariables(preset)` export the
-  fixed CSS-var names every component must consume: `--background --foreground --card --card-foreground
-  --popover --primary --secondary --muted --muted-foreground --accent --accent-foreground --border
-  --input --ring --panel --surface-canvas --surface-panel --surface-panel-raised --surface-overlay
-  --surface-inverse --shadow-sm --shadow-md --font-sans --font-mono --font-display --text-{xs..hero}
-  --line-tight --line-body --container --section --spacing-unit --control-height --radius-{sm,md,lg,pill}
-  --motion-duration --motion-duration-fast --motion-easing`.
+  fixed CSS-var names every component must consume (complete list, 46 vars): `--background --foreground
+  --card --card-foreground --popover --popover-foreground --primary --primary-foreground --secondary
+  --secondary-foreground --muted --muted-foreground --accent --accent-foreground --border --input
+  --ring --panel --panel-foreground --surface-canvas --surface-panel --surface-panel-raised
+  --surface-overlay --surface-inverse --shadow-sm --shadow-md --font-sans --font-mono --font-display
+  --text-{xs,sm,base,lg,xl,hero} --line-tight --line-body --container --section --spacing-unit
+  --control-height --radius-{sm,md,lg,pill} --motion-duration --motion-duration-fast --motion-easing`.
 
 **Token values (branch-owned — author your own):**
 
@@ -77,8 +78,11 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
   `neutralFoundationDials`, `neutralFoundationPreset`, `tokenPresets`. **The foundation preset is
   light-only and restrained** (`neutralByWarmth` returns only light neutrals; `accentPalettes` are
   muted). There is **no dark preset and no `[data-theme]` switch yet** — this lane must author both
-  themes and the switch. `registry/manifest.ts` and the config panel import `dialDefinitions` +
-  `tokenPresets`, so keep those exports intact.
+  themes and the switch. Keep ALL of these exports intact: `registry/manifest.ts` imports
+  `dialDefinitions` + `tokenPresets`; `config-panel.tsx` imports `createTokenPresetFromDials` +
+  `dialDefinitions` + `neutralFoundationDials`. Schema note: every `color.*`/`surface.*` value must be
+  a **6-digit hex** (`#rrggbb`) — convert any `rgb()` values from the Framer extraction before
+  authoring presets.
 
 **Content contracts (frozen — reuse verbatim, all copy comes from here):**
 
@@ -111,15 +115,22 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
 **Tooling:**
 
 - Stack: Next 16 (App Router), React 19, Zod 4, pnpm 10. Windows dev host (PowerShell / git-bash; `rg`).
-- Gate: `pnpm verify` = `lint && typecheck && test && build` (`package.json`).
+- Gate: `pnpm verify` = `lint && typecheck && test && build` (`package.json`). Verified green on the
+  `main` base (17 tests, full static build) 2026-06-11.
+- Tests pin the contracts (`tests/*.test.ts(x)`): content/route/metadata/AI-file shape, the token
+  contract, **and `config-panel.test.tsx`** — the rebuilt `ConfigPanel` must still render every dial's
+  label + description and keep the "Tokens" / "Registry" tab views (incl. the registry item name and
+  Foundation/Branch ownership lists). Restyle it freely; keep that tested behavior. Tests are frozen —
+  a lane never edits them to pass.
 - Framer: all five templates' **full design systems are extracted headless** via the Server API
-  (`getNodesWithType` + `getColorStyles` + `getTextStyles`); `tools/framer-bridge/CONNECTIONS.md` has
-  the verified per-template counts. The orchestrator deposits in each worktree:
-  `out/<lane>.json` (compact brief — real color tokens, type system, fonts, component vocabulary, pages),
-  `out/<lane>.full.json` (every node with geometry/layout/per-breakpoint styling), and
-  `out/<lane>.home.png` (full-page render). Primary art direction is `reference-brief.md` §3 + §13; these
-  files pin the real fonts/colors/section-rhythm/spacing. No publish, MCP plugin, or `.env` needed in the
-  worktree.
+  (`getColorStyles` + `getTextStyles` + `getNodesWithType` + `framer.agent.getNode`/`getContext`);
+  `tools/framer-bridge/CONNECTIONS.md` has the verified per-template counts. The orchestrator deposits
+  in each worktree: `out/<lane>.json` (compact brief — real color tokens, type system, fonts, component
+  vocabulary, pages, agent context), `out/<lane>.full.json` (`pageTrees` — each page as a nested
+  hierarchy with section order, layout, gap/padding, breakpoints — plus flat node arrays with exact
+  geometry/styling), and `out/<lane>.home.png` (full-page render). Primary art direction is
+  `reference-brief.md` §3 + §13; these files pin the real fonts/colors/section-rhythm/spacing. No
+  publish, MCP plugin, or `.env` needed in the worktree.
 
 ## 2. Locked Decisions
 
@@ -165,8 +176,9 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
   `/projects/[slug]` at desktop **and** mobile in **both** themes.
 - Changelog: no changelog convention exists yet — skip changelog fragments until one does.
 - Framer structure is operated by the orchestrator from `main` (where `.env` lives); read the provided
-  `tools/framer-bridge/out/<lane>.json` (design brief), `out/<lane>.full.json` (full node tree), and
-  `out/<lane>.home.png` (render) — do not require `.env` or run the bridge in the worktree.
+  `tools/framer-bridge/out/<lane>.json` (design brief), `out/<lane>.full.json` (hierarchical
+  `pageTrees` + flat node arrays), and `out/<lane>.home.png` (render) — do not require `.env` or run
+  the bridge in the worktree.
 
 ## 5. Target Repository Shape
 
@@ -186,9 +198,13 @@ Concrete deliverables for this lane (fresh unless marked frozen):
 - `src/components/` fresh inventory (`reference-brief.md` §10): `layout/SiteHeader`, `layout/SiteFooter`,
   `ui/{Button,Badge,Eyebrow,Container,Section,SectionHeading}`, `marketing/{Hero,PillarsBand,ProjectCard,
   ShowcaseGrid,CapabilityBand,ProofBand,FAQ,CTABand,ProjectDetail}`, `system/{GrainOverlay,ThemeToggle}`.
-  Rebuild `config-panel` presentation but keep it driven by `dialDefinitions` (it need not appear on
-  public pages; it must keep compiling).
-- `public/` — self-hosted fonts; only real assets (no fabricated logos/metrics).
+  Rebuild `config-panel` presentation but keep it driven by `dialDefinitions` and keep
+  `tests/config-panel.test.tsx` passing (every dial label + description rendered; "Tokens"/"Registry"
+  tab views with the registry strings). It need not appear on public pages; it must keep compiling
+  and keep its tested behavior.
+- `public/` — self-hosted fonts; only real assets (no fabricated logos/metrics). **Keep
+  `public/social/*.svg`** — `tests/content-contract.test.ts` and the metadata layer depend on all six
+  (`jami-studio` + one per project); `src/app/icon.svg` stays the favicon route.
 
 ## 6. Cross-Stream Dependency Map
 
