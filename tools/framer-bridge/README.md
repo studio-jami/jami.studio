@@ -58,15 +58,15 @@ sections, layout, gap/padding — the structure and rhythm) plus
 node arrays (exact values). See `CONNECTIONS.md` for the verified per-template
 counts and the live SDK surface.
 
-## Lane <-> template mapping (owner preference order; all Opus 4.8)
+## Lane <-> template mapping (owner preference order)
 
 | # | Lane / branch | Template | Character |
 |---|---|---|---|
-| 1 | `design/message-ai` | Message AI | Lane A — cinematic dark (the prime) |
-| 2 | `design/nouva` | Nouva | bold studio/agency portfolio |
-| 3 | `design/kirimo` | Kirimo | immersive creative portfolio |
-| 4 | `design/noir` | Noir | dark agency-portfolio IA |
-| 5 | `design/synk` | Synk | token-driven / systematized |
+| 1 | `design/message-ai-2` | Message AI | Lane A — cinematic dark (the prime) |
+| 2 | `design/nouva-2` | Nouva | bold studio/agency portfolio |
+| 3 | `design/kirimo-2` | Kirimo | immersive creative portfolio |
+| 4 | `design/noir-2` | Noir | dark agency-portfolio IA |
+| 5 | `design/synk-2` | Synk | token-driven / systematized |
 
 See `CONNECTIONS.md` for the project ↔ lane ↔ key record and verification status.
 

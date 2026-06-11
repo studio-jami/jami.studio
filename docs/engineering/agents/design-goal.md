@@ -1,19 +1,19 @@
 # Design Goal — jami.studio Marketing Rebuild (Orchestrator Brief)
 
-Date: 2026-06-10
-Status: [~] Active — connections + plan audited and corrected 2026-06-11 (see
-`docs/_legacy/2026-06-10-fable-plan-audit.md`); lane goal sessions not yet started
-Active roadmap: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md`
+Date: 2026-06-11
+Status: [ ] Active — re-scaffolded 2026-06-11 with five **per-lane** roadmaps (each carries its template's
+baked-in IA) and fresh `design/<lane>-2` branches; prior run + its single shared roadmap retired to
+`docs/_legacy/`; lane goal sessions not yet started
+Active roadmaps (one per lane): `docs/roadmaps/2026-06-11-design-rebuild-{message-ai,nouva,kirimo,noir,synk}.md`
 Design guidelines: `docs/design/reference-brief.md`
 Connection record: `tools/framer-bridge/CONNECTIONS.md`
 Orchestration reliability: `docs/engineering/agents/orchestration-reliability.md`
 Owner: Jamie
 
-> **This is the ORCHESTRATOR's document. Agents never see it.** The owner points the orchestrator (an
-> Opus 4.8 coordinator) at this file to run the session. Each lane agent instead receives only: (1) its
-> lane's roadmap in the worktree (`docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md`), (2)
-> `AGENTS.md`, and (3) the pasted goal-session prompt from the bottom of this file. Keep this file as the
-> deterministic operating contract; keep the roadmap as the work.
+> **This is the ORCHESTRATOR's document. Agents never see it.** The owner points the orchestrator at this file to run the session. Each lane agent instead receives only: (1) its
+> own lane roadmap (`docs/roadmaps/2026-06-11-design-rebuild-<lane>.md` — which carries that lane's
+> baked-in template IA), (2) `AGENTS.md`, and (3) the pasted goal-session prompt from the bottom of this
+> file. Keep this file as the deterministic operating contract; keep the per-lane roadmap as the work.
 
 ## Mission
 
@@ -21,9 +21,9 @@ The shared site foundation lives on `main`: a Next.js 16 / React 19 app with a f
 (`schema.ts` + `css-vars.ts`), a centralized content registry, route/metadata helpers, and generated
 `robots`/`sitemap`/`llms` surfaces. The foundation is reused **verbatim**. The current visual design is
 not acceptable. This session rebuilds the landing + marketing + project pages to a world-class,
-production-grade, design-studio standard across **five lanes**, each an Opus 4.8 build on its own
+production-grade, design-studio standard across **five lanes**, each a build on its own
 branch/worktree, each assigned one real Framer reference template (read headless via the Server API).
-Heterogeneous models were tried before and did not beat Opus — all five lanes run **Opus 4.8**.
+The model/provider running the lanes is not assumed here — it is chosen at dispatch time.
 
 ## Execution model — goal sessions, always audit/execute
 
@@ -31,9 +31,9 @@ This rebuild does **not** fan a lane out into many parallel workstream subagents
 worktree owned end-to-end by a full goal session. Per lane, the orchestrator runs goal sessions **in
 sequence**:
 
-1. **Pass 1 — EXECUTE.** One fresh Opus 4.8 goal session builds the lane end-to-end against its roadmap
+1. **Pass 1 — EXECUTE.** One fresh goal session builds the lane end-to-end against its roadmap
    (WS1→WS7), verifies, commits, and pushes the lane branch.
-2. **Pass 2 — AUDIT / FIX.** A fresh Opus 4.8 goal session audits the lane against the roadmap
+2. **Pass 2 — AUDIT / FIX.** A fresh goal session audits the lane against the roadmap
    Acceptance Criteria + `reference-brief.md` §14 + the Definition of Done, and **fixes every gap in the
    same session**. Verifies, commits, pushes.
 3. **Repeat** the audit/fix pass until one lands with **no substantial changes** (a quiet pass). Run at
@@ -45,10 +45,14 @@ not used. Every pass leaves the branch better, verified, and committed. The orch
 judgment call comes **after the pass-2 (and each later) commit lands**: ship the lane to review, or run
 another audit/fix pass.
 
-**Determinism over choice.** Every pass follows the same roadmap, `reference-brief.md`, and Definition
-of Done. The plan, contracts, and acceptance criteria are fixed so work stays cohesive and is not
-refactored in circles. Agents get craft latitude inside the locked direction (per-lane accent + aesthetic
-lane), not freedom to redesign the plan.
+**Determinism of contracts, divergence of design.** What is fixed across every lane and every pass: the
+contracts (content data, token `schema.ts`/`css-vars.ts`, route/metadata layer), the quality bar (roadmap
+Acceptance Criteria + `reference-brief.md` §14), and the process (WS1→WS7, verify, commit, push). What is
+**NOT** fixed — and **must differ per lane** — is the entire visible design: information architecture, the
+set and order of sections, hero treatment, grids, component decomposition, layout, type, and theme
+character, each derived from that lane's template. Structural divergence is the deliverable, not a side
+effect. **A lane that reproduces another lane's section skeleton has failed, even if it verifies green.**
+Agents do not redesign the *contracts*; they absolutely design their own *structure*.
 
 **Parallelism.** The five lanes are independent (disjoint worktrees) and run in parallel. Never run two
 goal sessions on the same lane at once.
@@ -66,18 +70,25 @@ dir is gitignored, so deposits are file copies, not commits. The lane agent read
 never needs `.env` or the bridge in its worktree. The baseline is proven: `pnpm verify` green on
 `main`, worktree `pnpm install` + `next dev -p <port>` smoke-tested (2026-06-11).
 
-## Lane mapping (locked direction per lane)
+## Lane mapping (per-lane roadmap + assigned accent + aesthetic; STRUCTURE is baked into each roadmap)
 
-| # | Lane / branch | Worktree | Template | Primary lane | Primary accent |
-|---|---|---|---|---|---|
-| 1 | `design/message-ai` | `../jami.studio-message-ai` | Message AI | A — cinematic dark (prime) | `#175d5e` deep teal (dial `cyan`) |
-| 2 | `design/nouva` | `../jami.studio-nouva` | Nouva | B — bold light editorial | `#854780` magenta (dial `violet`) |
-| 3 | `design/kirimo` | `../jami.studio-kirimo` | Kirimo | A — immersive dark creative | `#854c63` wine-rose (dial `rose`) |
-| 4 | `design/noir` | `../jami.studio-noir` | Noir | A — high-contrast dark agency | `#a1704f` copper (dial `amber`) |
-| 5 | `design/synk` | `../jami.studio-synk` | Synk | B — systematized light | `#2b4173` indigo (dial `green` slot) |
+Each lane's STRUCTURE is no longer left to chance or to the agent's interpretation — it is **extracted from
+that template's real `pageTrees` and baked into the lane's own roadmap** (Home IA, detail composition,
+component decomposition, anti-fabrication mapping). The agent builds to its roadmap's blueprint; it cannot
+collapse to a shared skeleton.
 
-Differentiation is assigned, not left to chance: distinct template + aesthetic lane + accent per branch
-guarantees five distinct results that all clear the same bar. The five accents are the locked brand
+| # | Branch | Worktree | Template | Per-lane roadmap | Primary lane | Primary accent |
+|---|---|---|---|---|---|---|
+| 1 | `design/message-ai-2` | `../jami.studio-message-ai-2` | Message AI | `…/2026-06-11-design-rebuild-message-ai.md` | A — cinematic dark (prime) | `#175d5e` deep teal (dial `cyan`) |
+| 2 | `design/nouva-2` | `../jami.studio-nouva-2` | Nouva | `…/2026-06-11-design-rebuild-nouva.md` | B — bold light editorial | `#854780` magenta (dial `violet`) |
+| 3 | `design/kirimo-2` | `../jami.studio-kirimo-2` | Kirimo | `…/2026-06-11-design-rebuild-kirimo.md` | A — immersive dark creative | `#854c63` wine-rose (dial `rose`) |
+| 4 | `design/noir-2` | `../jami.studio-noir-2` | Noir | `…/2026-06-11-design-rebuild-noir.md` | A — high-contrast dark agency | `#a1704f` copper (dial `amber`) |
+| 5 | `design/synk-2` | `../jami.studio-synk-2` | Synk | `…/2026-06-11-design-rebuild-synk.md` | B — systematized light | `#2b4173` indigo (dial `green` slot) |
+
+Differentiation is assigned, not left to chance — but it is **structural first**, not just palette: each
+branch builds its own information architecture and section composition from its distinct template, then
+carries its own aesthetic lane + accent. Template + structure + lane + accent together must yield five
+sites that read as five different studios. Accent alone is not differentiation. The five accents are the locked brand
 palette — `#175d5e` teal, `#854780` magenta, `#854c63` wine-rose, `#a1704f` copper, `#2b4173` indigo —
 each authored as a `color.accent` token (→ `--accent`/`--primary`), never a component literal, so every
 lane stays swappable/retunable on the token system. Each branch's roadmap carries its own "Active lane"
@@ -86,7 +97,7 @@ block.
 ## Definition of Done — per lane
 
 The lane's full Definition of Done is the roadmap's **Acceptance Criteria**. In short: every page,
-every component (`reference-brief.md` §10), every CTA resolving through the content layer, both themes,
+every §10 content job expressed in the lane's own structure, every CTA resolving through the content layer, both themes,
 all four breakpoints (1440/1024/768/390), token-driven only, grain/motion + reduced-motion, AA contrast
 + focus rings, AI surfaces intact, `pnpm verify` green, §14 anti-slop clean. This is a major credit
 spend — not a throwaway, not a prototype, not 90%. Drive each lane all the way home.
@@ -120,8 +131,10 @@ Scope **ends** at "five lanes live on separate local hosts, ready to review." Se
 
 ## Reusable goal-session prompts
 
-Paste one of these to the lane agent, with `<BRANCH>`, `<TEMPLATE>`, `<WORKTREE>`, `<LANE-KEY>` filled.
-Both reference the lane's own roadmap; neither shows this orchestrator brief.
+Paste one of these to the lane agent, with `<BRANCH>` (e.g. `design/synk-2`), `<TEMPLATE>`, `<WORKTREE>`
+(e.g. `../jami.studio-synk-2`), `<LANE-KEY>` (e.g. `synk`), and `<ROADMAP>` (that lane's
+`docs/roadmaps/2026-06-11-design-rebuild-<lane>.md`) filled. Both reference the lane's own roadmap; neither
+shows this orchestrator brief.
 
 ### Pass 1 — EXECUTE
 
@@ -129,16 +142,22 @@ Both reference the lane's own roadmap; neither shows this orchestrator brief.
 You own ONE lane only: <BRANCH> (<TEMPLATE>) in worktree <WORKTREE>. Do not touch any other lane, any
 other worktree, or `main`.
 
-Work from, in this order: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md` (your end-to-end work
-order — read the "Active lane" block at the top for your locked accent + aesthetic lane), `AGENTS.md`
-(repo operating rules), and `docs/design/reference-brief.md` (art direction). The LIVE worktree is the
-source of truth, not roadmap claims.
+Work from, in this order: `<ROADMAP>` (your end-to-end work order — read the "Active lane (locked)" block
+and the "Home IA — build THIS" blueprint for your baked-in section structure, accent + aesthetic lane),
+`AGENTS.md` (repo operating rules), and `docs/design/reference-brief.md` (art direction). The LIVE worktree
+is the source of truth, not roadmap claims.
 
-Use the real template: read `tools/framer-bridge/out/<LANE-KEY>.json` (design brief — tokens, type,
-fonts, components, agent context), `out/<LANE-KEY>.full.json` (`pageTrees` = the template's real
-section structure/rhythm; flat node arrays = exact values), and `out/<LANE-KEY>.home.png` (visual
-anchor) in your worktree. Borrow the template's DNA (structure, rhythm, type, craft) and translate it
-into our content + token system; never ship a reskinned clone.
+Use the real template — its STRUCTURE, not just its palette: read `tools/framer-bridge/out/<LANE-KEY>.json`
+(design brief — tokens, type, fonts, components, agent context), `out/<LANE-KEY>.full.json` (`pageTrees`
+= the template's real section structure/rhythm — THIS drives your page composition; flat node arrays =
+exact values), and `out/<LANE-KEY>.home.png` (visual anchor) in your worktree. **Build YOUR lane's
+information architecture from this template:** its own set and order of sections, its own hero treatment,
+its own grids and rhythm, its own component decomposition and naming. Do NOT default to a generic
+`Hero → Pillars → Showcase → Proof → FAQ → CTA` skeleton — that uniform skeleton is the exact failure
+this rebuild exists to fix, and two lanes must not share a `page.tsx` composition. The `reference-brief.md`
+§10 list is a menu of content jobs, not a required structure or order. The ONLY things you reuse verbatim
+are the contracts (next paragraph). Translate the template's DNA into our content + token system; never a
+reskinned clone, and never a clone of another lane's structure.
 
 Reuse VERBATIM (do not fork): `src/content/*`, `src/lib/*`, `src/tokens/schema.ts`,
 `src/tokens/css-vars.ts`, `src/registry/manifest.ts`. Build entirely fresh: `src/tokens/theme.ts` (your
@@ -164,17 +183,19 @@ You own ONE lane only: <BRANCH> (<TEMPLATE>) in worktree <WORKTREE>. Do not touc
 `main`. A prior pass built this lane; your job is to AUDIT it against the bar and FIX every gap in this
 same session. This is not a report — you leave the branch better, verified, and pushed.
 
-Authority documents: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md` (Acceptance Criteria +
-"Active lane" block), `docs/design/reference-brief.md` (§14 anti-slop checklist + art direction),
-`AGENTS.md`. The LIVE worktree is the source of truth.
+Authority documents: `<ROADMAP>` (Acceptance Criteria + "Active lane (locked)" block + the "Home IA — build
+THIS" blueprint), `docs/design/reference-brief.md` (§14 anti-slop checklist + art direction), `AGENTS.md`.
+The LIVE worktree is the source of truth.
 
 Audit the whole lane against the roadmap Acceptance Criteria and `reference-brief.md` §14, page by page
 (`/`, `/projects`, every `/projects/[slug]`), component by component (§10 inventory), in BOTH themes at
 ALL four breakpoints (1440/1024/768/390). For every gap — missing/half-styled section, dead or
 hand-built href, hardcoded value where a token role exists, broken breakpoint, weak/inverted light
-theme, missing focus ring or AA failure, anti-slop hit, §10 component missing, AI-surface regression —
-FIX it in this session. Do not relax the bar; do not refactor the contracts; keep within the lane's
-locked accent + aesthetic.
+theme, missing focus ring or AA failure, anti-slop hit, a §10 content job with no home, AI-surface
+regression, **structure that has collapsed toward a generic `Hero→Pillars→Showcase→Proof→FAQ→CTA`
+skeleton instead of this template's own information architecture** — FIX it in this session. Do not
+relax the bar; do not refactor the contracts; keep the lane's accent + aesthetic, but make its
+structure unmistakably its template's, not another lane's.
 
 Verify before returning: `pnpm verify` green; smoke the full route × theme × breakpoint matrix; §14
 passes with zero true items. Then: stop helper processes; stage only intentional changes;

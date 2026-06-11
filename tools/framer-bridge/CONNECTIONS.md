@@ -25,11 +25,11 @@ node arrays) per template.
 
 | Lane / branch | Template | Root `.env` section | Pages | Page trees | Frames | Texts | Instances | Components | Colors | Type styles | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `design/message-ai` | Message AI | `Message AI` | 2 | 2 | 756 | 451 | 338 | 19 | 19 | 7 | 2026-06-11 |
-| `design/nouva` | Nouva | `Nouva` | 4 | 3 | 700 | 338 | 280 | 19 | 17 | 12 | 2026-06-11 |
-| `design/kirimo` | Kirimo | `Kirimo` | 10 | 9 | 1241 | 733 | 230 | 22 | 8 | 15 | 2026-06-11 |
-| `design/noir` | Noir | `Noir` | 10 | 7 | 1956 | 507 | 609 | 39 | 19 | 17 | 2026-06-11 |
-| `design/synk` | Synk | `Synk` | 8 | 8 | 3281 | 848 | 654 | 38 | 16 | 8 | 2026-06-11 |
+| `design/message-ai-2` | Message AI | `Message AI` | 2 | 2 | 756 | 451 | 338 | 19 | 19 | 7 | 2026-06-11 |
+| `design/nouva-2` | Nouva | `Nouva` | 4 | 3 | 700 | 338 | 280 | 19 | 17 | 12 | 2026-06-11 |
+| `design/kirimo-2` | Kirimo | `Kirimo` | 10 | 9 | 1241 | 733 | 230 | 22 | 8 | 15 | 2026-06-11 |
+| `design/noir-2` | Noir | `Noir` | 10 | 7 | 1956 | 507 | 609 | 39 | 19 | 17 | 2026-06-11 |
+| `design/synk-2` | Synk | `Synk` | 8 | 8 | 3281 | 848 | 654 | 38 | 16 | 8 | 2026-06-11 |
 
 Page trees < pages where a path is a CMS detail template (`/blogs/:slug`, `/collection/:slug`,
 `/legal/:slug`, …): `agent.getNode` resolves concrete paths only. Those pages' nodes still appear in

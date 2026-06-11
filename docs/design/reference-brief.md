@@ -1,6 +1,6 @@
 # jami.studio — Design Reference Brief
 
-**Audience:** the five independent Opus 4.8 design agents rebuilding the `jami.studio` marketing-site
+**Audience:** the five independent design agents rebuilding the `jami.studio` marketing-site
 UI from scratch, one per assigned Framer reference template, on separate branches.
 **Status:** model-agnostic, implementation-ready. Read this in full before writing any UI.
 **Scope:** art direction, reference DNA, and non-negotiable system rules. It deliberately does
@@ -80,8 +80,12 @@ hairline rules, work-forward. Think a print-quality design annual.
   paired with a clean body.
 - **Mood words:** editorial, gallery, calm, sharp, premium minimalism.
 
-Both lanes share the same information architecture, the same component inventory, the same data
-contracts, and the same token plumbing. Only the *visual system* differs.
+Both lanes share the same **contracts** — the content data (`src/content/*`), the token contract
+(`schema.ts` + `css-vars.ts`), and the route/metadata layer. **Everything the visitor sees is per-lane
+and must diverge:** information architecture, the set and order of sections, hero treatment, grids,
+component decomposition, layout, and type. Each lane derives its structure from its assigned template's
+real exported structure (§3, §13) — five templates must yield five structurally different sites, not one
+skeleton in five palettes. Shared contracts, divergent design.
 
 ---
 
@@ -200,11 +204,14 @@ heavier and is meant for small decorative shapes, not a full-canvas film grain.
 
 ---
 
-## 5. Layout & section system (canonical IA — same for all five agents)
+## 5. Layout & section system (content checklist — composed per lane)
 
-All agents build the **same information architecture** with **different visual systems**. Express
-each section as a reusable, composable component fed by `src/content/*`. Order is a strong default;
-agents may merge/re-rhythm adjacent sections but must not drop required content.
+The lists below are the **content each page must cover**, **not** a shared information architecture. Each
+lane builds its OWN IA, section set, and order from its assigned template (§3 + the template's exported
+`pageTrees`) — two lanes must not end up with the same composition. Express the content through components
+fed by `src/content/*`. The only hard rules: every listed item finds a home somewhere, and no required
+content is dropped. Everything else — which sections exist, how they are named, their order, their
+treatment — is the lane's to derive from its template.
 
 ### Homepage (`/`)
 
@@ -344,10 +351,14 @@ breakpoints are smooth, not snappy jumps.
 
 ---
 
-## 10. Component inventory (shared, reusable, token-driven)
+## 10. Component capability menu (per-lane, token-driven)
 
-Every agent produces this set as global, composable components. Same inventory across all five; only
-the visual system differs. No one-off variants — variants are props.
+This is the set of **content jobs** a lane's pages must do — a reference menu, **not a mandated identical
+component set or section order.** Each lane composes its OWN structure from its template (§3): name its
+own sections, merge/split/drop these as the template's `pageTrees` dictate, and invent sections the
+template has that this list doesn't. Two lanes should not ship the same component composition. What every
+lane still owes: each content job below has a home somewhere, it is token-driven, and variants are props,
+not forks.
 
 - **SiteHeader / Nav** — wordmark/mark, nav links (`site.nav`), GitHub, **theme toggle**, mobile
   menu/sheet. Sticky/transparent-on-hero is allowed if consistent.
