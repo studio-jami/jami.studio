@@ -19,6 +19,12 @@ function formatDialValue(value: ThemeDials[keyof ThemeDials]) {
   return typeof value === "number" ? String(value) : value;
 }
 
+/**
+ * Internal token-foundation inspector. Restyled into the lane's system, but the
+ * tested behavior is preserved: every dial label + description renders, the
+ * Tokens and Registry tab views exist, and the registry strings + ownership
+ * lists stay intact (tests/config-panel.test.tsx). Driven by dialDefinitions.
+ */
 export function ConfigPanel() {
   const [activeTab, setActiveTab] = useState<PanelTab>("Dials");
   const [dials, setDials] = useState<ThemeDials>(neutralFoundationDials);
@@ -36,18 +42,19 @@ export function ConfigPanel() {
       style={cssVars as CSSProperties}
     >
       <div className="config-panel-sidebar">
-        <p className="meta">Internal token foundation</p>
+        <p className="eyebrow">Internal token foundation</p>
         <h2 id="config-panel-title">Theme dials and registry seed</h2>
-        <p>
+        <p className="config-panel-intro">
           Inspect the shared token contract without freezing a final marketing look. Design branches
           can change values while keeping the schema, metadata, and CSS variable pipeline.
         </p>
-        <div className="panel-tabs" aria-label="Configuration panel views">
+        <div className="panel-tabs" role="tablist" aria-label="Configuration panel views">
           {panelTabs.map((tab) => (
             <button
               type="button"
               key={tab}
               aria-pressed={activeTab === tab}
+              className={activeTab === tab ? "is-active" : ""}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
@@ -64,7 +71,7 @@ export function ConfigPanel() {
 
               return (
                 <label className="dial" key={dial.id}>
-                  <span>
+                  <span className="dial-label">
                     <strong>{dial.label}</strong>
                     <small>{dial.description}</small>
                   </span>
@@ -80,7 +87,7 @@ export function ConfigPanel() {
                       ))}
                     </select>
                   ) : (
-                    <>
+                    <span className="dial-control">
                       <output>{formatDialValue(value)}</output>
                       <input
                         type="range"
@@ -90,7 +97,7 @@ export function ConfigPanel() {
                         value={value as number}
                         onChange={(event) => updateDial(dial.id, Number(event.target.value))}
                       />
-                    </>
+                    </span>
                   )}
                 </label>
               );
