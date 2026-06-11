@@ -23,9 +23,13 @@ templates live in 5 Framer projects with Server API keys, so an agent can read t
 | Gives projectId | you supply it | returns it for free |
 | Best for | batch, parallel lanes, automation | hand-editing one canvas |
 
-The **React → repo** code export (clean JSX/CSS) is a third tool, `unframer`
-(`npx unframer <projectId>`), used by `export.mjs`. It may require a Google login
-and, for some templates, the React Export subscription — separate from the API key.
+The **React → repo** code export (clean JSX/CSS) is a third, **optional** tool,
+`unframer` (`npx unframer <projectId>`), used by `export.mjs`. Hard precondition
+(verified): the project must have the Framer **React Export plugin** installed,
+components selected for export in that plugin, and the site **published** —
+otherwise unframer 404s with "ensure you've exported components from Framer
+first". None of the five template projects has this set up; the lanes do not
+depend on it.
 
 ## Setup
 
@@ -43,11 +47,16 @@ node export.mjs nouva       # optional unframer React export -> <worktree>/src/f
 ```
 
 `inspect.mjs` is read-only (never publishes/edits). It extracts the template's
-real design system headless — `getNodesWithType` (every page/frame/text/component
-node with geometry + per-breakpoint styling) + `getColorStyles` / `getTextStyles`
-(the color + type token systems). `out/<lane>.json` is the compact brief; read it
-top to bottom. `out/<lane>.full.json` is the complete node tree. See
-`CONNECTIONS.md` for the verified per-template counts and the live SDK surface.
+real design system headless — `getColorStyles` / `getTextStyles` (the color +
+type token systems), `getNodesWithType` (every page/frame/text/component/
+instance node with geometry + per-breakpoint styling, flat), and
+`framer.agent.getNode` per page (the **hierarchical** page tree: nested
+sections, layout, gap/padding — the structure and rhythm) plus
+`framer.agent.getContext` (the project's own fonts/components/tokens summary).
+`out/<lane>.json` is the compact brief; read it top to bottom.
+`out/<lane>.full.json` holds `pageTrees` (start here for layout) + the flat
+node arrays (exact values). See `CONNECTIONS.md` for the verified per-template
+counts and the live SDK surface.
 
 ## Lane <-> template mapping (owner preference order; all Opus 4.8)
 

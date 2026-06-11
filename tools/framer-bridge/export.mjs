@@ -1,11 +1,15 @@
-// Export each lane's Framer template to React components via unframer, dropping
-// the generated code into that lane's worktree at <worktree>/src/framer/.
+// OPTIONAL tool — NOT part of the lane workflow. Exports a lane's Framer
+// template to React components via unframer, dropping the generated code into
+// that lane's worktree at <worktree>/src/framer/.
 //
-// NOTE: unframer / the Framer "React Export" plugin may require a Google login
-// and (for some templates) the React Export subscription — separate from the
-// Server API key. The Server API itself reads structure + publishes for free;
-// the clean React codegen is the unframer path. If export auth is required, run
-// `npx unframer login` once.
+// HARD PRECONDITION (verified 2026-06-11 — without it this fails with
+// "Project with id <id> not found. Please ensure you've exported components
+// from Framer first." / HTTP 404): unframer reads the *published* JS modules
+// that Framer's "React Export" marketplace plugin generates. An operator must,
+// in the Framer editor for that project: (1) install the React Export plugin,
+// (2) select the components to export in the plugin, (3) publish the site.
+// None of the five template projects has this set up. The design lanes do NOT
+// depend on it — inspect.mjs + shots.mjs provide everything the agents read.
 //
 // Usage:
 //   node export.mjs            # all lanes with a project id + existing worktree
@@ -26,7 +30,9 @@ const filter = (process.argv[2] || "").toLowerCase();
 
 for (const p of PROJECTS) {
   if (filter && ![p.lane, p.template].some((v) => v.toLowerCase().includes(filter))) continue;
-  const id = (p.url || "").split("/").filter(Boolean).pop();
+  // Project id = last path segment of the project URL, with any ?query/#hash
+  // stripped (the stored URLs carry a ?node=... suffix).
+  const id = (p.url || "").split("/").filter(Boolean).pop()?.split(/[?#]/)[0] ?? "";
   const worktree = resolve(siblings, `jami.studio-${p.lane}`);
   if (!id) { console.log(`SKIP ${p.lane} (${p.template}) — no project id (set *_PROJECT_URL)`); continue; }
   if (!existsSync(worktree)) { console.log(`SKIP ${p.lane} — worktree ${worktree} not found`); continue; }

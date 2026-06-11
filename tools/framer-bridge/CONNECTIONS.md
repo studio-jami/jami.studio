@@ -16,39 +16,60 @@ to which lane and the verified connection status.
 project. Both come from the root `.env`; `projects.config.mjs` parses that block — there is no
 separate env file in this tool dir.
 
-## Projects ↔ lanes — FULL STRUCTURE EXTRACTED HEADLESS 2026-06-10
+## Projects ↔ lanes — FULL STRUCTURE EXTRACTED HEADLESS (re-verified 2026-06-11)
 
 All five templates' **complete design systems** are read headless via the Server API with the
 per-project key — no publish, no editor, no MCP plugin, no babysitting. `node inspect.mjs` writes
-`out/<lane>.json` (compact design brief) + `out/<lane>.full.json` (full node tree) per template.
+`out/<lane>.json` (compact design brief) + `out/<lane>.full.json` (hierarchical page trees + flat
+node arrays) per template.
 
-| Lane / branch | Template | Root `.env` section | Pages | Frames | Texts | Components | Colors | Type styles | Verified |
-|---|---|---|---|---|---|---|---|---|---|
-| `design/message-ai` | Message AI | `Message AI` | 2 | 756 | 451 | 19 | 19 | 7 | 2026-06-10 |
-| `design/nouva` | Nouva | `Nouva` | 4 | 700 | 338 | 19 | 17 | 12 | 2026-06-10 |
-| `design/kirimo` | Kirimo | `Kirimo` | 10 | 1241 | 733 | 22 | 8 | 15 | 2026-06-10 |
-| `design/noir` | Noir | `Noir` | 10 | 1956 | 507 | 39 | 19 | 17 | 2026-06-10 |
-| `design/synk` | Synk | `Synk` | 8 | 3281 | 848 | 38 | 16 | 8 | 2026-06-10 |
+| Lane / branch | Template | Root `.env` section | Pages | Page trees | Frames | Texts | Instances | Components | Colors | Type styles | Verified |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `design/message-ai` | Message AI | `Message AI` | 2 | 2 | 756 | 451 | 338 | 19 | 19 | 7 | 2026-06-11 |
+| `design/nouva` | Nouva | `Nouva` | 4 | 3 | 700 | 338 | 280 | 19 | 17 | 12 | 2026-06-11 |
+| `design/kirimo` | Kirimo | `Kirimo` | 10 | 9 | 1241 | 733 | 230 | 22 | 8 | 15 | 2026-06-11 |
+| `design/noir` | Noir | `Noir` | 10 | 7 | 1956 | 507 | 609 | 39 | 19 | 17 | 2026-06-11 |
+| `design/synk` | Synk | `Synk` | 8 | 8 | 3281 | 848 | 654 | 38 | 16 | 8 | 2026-06-11 |
 
-## Live SDK surface (`framer-api@0.1.14`) — what actually works headless
+Page trees < pages where a path is a CMS detail template (`/blogs/:slug`, `/collection/:slug`,
+`/legal/:slug`, …): `agent.getNode` resolves concrete paths only. Those pages' nodes still appear in
+the flat arrays, and the CMS content is reachable via `getCollections`.
 
-Verified against the real projects. The earlier "shallow read" was a wrong-method-name artifact:
-`getNode` alone returns a shallow descriptor, but the typed and style readers return the full thing.
+## Live SDK surface (`framer-api@0.1.14`, npm latest as of 2026-06) — what actually works headless
 
-- **Structure (the real win):** `getNodesWithType("WebPageNode"|"FrameNode"|"TextNode"|"ComponentNode"|"SVGNode")`
-  returns every node of that type as a rich array — full geometry (position/size/pins), background/border/
-  radius, layout, links, and for text the `inlineTextStyle` (tag, font, weight, color, alignment, and
-  **per-breakpoint** values). This is the complete page/layout/copy tree.
+Verified by running against the real projects (2026-06-11). The earlier "shallow read" was a
+wrong-method-name artifact: `getNode` alone returns a shallow descriptor, but the typed readers,
+style readers, and the agent namespace return the full thing.
+
+- **Hierarchy (structure/rhythm):** `framer.agent.getNode({ id: pageId }, { pagePath })` → the whole
+  page as ONE nested tree: named sections, `htmlTag`, stack/grid layout, `gap`, `padding`,
+  per-breakpoint frames, children. `framer.agent.getContext()` → the project's own summary string
+  (fonts, components + ids, color tokens, text-style presets, site map). The `framer.agent.*`
+  namespace (the `*ForAgent` wire methods) **is exposed and works over the Server API** — the earlier
+  note that it wasn't available was wrong.
+- **Flat typed reads (exact values):** `getNodesWithType("WebPageNode"|"FrameNode"|"TextNode"|
+  "ComponentNode"|"ComponentInstanceNode"|"SVGNode"|"DesignPageNode")` returns every node of that
+  type as a rich array — full geometry (position/size/pins), background/border/radius (incl.
+  `backgroundImage` asset URLs on `framerusercontent.com`), layout, links, and for text the
+  `inlineTextStyle` (tag, font, weight, color, alignment, **per-breakpoint** values). Flat = no
+  parent/child links; the page trees above carry the hierarchy. `ComponentInstanceNode` carries
+  `componentName` + `controls` (the actual per-instance overrides).
 - **Design tokens:** `getColorStyles()` → the template's named color system (e.g. `/Main/Primary`,
-  `/Background/Surface`, each with light/dark values); `getTextStyles()` → the type system (named styles
-  → `h1/h2/p` tags, font family/weight, alignment, breakpoints). Maps straight onto our token contract.
+  `/Background/Surface`; `light`/`dark` slots — many templates fill only `light` even when the design
+  is dark); `getTextStyles()` → the type system (named styles → `h1/h2/p` tags, font family/weight,
+  alignment, per-breakpoint sizes). Maps straight onto our token contract.
 - **Also:** `getProjectInfo`, `getCollections` (CMS), `getCustomCode` (head/body), `getFonts` (the full
   ~9k Google Fonts catalog — `inspect.mjs` derives *used* families from the styles instead).
-- **Render (complement, not primary):** `screenshot(nodeId)` → a fixed-1200px-wide full-page PNG
-  (`shots.mjs` → `out/<lane>.home.png`); `exportSVG(nodeId)` for vector nodes. Width is not adjustable.
-- **Not exposed in this client build:** the `*ForAgent` serializers, `getVariables`, `INTERNAL_*`.
-- **Lifecycle / write:** `connect`, `reconnect`, `disconnect`; `publish` / `deploy` are available
-  (not used by the read path).
+- **Render (complement, not primary):** `screenshot(nodeId, options?)` → full-page PNG/JPEG of the
+  node (`shots.mjs` → `out/<lane>.home.png`). Options: `format` (`png`|`jpeg`), `quality`, `scale`
+  (0.5–4 pixel-density multiplier), `clip`. Base width is the page's desktop-breakpoint frame width
+  (1200px in these templates) — there is no viewport/breakpoint width option, only `scale`.
+  `exportSVG(nodeId)` for vector nodes.
+- **Per-node extras:** `ComponentNode.getVariables()` (component variables — not project-level design
+  tokens; the project tokens are the color/text styles above), `getText`/`getHTML` on text nodes,
+  `getChildren(nodeId)` for manual tree walks.
+- **Lifecycle / write:** `connect`, `disconnect` (plus `withConnection`); publish/deploy run through
+  `framer.agent.publish(...)` — not used by the read path.
 
 ## Verify (repro)
 
@@ -57,11 +78,16 @@ Verified against the real projects. The earlier "shallow read" was a wrong-metho
 3. `node inspect.mjs` → `out/<lane>.json` + `out/<lane>.full.json` for all five (`node inspect.mjs <lane>` for one).
 4. Optional visual: `node shots.mjs` → `out/<lane>.home.png` (full-page render).
 
-## Export to React (when a lane needs code)
+## Export to React (optional — NOT part of the lane workflow)
 
 `node export.mjs <lane>` runs `unframer` to pull the template's React components into
-`<worktree>/src/framer/`. Note: `unframer` may require a Google login / React Export subscription —
-separate from the Server API key. `inspect`/build do not need it.
+`<worktree>/src/framer/`. **Hard precondition (verified against the unframer docs):** the **React
+Export plugin** must be installed in that Framer project, the components must be **selected for
+export in the plugin**, and the project must be **published** — unframer reads the published JS
+modules. None of our five template projects has this set up, so `export.mjs` will fail with
+"ensure you've exported components from Framer first" until an operator does that in-editor setup.
+The lanes do **not** depend on it: `inspect.mjs` + `shots.mjs` provide everything the design agents
+read, and the build never needs `src/framer/`.
 
 ## Secret policy
 
