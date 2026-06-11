@@ -528,8 +528,8 @@ main {
 /* Nav toggle (mobile) */
 .nav-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--panel);
@@ -1744,6 +1744,15 @@ main {
   }
   .token-grid {
     grid-template-columns: 1fr;
+  }
+  /* Comfortable ≥44px tap targets for the footer link lists on touch widths. */
+  .footer-col ul {
+    gap: 0.1rem;
+  }
+  .footer-col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 }
 
