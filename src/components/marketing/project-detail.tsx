@@ -3,18 +3,11 @@ import { CTABand } from "@/components/marketing/cta-band";
 import { CapabilityBand } from "@/components/marketing/capability-band";
 import { ProofBand } from "@/components/marketing/proof-band";
 import { Reveal } from "@/components/system/reveal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { projects, type StudioProject } from "@/content/projects";
 import { projectLinkTargets } from "@/lib/routes";
-
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live surface",
-  foundation: "Foundation",
-  planned: "In design"
-};
 
 function ctaIcon(target: StudioProject["ctas"][number]["target"]): "arrow" | "external" {
   return target === "route" ? "arrow" : "external";
@@ -43,9 +36,6 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
         </p>
         <div className="project-hero">
           <div className="project-hero-copy">
-            <Badge dot accent={project.internalStatus === "live"}>
-              {statusLabel[project.internalStatus]}
-            </Badge>
             <h1 id="project-title">{project.name}</h1>
             <p className="project-hero-summary">{project.summary}</p>
             <p className="project-hero-positioning">{project.positioning}</p>

@@ -4,12 +4,6 @@ import { ArrowUpRight } from "@/components/ui/icons";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
 
-const statusLabel: Record<StudioProject["internalStatus"], string> = {
-  live: "Live",
-  foundation: "Foundation",
-  planned: "In design"
-};
-
 // Trailing function words that read as broken when a tease ends on them.
 const DANGLING = new Set([
   "with",
@@ -50,9 +44,6 @@ export function ProjectCard({ project, index }: { project: StudioProject; index?
   return (
     <article className="project-card">
       <div className="project-card-top">
-        <Badge dot accent={project.internalStatus === "live"}>
-          {statusLabel[project.internalStatus]}
-        </Badge>
         {number ? <span className="project-card-index">{number}</span> : null}
       </div>
 

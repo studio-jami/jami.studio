@@ -10,7 +10,6 @@ import { site } from "@/content/site";
  */
 export function Hero() {
   const { eyebrow, title, lead, primaryCta, secondaryCta } = site.home;
-  const liveCount = projects.filter((p) => p.internalStatus !== "planned").length;
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -41,8 +40,8 @@ export function Hero() {
               <dd>Each surface ships in its own repository under one studio.</dd>
             </div>
             <div className="hero-meta-item">
-              <dt>{liveCount} in build or live</dt>
-              <dd>Foundations are running; the rest are in active development.</dd>
+              <dt>Shared foundation</dt>
+              <dd>One token system, content layer, and routing contract beneath every surface.</dd>
             </div>
           </dl>
         </div>
