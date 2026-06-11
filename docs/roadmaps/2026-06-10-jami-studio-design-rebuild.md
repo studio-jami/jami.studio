@@ -36,21 +36,40 @@ worktree is the source of truth; this plan is the contract for what "done" means
 **Active lane:** `design/message-ai`
 **Template / reference:** Message AI
 **Primary aesthetic lane:** A — cinematic dark (the prime)
-**Assigned accent (schema enum):** `cyan`
+**Primary accent (brand hex):** `#175d5e` deep teal — authored as `color.accent` → `--accent`/`--primary`; dial family `cyan`
 **Framer bridge key:** `message-ai` → `tools/framer-bridge/out/message-ai.json`
 
-| Branch | Template | Primary lane | Accent | Character to hit |
+| Branch | Template | Primary lane | Primary accent | Character to hit |
 |---|---|---|---|---|
-| `design/message-ai` | Message AI | A — cinematic dark (the prime) | `cyan` | nocturnal AI-product canvas, fine grain, oversized display hero, teal glow |
-| `design/nouva` | Nouva | B — bold light editorial | `violet` | studio/agency confidence, work-forward, strong editorial identity |
-| `design/kirimo` | Kirimo | A — immersive dark creative | `rose` | immersive gallery showcase, dynamic rhythm, aesthetic-forward |
-| `design/noir` | Noir | A — high-contrast dark agency | `amber` | textbook dark agency-portfolio IA, numbered sections, warm accent on near-black |
-| `design/synk` | Synk | B — systematized light | `green` | global-variable / swap-anything discipline made visible, calm systematized grid |
+| `design/message-ai` | Message AI | A — cinematic dark (the prime) | `#175d5e` deep teal (dial `cyan`) | nocturnal AI-product canvas, fine grain, oversized display hero, teal glow |
+| `design/nouva` | Nouva | B — bold light editorial | `#854780` magenta (dial `violet`) | studio/agency confidence, work-forward, strong editorial identity |
+| `design/kirimo` | Kirimo | A — immersive dark creative | `#854c63` wine-rose (dial `rose`) | immersive gallery showcase, dynamic rhythm, aesthetic-forward |
+| `design/noir` | Noir | A — high-contrast dark agency | `#a1704f` copper (dial `amber`) | textbook dark agency-portfolio IA, numbered sections, warm accent on near-black |
+| `design/synk` | Synk | B — systematized light | `#2b4173` indigo (dial `green` slot) | global-variable / swap-anything discipline made visible, calm systematized grid |
 
-The assigned accent + primary lane are **locked** for this branch. Craft within them; do not switch
-accent family or invent a new one. Both dark **and** light themes ship on every lane — "primary lane"
-is the dominant character, not the only theme. All art direction comes from `reference-brief.md`
-(§2 lanes, §3 DNA, §4 grain, §6 type, §7 color, §8 motion); this plan governs the build, not the look.
+The assigned **primary accent** (brand hex) + primary lane are **locked** for this branch as the
+default identity — craft within them; do not invent a different brand hue. But the accent is a
+**token, not a hardcode**: author it as `color.accent` (with a matching `ring` / `accentForeground`)
+in the branch `src/tokens/theme.ts`, surfaced only through `--accent` / `--primary` — never a literal
+in a component. The five brand hexes below are the shared studio palette, so any lane stays swappable
+to any of them, or retunable, on the token system; that adjustability is a requirement, not a side
+effect. Both dark **and** light themes ship on every lane — "primary lane" is the dominant character,
+not the only theme. All art direction comes from `reference-brief.md` (§2 lanes, §3 DNA, §4 grain,
+§6 type, §7 color, §8 motion); this plan governs the build, not the look.
+
+**Brand accent palette (locked — five colors, token-driven):**
+
+| Hex | Name | Primary for | Dial family |
+|---|---|---|---|
+| `#175d5e` | deep teal | `design/message-ai` | `cyan` |
+| `#854780` | magenta | `design/nouva` | `violet` |
+| `#854c63` | wine-rose | `design/kirimo` | `rose` |
+| `#a1704f` | copper | `design/noir` | `amber` |
+| `#2b4173` | indigo | `design/synk` | `green` slot (no blue/indigo name in the enum) |
+
+The `dials.accent` enum (`cyan|green|amber|rose|violet`) is the frozen foundation label for the config
+`<select>`; the **rendered** accent always comes from the `color.accent` hex, never the slot name. A
+lane may retune its `accentPalettes` entry to its brand hex on-branch so the select reads true.
 
 ---
 
