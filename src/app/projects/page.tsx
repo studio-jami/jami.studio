@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { ProjectCard } from "@/components/marketing/project-card";
-import { projects } from "@/content/projects";
+import { CTABand } from "@/components/marketing/cta-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { Container, Eyebrow } from "@/components/ui/primitives";
+import { Reveal } from "@/components/system/reveal";
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
@@ -12,23 +14,29 @@ export const metadata: Metadata = createMetadata({
 export default function ProjectsPage() {
   return (
     <>
-      <section className="section page-hero">
-        <div className="section-heading">
-          <p className="meta">Studio OSS family</p>
-          <h1>Projects</h1>
-          <p>
-            Separate products over shared foundations: governed agents, trusted UI, coordination,
-            temporal knowledge, and open agent society.
-          </p>
-        </div>
+      <section className="section section--tight" aria-labelledby="projects-title">
+        <Container>
+          <Reveal className="section-head">
+            <Eyebrow>Studio OSS family</Eyebrow>
+            <h1 id="projects-title">Projects</h1>
+            <p>
+              Separate products over shared foundations: governed agents, trusted UI,
+              coordination, temporal knowledge, and open agent society. Each links out to its
+              own repository, docs, and live surface.
+            </p>
+          </Reveal>
+        </Container>
       </section>
-      <section className="section project-index">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+
+      <ShowcaseGrid variant="index" />
+
+      <CTABand
+        eyebrow="Go deeper"
+        title="Read the machine-readable source"
+        lead="The same data that builds these pages is published as an AI index for agents."
+        primary={{ label: "Read AI index", href: "/llms.txt" }}
+        secondary={{ label: "Back home", href: "/" }}
+      />
     </>
   );
 }

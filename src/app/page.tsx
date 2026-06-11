@@ -1,90 +1,33 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
-import { projects } from "@/content/projects";
+import { CTABand } from "@/components/marketing/cta-band";
+import { FAQ } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarsBand } from "@/components/marketing/pillars-band";
+import { ProofBand } from "@/components/marketing/proof-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      <Hero />
+      <PillarsBand />
+      <ShowcaseGrid variant="home" />
+      <ProofBand
+        eyebrow="One source of truth"
+        statement="Everything here is generated from shared, version-controlled source data."
+        points={[
+          site.home.proof,
+          "Project routes, subdomains, repositories, docs, and APIs resolve through one content layer.",
+          "Marketing copy stays out of implementation status; the runtimes live in their own repos."
+        ]}
+      />
+      <FAQ />
+      <CTABand
+        title="Explore the Studio family"
+        lead="Five products, one governed foundation. Start with the project index or read the AI source."
+        primary={site.home.primaryCta}
+        secondary={site.home.secondaryCta}
+      />
     </>
   );
 }
