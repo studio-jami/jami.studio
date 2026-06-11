@@ -112,11 +112,14 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
 
 - Stack: Next 16 (App Router), React 19, Zod 4, pnpm 10. Windows dev host (PowerShell / git-bash; `rg`).
 - Gate: `pnpm verify` = `lint && typecheck && test && build` (`package.json`).
-- Framer: all five templates **verified live** via the Server API (`tools/framer-bridge/CONNECTIONS.md`).
-  Headless read returns project identity + canvas-root + CMS (shallow); the richest structure comes from
-  `export.mjs` (unframer → `src/framer/`, may need auth) or the in-editor MCP plugin. The orchestrator
-  provides `tools/framer-bridge/out/<lane>.json` in the worktree. Primary art direction is
-  `reference-brief.md` §3; the export tightens fonts/section-rhythm/spacing to the real template.
+- Framer: all five templates' **full design systems are extracted headless** via the Server API
+  (`getNodesWithType` + `getColorStyles` + `getTextStyles`); `tools/framer-bridge/CONNECTIONS.md` has
+  the verified per-template counts. The orchestrator deposits in each worktree:
+  `out/<lane>.json` (compact brief — real color tokens, type system, fonts, component vocabulary, pages),
+  `out/<lane>.full.json` (every node with geometry/layout/per-breakpoint styling), and
+  `out/<lane>.home.png` (full-page render). Primary art direction is `reference-brief.md` §3 + §13; these
+  files pin the real fonts/colors/section-rhythm/spacing. No publish, MCP plugin, or `.env` needed in the
+  worktree.
 
 ## 2. Locked Decisions
 
@@ -161,9 +164,9 @@ Facts verified in the repo at the `main` base commit. Cite these; do not redisco
 - Verification gate before any commit: `pnpm verify` green + visual smoke of `/`, `/projects`, one
   `/projects/[slug]` at desktop **and** mobile in **both** themes.
 - Changelog: no changelog convention exists yet — skip changelog fragments until one does.
-- Framer bridge is operated by the orchestrator from `main` (where `.env` lives); read the provided
-  `tools/framer-bridge/out/<lane>.json` and any `src/framer/` export — do not require `.env` in the
-  worktree.
+- Framer structure is operated by the orchestrator from `main` (where `.env` lives); read the provided
+  `tools/framer-bridge/out/<lane>.json` (design brief), `out/<lane>.full.json` (full node tree), and
+  `out/<lane>.home.png` (render) — do not require `.env` or run the bridge in the worktree.
 
 ## 5. Target Repository Shape
 
