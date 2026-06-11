@@ -1,7 +1,8 @@
 # Design Goal — jami.studio Marketing Rebuild (Orchestrator Brief)
 
 Date: 2026-06-10
-Status: [~] Active — connection verified; lane goal sessions not yet started
+Status: [~] Active — connections + plan audited and corrected 2026-06-11 (see
+`docs/_legacy/2026-06-10-fable-plan-audit.md`); lane goal sessions not yet started
 Active roadmap: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md`
 Design guidelines: `docs/design/reference-brief.md`
 Connection record: `tools/framer-bridge/CONNECTIONS.md`
@@ -54,12 +55,16 @@ goal sessions on the same lane at once.
 
 ## Hard prerequisite — NO BLOCKERS (satisfied)
 
-Done 2026-06-10: each template's **full design system is extracted headless** via the Server API
-(`getNodesWithType` + `getColorStyles` + `getTextStyles`) — `CONNECTIONS.md` has the verified per-template
-counts. Before a lane's pass-1, the orchestrator (from `main`, where the root `.env` lives) runs
-`node tools/framer-bridge/inspect.mjs <lane>` and deposits `out/<lane>.json` (design brief),
-`out/<lane>.full.json` (full node tree), and `out/<lane>.home.png` (render) into that worktree. The lane
-agent reads those artifacts and never needs `.env` or the bridge in its worktree.
+Done 2026-06-10, re-verified + deepened 2026-06-11: each template's **full design system is extracted
+headless** via the Server API (`getColorStyles` + `getTextStyles` + `getNodesWithType` +
+`framer.agent.getNode`/`getContext`) — `CONNECTIONS.md` has the verified per-template counts. The
+artifacts are already deposited in every worktree: `out/<lane>.json` (design brief incl. agent
+context), `out/<lane>.full.json` (hierarchical `pageTrees` + flat node arrays), and
+`out/<lane>.home.png` (render). If re-extraction is ever needed, the orchestrator (from `main`, where
+the root `.env` lives) runs `node tools/framer-bridge/inspect.mjs <lane>` and re-deposits — the `out/`
+dir is gitignored, so deposits are file copies, not commits. The lane agent reads those artifacts and
+never needs `.env` or the bridge in its worktree. The baseline is proven: `pnpm verify` green on
+`main`, worktree `pnpm install` + `next dev -p <port>` smoke-tested (2026-06-11).
 
 ## Lane mapping (locked direction per lane)
 
@@ -126,8 +131,10 @@ order — read the "Active lane" block at the top for your locked accent + aesth
 (repo operating rules), and `docs/design/reference-brief.md` (art direction). The LIVE worktree is the
 source of truth, not roadmap claims.
 
-Use the real template: read `tools/framer-bridge/out/<LANE-KEY>.json` and any `src/framer/` export
-already in your worktree. Borrow the template's DNA (structure, rhythm, type, craft) and translate it
+Use the real template: read `tools/framer-bridge/out/<LANE-KEY>.json` (design brief — tokens, type,
+fonts, components, agent context), `out/<LANE-KEY>.full.json` (`pageTrees` = the template's real
+section structure/rhythm; flat node arrays = exact values), and `out/<LANE-KEY>.home.png` (visual
+anchor) in your worktree. Borrow the template's DNA (structure, rhythm, type, craft) and translate it
 into our content + token system; never ship a reskinned clone.
 
 Reuse VERBATIM (do not fork): `src/content/*`, `src/lib/*`, `src/tokens/schema.ts`,
