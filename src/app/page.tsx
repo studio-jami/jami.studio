@@ -1,90 +1,49 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
-import { projects } from "@/content/projects";
+import { CTABand } from "@/components/marketing/cta-band";
+import { FAQ } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarsBand } from "@/components/marketing/pillars-band";
+import { ProofBand } from "@/components/marketing/proof-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { Reveal } from "@/components/system/reveal";
+import { Section } from "@/components/ui/section";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <Hero />
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
+      <PillarsBand />
 
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+      <ShowcaseGrid />
 
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
+      <Section id="proof" aria-label="Why it holds together">
+        <Reveal>
+          <ProofBand
+            eyebrow="Why it holds together"
+            title="One source of truth, every surface"
+            lead="The hub never duplicates product copy. Routes, metadata, and AI files are derived, so the family stays consistent as it grows."
+            points={[
+              site.home.proof,
+              "Subdomain, repository, docs, and API links stay data-driven, so any surface can move hosts without a content rewrite.",
+              "Human readers and agents read the same structured source: clean headings, canonical URLs, and generated AI files."
+            ]}
+          />
+        </Reveal>
+      </Section>
 
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      <FAQ />
+
+      <Section id="get-started" aria-label="Get started">
+        <Reveal>
+          <CTABand
+            title="Explore the projects, or read the AI index"
+            body="Start with the project family, or pull the agent-readable source the whole site is generated from."
+            primary={site.home.primaryCta}
+            secondary={site.home.secondaryCta}
+          />
+        </Reveal>
+      </Section>
     </>
   );
 }
