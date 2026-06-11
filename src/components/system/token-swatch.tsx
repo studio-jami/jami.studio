@@ -1,3 +1,5 @@
+import styles from "./token-swatch.module.css";
+
 export function TokenSwatch({
   label,
   value,
@@ -8,14 +10,14 @@ export function TokenSwatch({
   kind?: "color" | "value";
 }) {
   return (
-    <div className="token-swatch">
+    <div className={styles.swatch}>
       {kind === "color" ? (
-        <span className="token-swatch-chip" style={{ backgroundColor: value }} aria-hidden="true" />
+        <span className={styles.chip} style={{ backgroundColor: value }} aria-hidden="true" />
       ) : (
-        <span className="token-swatch-chip value-chip" aria-hidden="true" />
+        <span className={[styles.chip, styles.valueChip].join(" ")} aria-hidden="true" />
       )}
-      <span>{label}</span>
-      <code>{value}</code>
+      <span className={styles.label}>{label}</span>
+      <code className={styles.value}>{value}</code>
     </div>
   );
 }

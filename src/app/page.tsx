@@ -1,90 +1,42 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
+import { CTABand } from "@/components/marketing/cta-band";
+import { FAQ } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarsBand } from "@/components/marketing/pillars-band";
+import { ProofBand } from "@/components/marketing/proof-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
+
+// Honest, derived figures — counts straight from the content contract, never invented.
+const capabilityCount = projects.reduce((total, project) => total + project.capabilities.length, 0);
 
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      <Hero />
+      <PillarsBand index="01" />
+      <ShowcaseGrid index="02" />
+      <ProofBand
+        index="03"
+        statement={site.home.proof}
+        stats={[
+          { value: String(projects.length), label: "Open-core products in the family" },
+          { value: "1", label: "Shared token, content, and metadata foundation" },
+          { value: String(capabilityCount), label: "Documented capabilities across the family" },
+          { value: "100%", label: "Routes, metadata, and AI files from source data" }
+        ]}
+      />
+      <FAQ index="04" />
+      <CTABand
+        index="05"
+        eyebrow="Start here"
+        title="Explore the Studio family"
+        description="Open the project index for the full portfolio, or read the AI index for a machine-readable map of every route and product."
+        actions={[
+          { label: site.home.primaryCta.label, href: site.home.primaryCta.href, variant: "primary", withArrow: true },
+          { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href, variant: "secondary" }
+        ]}
+      />
     </>
   );
 }

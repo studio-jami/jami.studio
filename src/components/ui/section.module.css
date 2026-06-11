@@ -1,0 +1,23 @@
+.section {
+  position: relative;
+  padding-block: var(--section);
+}
+
+.divided::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 12%,
+    var(--border) 88%,
+    transparent
+  );
+}
+
+.raised {
+  background: color-mix(in srgb, var(--panel) 42%, transparent);
+}

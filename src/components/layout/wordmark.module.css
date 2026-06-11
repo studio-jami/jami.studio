@@ -1,0 +1,36 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border));
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.markDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.dot {
+  color: var(--accent);
+}
+
+.word {
+  white-space: nowrap;
+}

@@ -11,6 +11,7 @@ import {
   neutralFoundationDials
 } from "@/tokens/presets";
 import type { Accent, ThemeDials } from "@/tokens/schema";
+import styles from "./config-panel.module.css";
 
 const panelTabs = ["Dials", "Tokens", "Registry"] as const;
 type PanelTab = (typeof panelTabs)[number];
@@ -19,6 +20,12 @@ function formatDialValue(value: ThemeDials[keyof ThemeDials]) {
   return typeof value === "number" ? String(value) : value;
 }
 
+/**
+ * Internal token-foundation inspector. Restyled for the Noir lane but keeps its
+ * contract behavior: every dial label + description renders, and the Tokens /
+ * Registry tab views keep their tested strings (`tests/config-panel.test.tsx`).
+ * Not surfaced on public pages — it documents the shared token seam.
+ */
 export function ConfigPanel() {
   const [activeTab, setActiveTab] = useState<PanelTab>("Dials");
   const [dials, setDials] = useState<ThemeDials>(neutralFoundationDials);
@@ -31,22 +38,25 @@ export function ConfigPanel() {
 
   return (
     <section
-      className="config-panel"
+      className={styles.panel}
       aria-labelledby="config-panel-title"
       style={cssVars as CSSProperties}
     >
-      <div className="config-panel-sidebar">
-        <p className="meta">Internal token foundation</p>
-        <h2 id="config-panel-title">Theme dials and registry seed</h2>
-        <p>
+      <div className={styles.sidebar}>
+        <p className={styles.kicker}>Internal token foundation</p>
+        <h2 id="config-panel-title" className={styles.title}>
+          Theme dials and registry seed
+        </h2>
+        <p className={styles.lede}>
           Inspect the shared token contract without freezing a final marketing look. Design branches
           can change values while keeping the schema, metadata, and CSS variable pipeline.
         </p>
-        <div className="panel-tabs" aria-label="Configuration panel views">
+        <div className={styles.tabs} aria-label="Configuration panel views">
           {panelTabs.map((tab) => (
             <button
               type="button"
               key={tab}
+              className={styles.tab}
               aria-pressed={activeTab === tab}
               onClick={() => setActiveTab(tab)}
             >
@@ -56,20 +66,21 @@ export function ConfigPanel() {
         </div>
       </div>
 
-      <div className="config-panel-body">
+      <div className={styles.body}>
         {activeTab === "Dials" && (
-          <div className="dial-grid">
+          <div className={styles.dialGrid}>
             {dialDefinitions.map((dial) => {
               const value = dials[dial.id];
 
               return (
-                <label className="dial" key={dial.id}>
-                  <span>
+                <label className={styles.dial} key={dial.id}>
+                  <span className={styles.dialMeta}>
                     <strong>{dial.label}</strong>
                     <small>{dial.description}</small>
                   </span>
                   {dial.control === "select" ? (
                     <select
+                      className={styles.select}
                       value={value as Accent}
                       onChange={(event) => updateDial(dial.id, event.target.value as Accent)}
                     >
@@ -81,8 +92,9 @@ export function ConfigPanel() {
                     </select>
                   ) : (
                     <>
-                      <output>{formatDialValue(value)}</output>
+                      <output className={styles.output}>{formatDialValue(value)}</output>
                       <input
+                        className={styles.range}
                         type="range"
                         min={dial.min}
                         max={dial.max}
@@ -99,7 +111,7 @@ export function ConfigPanel() {
         )}
 
         {activeTab === "Tokens" && (
-          <div className="token-grid">
+          <div className={styles.tokenGrid}>
             <TokenSwatch label="background" value={preset.color.background} />
             <TokenSwatch label="foreground" value={preset.color.foreground} />
             <TokenSwatch label="accent" value={preset.color.accent} />
@@ -112,16 +124,16 @@ export function ConfigPanel() {
         )}
 
         {activeTab === "Registry" && (
-          <div className="registry-stack">
-            <div className="registry-note">
+          <div className={styles.registryStack}>
+            <div className={styles.registryNote}>
               <span>Registry item</span>
               <strong>{registryManifest.items[0]?.name}</strong>
             </div>
-            <div className="registry-note">
+            <div className={styles.registryNote}>
               <span>Vocabulary</span>
               <strong>{registryManifest.vocabularyVersion}</strong>
             </div>
-            <div className="ownership-grid">
+            <div className={styles.ownershipGrid}>
               <div>
                 <h3>Foundation-owned</h3>
                 <ul>

@@ -1,0 +1,43 @@
+.hero {
+  padding-top: clamp(3rem, 7vw, 5.5rem);
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ring);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.title {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--foreground);
+  text-transform: lowercase;
+}
+
+.lead {
+  max-width: 44rem;
+  margin-top: 1.5rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: var(--line-body);
+  color: var(--muted-foreground);
+  text-wrap: pretty;
+}

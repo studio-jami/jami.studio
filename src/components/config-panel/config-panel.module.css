@@ -1,0 +1,198 @@
+.panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr);
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ring);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--foreground);
+}
+
+.lede {
+  font-size: var(--text-sm);
+  line-height: var(--line-body);
+  color: var(--muted-foreground);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  margin-top: auto;
+}
+
+.tab {
+  min-height: 2.4rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-fast) var(--motion-easing),
+    color var(--motion-duration-fast) var(--motion-easing);
+}
+
+.tab[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.body {
+  min-width: 0;
+}
+
+.dialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.dial {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+}
+
+.dialMeta {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.dialMeta strong {
+  font-size: var(--text-sm);
+  color: var(--foreground);
+}
+
+.dialMeta small {
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.select {
+  min-height: 2.4rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--foreground);
+}
+
+.output {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--ring);
+}
+
+.range {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.tokenGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.registryStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.registryNote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+}
+
+.registryNote span {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+}
+
+.registryNote strong {
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}
+
+.ownershipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.ownershipGrid h3 {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ring);
+  margin-bottom: 0.75rem;
+}
+
+.ownershipGrid ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.ownershipGrid li {
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 760px) {
+  .panel,
+  .dialGrid,
+  .tokenGrid,
+  .ownershipGrid {
+    grid-template-columns: 1fr;
+  }
+}
