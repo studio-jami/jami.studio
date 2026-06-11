@@ -70,7 +70,14 @@ export function SiteHeader() {
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
-    <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7">
+    <svg
+      viewBox="0 0 20 20"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+    >
       {open ? (
         <path d="M5 5l10 10M15 5L5 15" strokeLinecap="round" />
       ) : (

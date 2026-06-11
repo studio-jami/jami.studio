@@ -41,12 +41,7 @@ export function Button({
   className,
   ...rest
 }: ButtonProps) {
-  const classes = [
-    "button",
-    `button--${variant}`,
-    block ? "button--block" : "",
-    className ?? ""
-  ]
+  const classes = ["button", `button--${variant}`, block ? "button--block" : "", className ?? ""]
     .filter(Boolean)
     .join(" ");
 

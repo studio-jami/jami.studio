@@ -46,13 +46,7 @@ export function Section({
 }
 
 /** Small-caps mono/accent eyebrow label. */
-export function Eyebrow({
-  children,
-  plain = false
-}: {
-  children: ReactNode;
-  plain?: boolean;
-}) {
+export function Eyebrow({ children, plain = false }: { children: ReactNode; plain?: boolean }) {
   return <span className={plain ? "eyebrow eyebrow--plain" : "eyebrow"}>{children}</span>;
 }
 

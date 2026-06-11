@@ -73,7 +73,13 @@ const handles = {
 
 const ownership = {
   foundationOwned: ["schema", "validation", "cssVariables", "registryMetadata", "configPanel"],
-  branchOwned: ["dials", "colorValues", "typographyValues", "surfaceTreatment", "componentExpression"]
+  branchOwned: [
+    "dials",
+    "colorValues",
+    "typographyValues",
+    "surfaceTreatment",
+    "componentExpression"
+  ]
 } as const satisfies TokenPreset["ownership"];
 
 const registry = {

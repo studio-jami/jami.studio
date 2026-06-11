@@ -18,7 +18,7 @@ export default function HomePage() {
         points={[
           site.home.proof,
           "Project routes, subdomains, repositories, docs, and APIs resolve through one content layer.",
-          "Marketing copy stays out of implementation status; the runtimes live in their own repos."
+          "This hub links the family together; each product runtime is built in its own repository."
         ]}
       />
       <FAQ />

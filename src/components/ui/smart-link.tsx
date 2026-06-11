@@ -21,13 +21,7 @@ function isExternal(href: string): boolean {
 export function SmartLink({ href, children, className, ...rest }: SmartLinkProps) {
   if (isExternal(href)) {
     return (
-      <a
-        href={href}
-        className={className}
-        target="_blank"
-        rel="noreferrer noopener"
-        {...rest}
-      >
+      <a href={href} className={className} target="_blank" rel="noreferrer noopener" {...rest}>
         {children}
       </a>
     );

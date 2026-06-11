@@ -20,9 +20,9 @@ export default function ProjectsPage() {
             <Eyebrow>Studio OSS family</Eyebrow>
             <h1 id="projects-title">Projects</h1>
             <p>
-              Separate products over shared foundations: governed agents, trusted UI,
-              coordination, temporal knowledge, and open agent society. Each links out to its
-              own repository, docs, and live surface.
+              Separate products over shared foundations: governed agents, trusted UI, coordination,
+              temporal knowledge, and open agent society. Each links out to its own repository,
+              docs, and live surface.
             </p>
           </Reveal>
         </Container>

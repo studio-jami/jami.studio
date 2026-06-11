@@ -70,6 +70,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeStyles }} />
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        {/* Scroll-reveal sections start hidden and are revealed by JS. If JS is
+            disabled, show their final (visible) state so no content is lost. */}
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important;}`}</style>
+        </noscript>
       </head>
       <body>
         <script

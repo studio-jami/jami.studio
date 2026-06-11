@@ -400,8 +400,11 @@ main {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: var(--radius-pill);
-  background:
-    radial-gradient(circle at 32% 30%, color-mix(in srgb, var(--accent) 90%, white), var(--accent));
+  background: radial-gradient(
+    circle at 32% 30%,
+    color-mix(in srgb, var(--accent) 90%, white),
+    var(--accent)
+  );
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
     0 0 14px -2px color-mix(in srgb, var(--ring) 70%, transparent);
@@ -768,13 +771,6 @@ html[data-theme="light"] .theme-toggle-thumb {
   justify-content: space-between;
   gap: 0.75rem;
   padding-top: 0.4rem;
-}
-
-.status-tag {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.06em;
-  color: var(--muted-foreground);
 }
 
 /* ---------- proof band --------------------------------------------------- */
@@ -1511,15 +1507,24 @@ html[data-theme="light"] .theme-toggle-thumb {
     overflow: hidden;
     max-height: 0;
     opacity: 0;
+    /* visibility:hidden keeps the collapsed sheet's links out of the tab order
+       and the a11y tree; it flips on at the open edge so the reveal still animates. */
+    visibility: hidden;
     transition:
       max-height var(--motion-duration) var(--motion-easing),
-      opacity var(--motion-duration) var(--motion-easing);
+      opacity var(--motion-duration) var(--motion-easing),
+      visibility 0s linear var(--motion-duration);
   }
 
   .mobile-sheet.is-open {
     max-height: 32rem;
     opacity: 1;
     margin-top: 0.5rem;
+    visibility: visible;
+    transition:
+      max-height var(--motion-duration) var(--motion-easing),
+      opacity var(--motion-duration) var(--motion-easing),
+      visibility 0s linear 0s;
   }
 
   .mobile-sheet-inner {

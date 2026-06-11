@@ -22,8 +22,8 @@ export function ShowcaseGrid({ variant = "home" }: { variant?: "home" | "index" 
               {isHome ? "The Studio product family" : "Every product in the family"}
             </h2>
             <p>
-              Separate implementation surfaces over one shared foundation: governed agents,
-              trusted UI, coordination, temporal knowledge, and open agent society.
+              Separate implementation surfaces over one shared foundation: governed agents, trusted
+              UI, coordination, temporal knowledge, and open agent society.
             </p>
           </div>
           {isHome ? (
