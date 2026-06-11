@@ -11,12 +11,11 @@ This directory holds the durable operating guidance for the `jami.studio` market
 - `roadmaps/` - active implementation plans.
 - `_legacy/` - retired plans and superseded reports.
 
-## Active Plan
+## Active plan
 
-- Session goal brief: `docs/design-goal.md`
-- Active roadmap: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md`
-- Design guidelines: `docs/design/reference-brief.md`
-- Framer connection record: `tools/framer-bridge/CONNECTIONS.md`
+The active implementation plan lives under `docs/roadmaps/`; completed plans retire to
+`docs/_legacy/roadmaps/`. Session and orchestration guidance lives under `docs/engineering/agents/`.
+Design guidelines live in `docs/design/`.
 
 Key architecture notes:
 
