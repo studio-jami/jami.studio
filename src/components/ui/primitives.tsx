@@ -20,6 +20,7 @@ export function Section({
   tight = false,
   id,
   "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledby,
   as: Tag = "section"
 }: {
   children: ReactNode;
@@ -27,12 +28,14 @@ export function Section({
   tight?: boolean;
   id?: string;
   "aria-label"?: string;
+  "aria-labelledby"?: string;
   as?: ElementType;
 }) {
   return (
     <Tag
       id={id}
       aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledby}
       className={["section", tight ? "section--tight" : "", className ?? ""]
         .filter(Boolean)
         .join(" ")}

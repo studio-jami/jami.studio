@@ -2,16 +2,13 @@ import { TextLink } from "@/components/ui/button";
 import { Badge } from "@/components/ui/primitives";
 import type { StudioProject } from "@/content/projects";
 
-const STATUS_LABEL: Record<StudioProject["internalStatus"], string> = {
-  planned: "Planned",
-  foundation: "Foundation",
-  live: "Live"
-};
-
 /**
  * One Studio product as a portfolio unit: short name, title, summary, positioning hook,
  * a capability tease, and a resolved CTA into the detail route. Used in the home showcase
  * and the /projects index — looks intentional both in a grid and standalone.
+ *
+ * Implementation status (`internalStatus`) is deliberately NOT surfaced here: per AGENTS.md
+ * and reference-brief §14, current build status stays out of first-impression marketing copy.
  */
 export function ProjectCard({
   project,
@@ -24,9 +21,7 @@ export function ProjectCard({
     <article className="project-card">
       <div className="project-card-top">
         <span className="project-card-name">{project.shortName}</span>
-        <Badge dot accent={project.internalStatus === "live"}>
-          {STATUS_LABEL[project.internalStatus]}
-        </Badge>
+        <span className="project-card-mark" aria-hidden="true" />
       </div>
 
       <div>
