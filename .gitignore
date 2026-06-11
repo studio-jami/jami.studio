@@ -7,6 +7,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+docs/user-notes/framer-project-keys.md
 
 # Framework and build output
 .next/

@@ -13,9 +13,10 @@ This directory holds the durable operating guidance for the `jami.studio` market
 
 ## Active Plan
 
-The active implementation roadmap is:
-
-- `docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md`
+- Session goal brief: `docs/design-goal.md`
+- Active roadmap: `docs/roadmaps/2026-06-10-jami-studio-design-rebuild.md`
+- Design guidelines: `docs/design/reference-brief.md`
+- Framer connection record: `tools/framer-bridge/CONNECTIONS.md`
 
 Key architecture notes:
 

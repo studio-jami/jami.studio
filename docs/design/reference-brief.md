@@ -1,7 +1,7 @@
 # jami.studio — Design Reference Brief
 
-**Audience:** the five independent design agents (Opus, Fable, Gemini, Grok) rebuilding the
-`jami.studio` marketing-site UI from scratch on separate branches.
+**Audience:** the five independent Opus 4.8 design agents rebuilding the `jami.studio` marketing-site
+UI from scratch, one per assigned Framer reference template, on separate branches.
 **Status:** model-agnostic, implementation-ready. Read this in full before writing any UI.
 **Scope:** art direction, reference DNA, and non-negotiable system rules. It deliberately does
 **not** prescribe one single look — each agent must differentiate within these rules.
@@ -87,9 +87,12 @@ contracts, and the same token plumbing. Only the *visual system* differs.
 
 ## 3. Reference DNA digest
 
-These are the owner's reference templates (Framer), ranked most-liked first. **Borrow the DNA, never
-the layout verbatim.** The Framer MCP plugin was not connected during research (see §13), so this DNA
-is synthesized from the live demo sites and marketplace listings, not exported project XML.
+These are the owner's reference templates (Framer), ranked most-liked first. The five chosen templates
+(Message AI, Nouva, Kirimo, Noir, Synk) are now live in dedicated Framer projects, connected headless
+via the Framer Server API (see §13 and `tools/framer-bridge/`), so each lane builds from the **real
+exported structure** of its assigned template — not synthesized DNA. **Borrow the DNA, never the layout
+verbatim:** translate the template's structure, rhythm, and craft into our content and token system;
+do not ship a reskinned clone.
 
 **What to borrow across the set:**
 - A confident, oversized **hero statement** with one clear primary CTA and a quiet secondary.
@@ -402,16 +405,23 @@ The site is AI-readable by design; the rebuild must not regress this.
 
 ---
 
-## 13. Framer MCP availability (research caveat)
+## 13. Framer connection (live — Server API)
 
-The connected Framer MCP plugin (`getProjectWebsiteUrl`, `getProjectXml`, `searchFonts`,
-`getCMSCollections`, color/text-style readers) was **not reachable** during this research — the
-plugin reported "Framer plugin not connected" for both `getProjectWebsiteUrl` and `getProjectXml`, so
-no project XML, color styles, text styles, or font selectors could be exported. The reference DNA in
-§3 is therefore synthesized from the **live demo sites and marketplace listings**, not from exported
-Framer project files. If an agent later gets the plugin connected (open Framer → ⌘K → "MCP" → open
-the MCP plugin), it can pull exact fonts/color-styles/section XML to tighten the DNA — but the brief
-is intentionally complete without it.
+Unlike the prior run, the real templates are now reachable. Each lane's template lives in a dedicated
+Framer project, and the repo ships a headless bridge at `tools/framer-bridge/`:
+
+- **Read real structure (headless):** `node tools/framer-bridge/inspect.mjs <lane>` connects via the
+  Framer **Server API** (`framer-api`, per-project key in the gitignored `.env`) and dumps the actual
+  canvas/components/CMS/styles/variables to `out/<lane>.json`. Build from this, not from screenshots.
+- **Export to React:** `node tools/framer-bridge/export.mjs <lane>` pulls the template's components into
+  `<worktree>/src/framer/` via `unframer` (may need a Google login / React Export subscription).
+- **Interactive alternative:** open the project → ⌘K → "MCP" → open the MCP plugin to read/edit one
+  project's canvas in-editor (and to grab its projectId).
+
+Connection state and verification are tracked in `tools/framer-bridge/CONNECTIONS.md`. Per the goal
+brief, the connection must be **verified and documented before lane work begins** (NO BLOCKERS). Still
+use §3's DNA digest as the art-direction guide; the exported structure tightens fonts, color styles,
+section rhythm, and spacing to the real thing.
 
 ---
 

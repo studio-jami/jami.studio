@@ -1,0 +1,14 @@
+{
+  "name": "framer-bridge",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Headless Framer Server API harness for jami.studio design lanes: read the real template canvas/components/CMS from each project, then export to React and/or publish. Dev tooling only — not part of the Next app build.",
+  "scripts": {
+    "inspect": "node inspect.mjs",
+    "export": "node export.mjs"
+  },
+  "dependencies": {
+    "framer-api": "^0.1.14"
+  }
+}
