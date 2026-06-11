@@ -1,40 +1,46 @@
-// Read the REAL structure of each Framer template project via the Server API.
+// Extract the REAL structure of each Framer template project, headless, via the
+// Server API. The full design system is reachable with the per-project key — no
+// publish, no screenshots, no editor, no babysitting. The trick is calling the
+// right methods: getNodesWithType (walks every page/frame/text/component as typed
+// arrays with full geometry + style) plus getColorStyles / getTextStyles (the
+// template's actual color + type token systems). getNode alone is shallow; these
+// are not.
 //
-// This is the step that was missing last time: the reference brief (§13) noted
-// the Framer MCP plugin "was not connected during research," so the lanes were
-// built from synthesized DNA (screenshots/marketplace listings), not exported
-// project XML. This script connects headless with your per-project API keys and
-// dumps whatever the SDK exposes (project info + canvas/CMS/style readers) to
-// out/<lane>.json so an agent can build from the actual template, not a guess.
+// Writes:
+//   out/<lane>.json       compact design brief (tokens, type, fonts, pages,
+//                         components, counts) — read this top to bottom.
+//   out/<lane>.full.json  the complete rich node arrays (frames/texts/svgs) for
+//                         drilling into exact layout/spacing/geometry.
 //
 // Usage:
 //   node inspect.mjs            # all configured projects
-//   node inspect.mjs messageai  # filter by lane or template substring
+//   node inspect.mjs nouva      # one lane (lane or template substring)
 //
-// Read-only: this script never publishes, deploys, or edits your projects.
+// Read-only: never publishes, deploys, or edits.
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { connect } from "framer-api";
 import { PROJECTS } from "./projects.config.mjs";
 // Credentials come from the repo-root .env, parsed in projects.config.mjs.
 
-// The quick-start confirms getProjectInfo / getChangedPaths / publish / deploy.
-// The reference says the Server API "is based on our Plugin API and shares most
-// methods" but doesn't enumerate the canvas/CMS readers, so we feature-detect:
-// call any candidate reader that actually exists on the client and capture it.
-const CANDIDATE_READERS = [
-  "getProjectInfo", "getChangedPaths", "getChangeContributors",
-  "getNodes", "getNode", "getCanvasRoot", "getRoot",
-  "getPages", "getWebPages", "getComponents", "getComponentNodes",
-  "getCMSCollections", "getCollections", "getCMSItems",
-  "getStyles", "getColorStyles", "getTextStyles", "getFonts",
-  "getPublishInfo",
-];
-
 mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
-
 const filter = (process.argv[2] || "").toLowerCase();
 let anyConnected = false;
+
+async function safe(label, fn, fallback) {
+  try { return await fn(); }
+  catch (e) { console.log(`    (${label}: ${String(e?.message || e).slice(0, 70)})`); return fallback; }
+}
+
+// Pull the font families a template actually uses out of its styles + text nodes,
+// instead of dumping getFonts() (the entire ~9k Google Fonts catalog).
+function collectFonts(textStyles, texts) {
+  const fams = new Set();
+  const add = (f) => { if (f?.family) fams.add(`${f.family}${f.weight ? " " + f.weight : ""}`); };
+  for (const s of textStyles || []) { add(s.font); add(s.boldFont); }
+  for (const t of texts || []) add(t.inlineTextStyle?.font);
+  return [...fams].sort();
+}
 
 for (const p of PROJECTS) {
   if (filter && ![p.lane, p.template].some((v) => v.toLowerCase().includes(filter))) continue;
@@ -47,20 +53,47 @@ for (const p of PROJECTS) {
   try {
     framer = await connect(p.url, p.apiKey);
     anyConnected = true;
-    const dump = { lane: p.lane, template: p.template, url: p.url, ranAt: process.env.RUN_STAMP || null, readers: {}, used: [] };
-    for (const name of CANDIDATE_READERS) {
-      if (typeof framer[name] !== "function") continue;
-      dump.used.push(name);
-      try { dump.readers[name] = await framer[name](); }
-      catch (e) { dump.readers[name] = { __error: String(e?.message || e) }; }
-    }
-    // Self-document the real SDK surface for whichever beta build is installed.
-    dump.allClientMethods = Object.getOwnPropertyNames(Object.getPrototypeOf(framer))
-      .filter((n) => n !== "constructor" && typeof framer[n] === "function")
-      .sort();
-    writeFileSync(new URL(`./out/${p.lane}.json`, import.meta.url), JSON.stringify(dump, null, 2));
-    console.log(`  ok -> out/${p.lane}.json  (readers used: ${dump.used.join(", ") || "none"})`);
-    console.log(`  client methods: ${dump.allClientMethods.join(", ")}`);
+
+    const info = await safe("getProjectInfo", () => framer.getProjectInfo(), {});
+    const webpages = await safe("WebPageNode", () => framer.getNodesWithType("WebPageNode"), []);
+    const components = await safe("ComponentNode", () => framer.getNodesWithType("ComponentNode"), []);
+    const frames = await safe("FrameNode", () => framer.getNodesWithType("FrameNode"), []);
+    const texts = await safe("TextNode", () => framer.getNodesWithType("TextNode"), []);
+    const svgs = await safe("SVGNode", () => framer.getNodesWithType("SVGNode"), []);
+    const colorStyles = await safe("getColorStyles", () => framer.getColorStyles(), []);
+    const textStyles = await safe("getTextStyles", () => framer.getTextStyles(), []);
+    const collections = await safe("getCollections", () => framer.getCollections(), []);
+    const customCode = await safe("getCustomCode", () => framer.getCustomCode(), null);
+
+    const brief = {
+      lane: p.lane,
+      template: p.template,
+      projectId: info.id || null,
+      projectName: info.name || null,
+      pages: (webpages || []).map((w) => ({ path: w.path, id: w.id })),
+      counts: {
+        webpages: webpages.length, components: components.length,
+        frames: frames.length, texts: texts.length, svgs: svgs.length,
+        colorStyles: colorStyles.length, textStyles: textStyles.length,
+      },
+      colorStyles,                                   // the real color token system
+      textStyles,                                    // the real type system
+      fonts: collectFonts(textStyles, texts),        // used families only
+      components: (components || []).map((c) => ({ id: c.id, name: c.name })),
+      collections,
+      customCode,
+    };
+    writeFileSync(new URL(`./out/${p.lane}.json`, import.meta.url), JSON.stringify(brief, null, 2));
+
+    const full = { lane: p.lane, template: p.template, nodes: { webpages, components, frames, texts, svgs } };
+    writeFileSync(new URL(`./out/${p.lane}.full.json`, import.meta.url), JSON.stringify(full, null, 2));
+
+    console.log(
+      `  ok -> out/${p.lane}.json + .full.json  ` +
+      `(${brief.counts.webpages} pages, ${brief.counts.frames} frames, ${brief.counts.texts} texts, ` +
+      `${brief.counts.components} components, ${colorStyles.length} colors, ${textStyles.length} text styles, ` +
+      `${brief.fonts.length} fonts)`
+    );
   } catch (e) {
     console.error(`  FAILED to connect/read: ${e?.message || e}`);
   } finally {

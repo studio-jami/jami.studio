@@ -407,21 +407,27 @@ The site is AI-readable by design; the rebuild must not regress this.
 
 ## 13. Framer connection (live — Server API)
 
-Unlike the prior run, the real templates are now reachable. Each lane's template lives in a dedicated
-Framer project, and the repo ships a headless bridge at `tools/framer-bridge/`:
+Unlike the prior run, the real templates are fully reachable — the **complete design system of your
+assigned template is already extracted into your worktree**, headless, no setup required of you:
 
-- **Read real structure (headless):** `node tools/framer-bridge/inspect.mjs <lane>` connects via the
-  Framer **Server API** (`framer-api`, per-project key in the gitignored `.env`) and dumps the actual
-  canvas/components/CMS/styles/variables to `out/<lane>.json`. Build from this, not from screenshots.
-- **Export to React:** `node tools/framer-bridge/export.mjs <lane>` pulls the template's components into
-  `<worktree>/src/framer/` via `unframer` (may need a Google login / React Export subscription).
-- **Interactive alternative:** open the project → ⌘K → "MCP" → open the MCP plugin to read/edit one
-  project's canvas in-editor (and to grab its projectId).
+- **`tools/framer-bridge/out/<lane>.json` — read this top to bottom.** A compact design brief pulled
+  live from the real Framer project: the template's named **color token system** (`getColorStyles` →
+  e.g. `/Main/Primary`, `/Background/Surface`, light/dark values), its **type system** (`getTextStyles`
+  → named styles mapped to `h1/h2/p` tags, font family/weight, alignment, per-breakpoint sizes), its
+  **used fonts**, its **component inventory** (names like `NavBar`, `Hero`, `FeatureCard`,
+  `PricingPlans`, `Footer` reveal the section vocabulary), page list, and CMS/custom-code.
+- **`tools/framer-bridge/out/<lane>.full.json` — drill here for exact layout.** Every page/frame/text/
+  component node with full geometry (position/size/pins), background/border/radius, layout, and
+  per-breakpoint text styling. This is the real spacing, rhythm, and structure.
+- **`tools/framer-bridge/out/<lane>.home.png` — a full-page render** of the template's home page (a
+  visual anchor; the JSON above is the source of truth for values).
 
-Connection state and verification are tracked in `tools/framer-bridge/CONNECTIONS.md`. Per the goal
-brief, the connection must be **verified and documented before lane work begins** (NO BLOCKERS). Still
-use §3's DNA digest as the art-direction guide; the exported structure tightens fonts, color styles,
-section rhythm, and spacing to the real thing.
+This is produced headless by `node tools/framer-bridge/inspect.mjs <lane>` via the Framer **Server API**
+(`getNodesWithType` + `getColorStyles` + `getTextStyles`); you don't need to run it — the orchestrator
+deposits the files. **Map the template's color/type tokens onto our token contract and translate its
+section structure into our content — borrow the DNA, never clone the layout.** §3's digest is the
+art-direction guide; these files tighten fonts, colors, section rhythm, and spacing to the real thing.
+Connection status is tracked in `tools/framer-bridge/CONNECTIONS.md`.
 
 ---
 
