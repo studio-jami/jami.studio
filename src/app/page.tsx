@@ -1,90 +1,94 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
-import { projects } from "@/content/projects";
+import { Hero } from "@/components/marketing/hero";
+import { ProjectSlider } from "@/components/marketing/project-slider";
+import { ProofLine } from "@/components/marketing/proof-line";
+import { StudioAbout } from "@/components/marketing/studio-about";
+import { ServicePillars } from "@/components/marketing/service-pillars";
+import { ProjectGrid } from "@/components/marketing/project-grid";
+import { ProofPointBand } from "@/components/marketing/proof-point-band";
+import { CtaBand } from "@/components/marketing/cta-band";
+import { AIIndexCallout } from "@/components/marketing/ai-index-callout";
+import { Section } from "@/components/layout/section";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Container } from "@/components/layout/container";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
+import { projects } from "@/content/projects";
 
+/**
+ * Home — built to Kirimo's real exported home IA, nine sections in template order:
+ *   Hero → Project Slider → Our Client → About Us → Our Service → Our Project →
+ *   Testimonials → CTA → Our News.
+ * Mapped to our content and tokens; two distinct showcase treatments (slider +
+ * grid) and the honest substitutions for client logos / testimonials / news.
+ */
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
+      {/* 1 · Hero */}
+      <Hero />
+
+      {/* 2 · Project Slider — centerpiece #1 */}
+      <Section tone="canvas" size="default" aria-labelledby="slider-title" width="wide">
+        <div className="section-heading section-heading-split">
+          <div className="section-heading-main">
+            <Eyebrow index="02">Selected work</Eyebrow>
+            <h2 id="slider-title" className="section-title">
+              The Studio family, slide by slide.
+            </h2>
+          </div>
+          <div className="section-heading-lead">
+            <p>
+              Five independent products over shared foundations. Drag, scroll, or use the controls to
+              move through the family.
+            </p>
           </div>
         </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
+        <ProjectSlider projects={[...projects]} />
+      </Section>
+
+      {/* 3 · Our Client — honest proof line, no fabricated logos */}
+      <Section tone="panel" size="tight" aria-label="How the site is built">
+        <ProofLine />
+      </Section>
+
+      {/* 4 · About Us */}
+      <Section tone="canvas" aria-labelledby="about-title">
+        <StudioAbout />
+      </Section>
+
+      {/* 5 · Our Service — numbered service list */}
+      <Section tone="panel" aria-labelledby="service-title">
+        <ServicePillars />
+      </Section>
+
+      {/* 6 · Our Project — immersive grid, centerpiece #2 */}
+      <Section tone="canvas" aria-labelledby="gallery-title">
+        <ProjectGrid projects={[...projects]} context="home" />
+      </Section>
+
+      {/* 7 · Testimonials — distilled real proof points */}
+      <Section tone="panel" aria-labelledby="proof-title">
+        <ProofPointBand />
+      </Section>
+
+      {/* 8 · CTA */}
+      <section className="section section-canvas section-default" aria-labelledby="home-cta-title">
+        <Container width="wide">
+          <CtaBand
+            eyebrow="Start here"
+            title={<span id="home-cta-title">Explore the family, or read the source.</span>}
+            body={site.home.lead}
+            actions={[
+              { label: site.home.primaryCta.label, href: site.home.primaryCta.href },
+              { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href }
+            ]}
+          />
+        </Container>
       </section>
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      {/* 9 · Our News — AI-readable index callout, no invented articles */}
+      <Section tone="canvas" size="tight" aria-labelledby="ai-callout-title">
+        <AIIndexCallout />
+      </Section>
     </>
   );
 }
