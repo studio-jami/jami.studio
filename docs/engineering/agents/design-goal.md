@@ -47,9 +47,11 @@ Concretely, faithful reproduction means:
   as `color.accent`/surface tokens in the lane's `theme.ts` — token-driven, never a component literal — but
   the **rendered hex is the template's**, overriding the old "locked brand palette."
 - **Texture & motion:** reproduce the template's atmosphere — grain, glow, dividers, lattice, tickers,
-  slideshows, sticky stacks, count-up numbers, marquees — whatever its signature is. Recreate photographic
-  atmosphere with token-driven CSS (layered radial gradients + grain); **do not download the template's
-  copyrighted images** — recreate the *look*, not the asset.
+  slideshows, sticky stacks, count-up numbers, marquees — whatever its signature is. **Run-4 owner
+  directive:** the template's PHOTOGRAPHIC surfaces are filled with ORIGINAL images generated via
+  Grok/Gemini (deposited per lane at `public/assets/`, mapped in the roadmap's "Visual assets" table);
+  CSS grain/glow/overlays layer on top. **Never download the template's own copyrighted images/videos.**
+  Empty flat boxes where the template shows imagery = a failed lane.
 - **Component vocabulary:** name and split components after the template's real sections (its blueprint lists
   them), not a shared inventory. Two lanes must not share a `page.tsx` composition or component set.
 
@@ -184,9 +186,10 @@ target), `out/<LANE-KEY>.json` (tokens, type, fonts, components), and `out/<LANE
 Reuse VERBATIM (do not fork): `src/content/*`, `src/lib/*`, `src/tokens/schema.ts`, `src/tokens/css-vars.ts`,
 `src/registry/manifest.ts`. Build fresh: `src/tokens/theme.ts` (your dark+light preset VALUES, accent =
 template-true hex authored as a token), all `src/components/*`, all `src/app/**` presentation,
-`src/styles/globals.css`. Recreate photographic atmosphere with token-driven CSS (radial-gradient glow +
-SVG grain) — never download the template's images. Honest substitutions per the roadmap: no fake
-logos/quotes/metrics/tiers/posts.
+`src/styles/globals.css`. The template's photographic surfaces are filled with the GENERATED images in
+`public/assets/` (mapped in your roadmap's "Visual assets" table) with CSS grain/glow/overlays on top —
+never download the template's images, never leave an image slot as an empty box. Honest substitutions per
+the roadmap: no fake logos/quotes/metrics/tiers/posts.
 
 Execute WS1→WS7 to Acceptance Criteria. Token-driven only. Hrefs only from the content/route layer. Both
 themes, all four breakpoints (1440/1024/768/390). AI surfaces wired. No placeholder/status copy, no secrets.

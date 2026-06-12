@@ -24,10 +24,25 @@ Owner: Jamie
   · foreground `#ffffff`/`#fafafa` · muted cool blue-grey `#99a0b0` · border `rgba(255,255,255,0.05)`.
 - **Accent:** neon-lime `#8cff2e` — used sparingly; buttons are **light pills with near-black label** (`#0d0d0d`).
   Authored as `color.accent` (+ `ring`/`accentForeground`) → `--accent`/`--primary` only.
-- **Atmosphere is CSS, not their photo:** recreate the "full-bleed image behind centered hero" with a rich
-  **dark atmospheric scene built in CSS** (deep dusk-toned radial/linear layers) — evocative, not a flat
-  fill. Do **not** download the template's dusk photograph.
+- **Atmosphere is OUR generated photography (run-4 owner directive — supersedes any "CSS-only" rule):**
+  Nouva is image-forward; empty charcoal boxes are the run-3 failure. Original dusk photographs were
+  generated (Grok/Gemini) and live in the worktree at `public/assets/` — use them on every surface the
+  template uses photography, with dark gradient overlays + blur-up. Never download the template's own images.
 - **Framer key:** `nouva`.
+
+## Visual assets (generated — already in `public/assets/`; reference as `/assets/<file>`)
+
+| File | Surface |
+|---|---|
+| `hero.png` | full-bleed hero background (dark overlay over it; type on top) |
+| `card-1.png` `card-2.png` `card-3.png` | Intro "three shifts" cards — photographic TOP HALF of each card, with a small glass micro-UI panel (HTML/CSS: mini chart / progress / breakdown rows) overlaid on the photo, title+body below — exactly like the template's cards |
+| `feature-1.png` `feature-2.png` `feature-3.png` | Features sticky blocks — each block's media side is the photo with a translucent glass UI panel (HTML/CSS: big number, tabs, progress rows) floating on it |
+| `team.png` | Benefits split — the tall left panel is this photo card with caption type overlaid |
+| `cta.png` | final CTA card-on-void — photo fills the rounded card, type + pill on top |
+
+Micro-UI panels are built in HTML/CSS (glassmorphism: `rgba` bg + blur + hairline border), never images.
+If an asset file is missing at build time, build the slot with a CSS dusk-gradient placeholder AND flag it
+in your report — do not drop or flatten the slot.
 
 ## Home IA — BUILD THIS (Nouva's real 10-section order)
 
@@ -36,7 +51,8 @@ Real `pageTrees` order: `Hero → WhyItMatters(staggered stat row) → Intro(3-c
 FAQ(accordion) → CTA(card-on-void)`. Uniformly dark — depth comes from cards on void, **no light/dark
 alternation**. Every section opens **eyebrow (uppercase tag) → big H2** (Onest, −0.04em). Build to this spine:
 
-1. **Hero** — `min-height:100vh`, **centered** stack (≤600px), over a full-bleed CSS dusk-atmosphere scene.
+1. **Hero** — `min-height:100vh`, **centered** stack (≤600px), over the full-bleed generated dusk photo
+   `/assets/hero.png` (cover, dark gradient overlay so type reads).
    `site.home.{eyebrow,title,lead}` (H1 60px, −0.04em, line-height 1.0, centered) with a **word-by-word
    blur-up reveal**, **ONE primary CTA** + a **scroll indicator** below.
 2. **Why It Matters** — eyebrow + H2, then a **3-card stat row that is vertically staggered/offset** (cards 1
@@ -64,7 +80,9 @@ alternation**. Every section opens **eyebrow (uppercase tag) → big H2** (Onest
 
 ## Signature elements — MUST reproduce (drop any and the lane fails)
 
-- **Full-bleed cinematic hero** (CSS dusk atmosphere) behind centered type, with **word blur-up reveal**.
+- **Full-bleed cinematic hero** (generated dusk photo + dark overlay) behind centered type, with **word blur-up reveal**.
+- **Photographic card surfaces** — intro cards, sticky features, and the benefits panel carry the generated
+  photos with glass micro-UI overlays; no large card may be an empty flat box.
 - **Rounded 16px charcoal cards floating on near-black void**, divided by **1px / 5%-white hairline seams** —
   the universal building block on every section.
 - **Staggered/offset stat row** (cards pushed up/down ~48px) with **animated count-up numbers** (real counts).
@@ -116,8 +134,8 @@ for all five + per-project `generateMetadata`.
 ## Workstreams (sequential)
 
 1. **WS1 — tokens/theme.** Dark+light presets on neon-lime `#8cff2e`; Onest faces. Typecheck green; validate.
-2. **WS2 — globals + shell + theme switch + atmosphere.** Var blocks; no-flash init; CSS dusk-atmosphere
-   layer; card-on-void surface utilities + hairline seams. Metadata/AI wiring kept.
+2. **WS2 — globals + shell + theme switch + atmosphere.** Var blocks; no-flash init; hero photo layer +
+   dark overlay utilities; card-on-void surface utilities + hairline seams. Metadata/AI wiring kept.
 3. **WS3 — primitives + header + footer + base UI.** Header (`site.nav` + GitHub + toggle + mobile menu),
    Footer (`footerLinks` + `social` + `email` + AI index), pill `Button`, eyebrow Tag, `SectionHeading`.
 4. **WS4 — Home (`/`).** Build the 10-section Home IA above. **SCREENSHOT CHECKPOINT:** capture `/` @1440 and

@@ -25,7 +25,22 @@ Owner: Jamie
 - **Accent:** terra-cotta `#eb5939` — used **only** on uppercase eyebrow/subtitle labels + hovers, against
   sand-on-black. Authored as `color.accent` (+ `ring`/`accentForeground`) → `--accent`/`--primary` only.
 - **No grain/glow/gradients** — flat near-black; contrast comes from imagery, hairline rules, and the accent.
+- **Imagery is OUR generated editorial photography (run-4 owner directive):** Kirimo is image-forward — the
+  slideshow and project grid are full-bleed photographic. Original editorial photos (sand/terracotta
+  chiaroscuro series) were generated (Grok/Gemini) and live at `public/assets/` — use them; never download
+  the template's images, never leave the slider/grid as empty panels or logo-SVG fills.
 - **Framer key:** `kirimo`.
+
+## Visual assets (generated — already in `public/assets/`; reference as `/assets/<file>`)
+
+| File | Surface |
+|---|---|
+| `slide-1.png` … `slide-5.png` | the five Project Slider slides — full-bleed photo per slide, project name/summary/CTA overlaid in the editorial grid |
+| `showcase-1.png` `showcase-2.png` `showcase-3.png` | "Our Project" immersive grid tiles (mix with slide crops for 5 tiles) |
+| `about.png` | About Us — right-side or background editorial image if the split calls for one |
+
+If an asset file is missing at build time, build the slot with a flat sand-tinted panel AND flag it in your
+report — do not drop the slot.
 
 ## Home IA — BUILD THIS (Kirimo's real 9-section order)
 

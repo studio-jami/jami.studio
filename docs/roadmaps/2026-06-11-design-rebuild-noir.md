@@ -25,9 +25,26 @@ Owner: Jamie
   `rgba(255,255,255,0.1)` · accent copper `#ed4515` · gradient-bloom secondary purple `rgba(161,31,180,0.4)`.
 - **Accent:** copper `#ed4515` — interactive/emphasis only; watch AA on near-black. Authored as `color.accent`
   (+ `ring`/`accentForeground`) → `--accent`/`--primary` only.
-- **Atmosphere is CSS:** recreate the hero's "looping background video" as a subtle CSS atmosphere/animated
-  panel (or a still gradient) — do **not** download the template's video/images. Grain only on the Stats panel.
+- **Imagery is OUR generated editorial photography (run-4 owner directive — supersedes any "CSS-only" rule):**
+  Noir is a photographic portfolio — the work grid, stats tiles, insights cards and FAQ side all carry bold
+  color-cast editorial images. Originals were generated (Grok/Gemini, sculptural objects — NO fake humans)
+  and live at `public/assets/`. Use them; never download the template's video/images; never leave a tile as
+  an empty box. Grain only on the Stats panel.
 - **Framer key:** `noir`.
+
+## Visual assets (generated — already in `public/assets/`; reference as `/assets/<file>`)
+
+| File | Surface |
+|---|---|
+| `hero-torus.png` | hero right media panel — the glossy black torus visual |
+| `work-1.png` … `work-5.png` | the five Works grid tiles, in order (purple / blue-smoke / blue-satin / amber-trails / blue-plant-on-white) — each carries its project name caption like the template |
+| `inverted-1.png` `inverted-2.png` | the inverted white Stats section's image tiles beside the statement + counters |
+| `blog-1.png` `blog-2.png` `blog-3.png` | the three AI-index/insights cards (template's blog cards) |
+| `faq.png` | FAQ section side visual (orange velvet) |
+| `cta-burst.png` | CTA background (crimson particle burst; layer the copper/purple bloom over it) |
+
+If an asset file is missing at build time, build the slot with the CSS gradient-bloom placeholder AND flag
+it in your report — do not drop the slot.
 
 ## Home IA — BUILD THIS (Noir's real order)
 
@@ -39,7 +56,7 @@ Build to this spine:
 
 1. **Hero** — **asymmetric horizontal split**: left text column (H1 `site.home.title`, capitalize, Instrument
    Sans 56px −0.04em; `lead`; **two stacked OUTLINED pill CTAs**; Geist-Mono micro-labels — a rating/"trusted"
-   line built from honest facts only, e.g. "open-core · 5 products"), right **media panel** (CSS atmosphere)
+   line built from honest facts only, e.g. "open-core · 5 products"), right **media panel** (`/assets/hero-torus.png`)
    with an honest **marquee ticker** beneath it (the five product names, not fake client logos). Faint vertical
    guide-lines frame the columns.
 2. **Works** — the **five `projects` as an asymmetric, over-spaced work grid**: one Primary full-width card,
