@@ -2,17 +2,20 @@ import { validateThemeDials, validateTokenPreset } from "./schema";
 import type { ThemeDials, TokenPreset } from "./schema";
 
 /**
- * Message AI lane — aesthetic Lane A (cinematic dark, prime).
+ * Message AI lane — faithful template reproduction (run 4).
  *
- * Accent is authored once as `color.accent` (#175d5e deep teal) and surfaced
- * only through `--accent`/`--primary` by `tokenCssVariables()`. Never a literal
- * in a component. Two full presets ship: a nocturnal dark (the prime) and a
- * matched warm-cool light. Both are validated by `validateTokenPreset`.
+ * Template-true palette: warm near-black `#0a0908` canvas, matte `#121212`
+ * surfaces, white foreground, `#858585` muted, hairline borders (the template's
+ * rgba(255,255,255,0.16) flattened onto the canvas as 6-digit hex), and the
+ * lime `#e8ff9c` accent used sparingly — "neon through fog", never a fill.
+ * Authored once as `color.accent` (dial slot `green`) and surfaced only through
+ * `--accent`/`--primary` by `tokenCssVariables()`. Never a literal in a component.
  *
- * Type system translated from the real Message AI Framer template:
- *   display/headings → Host Grotesk · body → DM Sans · mono labels → JetBrains Mono.
- * Font CSS variables are injected by `next/font` in layout.tsx; the stacks below
- * reference those variables with robust system fallbacks.
+ * Type system from the real Message AI Framer template:
+ *   display/headings → Host Grotesk · body → DM Sans · mono micro-labels →
+ *   JetBrains Mono. Hero tops out at 56px desktop, −0.03em, sentence case.
+ * Font CSS variables are injected by `next/font` in layout.tsx; the stacks
+ * below reference those variables with robust system fallbacks.
  */
 
 const fontDisplay =
@@ -22,52 +25,52 @@ const fontMono =
   "var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace";
 
 const dialsBase: ThemeDials = validateThemeDials({
-  accent: "cyan",
-  contrast: 84,
-  warmth: 28,
-  density: 50,
-  radius: 14,
-  surfaceDepth: 58,
-  motion: 40
+  accent: "green",
+  contrast: 88,
+  warmth: 64,
+  density: 55,
+  radius: 24,
+  surfaceDepth: 40,
+  motion: 35
 });
 
-// Shared, theme-independent token roles. The deep-teal accent is the brand
-// constant; only neutrals/surfaces diverge between dark and light.
-const accent = "#175d5e"; // deep teal — the single brand accent
-const accentForegroundDark = "#eafaf7"; // near-white teal-tinted ink for fills on dark
-const accentForegroundLight = "#f4fffb"; // ink on the accent fill in light theme
-const ringDark = "#3aa394"; // brighter teal so focus stays visible on dark
-const ringLight = "#16726b"; // teal that holds AA contrast on light surfaces
+// The single brand accent: template lime. On dark it reads as a glow; on light
+// it shifts to a deep olive-lime so text/focus roles hold AA on paper.
+const accentDark = "#e8ff9c"; // template lime — neon through fog
+const accentForegroundDark = "#151800"; // near-black olive ink on the lime fill
+const accentLight = "#4c5814"; // deep olive-lime, AA on the paper canvas
+const accentForegroundLight = "#f4ffd0";
 
 const typographyScale: TokenPreset["typography"]["scale"] = {
-  xs: "0.78rem",
-  sm: "0.875rem",
-  base: "1.0625rem",
-  lg: "1.25rem",
-  xl: "clamp(1.85rem, 3.4vw, 2.35rem)",
-  hero: "clamp(2.75rem, 8.4vw, 6.5rem)"
+  xs: "0.8125rem",
+  sm: "0.9375rem",
+  base: "1rem",
+  lg: "1.1875rem",
+  xl: "clamp(1.875rem, 1.1rem + 2.2vw, 2.5rem)",
+  hero: "clamp(2.625rem, 1.6rem + 3.6vw, 3.5rem)"
 };
 
 const spacing: TokenPreset["spacing"] = {
   density: "comfortable",
   unit: "1rem",
   control: "3rem",
-  section: "clamp(4.5rem, 9vw, 8.5rem)",
+  section: "clamp(4.5rem, 3.25rem + 4vw, 6rem)",
   container: "min(1200px, calc(100vw - 2.5rem))"
 };
 
+// Oversized 48px card radius is the template's signature surface treatment.
 const radii: TokenPreset["radii"] = {
-  sm: "8px",
-  md: "14px",
-  lg: "22px",
+  sm: "12px",
+  md: "20px",
+  lg: "48px",
   pill: "999px"
 };
 
 const motion: TokenPreset["motion"] = {
-  duration: "440ms",
+  duration: "560ms",
   durationFast: "200ms",
   easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
-  intensity: 40
+  intensity: 35
 };
 
 const logos: TokenPreset["logos"] = {
@@ -89,7 +92,7 @@ const ownership: TokenPreset["ownership"] = {
 
 const registry: TokenPreset["registry"] = {
   item: "@jami-studio/theme/message-ai",
-  version: "0.1.0",
+  version: "0.2.0",
   candidate: true,
   exports: ["themePreset", "themeDials", "cssVariables", "registryManifest"],
   branchMutable: [
@@ -126,7 +129,7 @@ function buildPreset(input: {
       display: fontDisplay,
       scale: typographyScale,
       lineHeight: {
-        tight: 1.02,
+        tight: 1.05,
         body: 1.6
       }
     },
@@ -142,76 +145,76 @@ function buildPreset(input: {
 }
 
 /**
- * Dark — the prime. A warm-cool charcoal canvas (not #000) so film grain and
- * the layered teal glow have something to sit on. Panels are barely lifted with
- * hairline borders; foreground is a slightly cool near-white.
+ * Dark — the prime. Warm near-black canvas (#0a0908, never pure #000), matte
+ * #121212 panels, white type, #858585 muted, hairline borders. Lime appears
+ * only in micro-emphasis roles (dot, focus ring, one badge, real counts).
  */
 export const messageAiDarkPreset: TokenPreset = buildPreset({
   id: "message-ai-dark",
   name: "Message AI — Nocturne",
   description:
-    "Cinematic dark preset for the Message AI lane: charcoal canvas, hairline borders, deep-teal accent surfaced as neon through fog.",
+    "Template-true cinematic dark preset for the Message AI lane: warm near-black canvas, matte #121212 cards, hairline borders, lime #e8ff9c as neon through fog.",
   dials: dialsBase,
   color: {
-    background: "#0a0b0d",
-    foreground: "#f3f6f5",
-    muted: "#15181b",
-    mutedForeground: "#9aa4a3",
-    panel: "#101316",
-    panelForeground: "#f3f6f5",
-    border: "#262b2e",
-    ring: ringDark,
-    accent,
+    background: "#0a0908",
+    foreground: "#ffffff",
+    muted: "#181715",
+    mutedForeground: "#8a8a86",
+    panel: "#121212",
+    panelForeground: "#ffffff",
+    border: "#313030",
+    ring: accentDark,
+    accent: accentDark,
     accentForeground: accentForegroundDark
   },
   surface: {
-    canvas: "#0a0b0d",
-    panel: "#101316",
-    panelRaised: "#161a1e",
-    overlay: "#1b2024",
-    inverse: "#f3f6f5"
+    canvas: "#0a0908",
+    panel: "#121212",
+    panelRaised: "#191917",
+    overlay: "#201f1d",
+    inverse: "#ffffff"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 2px rgb(0 0 0 / 0.45)",
-    md: "0 28px 70px rgb(0 0 0 / 0.55)"
+    sm: "0 1px 2px rgb(0 0 0 / 0.5)",
+    md: "0 32px 80px rgb(0 0 0 / 0.55)"
   }
 });
 
 /**
- * Light — a matched warm-cool off-white. Not the dark theme inverted: its own
- * neutral rhythm, layered panels, and a teal that holds AA on paper. Grain drops
- * to a whisper (wired via --grain-opacity in globals.css).
+ * Light — a genuine warm-paper design, not an inversion: fog-white canvas,
+ * white panels, warm ink, and the accent deepened to an olive-lime that holds
+ * AA contrast. Photographic surfaces stay dark and melt into the paper canvas.
  */
 export const messageAiLightPreset: TokenPreset = buildPreset({
   id: "message-ai-light",
   name: "Message AI — Daybreak",
   description:
-    "Matched light preset for the Message AI lane: warm-cool off-white canvas, layered neutrals, deep-teal accent held to AA on paper.",
-  dials: validateThemeDials({ ...dialsBase, contrast: 78, surfaceDepth: 30 }),
+    "Matched light preset for the Message AI lane: warm fog-white canvas, paper panels, deep olive-lime accent held to AA, photography melting into paper.",
+  dials: validateThemeDials({ ...dialsBase, contrast: 80, surfaceDepth: 26 }),
   color: {
-    background: "#f4f5f3",
-    foreground: "#121513",
-    muted: "#e7e9e5",
-    mutedForeground: "#586160",
+    background: "#f6f5f1",
+    foreground: "#161512",
+    muted: "#eceae3",
+    mutedForeground: "#5d5b53",
     panel: "#ffffff",
-    panelForeground: "#121513",
-    border: "#d7dbd6",
-    ring: ringLight,
-    accent: "#175d5e",
+    panelForeground: "#161512",
+    border: "#dcdad1",
+    ring: accentLight,
+    accent: accentLight,
     accentForeground: accentForegroundLight
   },
   surface: {
-    canvas: "#f4f5f3",
+    canvas: "#f6f5f1",
     panel: "#ffffff",
-    panelRaised: "#fbfcfa",
+    panelRaised: "#fbfaf7",
     overlay: "#ffffff",
-    inverse: "#121513"
+    inverse: "#161512"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 2px rgb(18 21 19 / 0.06)",
-    md: "0 24px 60px rgb(18 21 19 / 0.12)"
+    sm: "0 1px 2px rgb(22 21 18 / 0.06)",
+    md: "0 24px 60px rgb(22 21 18 / 0.12)"
   }
 });
 
@@ -227,6 +230,6 @@ export const defaultThemeName: ThemeName = "dark";
 
 /** Per-theme grain overlay tuning, consumed by globals.css via --grain-* vars. */
 export const grainSettings: Record<ThemeName, { opacity: string; blendMode: string }> = {
-  dark: { opacity: "0.05", blendMode: "soft-light" },
-  light: { opacity: "0.022", blendMode: "multiply" }
+  dark: { opacity: "0.06", blendMode: "soft-light" },
+  light: { opacity: "0.028", blendMode: "multiply" }
 };

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ProjectCard } from "@/components/marketing/project-card";
 import { Container, Section } from "@/components/ui/layout";
-import { Badge, GhostBadge } from "@/components/ui/primitives";
+import { GhostBadge } from "@/components/ui/primitives";
 import { Reveal } from "@/components/system/reveal";
 import { projects } from "@/content/projects";
 import { createMetadata } from "@/lib/metadata";
@@ -13,9 +13,10 @@ export const metadata: Metadata = createMetadata({
 });
 
 /**
- * /projects — the full portfolio gallery. Same cinematic canvas as home; the
- * grid is the centerpiece, with grain + glow (in the fixed atmosphere layer)
- * doing the separation. One or two columns; generous spacing.
+ * /projects — a cinematic gallery of the five products on the warm-black
+ * canvas: ghost-pill label, two-tone heading, generous spacing, and the
+ * oversized 48px-radius matte cards in a two-column flow. Grain + glow (the
+ * fixed atmosphere layer) do the separation.
  */
 export default function ProjectsPage() {
   return (
@@ -23,30 +24,27 @@ export default function ProjectsPage() {
       <Section rhythm="flush" as="div">
         <Container as="div">
           <Reveal className="page-hero">
-            <GhostBadge>Studio OSS family</GhostBadge>
-            <h1>The full portfolio of agent-native foundations</h1>
+            <GhostBadge>The product family</GhostBadge>
+            <h1>
+              Five products, <span className="heading-soft">one quiet foundation.</span>
+            </h1>
             <p className="lead">
-              Five separate products over shared foundations: governed agents, trusted UI,
-              coordination, temporal knowledge, and open agent society.
+              Separate implementation surfaces over shared foundations: governed agents, trusted
+              UI, coordination, temporal knowledge, and open agent society.
             </p>
-            <div className="page-hero-meta">
-              <Badge tone="outline">Five products</Badge>
-              <Badge tone="outline">One shared source</Badge>
-              <Badge tone="outline">Open-core</Badge>
-            </div>
           </Reveal>
         </Container>
       </Section>
 
       <Section rhythm="tight">
         <Container as="div">
-          <Reveal>
-            <div className="index-grid">
-              {projects.map((project, i) => (
-                <ProjectCard key={project.slug} project={project} index={i + 1} span={3} />
-              ))}
-            </div>
-          </Reveal>
+          <div className="index-grid">
+            {projects.map((project, i) => (
+              <Reveal key={project.slug} delay={(i % 2) * 80}>
+                <ProjectCard project={project} index={i + 1} />
+              </Reveal>
+            ))}
+          </div>
         </Container>
       </Section>
     </>

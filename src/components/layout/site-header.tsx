@@ -3,16 +3,18 @@ import type { Route } from "next";
 import { site } from "@/content/site";
 import { ThemeToggle } from "@/components/system/theme-toggle";
 import { MobileMenu } from "@/components/layout/mobile-menu";
+import { SparkIcon } from "@/components/ui/icons";
 
 function isExternal(href: string) {
   return /^https?:/.test(href);
 }
 
+/** Brand — the template's sparkle glyph + wordmark. */
 export function Brand() {
   return (
     <Link href="/" className="brand" aria-label={`${site.name} home`}>
       <span className="brand-mark" aria-hidden="true">
-        <span className="brand-mark-core" />
+        <SparkIcon size={18} />
       </span>
       <span className="brand-word">{site.name}</span>
     </Link>
@@ -38,6 +40,12 @@ export function NavLink({ href, label }: { href: string; label: string }) {
   );
 }
 
+/**
+ * SiteHeader — the template's floating nav: brand at left, muted links in the
+ * middle, and an emphasized primary action at right (our `primaryCta`), with
+ * the theme toggle alongside. Transparent over the photographic hero;
+ * a blurred warm-black wash keeps it legible while scrolling.
+ */
 export function SiteHeader() {
   return (
     <header className="site-header">
@@ -49,6 +57,9 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="site-header-actions">
+          <Link href={site.home.primaryCta.href as Route} className="nav-cta">
+            {site.home.primaryCta.label}
+          </Link>
           <ThemeToggle />
           <MobileMenu />
         </div>

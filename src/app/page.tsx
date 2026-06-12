@@ -1,12 +1,9 @@
 import { Hero } from "@/components/marketing/hero";
-import { FeatureBeat } from "@/components/marketing/feature-beat";
-import {
-  InterfaceVocabVisual,
-  RuntimeFlowVisual
-} from "@/components/marketing/feature-visuals";
-import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
-import { ProofConviction } from "@/components/marketing/proof-conviction";
-import { ProofPointBand } from "@/components/marketing/proof-point-band";
+import { IntroCards } from "@/components/marketing/feature-grid";
+import { UseCases } from "@/components/marketing/use-cases";
+import { HowItWorksSteps } from "@/components/marketing/how-it-works";
+import { WhyItWorksGrid } from "@/components/marketing/why-it-works";
+import { ProofSlideshow } from "@/components/marketing/proof-slideshow";
 import { OpenCoreCallout } from "@/components/marketing/open-core-callout";
 import { Faq } from "@/components/marketing/faq";
 import { FinalCta } from "@/components/marketing/final-cta";
@@ -14,111 +11,82 @@ import { Container, Section } from "@/components/ui/layout";
 import { GhostBadge } from "@/components/ui/primitives";
 import { Reveal } from "@/components/system/reveal";
 import { projects } from "@/content/projects";
-import { site } from "@/content/site";
 
 /**
- * Home — built to the real Message AI `pageTrees` order:
- *   Hero → Features ×3 (progressive value cadence) → WhyItWorks → Testimonials
- *   → Pricing → FAQ → FinalCTA
- * Each template section is mapped to our content; the three sequential Features
- * beats are kept as the signature cadence rather than flattened into one grid.
+ * Home — built to Message AI's real 9-section `pageTrees` spine:
+ *   Hero → Features (3 photo intro cards) → Features (tabbed use-case panel →
+ *   the five-project showcase) → HowItWorks (1-2-3) → WhyItWorks (6-card) →
+ *   Testimonials (proof slideshow) → Pricing (open-core frame) → FAQ →
+ *   FinalCTA. Uniformly dark; the photographic glow bookends (hero + final
+ *   CTA) are the only tonal shifts. Every section opens with a ghost-pill
+ *   label above its heading.
  */
 export default function HomePage() {
-  const [governed, trusted, durable, knowledge] = site.home.pillars;
-
   return (
     <>
-      {/* 1 — Hero */}
+      {/* 1 — Hero (glowing photographic bookend) */}
       <Hero />
 
-      {/* 2 — Features · beat 1 (Governed runtime + Trusted interfaces) */}
-      <Section rhythm="tight" ariaLabelledby="beat-1">
-        <Reveal>
-          <FeatureBeat
-            index="01"
-            kicker="The runtime"
-            labelledById="beat-1"
-            heading="A governed loop and a trusted vocabulary, sharing one contract"
-            body={governed.body}
-            points={[
-              { title: governed.title, body: governed.body },
-              { title: trusted.title, body: trusted.body }
-            ]}
-            visual={<RuntimeFlowVisual />}
-          />
-        </Reveal>
+      {/* 2 — Features: three photo intro cards with floating UI chips */}
+      <Section id="introducing" ariaLabelledby="introducing-title">
+        <IntroCards id="introducing-title" />
       </Section>
 
-      {/* 3 — Features · beat 2 (Durable coordination + Agent-readable knowledge) */}
-      <Section rhythm="tight" tone="raised" ariaLabelledby="beat-2">
-        <Reveal>
-          <FeatureBeat
-            index="02"
-            kicker="The fabric"
-            labelledById="beat-2"
-            flip
-            heading="Coordination and knowledge that stay durable and legible"
-            body={durable.body}
-            points={[
-              { title: durable.title, body: durable.body },
-              { title: knowledge.title, body: knowledge.body }
-            ]}
-            visual={<InterfaceVocabVisual />}
-          />
-        </Reveal>
-      </Section>
-
-      {/* 4 — Features · beat 3 → the five-project showcase (centerpiece) */}
-      <Section ariaLabelledby="showcase">
+      {/* 3 — Features: tabbed use-case panel → the five-project showcase */}
+      <Section ariaLabelledby="usecases-title">
         <Container as="div">
-          <Reveal className="showcase-head">
-            <GhostBadge>The product family</GhostBadge>
-            <h2 id="showcase" className="display-2">
-              Five products, shown like a studio shows its work
+          <Reveal className="section-head">
+            <GhostBadge>Use cases</GhostBadge>
+            <h2 id="usecases-title">
+              Five products to explore,{" "}
+              <span className="heading-soft">all built on one shared source.</span>
             </h2>
-            <p className="lead">
-              Separate implementation surfaces over shared foundations. Each card opens a full
-              case study.
-            </p>
           </Reveal>
           <Reveal>
-            <ShowcaseGrid projects={projects} />
+            <UseCases projects={projects} />
           </Reveal>
         </Container>
       </Section>
 
-      {/* 5 — WhyItWorks → ProofConviction */}
-      <Section tone="raised" ariaLabelledby="conviction">
-        <Reveal>
-          <ProofConviction id="conviction" />
-        </Reveal>
+      {/* 4 — HowItWorks: photo card + numbered 1-2-3 steps */}
+      <Section ariaLabelledby="howitworks-title">
+        <HowItWorksSteps id="howitworks-title" />
       </Section>
 
-      {/* 6 — Testimonials slot → ProofPointBand (earned, never fabricated) */}
-      <Section ariaLabelledby="proof">
-        <Reveal>
-          <ProofPointBand projects={projects} id="proof" />
-        </Reveal>
+      {/* 5 — WhyItWorks: the denser 6-card benefit matrix */}
+      <Section ariaLabelledby="benefits-title">
+        <WhyItWorksGrid id="benefits-title" />
       </Section>
 
-      {/* 7 — Pricing slot → OpenCoreCallout (open-core, no tiers) */}
-      <Section tone="raised" ariaLabelledby="opencore">
-        <Reveal>
-          <OpenCoreCallout id="opencore" />
-        </Reveal>
+      {/* 6 — Testimonials slot: honest proof-point slideshow */}
+      <Section ariaLabelledby="proof-title">
+        <Container as="div">
+          <Reveal className="section-head">
+            <GhostBadge>Proof</GhostBadge>
+            <h2 id="proof-title">
+              What the designs promise, <span className="heading-soft">in their own words.</span>
+            </h2>
+          </Reveal>
+          <Reveal>
+            <ProofSlideshow projects={projects} />
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* 7 — Pricing slot: open-core frame, the airiest section */}
+      <Section className="section-airy" ariaLabelledby="opencore-title">
+        <OpenCoreCallout id="opencore-title" />
       </Section>
 
       {/* 8 — FAQ */}
-      <Section ariaLabelledby="faq">
-        <Reveal>
-          <Faq id="faq" />
-        </Reveal>
+      <Section ariaLabelledby="faq-title">
+        <Faq id="faq-title" />
       </Section>
 
-      {/* 9 — FinalCTA */}
-      <Section rhythm="tight" ariaLabelledby="final-cta">
+      {/* 9 — FinalCTA (closing photographic bookend) */}
+      <Section rhythm="tight" ariaLabelledby="finalcta-title">
         <Reveal>
-          <FinalCta id="final-cta" />
+          <FinalCta id="finalcta-title" />
         </Reveal>
       </Section>
     </>

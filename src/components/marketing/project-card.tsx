@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { StudioProject } from "@/content/projects";
 import { projectPath } from "@/lib/routes";
 import { Badge } from "@/components/ui/primitives";
+import { ArrowRightIcon } from "@/components/ui/icons";
 
 const statusLabel: Record<StudioProject["internalStatus"], string> = {
   live: "Live surface",
@@ -10,25 +11,16 @@ const statusLabel: Record<StudioProject["internalStatus"], string> = {
 };
 
 /**
- * ProjectCard — the portfolio unit. Renders one Studio product as a showcase
- * card: index, name, summary, a positioning hook, capability tags, and a
- * route-resolved CTA. `span` sizes the card inside the showcase grid. The whole
- * card is a stretched link target; the CTA is a visual affordance.
+ * ProjectCard — the portfolio unit on the 48px-radius matte surface: index +
+ * status row, display name, summary, positioning hook, capability tags, and a
+ * route-resolved affordance. The whole card is a stretched link target.
  */
-export function ProjectCard({
-  project,
-  index,
-  span = 3
-}: {
-  project: StudioProject;
-  index: number;
-  span?: 2 | 3;
-}) {
+export function ProjectCard({ project, index }: { project: StudioProject; index: number }) {
   const href = projectPath(project);
   const tags = project.capabilities.slice(0, 2);
 
   return (
-    <article className={`project-card project-card-span-${span}`}>
+    <article className="project-card">
       <div className="project-card-head">
         <span className="project-card-index">
           {String(index).padStart(2, "0")} / {project.shortName}
@@ -49,17 +41,11 @@ export function ProjectCard({
       <div className="project-card-foot">
         <span className="project-card-cta">
           Open project
-          <span className="project-card-cta-arrow" aria-hidden="true">
-            →
-          </span>
+          <ArrowRightIcon size={15} className="project-card-cta-arrow" />
         </span>
       </div>
 
-      <Link
-        href={href}
-        className="project-card-stretch"
-        aria-label={`Open ${project.name}`}
-      />
+      <Link href={href} className="project-card-stretch" aria-label={`Open ${project.name}`} />
     </article>
   );
 }

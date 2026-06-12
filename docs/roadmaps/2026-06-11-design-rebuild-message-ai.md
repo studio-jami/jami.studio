@@ -23,10 +23,26 @@ Owner: Jamie
   white `#ffffff`; muted `#858585`; border `rgba(255,255,255,0.16)`.
 - **Accent:** lime `#e8ff9c` — used sparingly (CTA emphasis, focus, one or two highlights). Authored as
   `color.accent` (+ `ring`/`accentForeground`) → `--accent`/`--primary` only; never a literal.
-- **Atmosphere is CSS, not their photo:** recreate the volumetric glow with **layered radial gradients**
-  (cool blue `rgba(97,174,250,0.12)` + warm tint) fading into `#0a0908`, with the SVG film-grain overlay on
-  top. Do **not** download the template's images.
+- **Atmosphere is OUR generated photography (run-4 owner directive — supersedes any "CSS-only" rule):**
+  Message AI's hero/CTA/cards are PHOTOGRAPHIC (foggy mountains, warm god-rays) — empty matte boxes are the
+  run-3 failure. Original photos were generated (Grok/Gemini) and live at `public/assets/` — use them on
+  every surface the template uses photography, with the film-grain + glow layered ON TOP in CSS. Never
+  download the template's own images.
 - **Framer key:** `message-ai`.
+
+## Visual assets (generated — already in `public/assets/`; reference as `/assets/<file>`)
+
+| File | Surface |
+|---|---|
+| `hero.png` | full-bleed hero background (fades to black at bottom; grain + glow over it) |
+| `card-trigger.png` `card-flow.png` `card-guide.png` | the 3 intro/feature cards — photo fills the 48px-radius card, with floating ghost-pill UI chips (HTML/CSS: e.g. trigger→steps→send rows) overlaid, title + body BELOW the card |
+| `usecase.png` | the use-case slideshow panel — photo fills the big card with a chat-UI mockup (HTML/CSS) floating on it |
+| `howitworks.png` | HowItWorks left media card — photo + chat-input mockup (HTML/CSS), numbered steps to the right |
+| `cta.png` | FinalCTA full-bleed background (light-shaft into darkness; grain + glow over it) |
+
+UI chips/mockups are HTML/CSS (translucent pills, hairline borders, backdrop-blur), never images.
+If an asset file is missing at build time, build the slot with the CSS radial-glow placeholder AND flag it
+in your report — do not drop or flatten the slot.
 
 ## Home IA — BUILD THIS (Message AI's real 9-section order)
 
@@ -36,8 +52,9 @@ the only tonal shift is the glowing photographic hero + final-CTA bookends vs. t
 rhythm (96px section padding, 128px on the pricing slot). **Every section opens with a translucent
 ghost-pill label** above its heading. Build to this exact spine:
 
-1. **Hero** — viewport-filling (100vh), **centered single column** over the volumetric-glow + grain
-   atmosphere, `site.home.{eyebrow,title,lead}` (Host-Grotesk-style display, 56px desktop, −0.03em, centered,
+1. **Hero** — viewport-filling (100vh), **centered single column** over the full-bleed generated photo
+   `/assets/hero.png` (cover; fades to warm-black at its bottom edge) with grain + glow layered on top,
+   `site.home.{eyebrow,title,lead}` (Host-Grotesk-style display, 56px desktop, −0.03em, centered,
    sentence case), **ONE primary CTA** (`primaryCta`), and an explicit **"Scroll to explore"** cue (down
    chevron + label) absolutely positioned at the bottom. The defining bookend.
 2. **Features grid** — ghost-pill + heading, then a **3-column grid of the four `site.home.pillars`** as
@@ -61,7 +78,10 @@ ghost-pill label** above its heading. Build to this exact spine:
 
 ## Signature elements — MUST reproduce (drop any and the lane fails)
 
-- **Volumetric light-beam glow bookends** (hero + final CTA), recreated in CSS, fading into warm-black.
+- **Volumetric light-beam glow bookends** (hero + final CTA) — the generated photos `/assets/hero.png` +
+  `/assets/cta.png` with CSS glow/grain over them, fading into warm-black.
+- **Photographic card interiors** — the intro cards / use-case panel / how-it-works media carry the generated
+  photos with floating UI-chip overlays; no big card may be an empty matte box.
 - **Fine film-grain overlay** over the dark canvas (static `feTurbulence` data-URI; `--grain-opacity` 0.04–0.07).
 - **"Scroll to explore" cue** under the hero — explicit down-chevron + label.
 - **Ghost-pill section labels** above every section heading (consistent rhythmic tell).

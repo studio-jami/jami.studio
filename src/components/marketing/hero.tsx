@@ -1,50 +1,45 @@
 import type { Route } from "next";
-import { Container } from "@/components/ui/layout";
-import { Badge, GhostBadge, LinkButton } from "@/components/ui/primitives";
+import { LinkButton } from "@/components/ui/primitives";
+import { ChevronDownIcon } from "@/components/ui/icons";
 import { site } from "@/content/site";
 
 /**
- * Hero — the nocturnal moment. Mirrors the Message AI template's Hero: a centered
- * oversized display headline on the charcoal canvas (atmosphere lives in the
- * fixed layer behind), Content (eyebrow + title + lead + CTAs) and a Scroll cue.
+ * Hero — the template's opening bookend. A viewport-filling, full-bleed
+ * photographic moment (our generated god-ray ridge at /assets/hero.png) that
+ * fades into the warm-black canvas at its bottom edge, with the film grain and
+ * a volumetric glow layered on top in CSS. Centered hushed type: eyebrow,
+ * 56px display title, lead, ONE white pill CTA, and the explicit
+ * "Scroll to explore" cue pinned to the bottom.
  */
 export function Hero() {
-  const { eyebrow, lead, primaryCta, secondaryCta } = site.home;
+  const { eyebrow, title, lead, primaryCta } = site.home;
 
   return (
-    <Container as="section" className="hero" aria-labelledby="hero-title">
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="hero-media" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/assets/hero.png" alt="" className="hero-photo" />
+        <div className="hero-glow" />
+        <div className="hero-veil" />
+      </div>
+
       <div className="hero-inner">
-        <GhostBadge>{eyebrow}</GhostBadge>
-
-        <h1 id="hero-title" className="display-1">
-          One public surface for the <span className="hero-title-accent">agent-native</span> Studio
-          family
+        <p className="hero-eyebrow">{eyebrow}</p>
+        <h1 id="hero-title" className="hero-title">
+          {title}
         </h1>
-
-        <p className="lead hero-lead">{lead}</p>
-
+        <p className="hero-lead">{lead}</p>
         <div className="hero-ctas">
           <LinkButton href={primaryCta.href as Route} variant="primary" size="lg">
             {primaryCta.label}
           </LinkButton>
-          <LinkButton href={secondaryCta.href as Route} variant="secondary" size="lg">
-            {secondaryCta.label}
-          </LinkButton>
-        </div>
-
-        <div className="hero-meta">
-          <Badge tone="outline">Open-core</Badge>
-          <Badge tone="outline">Agent-readable</Badge>
-          <Badge tone="outline">Five products, one foundation</Badge>
-        </div>
-
-        <div className="scroll-cue" aria-hidden="true">
-          <span className="scroll-cue-track">
-            <span className="scroll-cue-dot" />
-          </span>
-          Scroll to explore
         </div>
       </div>
-    </Container>
+
+      <a className="scroll-cue" href="#introducing" aria-label="Scroll to explore">
+        <ChevronDownIcon size={16} />
+        <span>Scroll to explore</span>
+      </a>
+    </section>
   );
 }
