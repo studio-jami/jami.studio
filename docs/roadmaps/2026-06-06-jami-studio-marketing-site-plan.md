@@ -568,6 +568,24 @@ Suggested verification:
 
 ## Orchestrator Checkpoints
 
+- [x] 2026-06-12T18:44:49.3264351-04:00 - Dispatched Stream A / Workstream 6 production-candidate
+  audit pass 1 to subagent `019ebe02-45d3-7d71-a051-a0f34fb45b69` (`Hooke`). Ownership boundary:
+  current `main` Kirimo production-candidate verification, launch-grade defect fixes only, route/public-file
+  smoke, desktop/mobile visual smoke, metadata/canonical inspection, tracked secret scan, and evidence
+  reporting. Active workstreams: Stream A only. Next coordinator action: wait for terminal result, log it,
+  and dispatch a fresh Stream A pass 2 before gating closeout.
+  Result 2026-06-12: completed from `main` with one launch-grade CTA defect fixed in centralized
+  project metadata: Harness now points to `https://github.com/studio-jami/jami-harness` and Studio UI
+  Registry now points to `https://github.com/studio-jami/studio-ui`. Verification passed: `pnpm verify`
+  (`lint`, `typecheck`, 17 tests, `build`), local production HTTP smoke for `/`, `/projects`, all five
+  `/projects/[slug]` routes, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`,
+  metadata/canonical inspection for `/`, `/projects`, and `/projects/registry`, public CTA target checks
+  for the GitHub org, all five repository links, and `https://intercal.jami.studio`, tracked secret-pattern
+  scan, and desktop/mobile Playwright visual smoke with mobile-nav and first-tab skip-link checks. The
+  in-app Browser plugin was unavailable for `iab`, so visual/browser evidence used local Playwright
+  instead. No screenshots, design-bakeoff leftovers, local helper logs, or pre-existing untracked helper
+  directories were staged.
+
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
   verification scripts, neutral route shell, `.gitignore`/`.env.example`, framework/deploy
