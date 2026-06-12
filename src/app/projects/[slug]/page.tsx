@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
 import { projectLinkTargets } from "@/lib/routes";
-import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { DetailHero } from "@/components/detail/detail-hero";
 import { ContentSection } from "@/components/detail/content-section";
+import { DetailHero } from "@/components/detail/detail-hero";
 import { Listing } from "@/components/detail/listing";
 import { NextProject } from "@/components/detail/next-project";
-import { CtaBand } from "@/components/marketing/cta-band";
+import { projectGridImage, projectSlideImage } from "@/components/marketing/project-media";
+import { SmartLink } from "@/components/ui/smart-link";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -35,11 +36,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 /**
- * `/projects/[slug]` — built to Kirimo's exported detail IA:
- *   Project Title → Portfolio Image → Content Section → Listing → Listing →
- *   Content Section → Listing (image) → Content Section → Image Section → Next.
- * Mapped to our project record. Static-params for all five slugs; per-project
- * metadata + conservative JSON-LD.
+ * `/projects/[slug]` — Kirimo's rich detail order, mapped to our records:
+ * Project Title → Portfolio Image → Content (positioning) → Listing
+ * (capabilities) → Listing (public surface) → Content (audience) → Listing
+ * (proof points, quote rows) → Content (agent-readable shape) → Image Section
+ * → Next. Heavy hairline/divider segmentation throughout.
  */
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
@@ -53,133 +54,144 @@ export default async function ProjectPage({ params }: PageProps) {
   const next = projects[(index + 1) % projects.length];
   const family = projects.filter((entry) => entry.slug !== project.slug);
   const jsonLd = projectJsonLd(project);
-  const linkTargets = projectLinkTargets(project);
+  // Narrow optional hrefs (the API row is conditional in the frozen contract).
+  const linkTargets = projectLinkTargets(project).flatMap((target) =>
+    target.href ? [{ ...target, href: target.href }] : []
+  );
 
   return (
-    <article className="project-detail">
+    <article className="detail">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* Project Title */}
-      <DetailHero project={project} index={index} />
+      <Section size="hero" rule={false} aria-labelledby={`${project.slug}-detail-title`}>
+        <DetailHero project={project} index={index} />
+      </Section>
 
-      {/* Portfolio Image — atmospheric anchor using the project social image */}
-      <section className="detail-figure" aria-hidden="true">
-        <Container width="wide">
-          <div className="detail-figure-frame">
-            {/* eslint-disable-next-line @next/next/no-img-element -- decorative local SVG, no optimization needed */}
-            <img
-              src={project.socialImage}
-              alt=""
-              width={1200}
-              height={630}
-              className="detail-figure-image"
-            />
-            <span className="detail-figure-grain" />
-          </div>
-        </Container>
-      </section>
+      {/* Portfolio Image — full-bleed editorial photography */}
+      <Section bleed rule={false} aria-hidden="true" className="section--figure">
+        <div className="detail-figure">
+          <Image
+            src={projectSlideImage[project.slug]}
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+            className="detail-figure__photo"
+          />
+        </div>
+      </Section>
 
       {/* Content Section — positioning */}
-      <Section tone="canvas" size="tight" aria-labelledby="positioning-title">
+      <Section aria-labelledby="positioning-title">
         <ContentSection
-          index="01"
+          num="01"
           eyebrow="Positioning"
-          title="What it is, in one move."
+          title="What it is, in one move"
           titleId="positioning-title"
         >
           <p className="detail-prose">{project.positioning}</p>
         </ContentSection>
       </Section>
 
-      {/* Listing — capabilities (numbered) + Listing — audience/links band */}
-      <Section tone="panel" aria-labelledby="capabilities-title">
-        <div className="detail-listing-pair">
-          <Listing
-            index="02"
-            eyebrow="Capabilities"
-            title="What it provides"
-            items={project.capabilities}
-            titleId="capabilities-title"
-            numbered
-          />
-          <aside className="detail-links" aria-label={`${project.name} public links`}>
-            <p className="detail-links-title">Public surface</p>
-            <ul>
-              {linkTargets.map((target) => (
-                <li key={target.label}>
-                  <a
-                    href={target.href}
-                    {...(/^https?:\/\//.test(target.href ?? "")
-                      ? { target: "_blank", rel: "noreferrer noopener" }
-                      : {})}
-                  >
-                    <span className="detail-links-label">{target.label}</span>
-                    <span className="detail-links-value">{target.value}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
+      {/* Listing — capabilities */}
+      <Section aria-labelledby="capabilities-title">
+        <ContentSection
+          num="02"
+          eyebrow="Capabilities"
+          title="What it provides"
+          titleId="capabilities-title"
+        >
+          <Listing items={project.capabilities} />
+        </ContentSection>
+      </Section>
+
+      {/* Listing — public surface (label | value rows) */}
+      <Section aria-labelledby="surface-title">
+        <ContentSection
+          num="03"
+          eyebrow="Public surface"
+          title="Where it lives"
+          titleId="surface-title"
+        >
+          <ul className="news-list news-list--compact">
+            {linkTargets.map((target) => (
+              <li key={target.label} className="news-list__row">
+                <SmartLink href={target.href} className="news-list__link">
+                  <span className="news-list__label">{target.label}</span>
+                  <span className="news-list__title news-list__title--mono">{target.value}</span>
+                  <span className="news-list__arrow btn__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
+                      <path
+                        d="M4.5 11.5 11.5 4.5M11.5 4.5H5.8M11.5 4.5v5.7"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </SmartLink>
+              </li>
+            ))}
+          </ul>
+        </ContentSection>
       </Section>
 
       {/* Content Section — audience */}
-      <Section tone="canvas" size="tight" aria-labelledby="audience-title">
+      <Section aria-labelledby="audience-title">
         <ContentSection
-          index="03"
+          num="04"
           eyebrow="Who it serves"
-          title="The reader it is built for."
+          title="The reader it is built for"
           titleId="audience-title"
         >
           <p className="detail-prose">{project.audience}</p>
         </ContentSection>
       </Section>
 
-      {/* Listing — proof points (image/quote treatment, unnumbered) */}
-      <Section tone="panel" aria-labelledby="proof-title">
-        <Listing
-          index="04"
+      {/* Listing — proof points, quote treatment */}
+      <Section aria-labelledby="proof-title">
+        <ContentSection
+          num="05"
           eyebrow="Why the boundary holds"
-          title="Proof posture"
-          items={project.proofPoints}
+          title="Design commitments"
           titleId="proof-title"
-          numbered={false}
-        />
+        >
+          <Listing items={project.proofPoints} numbered={false} />
+        </ContentSection>
       </Section>
 
       {/* Content Section — agent-readable shape */}
-      <Section tone="canvas" size="tight" aria-labelledby="agent-title">
+      <Section aria-labelledby="agent-title">
         <ContentSection
-          index="05"
+          num="06"
           eyebrow="Agent-readable shape"
-          title="How an agent sees it."
+          title="How an agent sees it"
           titleId="agent-title"
         >
           <p className="detail-prose">{project.aiSummary}</p>
         </ContentSection>
       </Section>
 
-      {/* Image Section / CTA band — repo / docs / live-surface */}
-      <section className="section section-canvas section-tight" aria-labelledby="detail-cta-title">
-        <Container width="wide">
-          <CtaBand
-            eyebrow={`Explore ${project.shortName}`}
-            title={<span id="detail-cta-title">Go to the source.</span>}
-            body={project.summary}
-            actions={project.ctas.map((cta, ctaIndex) => ({
-              label: cta.label,
-              href: cta.href,
-              variant: ctaIndex === 0 ? "primary" : "ghost"
-            }))}
+      {/* Image Section — second editorial frame */}
+      <Section bleed rule={false} aria-hidden="true" className="section--figure">
+        <div className="detail-figure detail-figure--short">
+          <Image
+            src={projectGridImage[project.slug]}
+            alt=""
+            fill
+            sizes="100vw"
+            className="detail-figure__photo"
           />
-        </Container>
-      </section>
+        </div>
+      </Section>
 
       {/* Next */}
-      <Section tone="canvas" aria-labelledby="next-title" width="wide">
+      <Section aria-label="Next project">
         <NextProject next={next} family={family} />
       </Section>
     </article>

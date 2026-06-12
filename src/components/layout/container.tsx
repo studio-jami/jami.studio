@@ -1,22 +1,9 @@
-import type { ElementType, ReactNode } from "react";
+import type { ReactNode } from "react";
 
-type ContainerProps = {
-  as?: ElementType;
-  width?: "default" | "wide";
-  className?: string;
-  children: ReactNode;
-};
-
-/** Max-width wrapper bound to the `--container` token. */
-export function Container({
-  as: Tag = "div",
-  width = "default",
-  className,
-  children
-}: ContainerProps) {
-  return (
-    <Tag className={["container", width === "wide" ? "container-wide" : "", className].filter(Boolean).join(" ")}>
-      {children}
-    </Tag>
-  );
+/**
+ * Editorial inner column — the template's `Inner` frame: centered, max-width
+ * from `--container`, gutters handled by section padding.
+ */
+export function Container({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={["container", className].filter(Boolean).join(" ")}>{children}</div>;
 }

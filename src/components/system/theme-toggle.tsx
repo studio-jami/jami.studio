@@ -6,8 +6,8 @@ import type { ThemeName } from "@/tokens/theme";
 
 /**
  * Subscribe to the `<html data-theme>` attribute as the single source of truth.
- * Using `useSyncExternalStore` keeps the toggle in sync with the no-flash init
- * script (which set the attribute before paint) without a setState-in-effect, and
+ * `useSyncExternalStore` keeps the toggle in sync with the no-flash init script
+ * (which set the attribute before paint) without a setState-in-effect, and
  * yields a stable server snapshot to avoid hydration mismatches.
  */
 function subscribe(callback: () => void): () => void {
@@ -50,7 +50,7 @@ export function ThemeToggle() {
       aria-label={label}
       title={label}
     >
-      <span className="theme-toggle-icon" aria-hidden="true" suppressHydrationWarning>
+      <span className="theme-toggle__icon" aria-hidden="true" suppressHydrationWarning>
         {isDark ? "☾" : "☀"}
       </span>
     </button>

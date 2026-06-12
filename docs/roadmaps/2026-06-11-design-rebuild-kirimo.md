@@ -1,6 +1,6 @@
 # jami.studio Design Rebuild — Kirimo Lane (`design/kirimo-2`)
 
-Date: 2026-06-11 · Status: [ ] Active — run 3 (faithful template reproduction)
+Date: 2026-06-11 · Status: [x] Complete — run 4 (faithful template reproduction)
 Lane: `kirimo` · Branch: `design/kirimo-2` · Worktree: `../jami.studio-kirimo-2`
 Template: **Kirimo** (Framer) · Character: **sand-on-near-black editorial zine, auto-play slideshow, giant ticker**
 Accent: **terra-cotta `#eb5939`** (dial slot `amber`) — template-true, authored as `color.accent`
@@ -25,7 +25,22 @@ Owner: Jamie
 - **Accent:** terra-cotta `#eb5939` — used **only** on uppercase eyebrow/subtitle labels + hovers, against
   sand-on-black. Authored as `color.accent` (+ `ring`/`accentForeground`) → `--accent`/`--primary` only.
 - **No grain/glow/gradients** — flat near-black; contrast comes from imagery, hairline rules, and the accent.
+- **Imagery is OUR generated editorial photography (run-4 owner directive):** Kirimo is image-forward — the
+  slideshow and project grid are full-bleed photographic. Original editorial photos (sand/terracotta
+  chiaroscuro series) were generated (Grok/Gemini) and live at `public/assets/` — use them; never download
+  the template's images, never leave the slider/grid as empty panels or logo-SVG fills.
 - **Framer key:** `kirimo`.
+
+## Visual assets (generated — already in `public/assets/`; reference as `/assets/<file>`)
+
+| File | Surface |
+|---|---|
+| `slide-1.png` … `slide-5.png` | the five Project Slider slides — full-bleed photo per slide, project name/summary/CTA overlaid in the editorial grid |
+| `showcase-1.png` `showcase-2.png` `showcase-3.png` | "Our Project" immersive grid tiles (mix with slide crops for 5 tiles) |
+| `about.png` | About Us — right-side or background editorial image if the split calls for one |
+
+If an asset file is missing at build time, build the slot with a flat sand-tinted panel AND flag it in your
+report — do not drop the slot.
 
 ## Home IA — BUILD THIS (Kirimo's real 9-section order)
 
@@ -143,3 +158,14 @@ marquee), `Divider`/`HairlineRule`, detail `DetailHero`/`ContentSection`/`Listin
 - **No fabricated content** (no fake logos/quotes/clients/articles); honest proof line; no placeholder/status
   copy. AI surfaces intact; routes unchanged; static-first.
 - `pnpm verify` green; §14 anti-slop zero true items. Committed to `design/kirimo-2` (never main); world-class.
+
+## Run 4 closeout checkpoint
+
+- Final screenshots captured:
+  - `screenshots/kirimo-home-1440.png`
+  - `screenshots/kirimo-home-390.png`
+  - `screenshots/kirimo-projects-1440.png`
+  - `screenshots/checkpoint-home-1440.png`
+- Visual smoke covered `/`, `/projects`, and all five `/projects/[slug]` pages at 1440, 1024, 768, and 390 in
+  dark and light themes.
+- `pnpm verify` passed after final fixes.

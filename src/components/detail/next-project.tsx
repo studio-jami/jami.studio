@@ -1,43 +1,46 @@
-import Link from "next/link";
-import { Eyebrow } from "@/components/ui/eyebrow";
 import type { StudioProject } from "@/content/projects";
-
-type NextProjectProps = {
-  next: StudioProject;
-  /** The other family members for the cross-link rail. */
-  family: StudioProject[];
-};
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { SmartLink } from "@/components/ui/smart-link";
 
 /**
- * "Next" — the Kirimo detail closer. A large link to the next project in the
- * Studio family, plus a compact rail of the remaining siblings so the family stays
- * navigable. Reinforces "part of the Studio family".
+ * Kirimo "Next" block: terra-cotta eyebrow, a colossal uppercase link to the
+ * next project, and the rest of the family as a quiet uppercase row beneath.
  */
-export function NextProject({ next, family }: NextProjectProps) {
+export function NextProject({
+  next,
+  family
+}: {
+  next: StudioProject;
+  family: StudioProject[];
+}) {
   return (
-    <section className="next-project" aria-labelledby="next-title">
-      <div className="next-project-head">
-        <Eyebrow>Part of the Studio family</Eyebrow>
-        <h2 id="next-title" className="next-project-eyebrow">
-          Next project
-        </h2>
-      </div>
-
-      <Link href={next.route} className="next-project-link" aria-label={`Next: ${next.name}`}>
-        <span className="next-project-name">{next.name}</span>
-        <span className="next-project-summary">{next.summary}</span>
-        <span className="next-project-arrow" aria-hidden="true">
-          →
+    <div className="next-project">
+      <Eyebrow>Next project</Eyebrow>
+      <SmartLink href={next.route} className="next-project__link">
+        <span className="next-project__name">{next.name}</span>
+        <span className="next-project__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
+            <path
+              d="M6 18 18 6M18 6H8.4M18 6v9.6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </span>
-      </Link>
+      </SmartLink>
+      <p className="next-project__summary">{next.summary}</p>
 
-      <ul className="next-project-rail">
-        {family.map((project) => (
-          <li key={project.slug}>
-            <Link href={project.route}>{project.shortName}</Link>
+      <ul className="next-project__family" aria-label="The rest of the family">
+        {family.map((member) => (
+          <li key={member.slug}>
+            <SmartLink href={member.route} className="next-project__family-link">
+              {member.shortName}
+            </SmartLink>
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }

@@ -1,29 +1,35 @@
 import type { ReactNode } from "react";
+import { Divider } from "@/components/ui/divider";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
-type ContentSectionProps = {
-  index?: string;
+/**
+ * Kirimo "Content Section": numbered eyebrow + title on the left, a vertical
+ * hairline divider, prose on the right — the template's title/body split
+ * grammar.
+ */
+export function ContentSection({
+  num,
+  eyebrow,
+  title,
+  titleId,
+  children
+}: {
+  num: string;
   eyebrow: string;
   title: string;
-  children: ReactNode;
   titleId?: string;
-};
-
-/**
- * "Content Section" — the Kirimo detail narrative block: a numbered mono eyebrow,
- * a heading, and a prose body. Used for positioning / audience / agent-shape
- * statements on the project detail page.
- */
-export function ContentSection({ index, eyebrow, title, titleId, children }: ContentSectionProps) {
+  children: ReactNode;
+}) {
   return (
-    <section className="content-section" aria-labelledby={titleId}>
-      <div className="content-section-head">
-        <Eyebrow index={index}>{eyebrow}</Eyebrow>
-        <h2 id={titleId} className="content-section-title">
+    <div className="content-split">
+      <div className="content-split__head">
+        <Eyebrow>{`${num} / ${eyebrow}`}</Eyebrow>
+        <h2 id={titleId} className="content-split__title">
           {title}
         </h2>
       </div>
-      <div className="content-section-body">{children}</div>
-    </section>
+      <Divider vertical />
+      <div className="content-split__body">{children}</div>
+    </div>
   );
 }

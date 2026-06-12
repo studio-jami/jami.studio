@@ -1,54 +1,74 @@
-import { ButtonLink } from "@/components/ui/button";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { site } from "@/content/site";
+import { SectionHead } from "@/components/ui/section-head";
+import { SmartLink } from "@/components/ui/smart-link";
+
+const aiIndexHref = (site.nav.find((item) => item.label === "AI index") ?? site.nav[0]).href;
+const sitemapHref =
+  site.footerLinks.find((item) => item.label === "Sitemap")?.href ?? "/sitemap.xml";
+const robotsHref = site.footerLinks.find((item) => item.label === "Robots")?.href ?? "/robots.txt";
 
 /**
- * The Kirimo "Our News" slot — but there is no blog. Instead it points readers at
- * the AI-readable surface (`llms.txt` / `llms-full.txt`) and the FAQ source notes,
- * which is the honest equivalent of "latest from the studio" for this hub. No
- * invented articles, no dates, no fabricated posts.
+ * Kirimo's "Our News" list rows (label | meta | title over hairlines), used
+ * honestly: there is no blog, so the rows are the real machine-readable
+ * surfaces this site publishes. No invented articles, no fabricated dates —
+ * the middle column carries the actual path.
  */
-const RESOURCES = [
+const surfaces = [
   {
-    label: "AI index",
-    href: "/llms.txt",
-    blurb: "A compact, agent-readable map of every route and project summary."
+    format: "TXT",
+    href: aiIndexHref,
+    path: aiIndexHref,
+    title: "Compact AI index — every public route and project summary."
   },
   {
-    label: "AI source bundle",
+    format: "TXT",
     href: "/llms-full.txt",
-    blurb: "The expanded source file with positioning, capabilities, and link contracts."
+    path: "/llms-full.txt",
+    title: "Expanded AI source — positioning, capabilities, and link contracts."
   },
   {
-    label: "Sitemap",
-    href: "/sitemap.xml",
-    blurb: "Every canonical public URL, generated from the same shared source data."
+    format: "XML",
+    href: sitemapHref,
+    path: sitemapHref,
+    title: "Sitemap — every canonical URL, generated from shared source data."
+  },
+  {
+    format: "TXT",
+    href: robotsHref,
+    path: robotsHref,
+    title: "Robots policy — an open crawl posture for agents and indexes."
   }
 ] as const;
 
-export function AIIndexCallout() {
+export function AIIndexCallout({ titleId }: { titleId: string }) {
   return (
     <div className="ai-callout">
-      <SectionHeading
-        index="08"
-        eyebrow="Readable by design"
-        titleId="ai-callout-title"
-        title="Made for human and agent readers."
-        lead={
-          <p>
-            No newsroom — the studio publishes machine-readable source instead. Resolve the whole
-            family from stable generated text.
-          </p>
-        }
+      <SectionHead
+        eyebrow="For agents and humans"
+        title="Read the source, not a feed."
+        titleId={titleId}
+        lead="No newsroom here — the studio publishes stable machine-readable text instead. Resolve the whole family from these generated files."
       />
 
-      <ul className="ai-callout-grid">
-        {RESOURCES.map((resource) => (
-          <li key={resource.href} className="ai-callout-item">
-            <p className="ai-callout-name">{resource.label}</p>
-            <p className="ai-callout-blurb">{resource.blurb}</p>
-            <ButtonLink href={resource.href} variant="link">
-              Open {resource.label}
-            </ButtonLink>
+      <ul className="news-list">
+        {surfaces.map((surface) => (
+          <li key={surface.path} className="news-list__row">
+            <SmartLink href={surface.href} className="news-list__link">
+              <span className="news-list__label">{surface.format}</span>
+              <span className="news-list__meta">{surface.path}</span>
+              <span className="news-list__title">{surface.title}</span>
+              <span className="news-list__arrow btn__arrow" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
+                  <path
+                    d="M4.5 11.5 11.5 4.5M11.5 4.5H5.8M11.5 4.5v5.7"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </SmartLink>
           </li>
         ))}
       </ul>

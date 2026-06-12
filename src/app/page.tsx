@@ -1,93 +1,102 @@
-import { Hero } from "@/components/marketing/hero";
-import { ProjectSlider } from "@/components/marketing/project-slider";
-import { ProofLine } from "@/components/marketing/proof-line";
-import { StudioAbout } from "@/components/marketing/studio-about";
-import { ServicePillars } from "@/components/marketing/service-pillars";
-import { ProjectGrid } from "@/components/marketing/project-grid";
-import { ProofPointBand } from "@/components/marketing/proof-point-band";
-import { CtaBand } from "@/components/marketing/cta-band";
-import { AIIndexCallout } from "@/components/marketing/ai-index-callout";
-import { Section } from "@/components/layout/section";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { Container } from "@/components/layout/container";
-import { site } from "@/content/site";
 import { projects } from "@/content/projects";
+import { site } from "@/content/site";
+import { Section } from "@/components/layout/section";
+import { AIIndexCallout } from "@/components/marketing/ai-index-callout";
+import { CtaPanel } from "@/components/marketing/cta-panel";
+import { Hero } from "@/components/marketing/hero";
+import { ProjectGrid } from "@/components/marketing/project-grid";
+import { ProjectSlideshow } from "@/components/marketing/project-slideshow";
+import { ProofLine } from "@/components/marketing/proof-line";
+import { ProofPointBand } from "@/components/marketing/proof-point-band";
+import { ServiceAccordion } from "@/components/marketing/service-accordion";
+import { StudioAbout } from "@/components/marketing/studio-about";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
+import { SectionHead } from "@/components/ui/section-head";
 
 /**
- * Home — built to Kirimo's real exported home IA, nine sections in template order:
- *   Hero → Project Slider → Our Client → About Us → Our Service → Our Project →
- *   Testimonials → CTA → Our News.
- * Mapped to our content and tokens; two distinct showcase treatments (slider +
- * grid) and the honest substitutions for client logos / testimonials / news.
+ * Home — Kirimo's real 9-section spine on one near-black canvas:
+ * Hero → Project Slider → Our Client (honest proof line) → About Us →
+ * Our Service (numbered accordion) → Our Project (immersive grid) →
+ * Testimonials (real proof points) → CTA → Our News (AI index),
+ * closed by the colossal footer Text-Ticker (in the site footer).
  */
 export default function HomePage() {
   return (
     <>
-      {/* 1 · Hero */}
-      <Hero />
-
-      {/* 2 · Project Slider — centerpiece #1 */}
-      <Section tone="canvas" size="default" aria-labelledby="slider-title" width="wide">
-        <div className="section-heading section-heading-split">
-          <div className="section-heading-main">
-            <Eyebrow index="02">Selected work</Eyebrow>
-            <h2 id="slider-title" className="section-title">
-              The Studio family, slide by slide.
-            </h2>
-          </div>
-          <div className="section-heading-lead">
-            <p>
-              Five independent products over shared foundations. Drag, scroll, or use the controls to
-              move through the family.
-            </p>
-          </div>
-        </div>
-        <ProjectSlider projects={[...projects]} />
+      {/* 01 — Hero (the header's hairline opens it) */}
+      <Section size="hero" rule={false} aria-label="Introduction">
+        <Hero />
       </Section>
 
-      {/* 3 · Our Client — honest proof line, no fabricated logos */}
-      <Section tone="panel" size="tight" aria-label="How the site is built">
+      {/* 02 — Project Slider: centerpiece #1, full-bleed photography */}
+      <Section bleed rule={false} aria-label="Project slideshow" className="section--slideshow">
+        <ProjectSlideshow projects={[...projects]} />
+      </Section>
+
+      {/* 03 — Our Client slot → honest proof line + product-name marquee */}
+      <Section rule={false} size="tight" aria-label="Source-of-truth proof">
         <ProofLine />
       </Section>
 
-      {/* 4 · About Us */}
-      <Section tone="canvas" aria-labelledby="about-title">
-        <StudioAbout />
+      {/* 04 — About Us */}
+      <Section aria-labelledby="about-title">
+        <StudioAbout titleId="about-title" />
       </Section>
 
-      {/* 5 · Our Service — numbered service list */}
-      <Section tone="panel" aria-labelledby="service-title">
-        <ServicePillars />
+      {/* 05 — Our Service: the numbered accordion */}
+      <Section aria-labelledby="services-title">
+        <div className="services">
+          <div className="services__head">
+            <SectionHead
+              eyebrow="What the studio ships"
+              title="Four foundations, one shared contract"
+              titleId="services-title"
+              lead="Each layer of the family owns one job; every layer shares the same governed source of truth."
+            />
+          </div>
+          <ServiceAccordion items={site.home.pillars} cta={site.home.primaryCta} />
+        </div>
       </Section>
 
-      {/* 6 · Our Project — immersive grid, centerpiece #2 */}
-      <Section tone="canvas" aria-labelledby="gallery-title">
-        <ProjectGrid projects={[...projects]} context="home" />
-      </Section>
-
-      {/* 7 · Testimonials — distilled real proof points */}
-      <Section tone="panel" aria-labelledby="proof-title">
-        <ProofPointBand />
-      </Section>
-
-      {/* 8 · CTA */}
-      <section className="section section-canvas section-default" aria-labelledby="home-cta-title">
-        <Container width="wide">
-          <CtaBand
-            eyebrow="Start here"
-            title={<span id="home-cta-title">Explore the family, or read the source.</span>}
-            body={site.home.lead}
-            actions={[
-              { label: site.home.primaryCta.label, href: site.home.primaryCta.href },
-              { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href }
-            ]}
+      {/* 06 — Our Project: centerpiece #2, the immersive grid */}
+      <Section aria-labelledby="projects-title">
+        <div className="showcase__head">
+          <SectionHead
+            eyebrow="The project family"
+            title="Five projects, one source of truth."
+            titleId="projects-title"
+            lead="Runtime, interface, coordination, knowledge, and society — the same shared records generate every page, link, and AI surface."
           />
-        </Container>
-      </section>
+          <Button href={site.home.primaryCta.href} variant="secondary">
+            View all projects
+          </Button>
+        </div>
+        <ProjectGrid projects={[...projects]} />
+      </Section>
 
-      {/* 9 · Our News — AI-readable index callout, no invented articles */}
-      <Section tone="canvas" size="tight" aria-labelledby="ai-callout-title">
-        <AIIndexCallout />
+      {/* 07 — Testimonials slot → real design commitments, big-quote treatment */}
+      <Section aria-labelledby="proof-title">
+        <div className="quotes__head">
+          <SectionHead
+            eyebrow="Proof, not promises"
+            title="Why the boundaries hold"
+            titleId="proof-title"
+            lead="Commitments distilled from the family's own design records — the closest honest thing to a testimonial."
+          />
+          <Divider />
+        </div>
+        <ProofPointBand projects={[...projects]} />
+      </Section>
+
+      {/* 08 — CTA: full-bleed slat-texture panel */}
+      <Section bleed rule={false} aria-labelledby="cta-title" className="section--cta">
+        <CtaPanel titleId="cta-title" />
+      </Section>
+
+      {/* 09 — Our News slot → the AI-readable index */}
+      <Section aria-labelledby="ai-title">
+        <AIIndexCallout titleId="ai-title" />
       </Section>
     </>
   );

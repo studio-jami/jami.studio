@@ -1,41 +1,25 @@
-import { Eyebrow } from "@/components/ui/eyebrow";
-
-type ListingProps = {
-  index?: string;
-  eyebrow: string;
-  title: string;
-  items: string[];
-  titleId?: string;
-  /** Numbered rows (capabilities) vs. plain proof rows. */
-  numbered?: boolean;
-};
-
 /**
- * "Listing" — the Kirimo detail structured list: a titled block of numbered or
- * bulleted rows. Carries capabilities and proof points as progressive, scannable
- * lists straight from the project record.
+ * Kirimo "Listing": structured rows over hairlines. `numbered` renders the
+ * 01/02/03 index column (capabilities); unnumbered rows lead with a small
+ * terra-cotta quote mark (proof points), echoing the big-quote treatment.
  */
-export function Listing({ index, eyebrow, title, items, titleId, numbered = true }: ListingProps) {
+export function Listing({ items, numbered = true }: { items: readonly string[]; numbered?: boolean }) {
   return (
-    <section className="listing" aria-labelledby={titleId}>
-      <div className="listing-head">
-        <Eyebrow index={index}>{eyebrow}</Eyebrow>
-        <h2 id={titleId} className="listing-title">
-          {title}
-        </h2>
-      </div>
-      <ul className={`listing-rows ${numbered ? "listing-numbered" : ""}`}>
-        {items.map((item, itemIndex) => (
-          <li key={item} className="listing-row">
-            {numbered ? (
-              <span className="listing-row-index">{String(itemIndex + 1).padStart(2, "0")}</span>
-            ) : (
-              <span className="listing-row-marker" aria-hidden="true" />
-            )}
-            <span className="listing-row-text">{item}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <ol className={numbered ? "listing listing--numbered" : "listing"}>
+      {items.map((item, index) => (
+        <li key={item} className="listing__row">
+          {numbered ? (
+            <span className="listing__num" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          ) : (
+            <span className="listing__quote" aria-hidden="true">
+              &ldquo;
+            </span>
+          )}
+          <p className="listing__text">{item}.</p>
+        </li>
+      ))}
+    </ol>
   );
 }

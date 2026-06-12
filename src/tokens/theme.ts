@@ -1,42 +1,50 @@
 import { validateTokenPreset, type TokenPreset } from "./schema";
 
 /**
- * Kirimo lane theme presets — Lane A (immersive dark creative).
+ * Kirimo lane theme presets — faithful reproduction of the Kirimo template's
+ * token system (`design/kirimo-2`).
  *
- * Built fresh for the `design/kirimo-2` lane. The DNA is the real Kirimo Framer
- * template: a deep near-black canvas (`rgb(13,13,13)`), warm taupe foreground
- * (`rgb(183,171,152)`), Plus Jakarta Sans display + body, oversized uppercase
- * headings, and a single decisive accent. The template's coral accent is replaced
- * by this lane's locked brand accent — `#854c63` wine-rose — authored as
- * `color.accent` (+ `ring`/`accentForeground`), surfaced only via
- * `--accent`/`--primary`, never a component literal.
+ * The template's extracted palette is authored verbatim for the dark theme:
+ *   Background  rgb(13, 13, 13)         → #0d0d0d
+ *   Primary     rgb(183, 171, 152)      → #b7ab98  (warm SAND — the type color)
+ *   Brown 80    rgba(184,172,153,0.8)   → #968c7d  (body copy, flattened on bg)
+ *   Brown 50    rgba(184,172,153,0.5)   → #635d53  (1px hairline rules/dividers)
+ *   Brown 20    rgba(184,172,153,0.2)   → #2f2d29  (raised panel tint)
+ *   Brown 10    rgba(184,172,153,0.1)   → #1e1d1b  (panel tint)
+ *   Secondary   rgb(235, 89, 57)        → #eb5939  (terra-cotta accent — eyebrows + hovers)
  *
- * Both a full dark preset and a full light preset ship; they are switched over the
- * same `tokenCssVariables()` contract via `[data-theme]`. Values are 6-digit hex.
+ * Alpha tints are pre-composited over the canvas because the schema is 6-digit
+ * hex only. The accent is authored as `color.accent` (+ `ring`/`accentForeground`)
+ * and surfaces only through `--accent` / `--primary` / `--ring`; the dial slot
+ * label is `amber`, the rendered hex is the template's terra-cotta.
+ *
+ * The light theme is a real warm-paper design (sand family read in daylight),
+ * not an inverted dark theme. Same single accent, darkened for AA on paper.
  */
 
-// Locked brand accent for this lane (schema dial: rose).
-const WINE_ROSE = "#854c63";
-const WINE_ROSE_RING = "#c46a8c"; // brighter focus/glow rose — AA on dark, visible on light
-const WINE_ROSE_ON = "#fdf2f6"; // near-white warm text on the accent fill (AA)
+const TERRA_COTTA = "#eb5939";
+const TERRA_COTTA_LIGHT = "#b53a1c"; // AA on the paper canvas
+const NEAR_BLACK = "#0d0d0d";
 
-// Shared, lane-wide non-color values (type, spacing, radii, motion) so the dark and
-// light presets stay a single, cohesive system rather than two unrelated themes.
+// Single family — Plus Jakarta Sans (the template's only typeface).
 const typography: TokenPreset["typography"] = {
-  sans: "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
-  mono: "'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace",
-  display: "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
+  sans: "var(--font-jakarta), 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
+  mono: "ui-monospace, SFMono-Regular, 'Cascadia Mono', Consolas, monospace",
+  display: "var(--font-jakarta), 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
   scale: {
-    xs: "0.8125rem",
-    sm: "0.9375rem",
-    base: "1.0625rem",
-    lg: "1.375rem",
-    xl: "clamp(1.75rem, 3.2vw, 2.8rem)",
-    hero: "clamp(2.85rem, 8.5vw, 7rem)"
+    xs: "0.75rem",
+    sm: "0.875rem",
+    base: "1rem",
+    lg: "1.5rem",
+    // Heading 2 — 56 / 45 / 36 px across the template breakpoints.
+    xl: "clamp(2.25rem, 1.4rem + 2.9vw, 3.5rem)",
+    // Heading 1 — 72 / 58 / 46 px, uppercase, LH 1.3.
+    hero: "clamp(2.875rem, 1.6rem + 4.2vw, 4.5rem)"
   },
   lineHeight: {
-    tight: 1.04,
-    body: 1.6
+    // Template headings sit at 1.2–1.3 — editorial, never crushed.
+    tight: 1.25,
+    body: 1.5
   }
 };
 
@@ -44,22 +52,25 @@ const spacing: TokenPreset["spacing"] = {
   density: "comfortable",
   unit: "1rem",
   control: "3rem",
-  section: "clamp(4.5rem, 10vw, 7.5rem)",
-  container: "min(1200px, calc(100vw - 2.5rem))"
+  // Sections run 100px top/bottom on desktop (80px for the hero band).
+  section: "clamp(4rem, 2.5rem + 4.5vw, 6.25rem)",
+  // Template inner column: max 1440 with 50px side gutters at desktop.
+  container: "min(1340px, calc(100vw - 2.5rem))"
 };
 
+// Kirimo is squared-off editorial; only buttons go full pill.
 const radii: TokenPreset["radii"] = {
-  sm: "6px",
-  md: "12px",
-  lg: "20px",
+  sm: "2px",
+  md: "4px",
+  lg: "8px",
   pill: "999px"
 };
 
 const motion: TokenPreset["motion"] = {
-  duration: "460ms",
-  durationFast: "200ms",
-  easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
-  intensity: 44
+  duration: "480ms",
+  durationFast: "180ms",
+  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+  intensity: 40
 };
 
 const logos: TokenPreset["logos"] = {
@@ -90,51 +101,51 @@ function registry(id: string): TokenPreset["registry"] {
 }
 
 /**
- * DARK — the primary Kirimo expression: deep warm charcoal canvas, warm taupe
- * foreground, barely-lifted panels with hairline borders, wine-rose accent that
- * reads like neon through fog. Grain + glow do the separation work, not shadows.
+ * DARK — the template expression: near-black canvas, sand type (not white),
+ * pre-composited sand tints for panels and hairlines, terra-cotta accent.
+ * Flat — no grain, no glow; contrast comes from imagery and hairline rules.
  */
 export const kirimoDarkPreset: TokenPreset = validateTokenPreset({
   id: "kirimo-dark",
   name: "Kirimo Dark",
   description:
-    "Immersive dark creative preset for the Kirimo lane: deep warm charcoal canvas, warm taupe text, wine-rose accent, fine grain over gentle glow.",
+    "Template-true Kirimo dark preset: near-black canvas, warm sand foreground, terra-cotta accent, hairline sand rules, flat editorial surfaces.",
   ownership,
   dials: {
-    accent: "rose",
-    contrast: 84,
-    warmth: 62,
-    density: 52,
-    radius: 12,
-    surfaceDepth: 58,
-    motion: 44
+    accent: "amber",
+    contrast: 78,
+    warmth: 70,
+    density: 55,
+    radius: 4,
+    surfaceDepth: 30,
+    motion: 40
   },
   color: {
-    background: "#0d0d0d",
-    foreground: "#ece4d6",
-    muted: "#1a1815",
-    mutedForeground: "#b7ab98",
-    panel: "#161412",
-    panelForeground: "#ece4d6",
-    border: "#2c2823",
-    ring: WINE_ROSE_RING,
-    accent: WINE_ROSE,
-    accentForeground: WINE_ROSE_ON
+    background: NEAR_BLACK,
+    foreground: "#b7ab98",
+    muted: "#1e1d1b",
+    mutedForeground: "#968c7d",
+    panel: "#1e1d1b",
+    panelForeground: "#b7ab98",
+    border: "#635d53",
+    ring: "#f1684a",
+    accent: TERRA_COTTA,
+    accentForeground: NEAR_BLACK
   },
   typography,
   spacing,
   radii,
   surface: {
-    canvas: "#0d0d0d",
-    panel: "#161412",
-    panelRaised: "#1f1b18",
-    overlay: "#0a0a09",
-    inverse: "#ece4d6"
+    canvas: NEAR_BLACK,
+    panel: "#1e1d1b",
+    panelRaised: "#2f2d29",
+    overlay: "#161514",
+    inverse: "#b7ab98"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 0 rgb(184 172 153 / 0.06), 0 12px 30px rgb(0 0 0 / 0.45)",
-    md: "0 1px 0 rgb(184 172 153 / 0.08), 0 32px 70px rgb(0 0 0 / 0.55)"
+    sm: "0 0 0 1px rgb(184 172 153 / 0.08)",
+    md: "0 24px 60px rgb(0 0 0 / 0.5)"
   },
   motion,
   logos,
@@ -143,51 +154,51 @@ export const kirimoDarkPreset: TokenPreset = validateTokenPreset({
 });
 
 /**
- * LIGHT — a warm gallery daylight, not an inverted dark theme. Warm off-white
- * canvas (the Kirimo taupe family reads as a parchment neutral in light), deep
- * ink foreground, the same wine-rose accent disciplined to interactive roles.
+ * LIGHT — warm paper daylight: the sand family inverted into parchment neutrals
+ * with warm ink type and the terra-cotta accent darkened for AA. A real light
+ * design sharing the same editorial grammar, not a value flip.
  */
 export const kirimoLightPreset: TokenPreset = validateTokenPreset({
   id: "kirimo-light",
   name: "Kirimo Light",
   description:
-    "Warm gallery light preset for the Kirimo lane: parchment off-white canvas, deep ink text, disciplined wine-rose accent, faint paper tooth.",
+    "Warm paper light preset for the Kirimo lane: parchment canvas, warm ink type, darkened terra-cotta accent, sand hairlines.",
   ownership,
   dials: {
-    accent: "rose",
-    contrast: 86,
-    warmth: 72,
-    density: 52,
-    radius: 12,
-    surfaceDepth: 36,
-    motion: 44
+    accent: "amber",
+    contrast: 84,
+    warmth: 76,
+    density: 55,
+    radius: 4,
+    surfaceDepth: 24,
+    motion: 40
   },
   color: {
-    background: "#f4efe7",
-    foreground: "#1c1714",
-    muted: "#e7dfd2",
-    mutedForeground: "#6a5d51",
-    panel: "#fbf8f2",
-    panelForeground: "#1c1714",
-    border: "#d8cdbc",
-    ring: "#9c4f6a",
-    accent: "#7a3f56",
-    accentForeground: WINE_ROSE_ON
+    background: "#efe9df",
+    foreground: "#221c14",
+    muted: "#e3dccd",
+    mutedForeground: "#5f574a",
+    panel: "#f5f1e8",
+    panelForeground: "#221c14",
+    border: "#c2b8a5",
+    ring: TERRA_COTTA_LIGHT,
+    accent: TERRA_COTTA_LIGHT,
+    accentForeground: "#fdf6ef"
   },
   typography,
   spacing,
   radii,
   surface: {
-    canvas: "#f4efe7",
-    panel: "#fbf8f2",
-    panelRaised: "#ffffff",
-    overlay: "#fbf8f2",
-    inverse: "#1c1714"
+    canvas: "#efe9df",
+    panel: "#f5f1e8",
+    panelRaised: "#faf7f0",
+    overlay: "#f5f1e8",
+    inverse: "#221c14"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 2px rgb(28 23 20 / 0.06), 0 10px 24px rgb(28 23 20 / 0.05)",
-    md: "0 1px 2px rgb(28 23 20 / 0.08), 0 28px 60px rgb(28 23 20 / 0.10)"
+    sm: "0 0 0 1px rgb(34 28 20 / 0.06)",
+    md: "0 20px 50px rgb(34 28 20 / 0.10)"
   },
   motion,
   logos,
@@ -202,17 +213,17 @@ export const kirimoThemes: Record<ThemeName, TokenPreset> = {
   light: kirimoLightPreset
 };
 
-/** Dark is the lane's default expression. */
+/** Dark is the template's primary expression. */
 export const defaultTheme: ThemeName = "dark";
 
-/** Per-theme grain opacity (Lane A range: dark 0.03–0.07, light 0.015–0.03). */
+/** Restored helper compatibility; Kirimo run 4 intentionally ships flat, no grain. */
 export const grainOpacity: Record<ThemeName, string> = {
-  dark: "0.055",
-  light: "0.022"
+  dark: "0",
+  light: "0"
 };
 
-/** Per-theme grain blend mode (soft-light on dark, multiply on light). */
+/** Restored helper compatibility; unused while opacity is zero. */
 export const grainBlend: Record<ThemeName, string> = {
-  dark: "soft-light",
-  light: "multiply"
+  dark: "normal",
+  light: "normal"
 };

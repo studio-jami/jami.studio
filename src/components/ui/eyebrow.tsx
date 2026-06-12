@@ -1,21 +1,23 @@
 import type { ReactNode } from "react";
 
-type EyebrowProps = {
-  /** Optional leading section number rendered as a mono kicker (01 / 02 / 03). */
-  index?: string;
-  tone?: "accent" | "muted";
-  children: ReactNode;
-};
-
 /**
- * Small-caps mono label — the Kirimo "Subtitle"/"Big Subtitle" treatment:
- * uppercase, positive tracking, optional numbered kicker for editorial structure.
+ * Uppercase tracked terra-cotta eyebrow — the template's `Subtitle` /
+ * `Big Subtitle` styles. The only routine carrier of the accent color.
  */
-export function Eyebrow({ index, tone = "accent", children }: EyebrowProps) {
+export function Eyebrow({
+  children,
+  size = "sm",
+  as: Tag = "p",
+  id
+}: {
+  children: ReactNode;
+  size?: "sm" | "lg";
+  as?: "p" | "span";
+  id?: string;
+}) {
   return (
-    <p className={`eyebrow eyebrow-${tone}`}>
-      {index ? <span className="eyebrow-index">{index}</span> : null}
-      <span>{children}</span>
-    </p>
+    <Tag id={id} className={size === "lg" ? "eyebrow eyebrow--lg" : "eyebrow"}>
+      {children}
+    </Tag>
   );
 }

@@ -2,71 +2,75 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "ghost" | "link";
-type Size = "md" | "lg";
+type ButtonVariant = "primary" | "secondary" | "text";
 
-type ButtonLinkProps = {
-  href: string;
-  variant?: Variant;
-  size?: Size;
-  className?: string;
-  children: ReactNode;
-  "aria-label"?: string;
-};
-
-function isInternal(href: string): boolean {
-  return href.startsWith("/") && !href.startsWith("//");
-}
-
-function isStaticRoute(href: string): boolean {
-  // Generated text endpoints (llms.txt, robots.txt, sitemap.xml) are real files,
-  // not typed app routes — render them as plain anchors so typedRoutes stays happy.
+/** Generated text endpoints (llms.txt, robots.txt, sitemap.xml) are real
+ *  files, not typed app routes — render them as plain anchors. */
+function isStaticFile(href: string): boolean {
   return /\.(txt|xml)$/.test(href);
 }
 
 /**
- * One button shape, one radius scale, one motion vocabulary. Internal app routes
- * render through `next/link`; generated text files and external links render as
- * anchors (new tab for off-site). Hrefs always come from the content/route layer.
+ * Kirimo button vocabulary, all uppercase (the template's `Button` text style,
+ * 16px / 500 / +0.04em):
+ *
+ * - `primary`   — terra-cotta filled pill (template `Button/Primary`).
+ * - `secondary` — sand-outlined pill (template `Button/Secondary`, e.g.
+ *                 "VIEW ALL PROJECT").
+ * - `text`      — circle-arrow + uppercase label link (template `Button/Text`,
+ *                 e.g. "GET STARTED NOW", "READ ABOUT US").
  */
-export function ButtonLink({
+export function Button({
   href,
-  variant = "primary",
-  size = "md",
-  className,
   children,
-  ...rest
-}: ButtonLinkProps) {
-  const classes = ["btn", `btn-${variant}`, `btn-${size}`, className].filter(Boolean).join(" ");
+  variant = "primary",
+  external,
+  className,
+  tabIndex
+}: {
+  href: string;
+  children: ReactNode;
+  variant?: ButtonVariant;
+  external?: boolean;
+  className?: string;
+  tabIndex?: number;
+}) {
+  const isExternal = external ?? (/^(https?:|mailto:)/.test(href) || isStaticFile(href));
+  const classes = [`btn btn--${variant}`, className].filter(Boolean).join(" ");
+
   const content = (
     <>
-      <span className="btn-label">{children}</span>
-      {variant !== "link" ? (
-        <span className="btn-arrow" aria-hidden="true">
-          →
-        </span>
-      ) : null}
+      <span className="btn__arrow" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
+          <path
+            d="M4.5 11.5 11.5 4.5M11.5 4.5H5.8M11.5 4.5v5.7"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
+      <span className="btn__label">{children}</span>
     </>
   );
 
-  if (isInternal(href) && !isStaticRoute(href)) {
+  if (isExternal) {
     return (
-      <Link href={href as Route} className={classes} {...rest}>
+      <a
+        className={classes}
+        href={href}
+        tabIndex={tabIndex}
+        {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+      >
         {content}
-      </Link>
+      </a>
     );
   }
 
-  const external = !isInternal(href);
-
   return (
-    <a
-      href={href}
-      className={classes}
-      {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
-      {...rest}
-    >
+    <Link className={classes} href={href as Route} tabIndex={tabIndex}>
       {content}
-    </a>
+    </Link>
   );
 }
