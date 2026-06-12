@@ -79,7 +79,7 @@ and what moves into follow-up implementation.
 - Design streams to flow in dependency order. Foundations, schema, contracts, or shared helpers should come before API, MCP, SDK, dashboard, and final verification streams that depend on them.
 - Only use checklists for open tasks, not lists and commands.
 - Call out cross-dependencies in each stream. Name upstream prerequisites and downstream consumers so agents know what can run in parallel and what runs in sequence.
-- Keep plans under `docs/roadmaps/` while active. Move completed dated plans to `docs/_legacy/roadmaps/` after durable docs and changelog fragments carry the ongoing operating rules.
+- Keep plans under `docs/roadmaps/` while active. Delete completed dated plans once durable docs and changelog fragments carry the ongoing operating rules; git history is the archive.
 - Keep top-level docs stable. `README.md`, `docs/README.md`, and `AGENTS.md` should point to durable directories or canonical planning guidance, not individual dated plans.
 - Prefer durable policies in engineering, operations, architecture, or security docs. A retired plan is history, not the living contract.
 - Write tasks as verifiable outcomes, not vague intentions. Use "Add contract tests for the entity payload..." instead of "improve tests."
@@ -95,7 +95,7 @@ and what moves into follow-up implementation.
 When the plan is complete:
 
 - Update checkboxes and closeout notes truthfully.
-- Move dated plans and dated source reports to `docs/_legacy/`.
+- Delete dated plans and dated source reports once consumed; git history is the archive (the repo keeps no `_legacy/` shelf).
 - Promote any permanent rules to durable docs.
 - Keep changelog fragments as the release source of truth.
 - Keep active docs pointed at current operating guidance.
