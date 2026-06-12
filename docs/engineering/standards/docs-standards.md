@@ -13,7 +13,7 @@ source of truth.
 - Integration/provider docs explain analytics, deployment, forms/email, docs
   links, and subdomain routing setup state.
 - Research/feasibility docs are source reports, not task lists or operating policy.
-- Roadmaps hold active implementation steps and retire to `docs/_legacy/roadmaps/`.
+- Roadmaps hold active implementation steps; superseded ones are deleted (git history is the archive).
 
 ## Link Policy
 
@@ -52,9 +52,9 @@ source of truth.
 
 ## Retirement
 
-- Move completed or superseded plans to `docs/_legacy/roadmaps/`.
-- Move obsolete research or task notes to `docs/_legacy/research/`.
-- When retiring a doc, repair active links and keep only the stable rule in the
+- Delete completed or superseded plans, research, and task notes once their durable rules are promoted.
+  Git history is the archive; the repo keeps no `_legacy/` shelf and no dead copy.
+- When deleting a doc, repair active links and keep only the stable rule in the
   durable doc that owns it.
 - Do not leave hidden open decisions in prose. Put them in an active roadmap,
   report, status note, or decision record.

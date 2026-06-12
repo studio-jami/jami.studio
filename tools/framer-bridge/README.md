@@ -6,11 +6,11 @@ not touch `src/`, so it is merge-neutral across every design branch.
 
 ## Why this exists
 
-The first design pass failed the same way five times because the agents never had
-the real templates — the reference brief (§13) built lanes from *synthesized DNA*
-(screenshots + marketplace listings), not exported project structure. Now the real
-templates live in 5 Framer projects with Server API keys, so an agent can read the
-**actual** canvas/components/CMS and build from it.
+Each design lane reproduces a real Framer template. This bridge extracts the
+**actual** design system of all five templates headless — color/type tokens,
+component inventory, the hierarchical page structure, and a full-page render — so
+an agent builds its lane from exported truth, not from screenshots or guesswork.
+The artifacts land in each worktree at `out/<lane>.{json,full.json,home.png}`.
 
 ## Two connection routes (test both, keep the smoother one)
 
@@ -60,13 +60,13 @@ counts and the live SDK surface.
 
 ## Lane <-> template mapping (owner preference order)
 
-| # | Lane / branch | Template | Character |
+| # | Lane / branch | Template | Character (all dark) |
 |---|---|---|---|
-| 1 | `design/message-ai-2` | Message AI | Lane A — cinematic dark (the prime) |
-| 2 | `design/nouva-2` | Nouva | bold studio/agency portfolio |
-| 3 | `design/kirimo-2` | Kirimo | immersive creative portfolio |
-| 4 | `design/noir-2` | Noir | dark agency-portfolio IA |
-| 5 | `design/synk-2` | Synk | token-driven / systematized |
+| 1 | `design/message-ai-2` | Message AI | cinematic warm-black, volumetric-light glow, hushed centered |
+| 2 | `design/nouva-2` | Nouva | blue-black void, charcoal cards on hairline seams, staggered counters |
+| 3 | `design/kirimo-2` | Kirimo | sand-on-near-black editorial zine, auto-play slider, giant ticker |
+| 4 | `design/noir-2` | Noir | high-contrast near-black agency, over-spaced work grid, colossal wordmark |
+| 5 | `design/synk-2` | Synk | systematized near-black, dashed-border card lattice, ASCII shader |
 
 See `CONNECTIONS.md` for the project ↔ lane ↔ key record and verification status.
 
