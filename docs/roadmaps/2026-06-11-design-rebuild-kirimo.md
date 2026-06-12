@@ -1,130 +1,145 @@
 # jami.studio Design Rebuild — Kirimo Lane (`design/kirimo-2`)
 
-Date: 2026-06-11
-Status: [ ] Active — execute pass not started
+Date: 2026-06-11 · Status: [ ] Active — run 3 (faithful template reproduction)
 Lane: `kirimo` · Branch: `design/kirimo-2` · Worktree: `../jami.studio-kirimo-2`
-Template: **Kirimo** (Framer) · Aesthetic: **Lane A — immersive dark creative**
-Accent: `#854c63` wine-rose (dial `rose`)
-Art direction: `docs/design/reference-brief.md` · Framer extraction: `tools/framer-bridge/out/kirimo.{json,full.json,home.png}`
+Template: **Kirimo** (Framer) · Character: **sand-on-near-black editorial zine, auto-play slideshow, giant ticker**
+Accent: **terra-cotta `#eb5939`** (dial slot `amber`) — template-true, authored as `color.accent`
+Art direction: `docs/design/reference-brief.md` · Extraction: `tools/framer-bridge/out/kirimo.{json,full.json,home.png}`
 Owner: Jamie
 
-> **ONE lane, ONE branch, ONE worktree.** Reuse the shared CONTRACTS verbatim; build a design whose
-> STRUCTURE is **Kirimo's**, not any other lane's. The Home IA below is extracted from this template's real
-> exported `pageTrees` — build to it. Do **NOT** collapse to a generic
-> `Hero→Pillars→Showcase→Proof→FAQ→CTA` skeleton; that uniform skeleton was the exact failure this rebuild
-> replaces. The contracts are shared and frozen; the visible design is this template's and yours.
+> **THE ONE RULE: reproduce the Kirimo template.** Build our site USING Kirimo's real design: its near-black
+> canvas with **warm sand foreground**, its single terra-cotta accent, its **auto-play project slideshow**,
+> its **colossal 136px "JAMI STUDIO" ticker marquee**, its **numbered service accordion**, its hairline rules
+> and vertical dividers, its uppercase numbered eyebrows. The finished `/` must LOOK LIKE `out/kirimo.home.png`.
+> Do **NOT** build a generic skeleton. Reuse the shared CONTRACTS verbatim.
 
 ## Active lane (locked)
 
-- **Template:** Kirimo — creative-portfolio template: immersive, dynamic showcase, intuitive nav,
-  aesthetic-forward. Borrow its *gallery immersion* for the product-family showcase.
-- **Aesthetic lane:** A — immersive dark creative (both dark **and** light themes still ship).
-- **Accent:** `#854c63` wine-rose — authored as `color.accent` (+ `ring`/`accentForeground`), surfaced only
-  via `--accent`/`--primary`. Never a literal.
+- **Template:** Kirimo — a dark editorial creative-agency **zine**. Near-black canvas, **warm taupe/sand
+  type** (not white), a single hot **terra-cotta** accent, numbered list-rows, **hairline rules separating
+  every section**, uppercase tracked labels, oversized headlines. Reads like a printed art-direction spread.
+  Primary theme **dark**; a light theme also ships.
+- **Canvas:** background `#0d0d0d` · foreground warm sand `#b7ab98` · body muted `rgba(184,172,153,0.8)` ·
+  hairline/divider `rgba(184,172,153,0.5)` · panel tints `rgba(184,172,153,0.1)`/`(…,0.2)` · accent terra-cotta
+  `#eb5939` · rare white `#ffffff`.
+- **Accent:** terra-cotta `#eb5939` — used **only** on uppercase eyebrow/subtitle labels + hovers, against
+  sand-on-black. Authored as `color.accent` (+ `ring`/`accentForeground`) → `--accent`/`--primary` only.
+- **No grain/glow/gradients** — flat near-black; contrast comes from imagery, hairline rules, and the accent.
 - **Framer key:** `kirimo`.
 
-## Home IA — build THIS (from `kirimo` `pageTrees`)
+## Home IA — BUILD THIS (Kirimo's real 9-section order)
 
-The real Kirimo home renders **9 sections in this order**:
-`Hero → Project Slider → Our Client → About Us → Our Service → Our Project → Testimonials → CTA → Our News`.
-Build our home to the same structure + rhythm, mapping each template section to our real content. This
-template is the richest *gallery* — lean into the showcase.
+Real `pageTrees` order: `Hero → Project Slider → Our Client → About Us → Our Service(accordion) → Our Project
+(grid) → Testimonials → CTA → Our News`, closed by a giant Text-Ticker footer. Single dark canvas; sections
+are transparent and separated by **1px top hairline rules**; title/body splits use **vertical dividers**.
+Left-aligned editorial grid throughout. Build to this spine:
 
-1. **Hero** → `site.home.{eyebrow,title,lead,primaryCta,secondaryCta}`. Immersive dark, aesthetic-forward,
-   wine-rose glow + fine grain, dynamic.
-2. **Project Slider** → the **five projects as an immersive slider/showcase** (centerpiece #1) — each slide a
-   `ProjectCard` → `/projects/[slug]`. No autoplay; manual/scroll-driven; **freezes under
-   `prefers-reduced-motion`**.
-3. **Our Client** → **NO fake client logos.** Map to `site.home.proof` (the honest credibility line), not a
-   logo wall.
-4. **About Us** → the studio/platform story + the four `site.home.pillars` as the studio's stance.
-5. **Our Service** → the pillars / `capabilities[]` themes as "what the studio does."
-6. **Our Project** → the five projects reprised as an **immersive grid** (a deeper gallery complementing the
-   slider) → links into `/projects`.
-7. **Testimonials** → **NO fake testimonials.** Map to a distilled `proofPoints[]` band.
-8. **CTA** → final CTA band.
-9. **Our News** → **NO blog/news.** Map to the AI-readable index callout (`site.nav` "AI index" +
-   `llms.txt`) or fold into the footer. Never invent articles.
+1. **Hero** — **left-aligned** stacked. A top **numbered eyebrow block** of three rows (`01 / 02 / 03` with
+   honest studio facts, e.g. "01 / open-core agent-native product studio"), then an **uppercase H1** (Plus
+   Jakarta Sans 700, 72px, the `site.home.title`), then `lead`, then **ONE primary button**. Opens with a top
+   hairline rule. Auto (content-height), not 100vh.
+2. **Project Slider** — the **five `projects` as a horizontal auto-play Slideshow** (centerpiece #1): one item
+   visible, ~4s interval, spring transition, arrow controls, full-bleed imagery. Each slide = a `ProjectCard`
+   → `/projects/[slug]`. **Freezes / pauses under `prefers-reduced-motion`.**
+3. **Our Client → honest proof line** — centered lead line (the `site.home.proof` "generated from one shared
+   source" credibility), NOT a fake logo wall. (Optional honest count, no invented "250+ companies.")
+4. **About Us** — **split: left title ("About the studio"), vertical divider, right multi-paragraph body** —
+   the studio/platform framing from home copy + pillars. Top hairline rule.
+5. **Our Service** — **numbered accordion** (01–04) of the four `site.home.pillars` (expand/collapse, one open
+   by default). Kirimo's signature interaction.
+6. **Our Project** — the five `projects` reprised as an **immersive grid** (centerpiece #2, a different
+   treatment from the slider) + a "view all" → `/projects`.
+7. **Testimonials → honest proof band** — distilled real `proofPoints[]` (NO invented quotes), with the
+   section title + vertical divider grammar.
+8. **CTA** — a full-bleed **atmospheric panel** (CSS, edge-to-edge), centered closing line + a button.
+9. **Our News → AI-index callout** — the AI-readable index (`site.nav` "AI index" + `llms.txt`), NOT fake
+   articles.
+- **Footer** — a **colossal Text-Ticker marquee "JAMI STUDIO"** (136px desktop / 87px mobile, uppercase) over
+  the footer nav / `site.social` / `site.email` / legal. The closing signature.
 
-**Signature treatment:** immersive gallery; a real **project slider**; dynamic rhythm; aesthetic-forward
-dark with wine-rose accent; grain over gentle glow. Two distinct showcase treatments (slider + grid) is the
-Kirimo move.
+## Signature elements — MUST reproduce (drop any and the lane fails)
+
+- **Auto-play full-width project Slideshow** under the hero (arrows, ~4s, spring) — the dynamic-gallery promise.
+- **Colossal 136px "JAMI STUDIO" Text-Ticker marquee** in the footer band.
+- **Numbered list rows** — the `01/02/03` hero eyebrow and the `01–04` numbered Service accordion.
+- **Service accordion** with one panel expanded by default.
+- **Hairline 1px rules** opening each section + **vertical dividers** splitting title/body — the editorial grid.
+- **Warm sand-on-near-black palette** with a single **terra-cotta** accent on uppercase eyebrows only.
+- **Uppercase tracked eyebrows/subtitles**; oversized uppercase H1.
+
+## Color / Type / Texture (exact)
+
+- **Color:** bg `#0d0d0d` · fg sand `#b7ab98` · body `rgba(184,172,153,0.8)` · hairline `rgba(184,172,153,0.5)`
+  · tints `rgba(184,172,153,0.1/0.2)` · accent terra-cotta `#eb5939`. Dark-primary; light theme is a real
+  light design (warm paper-toned, not inverted).
+- **Type:** single family **Plus Jakarta Sans** (self-host via `next/font/google`), 400/500/700/800. H1 700
+  **UPPERCASE** 72/58/46px LH 1.3; H2 700 sentence-case 56/45/36; Ticker 700 UPPERCASE 136/109/87px; eyebrows
+  UPPERCASE terra-cotta +0.12em/+0.04em; body 400 16/14 LH 1.5; buttons 500 UPPERCASE +0.04em.
+- **Texture/motion:** no grain/glow. Motion concentrated in the **slider** + **two tickers** (footer wordmark;
+  honest content marquee) + **accordion**; link hover sand→accent underline. All motion freezes/pauses under
+  reduced-motion.
 
 ## `/projects` index
 
-An immersive gallery of all five projects in Kirimo's idiom (slider and/or expressive grid). Shared
-header/footer.
+An immersive gallery of all five projects in Kirimo's idiom (expressive grid and/or slider), hairline rules +
+vertical dividers, uppercase numbered eyebrows. Shared header/footer + the ticker footer.
 
 ## `/projects/[slug]` detail
 
-Kirimo ships the richest detail page — from `/portfolio/project01` `pageTrees`:
-`Project Title → Portfolio Image → Content Section → Listing → Listing → Content Section → Listing → Content Section → Image Section → Next`.
-Map: **Project Title** → `name`/`summary`/`positioning` hero; **Portfolio/Image Section** → `socialImage` +
-atmosphere; **Content Sections** → positioning/audience narrative; **Listings** → `capabilities[]` +
-`proofPoints[]` as structured lists; **Next** → next-project cross-link (the Studio family). Use it fully.
-`generateStaticParams` for all five slugs + per-project `generateMetadata`.
+Kirimo ships the **richest** detail page — `/portfolio/project01` order:
+`Project Title → Portfolio Image → Content Section → Listing → Listing → Content Section → Listing → Content
+Section → Image Section → Next`. Map: **Project Title** → `name`/`summary`/`positioning` hero; **Image
+Sections** → `socialImage` + CSS atmosphere; **Content Sections** → positioning/audience narrative;
+**Listings** → `capabilities[]` + `proofPoints[]` as numbered structured lists; **Next** → next-project
+cross-link (the family). Heavy hairline/divider segmentation. `generateStaticParams` + per-project
+`generateMetadata`.
 
-## Component decomposition (name them this template's way)
+## Component decomposition (Kirimo's vocabulary)
 
-`Hero`, `ProjectSlider` + `ProjectCard`, `ProofLine` (Our Client slot), `StudioAbout`, `ServicePillars`,
-`ProjectGrid` (Our Project), `ProofPointBand` (Testimonials slot), `CTABand`, `AIIndexCallout` (Our News
-slot), and for detail `DetailHero`/`ContentSection`/`Listing`/`NextProject`. Plus `SiteHeader`/`SiteFooter`,
-`GrainOverlay`/`Atmosphere`, `ThemeToggle`, layout `Container`/`Section`. Variants are props, never forks.
+`Hero` (numbered eyebrow rows), `ProjectSlideshow`/`ProjectCard`, `ProofLine` (Our Client slot), `StudioAbout`
+(split + divider), `ServiceAccordion` (numbered 01–04), `ProjectGrid` (Our Project), `ProofPointBand`
+(Testimonials slot), `CtaPanel`, `AIIndexCallout` (Our News slot), `TextTicker` (footer wordmark + honest
+marquee), `Divider`/`HairlineRule`, detail `DetailHero`/`ContentSection`/`Listing`/`NextProject`,
+`SiteHeader`/`SiteFooter`, `ThemeToggle`, `Container`/`Section`. Variants are props, never forks.
 
-## Shared contracts (frozen — reuse verbatim; identical on every lane; never edit)
+## Shared contracts (frozen — reuse verbatim; never edit)
 
-- **Frozen, do not edit:** `src/content/*` (all copy — `site.ts`, `projects.ts` [5 projects: `harness`,
-  `registry`, `orchestra`, `intercal`, `collectiva`], `links.ts`), `src/lib/*`
-  (routes/metadata/sitemap/ai-public-files), `src/tokens/schema.ts`, `src/tokens/css-vars.ts` (the fixed
-  46-var contract), `src/registry/manifest.ts`. Tests are frozen too — incl. `tests/config-panel.test.tsx`
-  (every dial label + description and the "Tokens"/"Registry" tab views must still render) and the
-  `public/social/*.svg` existence checks. A lane never edits a test to pass.
-- **Build entirely fresh:** `src/tokens/theme.ts` (this lane's **dark + light** `TokenPreset` VALUES,
-  validated by `validateTokenPreset`, **6-digit hex only** — convert any `rgb()` from the extraction), all
-  `src/components/*`, all `src/app/**` presentation, `src/styles/globals.css`.
-- **Frozen routes:** `/`, `/projects`, `/projects/[slug]` only — never add or rename a route (Kirimo's own
-  `/about`, `/portfolio`, `/insights`, `/contact` pages do not become new routes; their content lives in our
-  home/detail/footer). Hrefs come only from the content/route layer (`resolveProjectLink`, `site.*`,
-  `src/lib/routes.ts`); never hand-built.
-- **Accent is a token, not a literal:** author `color.accent` (+ `ring`/`accentForeground`) → surfaced only
-  via `--accent`/`--primary`. Both dark + light themes ship, switched over `tokenCssVariables()` via
-  `[data-theme]`.
-- **Surface shared identity:** `site.social` + `site.email` in the footer/contact area; keep
-  `createMetadata` + JSON-LD + `sitemap`/`robots`/`llms.txt` wired.
+- **Frozen:** `src/content/*`, `src/lib/*`, `src/tokens/schema.ts`, `src/tokens/css-vars.ts` (46-var
+  contract), `src/registry/manifest.ts`. Tests frozen — incl. `tests/config-panel.test.tsx` and
+  `public/social/*.svg` checks. Never edit a test to pass.
+- **Build fresh:** `src/tokens/theme.ts` (dark+light VALUES, validated, 6-digit hex only — convert `rgb()`),
+  all `src/components/*`, all `src/app/**`, `src/styles/globals.css`.
+- **Frozen routes:** `/`, `/projects`, `/projects/[slug]` (Kirimo's `/about`/`/portfolio`/`/insights`/`/contact`
+  fold into our home/detail/footer). Hrefs only via `resolveProjectLink`/`site.*`/`routes.ts`.
+- **Surface** `site.social` + `site.email` in footer; keep `createMetadata` + JSON-LD + sitemap/robots/llms wired.
 
-## Workstreams (sequential; each consumes the one before)
+## Workstreams (sequential)
 
-1. **WS1 — tokens/theme.** `src/tokens/theme.ts`: dark + light presets on `#854c63` wine-rose; faces +
-   `--grain-opacity` per `reference-brief.md` §6/§7 (dark 0.03–0.07). `pnpm typecheck` green; both presets
-   validate; var names match `tokenCssVariables()` exactly.
-2. **WS2 — globals + shell + theme switch + atmosphere.** `globals.css`, `layout.tsx`, `GrainOverlay`,
-   `ThemeToggle`; emit `:root` + `[data-theme="dark"]` from `tokenCssVariables()`; no-flash init; static
-   `feTurbulence` data-URI grain (never animated); keep metadata + JSON-LD + AI wiring. Reduced-motion is a
-   hard gate (the slider especially).
-3. **WS3 — primitives + header + footer + base UI.** `SiteHeader` (`site.nav` + GitHub + `ThemeToggle` +
-   mobile menu), `SiteFooter` (`site.footerLinks` + `site.social` + `site.email` + AI index), `Button` /
-   `Badge` / `Eyebrow` / `Container` / `Section` / `SectionHeading`. One radius scale, one motion.
-4. **WS4 — Home (`/`).** Build the **Home IA** above — this template's section set + order.
-5. **WS5 — `/projects` + `/projects/[slug]`.** Build the index + the rich detail above.
-6. **WS6 — responsive + themes + motion + a11y hardening.** 1440/1024/768/390 × both themes; AA contrast;
-   visible `--ring` focus; ≥44px tap targets; no horizontal scroll at 390; slider + all motion freeze under
-   `prefers-reduced-motion`.
-7. **WS7 — AI surfaces + verify + closeout.** Confirm metadata/sitemap/robots/llms generate correctly and
-   headings parse; `pnpm verify` green; stop helper processes; stage only intentional changes;
-   conventional-style commit + HEREDOC body; `git push origin design/kirimo-2`.
+1. **WS1 — tokens/theme.** Dark+light presets on terra-cotta `#eb5939`; Plus Jakarta Sans. Typecheck; validate.
+2. **WS2 — globals + shell + theme switch.** Var blocks; no-flash init; hairline-rule + vertical-divider
+   utilities (no grain). Metadata/AI wiring kept.
+3. **WS3 — primitives + header + footer + base UI.** Header (`site.nav` + GitHub + toggle + mobile menu),
+   Footer with the **TextTicker wordmark** + `footerLinks` + `social` + `email` + AI index; `Button` (uppercase),
+   uppercase `Eyebrow`, `Divider`.
+4. **WS4 — Home (`/`).** Build the 9-section Home IA + ticker footer. **SCREENSHOT CHECKPOINT:** capture `/`
+   @1440 and compare to `out/kirimo.home.png`; fix until faithful before polishing.
+5. **WS5 — `/projects` + `/projects/[slug]`.** Build index + the rich detail above.
+6. **WS6 — responsive + themes + motion + a11y.** 4 bp × 2 themes; AA on sand text; `--ring` focus; ≥44px; no
+   h-scroll@390; slider/tickers freeze under reduced-motion.
+7. **WS7 — AI surfaces + verify + screenshots + closeout.** Surfaces correct; `pnpm verify` green; capture
+   `screenshots/kirimo-{home-1440,home-390,projects-1440}.png`; stop processes; conventional commit + HEREDOC;
+   **do not push**.
 
-## Acceptance criteria (Definition of Done — all true, not 90%)
+## Acceptance criteria (all true, not 90%)
 
-- Every page fully designed: `/`, `/projects`, `/projects/[slug]` × all five products. No stubs, no
-  half-styled sections.
-- The home + detail compositions match **Kirimo's** information architecture above — not another lane's, not
-  a generic `Hero→Pillars→Showcase→Proof→FAQ→CTA` skeleton.
-- Every required content job has a home; every CTA resolves through the content/route layer.
-- Both themes fully designed; all four breakpoints clean; token-driven only (no hardcoded hex/px where a
-  token role exists); frozen contracts untouched.
-- Grain/atmosphere + restrained motion per the brief; `prefers-reduced-motion` honored. WCAG AA text
-  contrast; visible focus rings; semantic landmarks.
-- **No fabricated content** (no fake testimonials/reviews/logos/metrics/pricing/posts); no
-  placeholder/"coming soon"/status copy. AI surfaces intact; canonical routes unchanged; static-first.
-- `pnpm verify` green; `reference-brief.md` §14 anti-slop passes with zero true items.
-- Committed and pushed to `design/kirimo-2` (**never main**); reads world-class, not "fine".
+- `/` reproduces **Kirimo's** 9-section structure and **looks like `out/kirimo.home.png`**: sand-on-black,
+  terra-cotta eyebrows, auto-play slideshow, numbered service accordion, hairline rules + vertical dividers,
+  and the colossal "JAMI STUDIO" footer ticker — all present. Not a generic skeleton, not another lane's.
+- Every page fully designed (`/`, `/projects`, `/projects/[slug]` ×5, the rich detail); every content job
+  housed; every CTA via the content/route layer.
+- Both themes designed; all four breakpoints clean; token-driven only (template-true palette); contracts untouched.
+- Restrained motion; reduced-motion honored (slider/tickers pause); AA contrast on sand text; visible focus;
+  semantic landmarks.
+- **No fabricated content** (no fake logos/quotes/clients/articles); honest proof line; no placeholder/status
+  copy. AI surfaces intact; routes unchanged; static-first.
+- `pnpm verify` green; §14 anti-slop zero true items. Committed to `design/kirimo-2` (never main); world-class.
