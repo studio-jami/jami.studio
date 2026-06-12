@@ -66,7 +66,7 @@ For docs-only work before the app exists, read back changed Markdown and run `gi
 - Durable product and architecture docs live under `docs/architecture/`.
 - Operations docs live under `docs/operations/`.
 - Decision records live under `docs/decisions/`.
-- Retire completed dated plans to `docs/_legacy/roadmaps/`.
+- Delete completed or superseded dated plans once their durable rules are promoted; git history is the archive. The repo keeps no `_legacy/` shelf and no dead copy.
 - Add changelog fragments once the codebase has a changelog fragment convention and a production-meaningful change lands.
 
 ## Closeout
