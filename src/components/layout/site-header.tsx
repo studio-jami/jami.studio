@@ -1,20 +1,58 @@
 import Link from "next/link";
+import type { Route } from "next";
 import { site } from "@/content/site";
+import { ThemeToggle } from "@/components/system/theme-toggle";
+import { MobileMenu } from "@/components/layout/mobile-menu";
+
+function isExternal(href: string) {
+  return /^https?:/.test(href);
+}
+
+export function Brand() {
+  return (
+    <Link href="/" className="brand" aria-label={`${site.name} home`}>
+      <span className="brand-mark" aria-hidden="true">
+        <span className="brand-mark-core" />
+      </span>
+      <span className="brand-word">{site.name}</span>
+    </Link>
+  );
+}
+
+/** Renders a nav entry as a Link for internal routes, an anchor for external. */
+export function NavLink({ href, label }: { href: string; label: string }) {
+  if (isExternal(href)) {
+    return (
+      <a href={href} className="nav-link" target="_blank" rel="noreferrer noopener">
+        {label}
+        <span className="nav-link-ext" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+    );
+  }
+  return (
+    <Link href={href as Route} className="nav-link">
+      {label}
+    </Link>
+  );
+}
 
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <Link href="/" className="brand" aria-label="jami.studio home">
-        <span className="brand-mark" aria-hidden="true" />
-        <span>{site.name}</span>
-      </Link>
-      <nav aria-label="Primary navigation">
-        {site.nav.map((item) => (
-          <Link key={item.href} href={item.href}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <div className="site-header-inner">
+        <Brand />
+        <nav className="site-nav" aria-label="Primary">
+          {site.nav.map((item) => (
+            <NavLink key={item.href} href={item.href} label={item.label} />
+          ))}
+        </nav>
+        <div className="site-header-actions">
+          <ThemeToggle />
+          <MobileMenu />
+        </div>
+      </div>
     </header>
   );
 }

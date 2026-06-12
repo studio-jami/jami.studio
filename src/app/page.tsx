@@ -1,90 +1,126 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
+import { Hero } from "@/components/marketing/hero";
+import { FeatureBeat } from "@/components/marketing/feature-beat";
+import {
+  InterfaceVocabVisual,
+  RuntimeFlowVisual
+} from "@/components/marketing/feature-visuals";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { ProofConviction } from "@/components/marketing/proof-conviction";
+import { ProofPointBand } from "@/components/marketing/proof-point-band";
+import { OpenCoreCallout } from "@/components/marketing/open-core-callout";
+import { Faq } from "@/components/marketing/faq";
+import { FinalCta } from "@/components/marketing/final-cta";
+import { Container, Section } from "@/components/ui/layout";
+import { GhostBadge } from "@/components/ui/primitives";
+import { Reveal } from "@/components/system/reveal";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
+/**
+ * Home — built to the real Message AI `pageTrees` order:
+ *   Hero → Features ×3 (progressive value cadence) → WhyItWorks → Testimonials
+ *   → Pricing → FAQ → FinalCTA
+ * Each template section is mapped to our content; the three sequential Features
+ * beats are kept as the signature cadence rather than flattened into one grid.
+ */
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
+  const [governed, trusted, durable, knowledge] = site.home.pillars;
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* 1 — Hero */}
+      <Hero />
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
+      {/* 2 — Features · beat 1 (Governed runtime + Trusted interfaces) */}
+      <Section rhythm="tight" ariaLabelledby="beat-1">
+        <Reveal>
+          <FeatureBeat
+            index="01"
+            kicker="The runtime"
+            labelledById="beat-1"
+            heading="A governed loop and a trusted vocabulary, sharing one contract"
+            body={governed.body}
+            points={[
+              { title: governed.title, body: governed.body },
+              { title: trusted.title, body: trusted.body }
+            ]}
+            visual={<RuntimeFlowVisual />}
+          />
+        </Reveal>
+      </Section>
 
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+      {/* 3 — Features · beat 2 (Durable coordination + Agent-readable knowledge) */}
+      <Section rhythm="tight" tone="raised" ariaLabelledby="beat-2">
+        <Reveal>
+          <FeatureBeat
+            index="02"
+            kicker="The fabric"
+            labelledById="beat-2"
+            flip
+            heading="Coordination and knowledge that stay durable and legible"
+            body={durable.body}
+            points={[
+              { title: durable.title, body: durable.body },
+              { title: knowledge.title, body: knowledge.body }
+            ]}
+            visual={<InterfaceVocabVisual />}
+          />
+        </Reveal>
+      </Section>
 
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
+      {/* 4 — Features · beat 3 → the five-project showcase (centerpiece) */}
+      <Section ariaLabelledby="showcase">
+        <Container as="div">
+          <Reveal className="showcase-head">
+            <GhostBadge>The product family</GhostBadge>
+            <h2 id="showcase" className="display-2">
+              Five products, shown like a studio shows its work
+            </h2>
+            <p className="lead">
+              Separate implementation surfaces over shared foundations. Each card opens a full
+              case study.
+            </p>
+          </Reveal>
+          <Reveal>
+            <ShowcaseGrid projects={projects} />
+          </Reveal>
+        </Container>
+      </Section>
 
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      {/* 5 — WhyItWorks → ProofConviction */}
+      <Section tone="raised" ariaLabelledby="conviction">
+        <Reveal>
+          <ProofConviction id="conviction" />
+        </Reveal>
+      </Section>
+
+      {/* 6 — Testimonials slot → ProofPointBand (earned, never fabricated) */}
+      <Section ariaLabelledby="proof">
+        <Reveal>
+          <ProofPointBand projects={projects} id="proof" />
+        </Reveal>
+      </Section>
+
+      {/* 7 — Pricing slot → OpenCoreCallout (open-core, no tiers) */}
+      <Section tone="raised" ariaLabelledby="opencore">
+        <Reveal>
+          <OpenCoreCallout id="opencore" />
+        </Reveal>
+      </Section>
+
+      {/* 8 — FAQ */}
+      <Section ariaLabelledby="faq">
+        <Reveal>
+          <Faq id="faq" />
+        </Reveal>
+      </Section>
+
+      {/* 9 — FinalCTA */}
+      <Section rhythm="tight" ariaLabelledby="final-cta">
+        <Reveal>
+          <FinalCta id="final-cta" />
+        </Reveal>
+      </Section>
     </>
   );
 }
