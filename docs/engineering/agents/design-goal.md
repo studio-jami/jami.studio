@@ -1,11 +1,11 @@
 # Design Goal — jami.studio Marketing Rebuild (Orchestrator Brief)
 
 Date: 2026-06-11
-Status: [x] **CLOSED — DECIDED (2026-06-12): Kirimo.** Run 4 delivered five distinct, template-faithful,
-image-rich lanes; the owner chose **Kirimo** for the OSS hub (Synk runner-up, earmarked for per-product
-pages). Decision record + resume plan: `docs/decisions/2026-06-12-design-direction-kirimo.md`. This brief is
-retained as the bakeoff history. The winning build is on `design/kirimo-2` (not yet merged to `main`).
-Active roadmap (chosen lane only): `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`
+Status: [x] **CLOSED — DECIDED AND IMPORTED (2026-06-12): Kirimo.** Run 4 delivered five distinct,
+template-faithful, image-rich lanes; the owner chose **Kirimo** for the OSS hub. Kirimo is now imported to
+`main` at `25e5b73`. This brief is retained only as bakeoff history. The active prompt is
+`docs/engineering/agents/goal.md`.
+Active roadmap: `docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md`
 Design guidelines: `docs/design/reference-brief.md`
 Orchestration reliability: `docs/engineering/agents/orchestration-reliability.md`
 State checkpoint: `docs/engineering/agents/orchestration-state.md`
