@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "ghost" | "link";
+type Variant = "primary" | "secondary" | "solid" | "accent" | "ghost" | "link";
 
 type ButtonProps = {
   href: string;

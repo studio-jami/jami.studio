@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { projects } from "@/content/projects";
 import { createMetadata } from "@/lib/metadata";
-import { Container, Section } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { ProjectCard } from "@/components/marketing/project-card";
+import { Container } from "@/components/layout/container";
+import { BandLabel } from "@/components/system/band-label";
+import { WorkGrid } from "@/components/marketing/work-grid";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { site } from "@/content/site";
 import { studioLinks } from "@/content/links";
@@ -15,42 +15,24 @@ export const metadata: Metadata = createMetadata({
 });
 
 /**
- * /projects — the full portfolio view in Noir's idiom: a numbered work grid (01–05)
- * of every product, sharing the global header/footer, closing on the standard CTA band.
+ * /projects — the full portfolio in Noir's idiom: the colossal dotted WORKS band as the
+ * page h1, the same asymmetric over-spaced photo grid, vertical guide-lines, closing on
+ * the burst CTA. Shared header/footer + colossal wordmark.
  */
 export default function ProjectsPage() {
   return (
     <>
       <header className="index-hero">
         <Container>
-          <Eyebrow className="index-hero-eyebrow">
-            <span className="section-number" aria-hidden="true">
-              00
-            </span>
-            <span>Studio OSS family</span>
-          </Eyebrow>
-          <h1 className="index-hero-title">The work</h1>
           <p className="index-hero-lead">
             Separate products over shared foundations: governed agents, trusted UI,
             coordination, temporal knowledge, and open agent society.
           </p>
         </Container>
+        <BandLabel word="Works" count={projects.length} id="index-heading" as="h1" />
       </header>
 
-      <Section className="work-section index-grid-section" ariaLabelledby="index-grid">
-        <Container>
-          <h2 id="index-grid" className="visually-hidden">
-            All projects
-          </h2>
-          <ol className="work-grid">
-            {projects.map((project, i) => (
-              <li key={project.slug} className="work-grid-item">
-                <ProjectCard project={project} index={String(i + 1).padStart(2, "0")} />
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </Section>
+      <WorkGrid />
 
       <CtaBand
         eyebrow="Go deeper"

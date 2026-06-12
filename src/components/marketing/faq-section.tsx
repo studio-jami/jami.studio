@@ -1,25 +1,36 @@
+import Image from "next/image";
 import { site } from "@/content/site";
-import { Container, Section } from "@/components/layout/container";
-import { SectionHeading } from "@/components/system/section-heading";
+import { Container } from "@/components/layout/container";
 
 /**
- * FAQ Section (Bmt3PaPvb in Noir's tree) → editorial Q&A from `site.faqs`. Native
- * `<details>` accordion so it works without JS and stays reduced-motion friendly.
+ * FAQ — Noir's split layout: left, the display heading (bright first line, muted second)
+ * with the orange-velvet portrait visual beneath; right, the numbered accordion. Native
+ * `<details>` so it works without JS; the first item ships open like the template; answer
+ * text speaks in the mono micro-label voice.
  */
 export function FaqSection() {
   return (
-    <Section className="faq-section" ariaLabelledby="faq-heading">
-      <Container>
-        <SectionHeading
-          index="07"
-          eyebrow="Source boundaries"
-          id="faq-heading"
-          title="What this hub is, and isn't."
-        />
+    <section className="faq-section section" aria-labelledby="faq-heading">
+      <Container className="faq-grid">
+        <div className="faq-left">
+          <h2 id="faq-heading" className="faq-heading">
+            Things you might wonder.
+            <span className="faq-heading-soft"> Answers from the source.</span>
+          </h2>
+          <figure className="faq-portrait">
+            <Image
+              src="/assets/faq.png"
+              alt="Editorial portrait study in orange velvet tones"
+              width={864}
+              height={1152}
+              sizes="(max-width: 768px) 80vw, 26vw"
+            />
+          </figure>
+        </div>
 
         <div className="faq-list">
           {site.faqs.map((faq, i) => (
-            <details key={faq.question} className="faq-row" name="faq">
+            <details key={faq.question} className="faq-row" name="faq" open={i === 0}>
               <summary className="faq-summary">
                 <span className="faq-index" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
@@ -44,6 +55,6 @@ export function FaqSection() {
           ))}
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

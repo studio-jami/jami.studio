@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Instrument_Sans, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { GrainOverlay } from "@/components/system/grain-overlay";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
 import { tokenCssVariables } from "@/tokens/css-vars";
@@ -74,7 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <GrainOverlay />
         <a className="skip-link" href="#main">
           Skip to content
         </a>

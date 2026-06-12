@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { site } from "@/content/site";
-import { studioLinks } from "@/content/links";
-import { Container } from "@/components/layout/container";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { ThemeToggle } from "@/components/system/theme-toggle";
 
@@ -10,27 +8,32 @@ function isInternal(href: string): boolean {
   return href.startsWith("/") && !href.startsWith("//");
 }
 
-/** NavBar → SiteHeader. Wordmark + framed mark, primary nav, GitHub, theme toggle, mobile sheet. */
+/**
+ * NavBar → SiteHeader, Noir's centered floating pill stack: one wide brand pill with the
+ * wordmark centered, and a row of outlined nav pills beneath it. At tablet/phone widths the
+ * stack collapses to brand pill + menu pill (sheet). All hrefs come from `site.nav`.
+ */
 export function SiteHeader() {
+  const navItems = [{ label: "Home", href: "/" }, ...site.nav];
+
   return (
     <header className="site-header">
-      <Container className="site-header-inner">
-        <Link href="/" className="brand" aria-label={`${site.name} home`}>
-          <span className="brand-mark" aria-hidden="true" />
-          <span className="brand-word">{site.name}</span>
+      <div className="site-header-stack">
+        <Link href="/" className="header-pill brand-pill" aria-label={`${site.name} home`}>
+          {site.name}
         </Link>
 
-        <nav className="site-nav" aria-label="Primary">
-          {site.nav.map((item) =>
+        <nav className="site-nav-row" aria-label="Primary">
+          {navItems.map((item) =>
             isInternal(item.href) ? (
-              <Link key={item.href} href={item.href as Route} className="site-nav-link">
+              <Link key={item.href} href={item.href as Route} className="header-pill nav-pill">
                 {item.label}
               </Link>
             ) : (
               <a
                 key={item.href}
                 href={item.href}
-                className="site-nav-link"
+                className="header-pill nav-pill"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -38,21 +41,10 @@ export function SiteHeader() {
               </a>
             )
           )}
-        </nav>
-
-        <div className="site-header-actions">
           <ThemeToggle />
-          <a
-            className="header-cta"
-            href={studioLinks.githubOrg}
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-          <MobileMenu items={site.nav} />
-        </div>
-      </Container>
+          <MobileMenu items={navItems} />
+        </nav>
+      </div>
     </header>
   );
 }

@@ -23,70 +23,81 @@ function FooterLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-/** Footer → organized, numbered columns, social + email, oversized closing wordmark. */
+/**
+ * Footer — Noir's closing sequence: a nav row (links left, contact email right), a
+ * subscribe row (email input + copper Subscribe that opens a prefilled mail to the studio
+ * inbox — no fake backend) beside the social pills, then the COLOSSAL full-bleed "JAMI"
+ * wordmark with a static-noise texture fill (CSS only), and the legal row.
+ */
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const subscribeHref = `${studioLinks.emailHref}?subject=${encodeURIComponent(
+    "Subscribe to jami.studio updates"
+  )}`;
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
+    ...site.footerLinks.filter((item) => item.href.startsWith("/projects/")),
+    { label: "AI index", href: "/llms.txt" }
+  ];
 
   return (
     <footer className="site-footer">
       <Container>
-        <div className="footer-grid">
-          <div className="footer-intro">
-            <p className="eyebrow">
-              <span className="section-number" aria-hidden="true">
-                /
-              </span>
-              <span>{site.legalName}</span>
-            </p>
-            <p className="footer-lede">{site.description}</p>
-            <a className="footer-email" href={studioLinks.emailHref}>
-              {site.email}
-            </a>
-          </div>
-
-          <nav className="footer-col" aria-label="Projects">
-            <p className="footer-col-title">Projects</p>
-            {site.footerLinks
-              .filter((item) => item.href.startsWith("/projects/"))
-              .map((item) => (
-                <FooterLink key={item.href} href={item.href} label={item.label} />
-              ))}
-          </nav>
-
-          <nav className="footer-col" aria-label="Index">
-            <p className="footer-col-title">Index</p>
-            <FooterLink href="/projects" label="All projects" />
-            {site.nav
-              .filter((item) => item.href !== "/projects")
-              .map((item) => (
-                <FooterLink key={item.href} href={item.href} label={item.label} />
-              ))}
-            {site.footerLinks
-              .filter((item) => !item.href.startsWith("/projects/"))
-              .map((item) => (
-                <FooterLink key={item.href} href={item.href} label={item.label} />
-              ))}
-          </nav>
-
-          <nav className="footer-col" aria-label="Social">
-            <p className="footer-col-title">Social</p>
-            {site.social.map((item) => (
+        <div className="footer-nav-row">
+          <nav className="footer-nav" aria-label="Footer">
+            {navLinks.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
           </nav>
+          <a className="footer-email" href={studioLinks.emailHref}>
+            {site.email}
+          </a>
         </div>
 
-        <div className="footer-wordmark" aria-hidden="true">
-          {site.name}
-        </div>
+        <div className="footer-sub-row">
+          <form className="newsletter" action={subscribeHref}>
+            <label className="visually-hidden" htmlFor="footer-subscribe">
+              Email address
+            </label>
+            <input
+              id="footer-subscribe"
+              className="newsletter-input"
+              type="email"
+              name="email"
+              placeholder="Enter email address"
+              autoComplete="email"
+            />
+            <button className="btn btn--accent" type="submit">
+              Subscribe
+            </button>
+          </form>
 
+          <nav className="footer-social" aria-label="Social">
+            {site.social.map((item) => (
+              <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </Container>
+
+      <p className="footer-wordmark" aria-hidden="true">
+        JAMI
+      </p>
+
+      <Container>
         <div className="footer-base">
           <p>
-            © {year} {site.legalName}. Open-core, agent-native.
+            © {year} {site.legalName}. All public surfaces generated from one source.
           </p>
-          <p className="footer-base-note">
-            Canonical public surface for developers, agents, and the Studio project family.
-          </p>
+          <div className="footer-base-links">
+            <FooterLink href="/robots.txt" label="Robots" />
+            <FooterLink href="/sitemap.xml" label="Sitemap" />
+            <FooterLink href="/llms-full.txt" label="AI source" />
+          </div>
         </div>
       </Container>
     </footer>
