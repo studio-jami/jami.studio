@@ -9,12 +9,12 @@
 // followed by FRAMER_API_KEY / FRAMER_PROJECT_URL. We parse that block here so
 // there is ONE secrets file — no duplicate env in this tool dir.
 //
-// Owner preference order (all lanes run Opus 4.8):
-//   1 message-ai <- Message AI  (Lane A: cinematic dark, the prime)
-//   2 nouva      <- Nouva        (bold studio/agency portfolio)
-//   3 kirimo     <- Kirimo       (immersive creative portfolio)
-//   4 noir       <- Noir         (dark agency-portfolio IA)
-//   5 synk       <- Synk         (token-driven / systematized)
+// Owner preference order (all five templates are dark):
+//   1 message-ai <- Message AI  (cinematic warm-black, volumetric-light glow, hushed centered)
+//   2 nouva      <- Nouva        (blue-black void, charcoal cards on hairline seams, staggered counters)
+//   3 kirimo     <- Kirimo       (sand-on-near-black editorial zine, auto-play slider, giant ticker)
+//   4 noir       <- Noir         (high-contrast near-black agency, over-spaced work grid, colossal wordmark)
+//   5 synk       <- Synk         (systematized near-black, dashed-border card lattice, ASCII shader)
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -33,11 +33,11 @@ const LANE_BY_TEMPLATE = {
 };
 
 const META = {
-  "message-ai": { template: "Message AI", note: "Lane A: cinematic dark (the prime)" },
-  "nouva":      { template: "Nouva",      note: "bold studio/agency portfolio" },
-  "kirimo":     { template: "Kirimo",     note: "immersive creative portfolio" },
-  "noir":       { template: "Noir",       note: "dark agency-portfolio IA" },
-  "synk":       { template: "Synk",       note: "token-driven / systematized" },
+  "message-ai": { template: "Message AI", note: "cinematic warm-black, volumetric-light glow, hushed centered" },
+  "nouva":      { template: "Nouva",      note: "blue-black void, charcoal cards on hairline seams, staggered counters" },
+  "kirimo":     { template: "Kirimo",     note: "sand-on-near-black editorial zine, auto-play slider, giant ticker" },
+  "noir":       { template: "Noir",       note: "high-contrast near-black agency, over-spaced work grid, colossal wordmark" },
+  "synk":       { template: "Synk",       note: "systematized near-black, dashed-border card lattice, ASCII shader" },
 };
 
 // Parse the root .env. KEY=VALUE lines bind to whatever template header most
