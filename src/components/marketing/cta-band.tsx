@@ -1,44 +1,35 @@
 import { Container } from "@/components/layout/container";
+import { CtaRings } from "@/components/system/cta-rings";
 import { ButtonLink } from "@/components/ui/button";
-import { Eyebrow } from "@/components/ui/eyebrow";
 
 type CtaLink = { label: string; href: string; external?: boolean };
 
 /**
- * Reusable final CTA band (the template ends at FAQ; we add this in the same
- * systematized rhythm, preceded by a Divider). All hrefs come from callers via
- * the content/route layer.
+ * Synk's closing CTA: centered title, capped lead, ONE white pill button —
+ * over a radial dotted vortex (authored SVG rings), with dotted edge gutters
+ * and hairline bounds. All hrefs come from callers via the content/route layer.
  */
 export function CtaBand({
-  eyebrow,
   title,
   lead,
-  primary,
-  secondary
+  primary
 }: {
-  eyebrow: string;
   title: string;
   lead?: string;
   primary: CtaLink;
-  secondary?: CtaLink;
 }) {
   return (
-    <Container>
-      <section className="lattice cta-band" aria-label="Next step">
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h2>{title}</h2>
-        {lead ? <p className="lead">{lead}</p> : null}
-        <div className="btn-row">
+    <section className="cta-band" aria-label="Next step">
+      <CtaRings />
+      <Container>
+        <div className="cta-inner" data-reveal>
+          <h2>{title}</h2>
+          {lead ? <p className="lead">{lead}</p> : null}
           <ButtonLink href={primary.href} external={primary.external} variant="primary">
             {primary.label}
           </ButtonLink>
-          {secondary ? (
-            <ButtonLink href={secondary.href} external={secondary.external} variant="secondary">
-              {secondary.label}
-            </ButtonLink>
-          ) : null}
         </div>
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 }

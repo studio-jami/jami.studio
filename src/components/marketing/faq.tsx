@@ -8,13 +8,11 @@ import { site } from "@/content/site";
 export function Faq() {
   return (
     <div className="faq-list">
-      {site.faqs.map((faq, index) => (
-        <details className="faq-item" key={faq.question} {...(index === 0 ? { open: true } : {})}>
+      {site.faqs.map((faq) => (
+        <details className="faq-item" key={faq.question}>
           <summary>
             <span>{faq.question}</span>
-            <span className="faq-sign" aria-hidden="true">
-              +
-            </span>
+            <span className="faq-sign" aria-hidden="true" />
           </summary>
           <p className="faq-answer">{faq.answer}</p>
         </details>

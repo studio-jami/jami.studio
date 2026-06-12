@@ -1,11 +1,22 @@
+import { Container } from "./container";
+
 /**
- * The Synk signature. An explicit, token-driven seam between every section —
- * a 64px hairline-and-dashed strip carrying the lattice texture and a center
- * swap-node. Reused verbatim everywhere a section boundary occurs; that visible
- * repetition is the "global variable / swap-anything" discipline made visible.
+ * The Synk seam: a diagonal-hatch divider BAND between major sections —
+ * hairline-bounded, filled with 45° hatch lines. One component, reused
+ * verbatim at every section boundary (the visible structural rhythm).
  *
- * Decorative: it carries no content and is hidden from assistive tech.
+ * `thin` renders the narrow strip Synk uses between paired feature rows.
+ * Decorative only: hidden from assistive tech.
  */
-export function Divider() {
-  return <div className="divider" role="presentation" aria-hidden="true" />;
+export function Divider({ thin }: { thin?: boolean }) {
+  return (
+    <Container>
+      <div
+        className="hatch"
+        {...(thin ? { "data-thin": "" } : {})}
+        role="presentation"
+        aria-hidden="true"
+      />
+    </Container>
+  );
 }

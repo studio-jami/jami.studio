@@ -1,40 +1,29 @@
-import { Container } from "@/components/layout/container";
+import { DotVortex } from "@/components/system/dot-vortex";
 import { ButtonLink } from "@/components/ui/button";
-import { Eyebrow } from "@/components/ui/eyebrow";
 import { site } from "@/content/site";
 
 /**
- * Home hero — Synk's centered statement: eyebrow tag, oversized display title,
- * a single decisive primary CTA + quiet secondary, and a mono meta row that
- * names the family members. Sits inside the boxed lattice.
+ * Synk hero: a centered stack — small uppercase pill tag, big white H1,
+ * capped lead, ONE white pill CTA — over the swirling dotted-particle
+ * vortex (animated canvas; static under reduced motion).
  */
 export function Hero() {
   const { home } = site;
 
   return (
-    <Container>
-      <section className="lattice hero" aria-labelledby="hero-title">
-        <div className="hero-inner">
-          <Eyebrow>{home.eyebrow}</Eyebrow>
-          <h1 id="hero-title">{home.title}</h1>
-          <p className="hero-lead">{home.lead}</p>
-          <div className="btn-row">
-            <ButtonLink href={home.primaryCta.href} variant="primary">
-              {home.primaryCta.label}
-            </ButtonLink>
-            <ButtonLink href={home.secondaryCta.href} variant="secondary">
-              {home.secondaryCta.label}
-            </ButtonLink>
-          </div>
-          <div className="hero-meta" aria-hidden="true">
-            <span>Harness</span>
-            <span>UI Registry</span>
-            <span>Orchestra</span>
-            <span>Intercal</span>
-            <span>Collectiva</span>
-          </div>
-        </div>
-      </section>
-    </Container>
+    <section className="hero" aria-labelledby="hero-title">
+      <DotVortex />
+      <div className="hero-inner container">
+        <span className="pill-tag">
+          <span className="pill-dot" aria-hidden="true" />
+          {home.eyebrow}
+        </span>
+        <h1 id="hero-title">{home.title}</h1>
+        <p className="hero-lead">{home.lead}</p>
+        <ButtonLink href={home.primaryCta.href} variant="primary">
+          {home.primaryCta.label}
+        </ButtonLink>
+      </div>
+    </section>
   );
 }

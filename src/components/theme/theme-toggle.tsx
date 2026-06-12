@@ -6,9 +6,9 @@ import type { ThemeName } from "@/tokens/theme";
 const STORAGE_KEY = "jami-theme";
 
 function readTheme(): ThemeName {
-  if (typeof document === "undefined") return "light";
+  if (typeof document === "undefined") return "dark";
   const attr = document.documentElement.getAttribute("data-theme");
-  return attr === "dark" ? "dark" : "light";
+  return attr === "light" ? "light" : "dark";
 }
 
 function subscribe(onChange: () => void) {
@@ -23,8 +23,8 @@ function subscribe(onChange: () => void) {
 
 export function ThemeToggle() {
   // Track the live data-theme attribute (set pre-paint by ThemeScript, and by
-  // this toggle). Server snapshot is "light" so first paint is stable.
-  const theme = useSyncExternalStore(subscribe, readTheme, () => "light" as ThemeName);
+  // this toggle). Server snapshot is "dark" — Synk is dark-primary.
+  const theme = useSyncExternalStore(subscribe, readTheme, () => "dark" as ThemeName);
 
   const toggle = useCallback(() => {
     const next: ThemeName = readTheme() === "dark" ? "light" : "dark";

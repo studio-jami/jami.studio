@@ -8,7 +8,6 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { projects } from "@/content/projects";
 import { createMetadata } from "@/lib/metadata";
-import { studioLinks } from "@/content/links";
 
 export const metadata: Metadata = createMetadata({
   title: "Projects",
@@ -37,13 +36,10 @@ export default function ProjectsPage() {
 
       <Section id="all-projects" label="All Studio projects">
         <SectionHeading
-          index="01"
-          eyebrow="The portfolio"
           title="Five products, one family"
           lead="Open any project for its positioning, capabilities, proof posture, and public links."
-          align="start"
         />
-        <div className="index-grid">
+        <div className="lattice cols-3">
           {projects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}
@@ -55,11 +51,9 @@ export default function ProjectsPage() {
       </Container>
 
       <CtaBand
-        eyebrow="Read more"
         title="Pull the whole family as text"
         lead="The AI index and full source bundle expose every route, summary, and source boundary as stable generated text."
         primary={{ label: "Read AI index", href: "/llms.txt" }}
-        secondary={{ label: "GitHub", href: studioLinks.githubOrg, external: true }}
       />
     </>
   );

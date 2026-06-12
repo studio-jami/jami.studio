@@ -3,9 +3,9 @@ import { Container } from "@/components/layout/container";
 import { Divider } from "@/components/layout/divider";
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
+import { FamilyGlyph, PixelArrow, PixelStair } from "@/components/system/pixel-icons";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
-import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { projects, type StudioProject } from "@/content/projects";
 import { projectLinkTargets } from "@/lib/routes";
@@ -17,10 +17,10 @@ const STATUS_LABEL: Record<StudioProject["internalStatus"], string> = {
 };
 
 /**
- * Project detail — systematized case study with Divider seams between sections:
- * hero (name/summary/positioning + resolved CTAs + public-link facts) → audience
- * & agent shape → capabilities → proof points → family cross-links → CTA band.
- * All hrefs resolve through the content/route layer (projectLinkTargets, ctas).
+ * Project detail — the Synk case-study rhythm: dotted hero (name, summary,
+ * positioning, pill CTAs) ┃ capabilities lattice ┃ proof block with pixel
+ * stairs ┃ family cross-link lattice ┃ closing CTA — a hatch Divider between
+ * every section. All hrefs resolve through the content/route layer.
  */
 export function ProjectDetail({ project }: { project: StudioProject }) {
   const linkTargets = projectLinkTargets(project).filter(
@@ -33,128 +33,119 @@ export function ProjectDetail({ project }: { project: StudioProject }) {
   return (
     <>
       <Container>
-        <section className="lattice detail-hero" aria-labelledby="detail-title">
-          <div className="detail-headline">
-            <Eyebrow plain>{project.subdomain}</Eyebrow>
-            <h1 id="detail-title">{project.name}</h1>
-            <p className="detail-lead">{project.positioning}</p>
-            <div className="btn-row">
-              <ButtonLink href={primaryCta.href} variant="primary">
-                {primaryCta.label}
+        <section className="detail-hero" aria-labelledby="detail-title">
+          <Badge dot={project.internalStatus === "live"}>
+            {STATUS_LABEL[project.internalStatus]} · {project.subdomain}
+          </Badge>
+          <h1 id="detail-title">{project.name}</h1>
+          <p className="lead">{project.summary}</p>
+          <p className="detail-positioning">{project.positioning}</p>
+          <div className="btn-row">
+            <ButtonLink href={primaryCta.href} variant="primary">
+              {primaryCta.label}
+            </ButtonLink>
+            {restCtas.map((cta) => (
+              <ButtonLink key={cta.href} href={cta.href} external variant="secondary">
+                {cta.label}
               </ButtonLink>
-              {restCtas.map((cta) => (
-                <ButtonLink key={cta.href} href={cta.href} external variant="secondary">
-                  {cta.label}
-                </ButtonLink>
-              ))}
-            </div>
-          </div>
-
-          <aside className="detail-facts" aria-label={`${project.name} public links`}>
-            {linkTargets.map((target) => (
-              <a
-                key={target.label}
-                href={target.href}
-                {...(target.href.startsWith("http")
-                  ? { target: "_blank", rel: "noreferrer noopener" }
-                  : {})}
-              >
-                <span className="fact-label">{target.label}</span>
-                <span className="fact-value">{target.value}</span>
-              </a>
             ))}
-          </aside>
+          </div>
         </section>
       </Container>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section label="Audience and agent shape">
+      <Section label="Capabilities" tight>
         <SectionHeading
-          index="01"
-          eyebrow="Positioning"
-          title="Who it serves and how agents read it"
-          align="start"
+          title="What it provides"
+          lead={project.audience}
+          headingId="capabilities-title"
         />
-        <div className="detail-two-col">
-          <article className="cell cell-card">
-            <div className="cell-head">
-              <Badge>{STATUS_LABEL[project.internalStatus]}</Badge>
-            </div>
-            <p>{project.audience}</p>
-          </article>
-          <article className="cell cell-card">
-            <div className="cell-head">
-              <Badge dot>Agent summary</Badge>
-            </div>
-            <p>{project.aiSummary}</p>
-          </article>
+        <div className="lattice cols-2">
+          {project.capabilities.map((capability) => (
+            <article className="capability-cell" key={capability}>
+              <PixelArrow />
+              <p>{capability}.</p>
+            </article>
+          ))}
         </div>
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section label="Capabilities and proof">
-        <SectionHeading index="02" eyebrow="Capabilities" title="What it provides" align="start" />
-        <div className="detail-two-col">
-          <ol className="numbered-list">
-            {project.capabilities.map((capability, index) => (
-              <li key={capability}>
-                <span className="list-num">{String(index + 1).padStart(2, "0")}</span>
-                <span>{capability}</span>
-              </li>
-            ))}
-          </ol>
-          <ol className="numbered-list">
-            {project.proofPoints.map((point, index) => (
-              <li key={point}>
-                <span className="list-num">P{index + 1}</span>
-                <span>{point}</span>
-              </li>
-            ))}
-          </ol>
+      <Section label="Proof posture">
+        <SectionHeading
+          title="Credibility from boundaries"
+          lead="Real design-posture facts from the product's own content — not claims."
+        />
+        <div className="proof-block">
+          <span className="px-stair tl" aria-hidden="true">
+            <PixelStair />
+          </span>
+          {project.proofPoints.map((point, index) => (
+            <p className="proof-item" key={point}>
+              <span className="proof-index">{String(index + 1).padStart(2, "0")}</span>
+              {point}.
+            </p>
+          ))}
+          <span className="px-stair br" aria-hidden="true">
+            <PixelStair />
+          </span>
         </div>
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
+
+      <Section label="Public surfaces" tight>
+        <SectionHeading
+          title="Every public surface, one contract"
+          lead="Routes, subdomain, repository, docs, and API resolve from centralized metadata."
+        />
+        <div className="link-row">
+          {linkTargets.map((target) => (
+            <ButtonLink
+              key={target.label}
+              href={target.href}
+              external={target.href.startsWith("http")}
+              variant="ghost"
+            >
+              {target.label}
+            </ButtonLink>
+          ))}
+        </div>
+      </Section>
+
+      <Divider />
 
       <Section label="Part of the Studio family">
         <SectionHeading
-          index="03"
-          eyebrow="The family"
           title="Part of the Studio family"
           lead="Separate implementation surfaces, one coherent hub. Explore the siblings this product composes with."
-          align="start"
         />
-        <div className="cross-links">
+        <div className="lattice cols-2">
           {siblings.map((sibling) => (
-            <Link key={sibling.slug} href={sibling.route} className="cross-link">
-              <strong>{sibling.shortName}</strong>
-              <span>{sibling.summary}</span>
+            <Link key={sibling.slug} href={sibling.route} className="family-tile">
+              <span className="family-tile-head">
+                <span className="family-glyph" aria-hidden="true">
+                  <FamilyGlyph kind={sibling.slug} />
+                </span>
+                <span className="name-pill">{sibling.shortName}</span>
+              </span>
+              <p>{sibling.summary}</p>
+              <span className="tile-link" aria-hidden="true">
+                Explore {sibling.shortName} →
+              </span>
             </Link>
           ))}
         </div>
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
       <CtaBand
-        eyebrow="Next step"
         title={`Build with ${project.shortName}`}
-        lead={project.summary}
+        lead={project.aiSummary}
         primary={{ label: primaryCta.label, href: primaryCta.href }}
-        secondary={{
-          label: "Back to projects",
-          href: "/projects"
-        }}
       />
     </>
   );

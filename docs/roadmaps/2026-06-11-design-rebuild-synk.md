@@ -1,6 +1,6 @@
 # jami.studio Design Rebuild — Synk Lane (`design/synk-2`)
 
-Date: 2026-06-11 · Status: [ ] Active — run 3 (faithful template reproduction)
+Date: 2026-06-11 · Status: [x] Complete — run 4 verified local closeout
 Lane: `synk` · Branch: `design/synk-2` · Worktree: `../jami.studio-synk-2`
 Template: **Synk** (Framer) · Character: **systematized near-black, dashed-border card lattice**
 Accent: **coral `#ff5e5d`** (dial slot `rose`) — template-true, authored as `color.accent`
@@ -134,6 +134,15 @@ products), `Faq`/`Accordion`, `CtaBand`, `GridBackground`/`AsciiShader`, `SiteHe
 7. **WS7 — AI surfaces + verify + screenshots + closeout.** Surfaces correct; `pnpm verify` green; capture
    `screenshots/synk-{home-1440,home-390,projects-1440}.png`; stop processes; conventional commit + HEREDOC;
    **do not push**.
+
+## Run 4 closeout
+
+- Finished the inherited Synk lane work without resetting the worktree; retained the useful partial direction and removed transient helper artifacts.
+- Repaired inherited TypeScript drift in `/projects` and the obsolete showcase helper, added missing project-detail `Divider` seams, and changed `/projects` to the shared dashed lattice grid.
+- Fixed the 390px `/projects` overflow caused by long subdomain badges.
+- Captured final screenshots at `screenshots/synk-home-1440.png`, `screenshots/synk-home-390.png`, and `screenshots/synk-projects-1440.png`; checkpoint copy at `screenshots/checkpoint-home-1440.png`.
+- Responsive/theme smoke passed for `/`, `/projects`, and all five `/projects/[slug]` routes at 1440, 1024, 768, and 390 in dark and light themes.
+- `pnpm verify` passed on 2026-06-12.
 
 ## Acceptance criteria (all true, not 90%)
 

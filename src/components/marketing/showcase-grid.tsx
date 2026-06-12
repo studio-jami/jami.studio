@@ -12,7 +12,7 @@ export function ShowcaseGrid() {
 
   return (
     <div className="showcase-grid">
-      <ProjectCard project={lead} lead />
+      <ProjectCard project={lead} />
       {rest.map((project) => (
         <ProjectCard key={project.slug} project={project} />
       ))}

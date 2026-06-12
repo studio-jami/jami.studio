@@ -1,120 +1,98 @@
-import { Container } from "@/components/layout/container";
 import { Divider } from "@/components/layout/divider";
 import { Section } from "@/components/layout/section";
-import { BenefitsList } from "@/components/marketing/benefits-list";
+import { AdvantageGrid } from "@/components/marketing/advantage-grid";
 import { CtaBand } from "@/components/marketing/cta-band";
-import { FamilyIntegrationMap } from "@/components/marketing/family-integration-map";
+import { FamilyLattice } from "@/components/marketing/family-lattice";
+import { FamilyQuote } from "@/components/marketing/family-quote";
 import { Faq } from "@/components/marketing/faq";
+import {
+  CoordinationLattice,
+  FoundationsLattice,
+  PostureLattice
+} from "@/components/marketing/feature-lattices";
 import { Hero } from "@/components/marketing/hero";
-import { PillarCards } from "@/components/marketing/pillar-cards";
-import { ProofLine } from "@/components/marketing/proof-line";
-import { ProofPointBand } from "@/components/marketing/proof-point-band";
-import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { TrustedMarquee } from "@/components/marketing/trusted-marquee";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { site } from "@/content/site";
 
 /**
- * Home — built to Synk's real exported IA:
- *   Hero → Trusted By → Features ┃ Benefits ┃ Features-2 ┃ Reviews ┃ Integrations ┃ FAQ → CTA
- * An explicit, token-driven Divider separates every section (Synk's signature).
+ * Home — Synk's real divider-segmented spine, reproduced with our content:
+ *   Hero(vortex) → Marquee → Features(2×2 + micro-UI) ┃ Features-2(2×2 ×2)
+ *   ┃ Expect(3×2 pixel grid) ┃ Quote(pixel hearts) ┃ Family lattice ┃ FAQ
+ *   → closing CTA over the radial dotted vortex.
+ * A diagonal-hatch Divider band separates every major section.
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
 
-      <ProofLine />
+      <TrustedMarquee />
 
-      <Section id="foundations" label="What this studio stands for">
+      <Section id="foundations" label="Shared foundations">
         <SectionHeading
-          index="01"
-          eyebrow="Foundations"
-          title="Four foundations the family is built on"
-          lead="Governed runtime, trusted interfaces, durable coordination, and agent-readable knowledge — the stance behind every product."
+          title="Built on governed foundations"
+          lead="A governed runtime and trusted interface contracts — the stance every product in the family shares."
         />
-        <PillarCards />
+        <FoundationsLattice />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section id="benefits" label="Cross-family benefits">
+      <Section id="coordination" label="Coordination and knowledge">
         <SectionHeading
-          index="02"
-          eyebrow="Benefits"
-          title="What stays true across the whole family"
-          lead="Distilled themes the products share — each drawn from a real Studio surface, not a slogan."
-          align="start"
+          title="Organized, durable, and legible"
+          lead="Durable coordination records, temporal knowledge, and generated surfaces keep humans and agents aligned."
         />
-        <BenefitsList />
+        <CoordinationLattice />
+        <div className="hatch" data-thin="" role="presentation" aria-hidden="true" />
+        <PostureLattice />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section id="projects" label="The Studio product family">
+      <Section id="expect" label="What you can expect">
         <SectionHeading
-          index="03"
-          eyebrow="Product family"
-          title="Five products, one coherent surface"
-          lead="The portfolio: separate implementation surfaces presented as one integrated family. Open any project for the full case."
+          title="What you can expect from the family"
+          lead="Deeper capabilities drawn from each product's own content — from governed runs to open governance."
         />
-        <ShowcaseGrid />
+        <AdvantageGrid />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section id="posture" label="Proof posture">
+      <Section id="positioning" label="Product positioning">
         <SectionHeading
-          index="04"
-          eyebrow="Proof posture"
-          title="Credibility from boundaries, not claims"
-          lead="Real design-posture facts pulled from each product's own content — the boundaries that keep the family honest."
+          title="Five products, one posture"
+          lead="Each member of the family, positioned in its own words — no invented praise, just the real stance."
         />
-        <ProofPointBand />
+        <FamilyQuote />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
-      <Section id="integrations" label="How the family fits together">
+      <Section id="family" label="How the family fits together">
         <SectionHeading
-          index="05"
-          eyebrow="How it fits"
-          title="An integrated family, not a logo wall"
-          lead="The five products genuinely interconnect. Here is how runtime, interface, coordination, knowledge, and society plug together."
+          title="How the family plugs together"
+          lead="Runtime, interface, coordination, knowledge, and society — five products over four shared foundations."
         />
-        <FamilyIntegrationMap />
+        <FamilyLattice />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
+      <Divider />
 
       <Section id="faq" label="Frequently asked questions">
         <SectionHeading
-          index="06"
-          eyebrow="FAQ"
-          title="Clear answers on scope and boundaries"
+          title="Frequently asked questions"
+          lead="Clear answers on what this hub owns, where the products live, and why everything is AI-readable."
         />
         <Faq />
       </Section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       <CtaBand
-        eyebrow="Next step"
-        title="Explore the projects or read the AI index"
-        lead="Open the full portfolio, or pull the family, routes, and source boundaries from stable generated text."
+        title="One public hub for the whole family"
+        lead={site.home.proof}
         primary={site.home.primaryCta}
-        secondary={site.home.secondaryCta}
       />
     </>
   );

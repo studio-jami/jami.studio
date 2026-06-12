@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
-import { Atmosphere } from "@/components/system/atmosphere";
+import { Inter } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ThemeScript } from "@/components/theme/theme-script";
@@ -10,22 +9,12 @@ import { tokenCssVariables } from "@/tokens/css-vars";
 import { synkDarkPreset, synkLightPreset } from "@/tokens/theme";
 import "@/styles/globals.css";
 
+// Synk is Inter-only (400/500/600/700). The preset's font stacks resolve
+// through --font-inter, defined here by next/font.
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-sans"
-});
-
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-display"
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-mono"
+  variable: "--font-inter"
 });
 
 export const metadata: Metadata = createMetadata({
@@ -43,17 +32,15 @@ function cssVarBlock(selector: string, vars: Record<string, string>) {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
 
-  // Light is the default :root; dark overrides under [data-theme="dark"].
-  // The no-flash ThemeScript sets data-theme before paint.
+  // Dark is the primary Synk theme: :root carries dark values, light overrides
+  // under [data-theme="light"]. The no-flash ThemeScript sets data-theme pre-paint.
   const themeCss = [
-    cssVarBlock(":root", tokenCssVariables(synkLightPreset)),
-    cssVarBlock('[data-theme="dark"]', tokenCssVariables(synkDarkPreset))
+    cssVarBlock(":root", tokenCssVariables(synkDarkPreset)),
+    cssVarBlock('[data-theme="light"]', tokenCssVariables(synkLightPreset))
   ].join("\n");
 
-  const fontClass = `${inter.variable} ${interTight.variable} ${jetbrainsMono.variable}`;
-
   return (
-    <html lang="en" data-theme="light" className={fontClass} suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className={inter.variable} suppressHydrationWarning>
       <head>
         <ThemeScript />
         <style dangerouslySetInnerHTML={{ __html: themeCss }} />
@@ -63,7 +50,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Atmosphere />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

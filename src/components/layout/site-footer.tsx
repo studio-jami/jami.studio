@@ -21,16 +21,23 @@ function FooterLink({ href, children }: { href: string; children: string }) {
   );
 }
 
+/**
+ * Synk footer: brand block left, four link columns (Projects / Pages /
+ * Social / Machine), then a hairline bottom bar with dotted edge gutters.
+ * Surfaces site.social and site.email per the shared contract.
+ */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
-  // Resources are the non-project footer links plus the AI index + source.
-  const resourceLinks = [
+  const pageLinks = [
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
     { label: "AI index", href: "/llms.txt" },
     { label: "Full AI source", href: "/llms-full.txt" },
-    ...site.footerLinks.filter((link) => !link.href.startsWith("/projects/")),
     { label: "GitHub", href: studioLinks.githubOrg }
   ];
+
+  const machineLinks = site.footerLinks.filter((link) => !link.href.startsWith("/projects/"));
 
   return (
     <footer className="site-footer">
@@ -56,26 +63,41 @@ export function SiteFooter() {
             ))}
           </nav>
 
-          <nav className="footer-col" aria-label="Resources">
-            <h2 className="footer-col-title">Resources</h2>
-            {resourceLinks.map((link) => (
+          <nav className="footer-col" aria-label="Pages">
+            <h2 className="footer-col-title">Pages</h2>
+            {pageLinks.map((link) => (
+              <FooterLink key={link.href} href={link.href}>
+                {link.label}
+              </FooterLink>
+            ))}
+          </nav>
+
+          <nav className="footer-col" aria-label="Social">
+            <h2 className="footer-col-title">Social</h2>
+            {site.social.map((channel) => (
+              <a key={channel.href} href={channel.href} target="_blank" rel="noreferrer noopener">
+                {channel.label}
+              </a>
+            ))}
+          </nav>
+
+          <nav className="footer-col" aria-label="Machine-readable">
+            <h2 className="footer-col-title">Machine</h2>
+            {machineLinks.map((link) => (
               <FooterLink key={link.href} href={link.href}>
                 {link.label}
               </FooterLink>
             ))}
           </nav>
         </div>
+      </div>
 
-        <div className="footer-bottom">
-          <p>
-            © {year} {site.legalName} · One public hub, separate implementation surfaces.
-          </p>
-          <div className="footer-social">
-            {site.social.map((channel) => (
-              <a key={channel.href} href={channel.href} target="_blank" rel="noreferrer noopener">
-                {channel.label}
-              </a>
-            ))}
+      <div className="footer-bottom">
+        <div className="container">
+          <div className="footer-bottom-inner">
+            <p>
+              © {year} {site.legalName} · One public hub, separate implementation surfaces.
+            </p>
           </div>
         </div>
       </div>

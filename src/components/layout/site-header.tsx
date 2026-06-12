@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { ButtonLink } from "@/components/ui/button";
 import { site } from "@/content/site";
 
 function isInternalPage(href: string) {
@@ -31,13 +32,20 @@ function NavLink({ href, label, onClick }: { href: string; label: string; onClic
   );
 }
 
+/**
+ * Synk header: brand left, nav centered, white pill CTA right — over a
+ * blurred near-black bar with a hairline bottom seam.
+ */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="site-header">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <div className="container">
-        <div className="site-header-inner">
+        <div className="header-inner">
           <Link href="/" className="brand" aria-label={`${site.name} home`}>
             <span className="brand-mark" aria-hidden="true" />
             <span>{site.name}</span>
@@ -51,6 +59,13 @@ export function SiteHeader() {
 
           <div className="header-actions">
             <ThemeToggle />
+            <ButtonLink
+              href={site.home.primaryCta.href}
+              variant="primary"
+              className="btn-sm header-cta"
+            >
+              {site.home.primaryCta.label}
+            </ButtonLink>
             <button
               type="button"
               className="icon-btn header-menu-btn"
@@ -73,6 +88,11 @@ export function SiteHeader() {
               onClick={() => setOpen(false)}
             />
           ))}
+          <NavLink
+            href={site.home.primaryCta.href}
+            label={site.home.primaryCta.label}
+            onClick={() => setOpen(false)}
+          />
         </div>
       </div>
     </header>

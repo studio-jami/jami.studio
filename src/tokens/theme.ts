@@ -1,56 +1,59 @@
 import { validateTokenPreset, type TokenPreset } from "./schema";
 
 /**
- * Synk lane — "systematized light" (Lane B), with a full dark counterpart.
+ * Synk lane — faithful dark reproduction (primary) plus a real light counterpart.
  *
- * The Synk template is a global-styling-variable, swap-anything design system: every
- * surface is a boxed, hairline-framed cell on a 1280px content lattice, and an explicit
- * Divider separates every section. We translate that DNA into our token contract and run
- * a calm indigo accent (`#2b4173`) through `--accent` / `--primary` only — never a literal.
+ * Palette is template-true, lifted from the Synk extraction:
+ *   Background #030303 · Card-dark #0f0f0f · Card-darkest #080808 · Elevation-dark #0b0b0b
+ *   Border #171717 · Border-dark #121212 · Border-light (dashed seams) #2e2e2e
+ *   White #ffffff · White-muted #9c9c9c · Red (the lone accent) #ff5e5d
  *
- * Both presets are authored VALUES (not generated from dials); the dial block is metadata
- * that keeps the config panel honest. 6-digit hex only.
+ * The coral accent is authored as `color.accent` (+ `ring`) and surfaced only through
+ * `--accent` / `--primary` / `--ring`. The dial block claims the `rose` slot — the closest
+ * named family — while the rendered hex stays the template's coral.
+ *
+ * Both presets are authored VALUES (not generated from dials). 6-digit hex only.
  */
 
-const FONT_DISPLAY = "var(--font-display, 'Inter Tight'), 'Inter Tight', Inter, ui-sans-serif, system-ui, sans-serif";
-const FONT_SANS = "var(--font-sans, Inter), Inter, ui-sans-serif, system-ui, -apple-system, sans-serif";
-const FONT_MONO = "var(--font-mono, 'JetBrains Mono'), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+const FONT_SANS = "var(--font-inter, Inter), Inter, ui-sans-serif, system-ui, sans-serif";
+const FONT_DISPLAY = FONT_SANS; // Synk is Inter-only; display = sans.
+const FONT_MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
-// Inter-derived editorial scale (Synk uses Inter h1 48 / h2 36 / h3 28 / body 16-18).
-// We lift the hero into a fluid display moment while keeping the section heads on Synk's rhythm.
+// Synk type system: H1 600 48/55 −0.02em · H2 600 36/43 · H3 500 28/35 · body 16/26 · sm 14 · xs 12.
 const TYPE_SCALE = {
   xs: "0.75rem",
-  sm: "0.8125rem",
+  sm: "0.875rem",
   base: "1rem",
   lg: "1.125rem",
-  xl: "clamp(1.75rem, 2.6vw, 2.25rem)",
-  hero: "clamp(2.75rem, 7vw, 5.25rem)"
+  xl: "clamp(1.75rem, 3.2vw, 2.25rem)",
+  hero: "clamp(2.375rem, 5.4vw, 3rem)"
 } as const;
 
-const TYPE_LINE = { tight: 1.02, body: 1.62 } as const;
+const TYPE_LINE = { tight: 1.15, body: 1.62 } as const;
 
-const RADII = { sm: "8px", md: "12px", lg: "16px", pill: "999px" } as const;
+// Cards/panels sit on small radii; CTAs are full pills.
+const RADII = { sm: "6px", md: "10px", lg: "14px", pill: "999px" } as const;
 
 const SPACING = {
   density: "comfortable" as const,
   unit: "1rem",
-  control: "2.875rem",
+  control: "2.75rem",
   section: "clamp(4.5rem, 9vw, 6.5rem)",
-  container: "min(1280px, calc(100vw - 2rem))"
+  container: "min(1200px, calc(100vw - 2rem))"
 };
 
 const MOTION = {
   duration: "420ms",
-  durationFast: "200ms",
-  easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
-  intensity: 38
+  durationFast: "180ms",
+  easing: "cubic-bezier(0.25, 0.6, 0.25, 1)",
+  intensity: 30
 };
 
 const LOGOS = { markShape: "frame" as const, wordmark: "jami.studio", favicon: "/icon.svg" };
 const HANDLES = { github: "studio-jami", npm: "@jami-studio", x: "@studio_jami" };
 
 const REGISTRY = {
-  item: "@jami-studio/theme/synk-systematized",
+  item: "@jami-studio/theme/synk-lattice",
   version: "0.1.0",
   candidate: true,
   exports: ["themePreset", "cssVariables", "registryManifest"],
@@ -63,96 +66,35 @@ const OWNERSHIP = {
 };
 
 /**
- * LIGHT — primary lane character.
- * Warm off-white lattice, near-ink text, hairline borders, calm indigo accent.
- */
-export const synkLightPreset: TokenPreset = validateTokenPreset({
-  id: "synk-light",
-  name: "Synk Systematized — Light",
-  description:
-    "Systematized light editorial: warm off-white canvas, hairline-framed cells on a 1280px lattice, calm indigo accent.",
-  ownership: OWNERSHIP,
-  dials: {
-    // Indigo has no accent-enum name. We author the value directly; the lane claims the
-    // `green` dial slot, retuned to true indigo in presets `accentPalettes` so the config
-    // <select> reads honest. The dial is metadata — render uses the authored values below.
-    accent: "green",
-    contrast: 84,
-    warmth: 40,
-    density: 50,
-    radius: 12,
-    surfaceDepth: 28,
-    motion: 38
-  },
-  color: {
-    background: "#f6f6f3",
-    foreground: "#16181d",
-    muted: "#ecebe4",
-    mutedForeground: "#5b5f68",
-    panel: "#ffffff",
-    panelForeground: "#16181d",
-    border: "#dedbd1",
-    ring: "#2b4173",
-    accent: "#2b4173",
-    accentForeground: "#f7f8fc"
-  },
-  typography: {
-    sans: FONT_SANS,
-    mono: FONT_MONO,
-    display: FONT_DISPLAY,
-    scale: TYPE_SCALE,
-    lineHeight: TYPE_LINE
-  },
-  spacing: SPACING,
-  radii: RADII,
-  surface: {
-    canvas: "#f6f6f3",
-    panel: "#ffffff",
-    panelRaised: "#fbfaf6",
-    overlay: "#ffffff",
-    inverse: "#16181d"
-  },
-  elevation: {
-    none: "none",
-    sm: "0 1px 2px rgb(22 24 29 / 0.05), 0 0 0 1px rgb(22 24 29 / 0.02)",
-    md: "0 18px 48px rgb(22 24 29 / 0.10)"
-  },
-  motion: MOTION,
-  logos: LOGOS,
-  handles: HANDLES,
-  registry: REGISTRY
-});
-
-/**
- * DARK — Synk-native counterpart.
- * Near-black `#030303` canvas (not pure #000), boxed cells, indigo lifted to read on dark.
+ * DARK — the primary theme; Synk's exact canvas.
+ * Near-black #030303, dashed lattice seams, coral #ff5e5d kept scarce.
  */
 export const synkDarkPreset: TokenPreset = validateTokenPreset({
   id: "synk-dark",
-  name: "Synk Systematized — Dark",
+  name: "Synk Lattice — Dark",
   description:
-    "Synk-native dark: near-black canvas, boxed hairline cells, indigo accent lifted for AA on dark surfaces.",
+    "Template-true Synk dark: #030303 canvas, dot-matrix textures, dashed-border card lattice, coral accent used sparingly.",
   ownership: OWNERSHIP,
   dials: {
-    accent: "green",
+    accent: "rose",
     contrast: 92,
-    warmth: 22,
+    warmth: 8,
     density: 50,
-    radius: 12,
-    surfaceDepth: 64,
-    motion: 38
+    radius: 10,
+    surfaceDepth: 62,
+    motion: 30
   },
   color: {
     background: "#030303",
-    foreground: "#f4f5f7",
-    muted: "#0f0f0f",
+    foreground: "#ffffff",
+    muted: "#121212",
     mutedForeground: "#9c9c9c",
-    panel: "#0a0a0a",
-    panelForeground: "#f4f5f7",
-    border: "#1c1c1c",
-    ring: "#8198cf",
-    accent: "#7c8fc4",
-    accentForeground: "#06080f"
+    panel: "#0f0f0f",
+    panelForeground: "#ffffff",
+    border: "#171717",
+    ring: "#ff5e5d",
+    accent: "#ff5e5d",
+    accentForeground: "#140404"
   },
   typography: {
     sans: FONT_SANS,
@@ -165,27 +107,85 @@ export const synkDarkPreset: TokenPreset = validateTokenPreset({
   radii: RADII,
   surface: {
     canvas: "#030303",
-    panel: "#0a0a0a",
-    panelRaised: "#101010",
+    panel: "#080808",
+    panelRaised: "#0f0f0f",
     overlay: "#0b0b0b",
-    inverse: "#f4f5f7"
+    inverse: "#ffffff"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 2px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(255 255 255 / 0.02)",
-    md: "0 24px 60px rgb(0 0 0 / 0.55)"
+    sm: "0 1px 2px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.02)",
+    md: "0 24px 60px rgb(0 0 0 / 0.5)"
   },
   motion: MOTION,
   logos: LOGOS,
   handles: HANDLES,
-  registry: { ...REGISTRY, item: "@jami-studio/theme/synk-systematized-dark" }
+  registry: REGISTRY
+});
+
+/**
+ * LIGHT — a real light design of the same systematized lattice
+ * (paper-white canvas, ink dots and dashed seams, coral deepened only for the focus ring).
+ */
+export const synkLightPreset: TokenPreset = validateTokenPreset({
+  id: "synk-light",
+  name: "Synk Lattice — Light",
+  description:
+    "The Synk lattice re-set on paper: warm white canvas, ink dot-matrix, dashed hairline seams, coral accent kept scarce.",
+  ownership: OWNERSHIP,
+  dials: {
+    accent: "rose",
+    contrast: 86,
+    warmth: 30,
+    density: 50,
+    radius: 10,
+    surfaceDepth: 26,
+    motion: 30
+  },
+  color: {
+    background: "#f7f7f5",
+    foreground: "#0d0d0d",
+    muted: "#ececea",
+    mutedForeground: "#585856",
+    panel: "#ffffff",
+    panelForeground: "#0d0d0d",
+    border: "#e2e2de",
+    ring: "#c43534",
+    accent: "#ff5e5d",
+    accentForeground: "#140404"
+  },
+  typography: {
+    sans: FONT_SANS,
+    mono: FONT_MONO,
+    display: FONT_DISPLAY,
+    scale: TYPE_SCALE,
+    lineHeight: TYPE_LINE
+  },
+  spacing: SPACING,
+  radii: RADII,
+  surface: {
+    canvas: "#f7f7f5",
+    panel: "#fcfcfb",
+    panelRaised: "#ffffff",
+    overlay: "#ffffff",
+    inverse: "#0d0d0d"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 2px rgb(13 13 13 / 0.05), 0 0 0 1px rgb(13 13 13 / 0.02)",
+    md: "0 18px 44px rgb(13 13 13 / 0.09)"
+  },
+  motion: MOTION,
+  logos: LOGOS,
+  handles: HANDLES,
+  registry: { ...REGISTRY, item: "@jami-studio/theme/synk-lattice-light" }
 });
 
 export const themePresets = {
-  light: synkLightPreset,
-  dark: synkDarkPreset
+  dark: synkDarkPreset,
+  light: synkLightPreset
 } as const;
 
 export type ThemeName = keyof typeof themePresets;
 
-export const defaultThemeName: ThemeName = "light";
+export const defaultThemeName: ThemeName = "dark";
