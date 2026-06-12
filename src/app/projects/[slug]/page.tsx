@@ -172,6 +172,7 @@ export default async function ProjectPage({ params }: PageProps) {
         eyebrow="Continue"
         title={`Open ${project.shortName}, or browse the rest of the family.`}
         titleId="project-cta-title"
+        photo="/assets/cta.png"
         actions={[...ctaActions, { label: "All projects", href: "/projects", variant: "ghost" }]}
       />
     </article>

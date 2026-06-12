@@ -14,19 +14,34 @@ const stats = [
     value: 5,
     suffix: "",
     label: "Public products",
-    body: "Harness, UI Registry, Orchestra, Intercal, and Collectiva — each its own surface, all in one family."
+    body: (
+      <>
+        Harness, UI Registry, Orchestra, Intercal, and Collectiva — each its own surface,{" "}
+        <strong>all in one family.</strong>
+      </>
+    )
   },
   {
     value: 4,
     suffix: "",
     label: "Shared foundations",
-    body: "Governed runtime, trusted UI contracts, durable coordination, and agent-readable knowledge underpin every product."
+    body: (
+      <>
+        Governed runtime, trusted UI contracts, durable coordination, and agent-readable
+        knowledge <strong>underpin every product.</strong>
+      </>
+    )
   },
   {
     value: 1,
     suffix: "",
     label: "Shared source",
-    body: "Every route, link, metadata field, sitemap entry, and AI-ingestion file is generated from one source of truth."
+    body: (
+      <>
+        Every route, link, metadata field, sitemap entry, and AI-ingestion file is{" "}
+        <strong>generated from one source of truth.</strong>
+      </>
+    )
   }
 ];
 

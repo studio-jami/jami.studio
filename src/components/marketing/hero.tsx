@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ButtonLink } from "@/components/primitives/button";
 import { site } from "@/content/site";
 
 /**
- * Hero — Nouva's signature full-bleed cinematic moment, recreated entirely in CSS:
- * a deep dusk-toned atmospheric scene (radial/linear layers, vignette) sits behind a
- * centered white headline. The headline reveals word-by-word with a BLUR-UP transition.
- * One primary CTA and a scroll indicator sit below.
+ * Hero — Nouva's signature full-bleed cinematic moment: our generated dusk photograph
+ * (`/assets/hero.png`) fills the viewport behind a centered white headline, under a dark
+ * gradient scrim that fades into the void below. The headline reveals word-by-word with
+ * a BLUR-UP transition. One primary CTA and a scroll indicator sit below.
  *
  * The headline text is plain in the static HTML (crawlers/agents/no-JS see it intact);
  * the per-word blur-up only applies after JS flags `.js-reveal-ready` and never under
@@ -64,8 +65,10 @@ export function Hero() {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-atmosphere" aria-hidden="true" />
-      <div className="hero-vignette" aria-hidden="true" />
+      <div className="hero-photo" aria-hidden="true">
+        <Image src="/assets/hero.png" alt="" fill priority sizes="100vw" />
+      </div>
+      <div className="hero-scrim" aria-hidden="true" />
 
       <div className="hero-inner">
         <p className="eyebrow hero-eyebrow">{line1}</p>

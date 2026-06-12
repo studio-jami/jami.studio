@@ -12,21 +12,20 @@ type RevealProps = {
 };
 
 /**
- * Gentle scroll-reveal: fade + small translate-in once as the element enters the
- * viewport. Animates only `opacity`/`transform`. Under `prefers-reduced-motion` the
- * element renders in its final state immediately (handled in CSS via the media query),
- * so this never hides content from reduced-motion users or from the initial HTML.
+ * Capture-safe reveal wrapper. Content renders in its final state in the static HTML so
+ * crawlers, reduced-motion users, and full-page screenshot tools never see blank
+ * sections. The class hook remains for lane styling and future non-destructive motion.
  */
 export function Reveal({ children, as: Tag = "div", className, delay = 0 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const [shown, setShown] = useState(false);
+  const [shown, setShown] = useState(true);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
     // Under reduced motion the CSS media query already forces the final state, so no
-    // observer or state update is needed (and content is never hidden).
+    // observer or state update is needed.
     if (
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches

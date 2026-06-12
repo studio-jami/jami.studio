@@ -38,6 +38,7 @@ export default function HomePage() {
         }
         lead={site.home.lead}
         titleId="home-cta-title"
+        photo="/assets/cta.png"
         actions={[
           { label: site.home.primaryCta.label, href: site.home.primaryCta.href, variant: "primary" },
           { label: site.home.secondaryCta.label, href: site.home.secondaryCta.href, variant: "ghost" }

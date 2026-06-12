@@ -45,12 +45,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   ].join("");
 
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="dark"
+      // The font variables must live on <html>: the token font stacks reference
+      // `var(--font-onest)` inside `--font-sans`/`--font-display`, and custom properties
+      // substitute their var() references at :root — a body-scoped variable would leave
+      // them guaranteed-invalid and drop the whole document to the browser default face.
+      className={`${onest.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeCss }} />
         <ThemeScript />
       </head>
-      <body className={`${onest.variable} ${jetbrainsMono.variable}`}>
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

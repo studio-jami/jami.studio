@@ -50,6 +50,7 @@ export default function ProjectsPage() {
         eyebrow="Read further"
         title="Resolve the whole family from one AI-readable source."
         titleId="projects-cta-title"
+        photo="/assets/cta.png"
         actions={[
           { label: "Read AI index", href: "/llms.txt", variant: "primary" },
           { label: "View on GitHub", href: studioLinks.githubOrg, variant: "ghost" }
