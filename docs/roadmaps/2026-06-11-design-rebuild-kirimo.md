@@ -1,11 +1,22 @@
 # jami.studio Design Rebuild — Kirimo Lane (`design/kirimo-2`)
 
-Date: 2026-06-11 · Status: [ ] Active — run 3 (faithful template reproduction)
+Date: 2026-06-11 · Status: [x] Complete — run 4 (faithful template reproduction; selected launch design)
 Lane: `kirimo` · Branch: `design/kirimo-2` · Worktree: `../jami.studio-kirimo-2`
 Template: **Kirimo** (Framer) · Character: **sand-on-near-black editorial zine, auto-play slideshow, giant ticker**
 Accent: **terra-cotta `#eb5939`** (dial slot `amber`) — template-true, authored as `color.accent`
 Art direction: `docs/design/reference-brief.md` · Extraction: `tools/framer-bridge/out/kirimo.{json,full.json,home.png}`
 Owner: Jamie
+
+## Launch decision update (2026-06-12)
+
+Kirimo is the selected marketing-site design and should be launched as the public presentation layer after
+merge/verification. Do not redesign this lane, revert it to the older marketing-site layouts, or force it to
+match Studio UI Registry styling constraints. The Registry remains a separate product/runtime surface; this
+site only needs to preserve shared content, routing, metadata, token contract, and AI-ingestion contracts.
+
+The current Kirimo `/projects` and `/projects/[slug]` routes should be verified and shipped as launch-grade
+routes. Deeper per-project page layout work is deferred to a later global redesign once the products are
+live enough to inform that system.
 
 > **THE ONE RULE: reproduce the Kirimo template.** Build our site USING Kirimo's real design: its near-black
 > canvas with **warm sand foreground**, its single terra-cotta accent, its **auto-play project slideshow**,
@@ -150,8 +161,9 @@ marquee), `Divider`/`HairlineRule`, detail `DetailHero`/`ContentSection`/`Listin
 - `/` reproduces **Kirimo's** 9-section structure and **looks like `out/kirimo.home.png`**: sand-on-black,
   terra-cotta eyebrows, auto-play slideshow, numbered service accordion, hairline rules + vertical dividers,
   and the colossal "JAMI STUDIO" footer ticker — all present. Not a generic skeleton, not another lane's.
-- Every page fully designed (`/`, `/projects`, `/projects/[slug]` ×5, the rich detail); every content job
-  housed; every CTA via the content/route layer.
+- Every launch page is route-complete (`/`, `/projects`, `/projects/[slug]` ×5); every content job housed;
+  every CTA via the content/route layer. A deeper product-page layout redesign is a later global pass, not a
+  blocker for launching Kirimo.
 - Both themes designed; all four breakpoints clean; token-driven only (template-true palette); contracts untouched.
 - Restrained motion; reduced-motion honored (slider/tickers pause); AA contrast on sand text; visible focus;
   semantic landmarks.

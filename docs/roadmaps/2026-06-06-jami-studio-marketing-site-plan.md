@@ -1,7 +1,7 @@
 # Jami Studio Marketing Site Implementation Plan
 
 Date: 2026-06-06 · Recovered & reconciled: 2026-06-12
-Status: [~] Active — foundation + design complete; deployment/QA + expansion remain (see Recovery note below)
+Status: [~] Active — Kirimo marketing design selected; merge/launch/QA remain (see Recovery note below)
 Source reports: `C:\Users\james\dev\docs\reports\E-operations-gtm\F18-brand-and-identity.md`, `C:\Users\james\dev\docs\reports\E-operations-gtm\F19-marketing-and-content.md`, `C:\Users\james\dev\docs\reports\D-distribution-products-ax\F16-products.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F05-harness-runtime.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F09-ui-registry-and-render-seam.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F10-orchestra-and-dev-system.md`
 Owner: Jamie
 Surface: `www.jami.studio` marketing site and OSS project hub
@@ -23,10 +23,12 @@ finished and is restored here as the canonical forward plan.
   plan (and the 2026-06-07 "starter" selection in WS5 below) was redone as a **five-template** bakeoff;
   the owner selected **Kirimo** on 2026-06-12. Decision + rationale + pending design tweaks:
   **`docs/decisions/2026-06-12-design-direction-kirimo.md`**. Chosen-lane spec:
-  `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`. The Kirimo build is on `design/kirimo-2`.
+  `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`. The Kirimo build is complete on
+  `design/kirimo-2` at `a4596c5` and is the locked marketing-site presentation.
 - **WS5 Selected-Direction Hardening** — ⏳ **re-opens for Kirimo.** The 2026-06-07 closeout in WS5
-  hardened a now-superseded direction; the real hardening is: merge Kirimo → `main`, then the pending
-  tweaks from the ADR (accent-color tuning, `/projects[/slug]` structure/detail, polish).
+  hardened a now-superseded direction; the real hardening is: merge Kirimo → `main` while preserving
+  the restored roadmap/ADR/docs on `main`, then do only launch-critical QA/polish that keeps the Kirimo
+  design intact.
 - **WS6 Deployment, QA, Closeout** — ❌ **not started** (the main open block: Vercel deploy, domain/subdomain mapping, analytics decision).
 - **Expansion Track** — ❌ not started.
 
@@ -34,14 +36,19 @@ finished and is restored here as the canonical forward plan.
 - **Registry & Harness tie-in.** The Studio UI Registry and Jami Agent Harness are first-class on the
   site with data-driven routing (already wired in `src/content/projects.ts`). This repo **presents and
   links** to them; it does **not** implement their runtimes.
+- **Design autonomy.** The marketing site uses shared content, route, metadata, and AI-file contracts, but
+  the Kirimo visual system is not governed by Studio UI Registry styling requirements. Registry promotion
+  can happen later from candidate primitives; it must not pull the public marketing site back toward the
+  older utilitarian layouts.
 - **Subdomain deploy mapping (OPEN, WS6).** Document `harness.jami.studio`, `registry.jami.studio`,
   `orchestra.jami.studio`, `intercal.jami.studio`, `collectiva.jami.studio` as separate deploy targets in
   `docs/operations/`.
 
-**Resume order when work restarts:** (1) merge Kirimo → `main` + ADR tweaks (WS5); (2) decide the
-project-page layout direction — **OPEN: not locked to Synk**; the owner leans toward a different
-layout/template and will survey the template set first — then build `/projects[/slug]` to it; (3) WS6
-deploy + subdomain mapping + analytics; (4) Expansion Track. Cross-ref:
+**Resume order when work restarts:** (1) merge/import Kirimo → `main` as the locked presentation layer,
+preserving `main` docs/roadmap/ADR updates and shared contracts; (2) run launch-critical verification and
+visual smoke against `/`, `/projects`, and current `/projects/[slug]` routes without redesigning the project
+page system; (3) WS6 deploy + subdomain mapping + analytics; (4) after the public site is live and product
+surfaces mature, open a separate global project-page layout redesign. Cross-ref:
 `docs/decisions/2026-06-12-design-direction-kirimo.md`, `docs/operations/credit-utilization-plan.md`
 ("Launch Sequencing"), and `docs/decisions/2026-06-06-framework-and-deployment.md`.
 
@@ -71,6 +78,8 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] The product report positions `jami.studio` as the OSS foundations platform and hub for Harness, UI Registry, Orchestra, Intercal, and Collectiva.
 - [x] Intercal is live in a separate repo under `C:\Users\james\dev\orgs\oss\intercal.dev`; this marketing site should link to it without absorbing its runtime.
 - [x] Harness, Registry, Orchestra, and Collectiva are product-family surfaces for this site, but their implementations are out of scope for this repo.
+- [x] The selected Kirimo implementation lives in worktree `C:\Users\james\dev\orgs\oss\jami.studio-kirimo-2`
+  on branch `design/kirimo-2` at `a4596c5` (`feat(kirimo): finish editorial design rebuild`).
 
 ## Locked Decisions
 
@@ -84,10 +93,15 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 - [x] After the shared app foundation, content registry, routing, metadata, sitemap, robots, and AI-ingestion seams are stable, design exploration can run as three full-site branches. Each branch owns its own visual/brand system, layout language, homepage, and project pages while consuming the same shared data and generated public-file pipeline.
 - [x] Build a shared token/dial contract before branching, but do not lock the final brand look before branching. The shared foundation owns the schema, shadcn-compatible plumbing, validation, and configuration surface; each branch chooses values, visual treatment, and page/block composition.
 - [x] Treat the marketing site's token/config system as a candidate seed for the future Studio UI Registry. It should be registry-ready and code-supported now, without forcing full public registry packaging before the marketing site needs it.
+- [x] Treat Kirimo as the final chosen marketing-site design. Do not redesign it, revert it to older layouts,
+  or let UI Registry styling constraints override the public site's editorial visual system.
+- [x] Defer a deeper per-project page layout redesign until after launch. The current Kirimo project routes
+  can ship if they pass verification; future product-page layout work must be global and uniform, not an
+  ad hoc pre-launch rewrite.
 
 ## Scope Boundaries
 
-- [x] In scope: marketing site, project pages, route model, content model, metadata, shared token/dial contract, branch-specific brand/visual values, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
+- [x] In scope: marketing site, launch-grade project routes, route model, content model, metadata, shared token/dial contract, selected Kirimo brand/visual values, responsive UI, AI-ingestion files, sitemap, robots, deployment readiness, and verification.
 - [x] Out of scope: implementing Harness, Registry, Orchestra, Intercal runtime, Collectiva runtime, product auth, billing, runtime APIs, MCP servers, SDK packages, or protocol internals.
 - [x] Public claims must be product-positioning claims, not false implementation claims. Copy can describe the intended project family while links and docs reflect actual owned surfaces.
 - [x] Secrets stay out of tracked files. Deployment and analytics keys are documented as variable names only.
@@ -103,8 +117,8 @@ The work is not to build the Harness, Registry, Orchestra, Intercal runtime, or 
 
 ## Target Product Shape
 
-- A canonical homepage with strong brand signal, project-family overview, proof-oriented sections, direct CTAs, OSS links, and technical credibility.
-- Reusable project pages for Harness, Registry, Orchestra, Intercal, and Collectiva.
+- A canonical homepage with the selected Kirimo editorial design: sand-on-near-black canvas, terra-cotta accent, generated editorial imagery, project slideshow, numbered service accordion, hairline rules, and giant footer ticker.
+- Launch-grade project routes for Harness, Registry, Orchestra, Intercal, and Collectiva using the current Kirimo implementation; deeper per-project page composition is deferred until the products are live enough to justify one global uniform redesign.
 - Data-driven navigation and footer.
 - Centralized project registry data containing slug, name, summary, positioning, subdomain, repo URL, docs URL, API URL, status label for internal use, public CTAs, social image, and AI summary.
 - Reusable metadata helpers for canonical URLs, Open Graph, Twitter/X cards, JSON-LD, sitemap, and AI-ingestion files.
@@ -524,7 +538,7 @@ Suggested verification:
 
 - [ ] `www.jami.studio` is a complete production marketing site, not a placeholder.
 - [ ] The homepage is polished, on-brand, responsive, accessible, and copy-complete.
-- [ ] Harness, Registry, Orchestra, Intercal, and Collectiva each have complete project pages.
+- [ ] Harness, Registry, Orchestra, Intercal, and Collectiva each have launch-grade project routes backed by centralized content data; deeper per-project page layout redesign is explicitly post-launch.
 - [ ] Three design directions were either run to complete comparable branches after the shared foundation or explicitly skipped by owner decision.
 - [ ] The shared token/dial system is reusable as a Studio UI Registry seed or candidate item set.
 - [ ] All project URLs, subdomains, repos, docs links, CTAs, and summaries are centralized.
@@ -544,12 +558,13 @@ Suggested verification:
 6. Cut three design branches from the same stable foundation commit.
 7. Finish each design branch with its own token preset, visual system, complete homepage, and all project pages.
 8. Compare locally or by preview deploy.
-9. Select one direction and merge it to `main`.
-10. Promote the selected visual system and harden the selected full site without forking shared metadata or AI-file generation.
-11. Identify candidate components/blocks/page sections for future Studio UI Registry promotion.
-12. Add deploy/domain operations docs.
-13. Run full verification and visual QA.
-14. Update roadmap, docs, and closeout artifacts.
+9. Select Kirimo and merge/import it to `main` without losing the restored `main` roadmap, ADR, operations, or security docs.
+10. Promote the Kirimo visual system as the public marketing-site presentation without redesigning it or coupling it to UI Registry styling demands.
+11. Verify the current project routes as launch-grade; defer deeper project-page layout work to a later global redesign.
+12. Identify candidate components/blocks/page sections for future Studio UI Registry promotion without making registry promotion a launch blocker.
+13. Add deploy/domain operations docs.
+14. Run full verification and visual QA.
+15. Update roadmap, docs, and closeout artifacts.
 
 ## Orchestrator Checkpoints
 

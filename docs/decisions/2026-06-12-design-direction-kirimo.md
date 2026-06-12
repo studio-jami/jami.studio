@@ -10,8 +10,13 @@ The **Kirimo** lane is the chosen visual direction for the `jami.studio` OSS hub
 
 The five-lane design bakeoff (run 4) is **closed**. The winning build lives on branch
 **`design/kirimo-2`** (worktree `../jami.studio-kirimo-2`, HEAD `a4596c5`). It is **not yet merged to
-`main`** — that is the first step when work resumes, after the tweaks below. No further design work was
-done at close-out; this record only folds the decision in and sets expectations for resume.
+`main`**. The next implementation pass should merge/import it as the site's presentation layer while
+preserving the restored roadmap, ADR, operations, and security docs that now exist on `main`.
+
+The Kirimo visual system is locked for the public marketing site. It should not be redesigned, replaced by
+older site layouts, or constrained by Studio UI Registry styling demands. The Registry can remain a separate
+runtime/product surface and can later promote compatible primitives from this site without governing the
+marketing page's art direction.
 
 ## Why Kirimo (over the runner-up, Synk)
 
@@ -26,36 +31,37 @@ Both finalists were strong and template-faithful. The two optimized for differen
   hub whose job is identity and credibility (not feature-conversion; docs do that), distinctiveness and a
   felt sense of craft win. The warmth signals the care that is the studio's product promise.
 
-**Synk is not discarded, but the product-page direction is OPEN — not locked to Synk.** Synk's
-systematized lattice is *a candidate* for the per-product pages (Harness, UI Registry, Orchestra, Intercal,
-Collectiva), where dense, extensible feature communication and the micro-UI cards could shine. But on
-further review the owner leans toward the product/project page being **a different layout altogether** —
-possibly a distinct template — rather than reusing Synk wholesale. The owner intends to survey the template
-set more before deciding the ideal project-page layout. Treat "Kirimo = hub" as settled and "product-page
-system = TBD" as an open design question. Synk's build remains on `origin/design/synk-2` for reference.
+**Synk is not discarded, but the product-page direction is post-launch.** Synk's systematized lattice is *a
+candidate* for future per-product pages (Harness, UI Registry, Orchestra, Intercal, Collectiva), where dense,
+extensible feature communication and the micro-UI cards could shine. But the owner now prefers to ship the
+cohesive Kirimo site first and revisit product-page layout later as a global uniform design pass once the
+products themselves are live enough to inform the page system. Treat "Kirimo = hub and launch surface" as
+settled and "future product-page system = deferred" as a separate later project. Synk's build remains on
+`origin/design/synk-2` for reference only.
 
-## Pending tweaks (the bar is NOT "merge as-is")
+## Launch Tweaks
 
-Captured from review so they are not lost when work resumes:
+Captured from review and updated with the 2026-06-12 launch decision:
 
-1. **Accent color.** The terra-cotta/orange is loved but to be explored and tuned. It is token-driven
-   (`color.accent` in the lane's `theme.ts`), so this is a values change, not a refactor.
-2. **`/projects` and `/projects/[slug]` — the largest open design item.** The project pages need more
-   structure and detail — surface the sections with more depth than the home's editorial pacing provides.
-   **The layout direction is undecided:** Synk is one candidate, but the owner leans toward a different
-   layout/template altogether and plans to look around the template set more before choosing. Do not assume
-   Synk here.
-3. **General polish pass** on the home before merge.
+1. **Do not alter the Kirimo design.** Only fix defects found during merge, build, accessibility, or visual
+   smoke. Avoid aesthetic rewrites and do not reintroduce the old marketing-site layouts.
+2. **Accent color remains token-driven.** Minor tuning is acceptable only if it preserves the Kirimo
+   sand-on-near-black editorial system; broad palette changes are not part of launch.
+3. **Project routes ship as current Kirimo routes.** Do not redesign individual project pages now. Verify
+   they are responsive, metadata-complete, and route/CTA-correct, then defer deeper product-page layout work.
+4. **General polish pass** means production-readiness polish: no broken links, no placeholder/status copy,
+   no layout breakage, no missing assets, no degraded AI/SEO surfaces.
 
 ## Resume plan (ordered, for when rate/time allows)
 
-1. (optional) Rename `design/kirimo-2` → a clean trunk name, then **merge Kirimo into `main`** as the site's
-   presentation layer (the frozen contracts on `main` are reused verbatim; only presentation merges).
-2. Accent-color exploration on the token.
-3. Decide the project-page layout direction (survey templates; Synk is a candidate, not the default), then
-   build out `/projects` + `/projects/[slug]` structure/detail (item 2 above).
-4. Return to the **pre-design product thread**: finish the public site and route all project CTAs through
-   the content/route layer, then launch the first OSS surfaces — per `docs/operations/credit-utilization-plan.md`
+1. **Merge/import Kirimo into `main`** as the site's presentation layer. Preserve `main` docs that are newer
+   than the design branch, especially the restored full roadmap and this ADR.
+2. Reconcile only contract integration issues: centralized content, route helpers, metadata, sitemap, robots,
+   `llms.txt`, `llms-full.txt`, assets, and tests.
+3. Verify `/`, `/projects`, and all current `/projects/[slug]` routes at desktop/mobile. Treat project-page
+   layout redesign as post-launch.
+4. Finish the public site and route all project CTAs through the content/route layer, then launch the first
+   OSS surfaces — per `docs/operations/credit-utilization-plan.md`
    ("Launch Sequencing") and the framework decision `docs/decisions/2026-06-06-framework-and-deployment.md`.
 
 ## Pointers
