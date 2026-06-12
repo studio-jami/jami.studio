@@ -1,72 +1,97 @@
 import { validateTokenPreset, type TokenPreset } from "./schema";
 
 /**
- * Nouva lane — Lane B (bold light editorial) on a `#854780` magenta accent.
+ * Nouva lane — faithful reproduction of the real Nouva (Framer) template.
+ *
+ * Nouva is a DARK, blue-black SaaS/agency portfolio: a near-black void where every
+ * block is a softly-rounded charcoal "Surface" card floating on the canvas, divided by
+ * 1px / 5%-white hairline seams. White type, muted cool blue-grey secondary text, a
+ * reserved neon-lime accent, and LIGHT pill buttons with a near-black label.
  *
  * These VALUES are owned by this design lane; the schema, the CSS-var contract
  * (`tokenCssVariables`), and the validation pipeline are shared/foundation-owned and
- * untouched. Both a full light preset (the lane's primary character) and a full dark
- * preset ship; the dark theme is designed, not an inverted light theme.
+ * untouched.
  *
- * Type DNA is translated from the real Nouva template extraction
- * (`tools/framer-bridge/out/nouva.json`): Onest as the personality face with tight
- * negative tracking on oversized headings, a mono face carrying the editorial
- * `01/02/03` section numbers, eyebrows, and tags.
+ * Palette extracted verbatim from `tools/framer-bridge/out/nouva.json` tokens:
+ *   Dark/Background  rgb(8,12,18)        → #080c12
+ *   Dark/Surface     rgb(14,19,29)       → #0e131d
+ *   Dark/Surface 2   rgb(15,21,32)       → #0f1520
+ *   Dark/Surface 3   rgb(18,25,38)       → #121926  (inset / highlighted column)
+ *   Text/Primary     rgb(255,255,255)    → #fafafa  (Heading 1 textColor)
+ *   Text/Secondary   rgb(153,160,176)    → #99a0b0
+ *   Dark/Border      rgba(255,255,255,0.05)
+ *   Primary (accent) rgb(140,255,46)     → #8cff2e  (neon-lime)
+ *   Button label     rgb(13,13,13)       → #0d0d0d
+ *
+ * The accent is authored directly as `color.accent` (dial slot `green`) — the shared
+ * accent enum does not carry a neon-lime preset, so the lane owns the value here. The
+ * accentForeground is the near-black button/label ink so light accent fills read as the
+ * template's light pill buttons.
+ *
+ * A real light theme also ships (designed, not an inverted dark theme): a soft paper
+ * canvas with white cards and the same neon-lime accent dialled to a darker, AA-legible
+ * green when used as a text/line role; pills stay light-on-dark in the dark theme and
+ * dark-on-light in the light theme via `--btn-*` knobs in globals.css.
  */
 
-// Font stacks. The leading family name is injected at runtime from `next/font`
-// className-bound CSS variables (`--font-onest`, `--font-jetbrains-mono`) declared in
-// the layout; the literal family names here are the self-hosted fallbacks so the
-// preset is valid and renders correctly even before hydration.
+// Onest is the single personality face (display + body). The leading family name is
+// injected at runtime from `next/font` className-bound CSS variables declared in the
+// layout; the literal family names here are the self-hosted fallbacks so the preset is
+// valid and renders correctly even before hydration.
 const ONEST_STACK = "var(--font-onest), Onest, ui-sans-serif, system-ui, -apple-system, sans-serif";
 const MONO_STACK =
   "var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
-// Editorial type scale. `hero` owns the oversized print-annual moment; `xl`/`lg`
-// carry section heads and subheads. Tracking is handled per-role in `globals.css`.
+// Type scale translated from Nouva's style presets. `hero` owns the centered 60px H1
+// moment; `xl` carries the 48px section H2; `lg`/`base` are Body Large / Body Medium.
 const TYPE_SCALE = {
-  xs: "0.75rem",
-  sm: "0.875rem",
-  base: "1.0625rem",
-  lg: "1.375rem",
-  xl: "clamp(2.1rem, 3.6vw, 3.1rem)",
-  hero: "clamp(3.1rem, 9.2vw, 8.25rem)"
+  xs: "0.75rem", // Tag 12px
+  sm: "0.875rem", // Body Small 14px
+  base: "1rem", // Body Medium 16px
+  lg: "1.125rem", // Body Large 18px
+  xl: "clamp(2.375rem, 4.4vw, 3rem)", // H2 38 → 48px
+  hero: "clamp(2.875rem, 6vw, 3.75rem)" // H1 46 → 60px
 } as const;
 
 const TYPOGRAPHY = {
   sans: ONEST_STACK,
   mono: MONO_STACK,
   display: ONEST_STACK,
-  scale: TYPE_SCALE
+  scale: TYPE_SCALE,
+  // Nouva tracks H1/H2 at -0.04em with near-1.0 line-height; body is relaxed.
+  lineHeight: {
+    tight: 1,
+    body: 1.45
+  }
 } as const;
 
-// One spacing system shared across both themes (Lane B leans open + editorial).
+// One spacing system shared across both themes — generous, card-on-void rhythm.
 const SPACING = {
   density: "comfortable",
   unit: "1rem",
   control: "2.875rem",
-  section: "clamp(4.5rem, 9vw, 8.5rem)",
-  container: "min(1180px, calc(100vw - 2.5rem))"
+  section: "clamp(4.5rem, 9vw, 8rem)",
+  container: "min(1200px, calc(100vw - 2.5rem))"
 } as const;
 
-// One radius scale. Editorial lane stays crisp — small, restrained corners.
+// 16px rounded Surface cards are the universal building block; pills are full-round.
 const RADII = {
-  sm: "4px",
-  md: "8px",
-  lg: "14px",
+  sm: "8px",
+  md: "12px",
+  lg: "16px",
   pill: "999px"
 } as const;
 
-// One motion vocabulary, shared by both themes.
+// One motion vocabulary, shared by both themes. Smooth, restrained.
 const MOTION = {
-  duration: "460ms",
-  durationFast: "200ms",
+  duration: "600ms",
+  durationFast: "220ms",
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
   intensity: 40
 } as const;
 
 const LOGOS = {
-  markShape: "frame",
+  markShape: "dot",
   wordmark: "jami.studio",
   favicon: "/icon.svg"
 } as const;
@@ -103,127 +128,53 @@ const REGISTRY_BRANCH_MUTABLE = [
 ] as const;
 
 /**
- * Light preset — the lane's primary character.
+ * Dark preset — the lane's primary character and the fidelity target.
  *
- * Layered warm off-whites (not stark `#fff`) give the canvas rhythm; near-black warm
- * ink carries the type; magenta `#854780` is the single editorial highlight per section
- * and the interactive accent. Borders are hairline; elevation is whisper-soft (editorial
- * cards are border + space, not heavy shadow).
- */
-export const nouvaLightPreset: TokenPreset = validateTokenPreset({
-  id: "nouva-light",
-  name: "Nouva Light Editorial",
-  description:
-    "Bold light editorial preset for the Nouva lane: layered warm off-white canvas, near-black ink, magenta accent.",
-  ownership: ownership(),
-  dials: {
-    accent: "violet",
-    contrast: 86,
-    warmth: 58,
-    density: 52,
-    radius: 8,
-    surfaceDepth: 22,
-    motion: 40
-  },
-  color: {
-    background: "#f7f5f2",
-    foreground: "#16131a",
-    muted: "#ece8e4",
-    mutedForeground: "#5a5560",
-    panel: "#fffdfb",
-    panelForeground: "#16131a",
-    border: "#e2dbe0",
-    ring: "#854780",
-    accent: "#854780",
-    accentForeground: "#fdf7fc"
-  },
-  typography: {
-    ...TYPOGRAPHY,
-    lineHeight: {
-      tight: 0.96,
-      body: 1.6
-    }
-  },
-  spacing: { ...SPACING },
-  radii: { ...RADII },
-  surface: {
-    canvas: "#f7f5f2",
-    panel: "#fffdfb",
-    panelRaised: "#ffffff",
-    overlay: "#fffdfb",
-    inverse: "#16131a"
-  },
-  elevation: {
-    none: "none",
-    sm: "0 1px 2px rgb(26 19 32 / 0.05)",
-    md: "0 24px 60px -28px rgb(26 19 32 / 0.22)"
-  },
-  motion: { ...MOTION },
-  logos: { ...LOGOS },
-  handles: { ...HANDLES },
-  registry: {
-    item: "@jami-studio/theme/nouva-light",
-    version: "0.1.0",
-    candidate: true,
-    exports: [...REGISTRY_EXPORTS],
-    branchMutable: [...REGISTRY_BRANCH_MUTABLE]
-  }
-});
-
-/**
- * Dark preset — a designed nocturne, not an inverted light theme.
- *
- * Warm plum-charcoal canvas (not pure black) with layered panels; bright magenta
- * `#c98fc4` reads as the editorial highlight and links, paired with dark ink on accent
- * fills. Foreground is warm near-white. Hairline light borders separate surfaces.
+ * Blue-black void canvas; charcoal Surface cards on hairline 5%-white seams; near-white
+ * type over muted blue-grey secondary text; neon-lime accent used sparingly. Elevation is
+ * deep, soft, and cool — depth comes from layered Surfaces on the void, not heavy shadow.
  */
 export const nouvaDarkPreset: TokenPreset = validateTokenPreset({
   id: "nouva-dark",
-  name: "Nouva Dark Editorial",
+  name: "Nouva Dark",
   description:
-    "Dark companion for the Nouva lane: warm plum-charcoal canvas, layered panels, bright magenta editorial accent.",
+    "Faithful Nouva dark preset: blue-black void canvas, charcoal Surface cards on 5%-white hairline seams, near-white type, neon-lime accent.",
   ownership: ownership(),
   dials: {
-    accent: "violet",
-    contrast: 88,
-    warmth: 58,
+    accent: "green",
+    contrast: 92,
+    warmth: 8,
     density: 52,
-    radius: 8,
-    surfaceDepth: 64,
+    radius: 16,
+    surfaceDepth: 74,
     motion: 40
   },
   color: {
-    background: "#14111a",
-    foreground: "#f3eef4",
-    muted: "#221d2b",
-    mutedForeground: "#a79fb0",
-    panel: "#1b1724",
-    panelForeground: "#f3eef4",
-    border: "#2e2838",
-    ring: "#c98fc4",
-    accent: "#c98fc4",
-    accentForeground: "#1a1320"
+    background: "#080c12",
+    foreground: "#fafafa",
+    muted: "#0f1520",
+    mutedForeground: "#99a0b0",
+    panel: "#0e131d",
+    panelForeground: "#fafafa",
+    border: "#1b2433",
+    ring: "#8cff2e",
+    accent: "#8cff2e",
+    accentForeground: "#0d0d0d"
   },
-  typography: {
-    ...TYPOGRAPHY,
-    lineHeight: {
-      tight: 0.96,
-      body: 1.6
-    }
-  },
+  typography: { ...TYPOGRAPHY },
   spacing: { ...SPACING },
   radii: { ...RADII },
   surface: {
-    canvas: "#14111a",
-    panel: "#1b1724",
-    panelRaised: "#221d2c",
-    overlay: "#1b1724",
-    inverse: "#f3eef4"
+    canvas: "#080c12",
+    panel: "#0e131d",
+    panelRaised: "#0f1520",
+    overlay: "#121926",
+    inverse: "#fafafa"
   },
   elevation: {
     none: "none",
-    sm: "0 1px 2px rgb(0 0 0 / 0.4)",
-    md: "0 28px 64px -30px rgb(0 0 0 / 0.7)"
+    sm: "0 1px 2px rgb(0 0 0 / 0.5)",
+    md: "0 40px 80px -40px rgb(0 0 0 / 0.85)"
   },
   motion: { ...MOTION },
   logos: { ...LOGOS },
@@ -237,9 +188,71 @@ export const nouvaDarkPreset: TokenPreset = validateTokenPreset({
   }
 });
 
+/**
+ * Light preset — a real, designed light companion (not an inverted dark theme).
+ *
+ * Soft cool-paper canvas; clean white cards on hairline seams; near-black type over a
+ * muted slate secondary; the neon-lime accent stays the brand mark but is paired with a
+ * darker lime-green line/text role (`ring`) so accent-on-light text stays AA-legible.
+ * Pills invert to dark-on-light via globals.css knobs.
+ */
+export const nouvaLightPreset: TokenPreset = validateTokenPreset({
+  id: "nouva-light",
+  name: "Nouva Light",
+  description:
+    "Designed light companion for the Nouva lane: cool-paper canvas, white Surface cards on hairline seams, near-black type, neon-lime accent.",
+  ownership: ownership(),
+  dials: {
+    accent: "green",
+    contrast: 88,
+    warmth: 18,
+    density: 52,
+    radius: 16,
+    surfaceDepth: 24,
+    motion: 40
+  },
+  color: {
+    background: "#eef1f5",
+    foreground: "#0b0f16",
+    muted: "#e3e8ef",
+    mutedForeground: "#5a6677",
+    panel: "#ffffff",
+    panelForeground: "#0b0f16",
+    border: "#d7dde6",
+    ring: "#3f7a16",
+    accent: "#8cff2e",
+    accentForeground: "#0d0d0d"
+  },
+  typography: { ...TYPOGRAPHY },
+  spacing: { ...SPACING },
+  radii: { ...RADII },
+  surface: {
+    canvas: "#eef1f5",
+    panel: "#ffffff",
+    panelRaised: "#f7f9fc",
+    overlay: "#ffffff",
+    inverse: "#0b0f16"
+  },
+  elevation: {
+    none: "none",
+    sm: "0 1px 2px rgb(15 23 42 / 0.06)",
+    md: "0 30px 70px -36px rgb(15 23 42 / 0.28)"
+  },
+  motion: { ...MOTION },
+  logos: { ...LOGOS },
+  handles: { ...HANDLES },
+  registry: {
+    item: "@jami-studio/theme/nouva-light",
+    version: "0.1.0",
+    candidate: true,
+    exports: [...REGISTRY_EXPORTS],
+    branchMutable: [...REGISTRY_BRANCH_MUTABLE]
+  }
+});
+
 export const nouvaThemePresets = {
-  light: nouvaLightPreset,
-  dark: nouvaDarkPreset
+  dark: nouvaDarkPreset,
+  light: nouvaLightPreset
 } as const;
 
 export type NouvaThemeName = keyof typeof nouvaThemePresets;

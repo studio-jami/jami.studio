@@ -1,21 +1,14 @@
 import type { ElementType, ReactNode } from "react";
 
-/** Oversized editorial section number (01 / 02 / 03 …) in the mono face. */
-export function SectionNumber({ value }: { value: string }) {
-  return (
-    <span className="section-number" aria-hidden="true">
-      {value}
-    </span>
-  );
-}
-
-/** Small-caps mono eyebrow / kicker label. */
+/**
+ * Small-caps uppercase eyebrow / tag — the dotted kicker that opens every Nouva section
+ * (the "Eyebrow" component in the template). The leading accent dot is drawn in CSS.
+ */
 export function Eyebrow({ children, as: Tag = "p" }: { children: ReactNode; as?: ElementType }) {
   return <Tag className="eyebrow">{children}</Tag>;
 }
 
 type SectionHeadingProps = {
-  number?: string;
   eyebrow?: ReactNode;
   title: ReactNode;
   titleId?: string;
@@ -26,12 +19,11 @@ type SectionHeadingProps = {
 };
 
 /**
- * The lane's consistent section header: optional oversized number, mono eyebrow,
- * a display title with tight tracking, and an optional lead paragraph. This is the
- * repeated "Headline" unit seen on every Nouva section.
+ * The lane's consistent section opener: an uppercase eyebrow tag followed by a big Onest
+ * title with tight (-0.04em) tracking, and an optional lead paragraph. This is the
+ * repeated "eyebrow → H2" unit seen on every Nouva section.
  */
 export function SectionHeading({
-  number,
   eyebrow,
   title,
   titleId,
@@ -46,12 +38,7 @@ export function SectionHeading({
         .filter(Boolean)
         .join(" ")}
     >
-      {(number || eyebrow) && (
-        <div className="section-heading-top">
-          {number && <SectionNumber value={number} />}
-          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        </div>
-      )}
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <Tag id={titleId} className="section-title">
         {title}
       </Tag>

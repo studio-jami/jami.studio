@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
-import { CtaBand } from "@/components/marketing/cta-band";
 import { Container } from "@/components/primitives/container";
 import { Eyebrow } from "@/components/primitives/section-heading";
 import { Reveal } from "@/components/system/reveal";
+import { ProjectCard } from "@/components/marketing/project-card";
+import { CtaCard } from "@/components/marketing/cta-card";
+import { projects } from "@/content/projects";
 import { studioLinks } from "@/content/links";
 import { createMetadata } from "@/lib/metadata";
 
@@ -17,11 +18,12 @@ export default function ProjectsPage() {
   return (
     <>
       <section className="page-hero" aria-labelledby="projects-title">
+        <div className="page-hero-atmosphere" aria-hidden="true" />
         <Container>
           <Reveal>
-            <Eyebrow>Studio OSS family</Eyebrow>
+            <Eyebrow>The family</Eyebrow>
             <h1 className="page-hero-title" id="projects-title">
-              Selected work
+              Five products, one foundation.
             </h1>
             <p className="page-hero-lead">
               Separate products over shared foundations: governed agents, trusted UI,
@@ -32,15 +34,19 @@ export default function ProjectsPage() {
         </Container>
       </section>
 
-      <ShowcaseGrid
-        number="01"
-        eyebrow="The portfolio"
-        title="Five products in the family."
-        titleId="projects-grid-title"
-        className="showcase--index"
-      />
+      <section className="section section--tight" aria-label="All projects">
+        <Container>
+          <div className="family-masonry">
+            {projects.map((project, index) => (
+              <Reveal key={project.slug} delay={(index % 3) * 70}>
+                <ProjectCard project={project} />
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-      <CtaBand
+      <CtaCard
         eyebrow="Read further"
         title="Resolve the whole family from one AI-readable source."
         titleId="projects-cta-title"

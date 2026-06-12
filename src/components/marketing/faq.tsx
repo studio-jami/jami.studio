@@ -1,76 +1,66 @@
 "use client";
 
-import { useId, useState } from "react";
-import { Section } from "@/components/primitives/section";
+import { useState } from "react";
+import { Container } from "@/components/primitives/container";
 import { SectionHeading } from "@/components/primitives/section-heading";
 import { site } from "@/content/site";
 
-function FaqItem({
-  question,
-  answer,
-  open,
-  onToggle
-}: {
-  question: string;
-  answer: string;
-  open: boolean;
-  onToggle: () => void;
-}) {
-  const id = useId();
-  const panelId = `${id}-panel`;
-  const buttonId = `${id}-button`;
-
-  return (
-    <div className="faq-item" data-open={open}>
-      <h3 className="faq-question-heading">
-        <button
-          type="button"
-          id={buttonId}
-          className="faq-question"
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={onToggle}
-        >
-          <span>{question}</span>
-          <span className="faq-icon" aria-hidden="true" data-open={open} />
-        </button>
-      </h3>
-      <div
-        id={panelId}
-        role="region"
-        aria-labelledby={buttonId}
-        className="faq-answer"
-        hidden={!open}
-      >
-        <p>{answer}</p>
-      </div>
-    </div>
-  );
-}
-
-/** FAQ — editorial accordion from `site.faqs`. */
+/**
+ * FAQ — Nouva's accordion. The three `site.faqs` render as a single Surface-card
+ * accordion on the void. The answer is always present in the DOM (good for crawlers and
+ * agents); the accordion only toggles its visibility. The first item starts open.
+ */
 export function Faq() {
-  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [open, setOpen] = useState<number>(0);
 
   return (
-    <Section className="faq" divided aria-labelledby="faq-title">
-      <SectionHeading
-        number="07"
-        eyebrow="Questions"
-        title="What this site is, and what it is not."
-        titleId="faq-title"
-      />
-      <div className="faq-list">
-        {site.faqs.map((faq, index) => (
-          <FaqItem
-            key={faq.question}
-            question={faq.question}
-            answer={faq.answer}
-            open={openIndex === index}
-            onToggle={() => setOpenIndex((current) => (current === index ? -1 : index))}
-          />
-        ))}
-      </div>
-    </Section>
+    <section className="section" aria-labelledby="faq-title">
+      <Container>
+        <SectionHeading
+          eyebrow="FAQ"
+          title={
+            <>
+              You have questions. <span className="title-soft">We have answers.</span>
+            </>
+          }
+          titleId="faq-title"
+          align="center"
+        />
+
+        <div className="faq-list">
+          {site.faqs.map((faq, index) => {
+            const isOpen = open === index;
+            const panelId = `faq-panel-${index}`;
+            const buttonId = `faq-button-${index}`;
+            return (
+              <div className="faq-item" key={faq.question}>
+                <h3 className="faq-question-heading">
+                  <button
+                    type="button"
+                    id={buttonId}
+                    className="faq-question"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpen(isOpen ? -1 : index)}
+                  >
+                    <span>{faq.question}</span>
+                    <span className="faq-icon" data-open={isOpen} aria-hidden="true" />
+                  </button>
+                </h3>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  className="faq-answer"
+                  hidden={!isOpen}
+                >
+                  <p>{faq.answer}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Container>
+    </section>
   );
 }

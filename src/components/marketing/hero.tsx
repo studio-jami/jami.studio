@@ -1,54 +1,109 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/primitives/button";
-import { Container } from "@/components/primitives/container";
-import { Reveal } from "@/components/system/reveal";
-import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
 /**
- * Hero — Nouva's centered display moment. Eyebrow, oversized display title, lead, a
- * decisive primary CTA + quiet secondary, then a thin family ticker and a scroll cue.
- * Translated to the light editorial canvas with magenta as the single highlight.
+ * Hero — Nouva's signature full-bleed cinematic moment, recreated entirely in CSS:
+ * a deep dusk-toned atmospheric scene (radial/linear layers, vignette) sits behind a
+ * centered white headline. The headline reveals word-by-word with a BLUR-UP transition.
+ * One primary CTA and a scroll indicator sit below.
+ *
+ * The headline text is plain in the static HTML (crawlers/agents/no-JS see it intact);
+ * the per-word blur-up only applies after JS flags `.js-reveal-ready` and never under
+ * reduced motion.
  */
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)
+  );
+}
+
 export function Hero() {
-  const { eyebrow, title, lead, primaryCta, secondaryCta } = site.home;
+  const ref = useRef<HTMLHeadingElement | null>(null);
+  // Starts hidden to match the server render (no hydration mismatch). The effect flips it
+  // on via a rAF callback — never a synchronous setState in the effect body — so the
+  // blur-up plays after mount and reduced-motion just resolves to visible immediately.
+  const [visible, setVisible] = useState(false);
+
+  // The two-line headline; the second line is dimmed (Nouva's title-soft treatment).
+  const line1 = site.home.eyebrow; // used as eyebrow tag below
+  const titleLead = "One source.";
+  const titleSoft = "Every surface, in sync.";
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    // Reduced motion: reveal immediately (deferred to a frame, not synchronously).
+    if (prefersReducedMotion()) {
+      const raf = requestAnimationFrame(() => setVisible(true));
+      return () => cancelAnimationFrame(raf);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const words = `${titleLead} ${titleSoft}`.split(" ");
+  const softStartIndex = titleLead.split(" ").length;
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <Container className="hero-inner">
-        <Reveal as="p" className="hero-eyebrow eyebrow">
-          {eyebrow}
-        </Reveal>
-        <Reveal as="h1" className="hero-title" delay={60}>
-          <span id="hero-title">{title}</span>
-        </Reveal>
-        <Reveal as="p" className="hero-lead" delay={120}>
-          {lead}
-        </Reveal>
-        <Reveal className="hero-actions" delay={180}>
-          <ButtonLink href={primaryCta.href} variant="primary" size="lg">
-            {primaryCta.label}
-          </ButtonLink>
-          <ButtonLink href={secondaryCta.href} variant="ghost" size="lg">
-            {secondaryCta.label}
-          </ButtonLink>
-        </Reveal>
-      </Container>
+      <div className="hero-atmosphere" aria-hidden="true" />
+      <div className="hero-vignette" aria-hidden="true" />
 
-      <Container className="hero-ticker-wrap">
-        <Reveal className="hero-ticker" delay={240}>
-          <span className="hero-ticker-label">The family</span>
-          <ul className="hero-ticker-list">
-            {projects.map((project) => (
-              <li key={project.slug}>{project.shortName}</li>
-            ))}
-          </ul>
-        </Reveal>
-      </Container>
+      <div className="hero-inner">
+        <p className="eyebrow hero-eyebrow">{line1}</p>
 
-      <div className="hero-scroll-cue" aria-hidden="true">
-        <span>Scroll</span>
-        <span className="hero-scroll-line" />
+        <h1
+          id="hero-title"
+          ref={ref}
+          className={["hero-title", "blur-up", visible ? "is-visible" : null]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {words.map((word, index) => (
+            <span
+              key={`${word}-${index}`}
+              className={["blur-word", index >= softStartIndex ? "title-soft" : null]
+                .filter(Boolean)
+                .join(" ")}
+              style={{ "--word-delay": `${index * 90}ms` } as React.CSSProperties}
+            >
+              {word}
+              {index < words.length - 1 ? " " : ""}
+            </span>
+          ))}
+        </h1>
+
+        <p className="hero-lead">{site.home.lead}</p>
+
+        <div className="hero-actions">
+          <ButtonLink href={site.home.primaryCta.href} variant="primary" size="lg">
+            {site.home.primaryCta.label}
+          </ButtonLink>
+        </div>
       </div>
+
+      <a className="scroll-indicator" href="#why-it-matters" aria-label="Scroll to content">
+        <span className="scroll-indicator-mouse" aria-hidden="true" />
+        <span>Scroll</span>
+      </a>
     </section>
   );
 }

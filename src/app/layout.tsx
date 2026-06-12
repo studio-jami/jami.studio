@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Onest } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { Atmosphere } from "@/components/system/atmosphere";
 import { ThemeScript } from "@/components/system/theme-script";
 import { site } from "@/content/site";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/metadata";
@@ -36,15 +35,17 @@ function themeBlock(selector: string, vars: Record<string, string>) {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = [organizationJsonLd(), websiteJsonLd()];
-  const lightVars = tokenCssVariables(nouvaLightPreset);
   const darkVars = tokenCssVariables(nouvaDarkPreset);
+  const lightVars = tokenCssVariables(nouvaLightPreset);
+  // Dark is the lane's primary character, so it owns `:root`. Light is opt-in via the
+  // theme toggle / OS preference and overrides through `[data-theme="light"]`.
   const themeCss = [
-    themeBlock(':root, [data-theme="light"]', lightVars),
-    themeBlock('[data-theme="dark"]', darkVars)
+    themeBlock(':root, [data-theme="dark"]', darkVars),
+    themeBlock('[data-theme="light"]', lightVars)
   ].join("");
 
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeCss }} />
         <ThemeScript />
@@ -54,7 +55,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Atmosphere />
         <div className="page-shell">
           <SiteHeader />
           <main id="main-content">{children}</main>

@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/primitives/button";
 import { Badge } from "@/components/primitives/badge";
 import { Container } from "@/components/primitives/container";
-import { Section } from "@/components/primitives/section";
-import { SectionHeading, Eyebrow, SectionNumber } from "@/components/primitives/section-heading";
-import { CtaBand } from "@/components/marketing/cta-band";
+import { SectionHeading, Eyebrow } from "@/components/primitives/section-heading";
+import { CtaCard } from "@/components/marketing/cta-card";
 import { FamilyCrossLinks } from "@/components/marketing/family-cross-links";
 import { Reveal } from "@/components/system/reveal";
 import { getProject, projects } from "@/content/projects";
@@ -65,103 +64,111 @@ export default async function ProjectPage({ params }: PageProps) {
       />
 
       <section className="project-hero" aria-labelledby="project-title">
+        <div className="page-hero-atmosphere" aria-hidden="true" />
         <Container>
           <Reveal className="project-hero-top">
             <Eyebrow>{project.subdomain}</Eyebrow>
             <Badge variant="outline">{statusLabel[project.internalStatus]}</Badge>
           </Reveal>
-          <Reveal as="h1" className="project-hero-title" delay={50}>
-            <span id="project-title">{project.name}</span>
-          </Reveal>
-          <Reveal as="p" className="project-hero-summary" delay={100}>
-            {project.summary}
-          </Reveal>
-          <Reveal as="p" className="project-hero-positioning" delay={140}>
-            {project.positioning}
-          </Reveal>
-          <Reveal className="project-hero-actions" delay={180}>
-            {project.ctas.map((cta, index) => (
-              <ButtonLink
-                key={cta.href}
-                href={cta.href}
-                variant={index === 0 ? "primary" : "secondary"}
-                size="lg"
-              >
-                {cta.label}
-              </ButtonLink>
-            ))}
+          <Reveal className="project-hero-card" delay={60}>
+            <h1 className="project-hero-title" id="project-title">
+              {project.name}
+            </h1>
+            <p className="project-hero-summary">{project.summary}</p>
+            <p className="project-hero-positioning">{project.positioning}</p>
+            <div className="project-hero-actions">
+              {project.ctas.map((cta, index) => (
+                <ButtonLink
+                  key={cta.href}
+                  href={cta.href}
+                  variant={index === 0 ? "primary" : "secondary"}
+                  size="lg"
+                >
+                  {cta.label}
+                </ButtonLink>
+              ))}
+            </div>
           </Reveal>
         </Container>
       </section>
 
-      <Section className="project-audience" divided aria-label="Audience and positioning">
-        <div className="pull-quote">
-          <SectionNumber value="01" />
-          <blockquote>
-            <p>{project.audience}</p>
-          </blockquote>
-          <p className="pull-quote-ai">{project.aiSummary}</p>
-        </div>
-      </Section>
+      <section className="project-block" aria-label="Audience and positioning">
+        <Container>
+          <div className="project-audience-quote">
+            <Eyebrow>Who it&apos;s for</Eyebrow>
+            <blockquote>
+              <p>{project.audience}</p>
+            </blockquote>
+            <p className="project-audience-ai">{project.aiSummary}</p>
+          </div>
+        </Container>
+      </section>
 
-      <Section className="project-capabilities" divided aria-labelledby="capabilities-title">
-        <SectionHeading
-          number="02"
-          eyebrow="What it provides"
-          title="Capabilities"
-          titleId="capabilities-title"
-        />
-        <ol className="capability-list">
-          {project.capabilities.map((capability, index) => (
-            <Reveal as="li" className="capability-item" key={capability} delay={index * 50}>
-              <span className="capability-num">{String(index + 1).padStart(2, "0")}</span>
-              <p className="capability-text">{capability}</p>
-            </Reveal>
-          ))}
-        </ol>
-      </Section>
+      <section className="project-block" aria-labelledby="capabilities-title">
+        <Container>
+          <SectionHeading
+            eyebrow="What it provides"
+            title="Capabilities"
+            titleId="capabilities-title"
+          />
+          <div className="capability-grid">
+            {project.capabilities.map((capability, index) => (
+              <Reveal as="article" className="capability-card" key={capability} delay={index * 50}>
+                <span className="capability-num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="capability-text">{capability}</p>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-      <Section className="project-proof" divided aria-labelledby="proof-title">
-        <SectionHeading
-          number="03"
-          eyebrow="Why the boundary holds"
-          title="Proof posture"
-          titleId="proof-title"
-        />
-        <ul className="proof-list">
-          {project.proofPoints.map((point, index) => (
-            <Reveal as="li" className="proof-item" key={point} delay={index * 50}>
-              <span className="proof-bullet" aria-hidden="true" />
-              <p>{point}</p>
-            </Reveal>
-          ))}
-        </ul>
-      </Section>
+      <section className="project-block" aria-labelledby="proof-title">
+        <Container>
+          <SectionHeading
+            eyebrow="Why the boundary holds"
+            title="Proof posture"
+            titleId="proof-title"
+          />
+          <div className="proof-row">
+            {project.proofPoints.map((point, index) => (
+              <Reveal as="article" className="proof-card" key={point} delay={index * 50}>
+                <span className="proof-bullet" aria-hidden="true" />
+                <p>{point}</p>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-      <Section className="project-links" divided aria-labelledby="links-title">
-        <SectionHeading
-          number="04"
-          eyebrow="Public surfaces"
-          title="Where it lives"
-          titleId="links-title"
-        />
-        <ul className="link-target-grid">
-          {linkTargets.map((target) => (
-            <li key={target.label}>
-              <a className="link-target" href={target.href} target="_blank" rel="noreferrer">
-                <span className="link-target-label">{target.label}</span>
-                <span className="link-target-value">{target.value}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <section className="project-block" aria-labelledby="links-title">
+        <Container>
+          <SectionHeading
+            eyebrow="Public surfaces"
+            title="Where it lives"
+            titleId="links-title"
+          />
+          <ul className="link-target-grid">
+            {linkTargets.map((target) => (
+              <li key={target.label}>
+                <a className="link-target" href={target.href} target="_blank" rel="noreferrer">
+                  <span className="link-target-label">{target.label}</span>
+                  <span className="link-target-value">{target.value}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
 
-      <Section className="project-family" divided aria-label="Studio family">
-        <FamilyCrossLinks current={project} />
-      </Section>
+      <section className="project-block" aria-label="Studio family">
+        <Container>
+          <FamilyCrossLinks current={project} />
+        </Container>
+      </section>
 
-      <CtaBand
+      <CtaCard
         eyebrow="Continue"
         title={`Open ${project.shortName}, or browse the rest of the family.`}
         titleId="project-cta-title"

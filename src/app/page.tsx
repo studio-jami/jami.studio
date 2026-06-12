@@ -1,35 +1,41 @@
 import { Hero } from "@/components/marketing/hero";
-import { ThesisStatement } from "@/components/marketing/thesis-statement";
-import { StudioIntro } from "@/components/marketing/studio-intro";
-import { PillarFeatures } from "@/components/marketing/pillar-features";
-import { BenefitsList } from "@/components/marketing/benefits-list";
-import { SingleSourceContrast } from "@/components/marketing/single-source-contrast";
-import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { WhyItMatters } from "@/components/marketing/why-it-matters";
+import { IntroGrid } from "@/components/marketing/intro-grid";
+import { StickyFeatures } from "@/components/marketing/sticky-features";
+import { BenefitsSplit } from "@/components/marketing/benefits-split";
+import { ComparisonPanel } from "@/components/marketing/comparison-panel";
+import { FamilyMasonry } from "@/components/marketing/family-masonry";
 import { OpenCoreCallout } from "@/components/marketing/open-core-callout";
 import { Faq } from "@/components/marketing/faq";
-import { CtaBand } from "@/components/marketing/cta-band";
+import { CtaCard } from "@/components/marketing/cta-card";
 import { site } from "@/content/site";
 
 /**
- * Home — composed in Nouva's real exported section order:
- * Hero → Why It Matters → Intro → Features → Benefits → Comparison →
- * Testimonials(showcase) → Pricing(open-core) → FAQ → CTA.
+ * Home — composed in Nouva's real exported 10-section order:
+ * Hero → Why It Matters (staggered count-up stats) → Intro (3-col cards) →
+ * Features (sticky stack) → Benefits (asymmetric split) → Comparison (us-vs-them) →
+ * Testimonials → the five-project family masonry → Pricing → open-core →
+ * FAQ (accordion) → CTA (card-on-void).
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <ThesisStatement />
-      <StudioIntro />
-      <PillarFeatures />
-      <BenefitsList />
-      <SingleSourceContrast />
-      <ShowcaseGrid />
+      <WhyItMatters />
+      <IntroGrid />
+      <StickyFeatures />
+      <BenefitsSplit />
+      <ComparisonPanel />
+      <FamilyMasonry />
       <OpenCoreCallout />
       <Faq />
-      <CtaBand
+      <CtaCard
         eyebrow="Start here"
-        title="Open the work, or read the source built for agents."
+        title={
+          <>
+            The work doesn&apos;t stop. <span className="title-soft">Neither does the family.</span>
+          </>
+        }
         lead={site.home.lead}
         titleId="home-cta-title"
         actions={[

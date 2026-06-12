@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "link";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "accent";
 type ButtonSize = "md" | "lg";
 
 type ButtonLinkProps = {
@@ -23,10 +23,11 @@ function classes(variant: ButtonVariant, size: ButtonSize, className?: string): 
 }
 
 /**
- * Editorial action link. One shape, one radius scale, one motion vocabulary across all
- * variants. Renders an internal `next/link` for app routes and a plain anchor for
- * external/protocol hrefs. Hrefs always come from the content/route layer — never
- * hand-built in components.
+ * Action link rendered as a Nouva pill. `primary` is the template's LIGHT pill with a
+ * near-black label; `secondary`/`ghost` are hairline surface pills on the void; `accent`
+ * is the reserved neon-lime moment. One shape, one radius scale, one motion vocabulary.
+ * Renders an internal `next/link` for app routes and a plain anchor for external/protocol
+ * hrefs. Hrefs always come from the content/route layer — never hand-built in components.
  */
 export function ButtonLink({
   href,
