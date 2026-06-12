@@ -1,11 +1,11 @@
 # Design Goal — jami.studio Marketing Rebuild (Orchestrator Brief)
 
 Date: 2026-06-11
-Status: [ ] Active — **run 3**. Re-scaffolded 2026-06-11 after run 2's five lanes converged into one generic
-skeleton (Hero → features → showcase grid → proof → callout → FAQ → CTA) in five palettes. Root cause fixed
-below. Fresh execute pass dispatched on the existing `design/<lane>-2` branches (their converged work is
-replaced, not appended).
-Active roadmaps (one per lane): `docs/roadmaps/2026-06-11-design-rebuild-{message-ai,nouva,kirimo,noir,synk}.md`
+Status: [x] **CLOSED — DECIDED (2026-06-12): Kirimo.** Run 4 delivered five distinct, template-faithful,
+image-rich lanes; the owner chose **Kirimo** for the OSS hub (Synk runner-up, earmarked for per-product
+pages). Decision record + resume plan: `docs/decisions/2026-06-12-design-direction-kirimo.md`. This brief is
+retained as the bakeoff history. The winning build is on `design/kirimo-2` (not yet merged to `main`).
+Active roadmap (chosen lane only): `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`
 Design guidelines: `docs/design/reference-brief.md`
 Orchestration reliability: `docs/engineering/agents/orchestration-reliability.md`
 State checkpoint: `docs/engineering/agents/orchestration-state.md`
