@@ -26,6 +26,8 @@ test-results/
 playwright-report/
 blob-report/
 .nyc_output/
+.playwright-cli/
+output/playwright/
 
 # Logs
 *.log
