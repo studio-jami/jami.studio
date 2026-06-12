@@ -38,10 +38,12 @@ finished and is restored here as the canonical forward plan.
   `orchestra.jami.studio`, `intercal.jami.studio`, `collectiva.jami.studio` as separate deploy targets in
   `docs/operations/`.
 
-**Resume order when work restarts:** (1) merge Kirimo → `main` + ADR tweaks (WS5); (2) WS6 deploy +
-subdomain mapping + analytics; (3) adopt the Synk system as the per-product page template; (4) Expansion
-Track. Cross-ref: `docs/operations/credit-utilization-plan.md` ("Launch Sequencing") and
-`docs/decisions/2026-06-06-framework-and-deployment.md`.
+**Resume order when work restarts:** (1) merge Kirimo → `main` + ADR tweaks (WS5); (2) decide the
+project-page layout direction — **OPEN: not locked to Synk**; the owner leans toward a different
+layout/template and will survey the template set first — then build `/projects[/slug]` to it; (3) WS6
+deploy + subdomain mapping + analytics; (4) Expansion Track. Cross-ref:
+`docs/decisions/2026-06-12-design-direction-kirimo.md`, `docs/operations/credit-utilization-plan.md`
+("Launch Sequencing"), and `docs/decisions/2026-06-06-framework-and-deployment.md`.
 
 > The workstream bodies below are the **original 2026-06-06 plan verbatim**; their inline `[x]` marks and
 > dated closeouts reflect the *first* (pre-bakeoff) pass and are historical. Trust this Recovery note for
