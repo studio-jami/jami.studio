@@ -1,7 +1,7 @@
 # jami.studio Design Rebuild — Synk Lane (`design/synk-2`)
 
 Date: 2026-06-11
-Status: [ ] Active — execute pass not started
+Status: [x] Pass 1 EXECUTE complete — WS1–WS7 built; `pnpm verify` green; smoke-tested at 1440/1024/768/390 × both themes
 Lane: `synk` · Branch: `design/synk-2` · Worktree: `../jami.studio-synk-2`
 Template: **Synk** (Framer) · Aesthetic: **Lane B — systematized light**
 Accent: `#2b4173` indigo (dial `green` slot — no blue/indigo name in the enum; retune the `accentPalettes` entry on-branch so the config `<select>` reads true)

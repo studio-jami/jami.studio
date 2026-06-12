@@ -19,10 +19,13 @@ const accentPalettes: Record<
     mutedForeground: "#4f635f"
   },
   green: {
-    accent: "#34784f",
-    accentForeground: "#f7fff8",
-    ring: "#47a96b",
-    mutedForeground: "#526153"
+    // Retuned on-branch to the Synk lane's true brand indigo (#2b4173). The accent enum has
+    // no blue/indigo name, so the lane claims this slot and authors it honestly here, keeping
+    // the config <select> truthful without forking the shared schema or var contract.
+    accent: "#2b4173",
+    accentForeground: "#f7f8fc",
+    ring: "#3a5694",
+    mutedForeground: "#525661"
   },
   amber: {
     accent: "#9a6a16",

@@ -1,90 +1,121 @@
-import Link from "next/link";
-import { ProjectCard } from "@/components/marketing/project-card";
-import { projects } from "@/content/projects";
+import { Container } from "@/components/layout/container";
+import { Divider } from "@/components/layout/divider";
+import { Section } from "@/components/layout/section";
+import { BenefitsList } from "@/components/marketing/benefits-list";
+import { CtaBand } from "@/components/marketing/cta-band";
+import { FamilyIntegrationMap } from "@/components/marketing/family-integration-map";
+import { Faq } from "@/components/marketing/faq";
+import { Hero } from "@/components/marketing/hero";
+import { PillarCards } from "@/components/marketing/pillar-cards";
+import { ProofLine } from "@/components/marketing/proof-line";
+import { ProofPointBand } from "@/components/marketing/proof-point-band";
+import { ShowcaseGrid } from "@/components/marketing/showcase-grid";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { site } from "@/content/site";
-import { projectPath } from "@/lib/routes";
 
+/**
+ * Home — built to Synk's real exported IA:
+ *   Hero → Trusted By → Features ┃ Benefits ┃ Features-2 ┃ Reviews ┃ Integrations ┃ FAQ → CTA
+ * An explicit, token-driven Divider separates every section (Synk's signature).
+ */
 export default function HomePage() {
-  const featuredProject = projects.find((project) => project.slug === "intercal") ?? projects[0];
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="meta">{site.home.eyebrow}</p>
-          <h1>{site.home.title}</h1>
-          <p className="lead">{site.home.lead}</p>
-          <div className="button-row">
-            <Link className="button primary" href={site.home.primaryCta.href}>
-              {site.home.primaryCta.label}
-            </Link>
-            <Link className="button secondary" href={site.home.secondaryCta.href}>
-              {site.home.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-        <div className="system-map" aria-label="Studio project family map">
-          <div className="map-orbit" aria-hidden="true">
-            <span>runtime</span>
-            <span>interface</span>
-            <span>memory</span>
-          </div>
-          {projects.map((project) => (
-            <Link key={project.slug} href={projectPath(project)}>
-              <span>{project.shortName}</span>
-              <small>{project.summary}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <Hero />
 
-      <section className="section split-section">
-        <div className="section-heading">
-          <p className="meta">Project family</p>
-          <h2>One public hub, separate implementation surfaces.</h2>
-          <p>{site.home.proof}</p>
-        </div>
-        <div className="feature-panel">
-          <p className="meta">Live integration</p>
-          <h3>{featuredProject.name}</h3>
-          <p>{featuredProject.positioning}</p>
-          <Link className="text-link" href={projectPath(featuredProject)}>
-            Explore {featuredProject.shortName}
-          </Link>
-        </div>
-      </section>
+      <ProofLine />
 
-      <section className="section">
-        <div className="project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+      <Section id="foundations" label="What this studio stands for">
+        <SectionHeading
+          index="01"
+          eyebrow="Foundations"
+          title="Four foundations the family is built on"
+          lead="Governed runtime, trusted interfaces, durable coordination, and agent-readable knowledge — the stance behind every product."
+        />
+        <PillarCards />
+      </Section>
 
-      <section className="section pillar-grid">
-        {site.home.pillars.map((pillar) => (
-          <article key={pillar.title}>
-            <h2>{pillar.title}</h2>
-            <p>{pillar.body}</p>
-          </article>
-        ))}
-      </section>
+      <Container>
+        <Divider />
+      </Container>
 
-      <section className="section">
-        <div className="section-heading">
-          <p className="meta">Source boundaries</p>
-          <h2>Designed for human and agent readers</h2>
-        </div>
-        <div className="detail-grid">
-          {site.faqs.map((faq) => (
-            <section key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
-      </section>
+      <Section id="benefits" label="Cross-family benefits">
+        <SectionHeading
+          index="02"
+          eyebrow="Benefits"
+          title="What stays true across the whole family"
+          lead="Distilled themes the products share — each drawn from a real Studio surface, not a slogan."
+          align="start"
+        />
+        <BenefitsList />
+      </Section>
+
+      <Container>
+        <Divider />
+      </Container>
+
+      <Section id="projects" label="The Studio product family">
+        <SectionHeading
+          index="03"
+          eyebrow="Product family"
+          title="Five products, one coherent surface"
+          lead="The portfolio: separate implementation surfaces presented as one integrated family. Open any project for the full case."
+        />
+        <ShowcaseGrid />
+      </Section>
+
+      <Container>
+        <Divider />
+      </Container>
+
+      <Section id="posture" label="Proof posture">
+        <SectionHeading
+          index="04"
+          eyebrow="Proof posture"
+          title="Credibility from boundaries, not claims"
+          lead="Real design-posture facts pulled from each product's own content — the boundaries that keep the family honest."
+        />
+        <ProofPointBand />
+      </Section>
+
+      <Container>
+        <Divider />
+      </Container>
+
+      <Section id="integrations" label="How the family fits together">
+        <SectionHeading
+          index="05"
+          eyebrow="How it fits"
+          title="An integrated family, not a logo wall"
+          lead="The five products genuinely interconnect. Here is how runtime, interface, coordination, knowledge, and society plug together."
+        />
+        <FamilyIntegrationMap />
+      </Section>
+
+      <Container>
+        <Divider />
+      </Container>
+
+      <Section id="faq" label="Frequently asked questions">
+        <SectionHeading
+          index="06"
+          eyebrow="FAQ"
+          title="Clear answers on scope and boundaries"
+        />
+        <Faq />
+      </Section>
+
+      <Container>
+        <Divider />
+      </Container>
+
+      <CtaBand
+        eyebrow="Next step"
+        title="Explore the projects or read the AI index"
+        lead="Open the full portfolio, or pull the family, routes, and source boundaries from stable generated text."
+        primary={site.home.primaryCta}
+        secondary={site.home.secondaryCta}
+      />
     </>
   );
 }
