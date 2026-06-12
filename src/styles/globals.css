@@ -439,8 +439,8 @@ ul {
 .icon-btn {
   display: inline-grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-panel);
