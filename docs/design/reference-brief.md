@@ -1,478 +1,279 @@
 # jami.studio — Design Reference Brief
 
-**Audience:** the five independent design agents rebuilding the `jami.studio` marketing-site
-UI from scratch, one per assigned Framer reference template, on separate branches.
+**Audience:** the five design agents rebuilding the `jami.studio` marketing-site UI, one per assigned Framer
+reference template, on separate branches/worktrees.
 **Status:** model-agnostic, implementation-ready. Read this in full before writing any UI.
-**Scope:** art direction, reference DNA, and non-negotiable system rules. It deliberately does
-**not** prescribe one single look — each agent must differentiate within these rules.
+**Scope:** the universal craft, system rules, and verification bar that apply to every lane. **Your lane's
+*structure* is owned by your roadmap** (`docs/roadmaps/2026-06-11-design-rebuild-<lane>.md`) — this brief does
+not prescribe one look; it makes every lane clear the same quality + integrity bar while reproducing its own
+template.
 
-> One-line mandate: build the public hub for an open-core, agent-native product family so it reads
-> like an **elevated design studio showcasing its own work** — not a SaaS template, not a dev log,
-> not a status page.
-
----
-
-## 1. Mandate & quality bar
-
-This is the central entry point for every Studio product. The only acceptable outcome is
-production, world-class polish. Treat every rule below as a gate, not a suggestion.
-
-- **Uniform, global, reusable, composable.** Every UI element is a token-driven component used
-  consistently everywhere. Zero one-off styling. If a value (color, radius, space, type size,
-  shadow, duration) is used twice, it is a token or a component prop — never a hardcoded literal
-  repeated by hand.
-- **One spacing system, one radius scale, one type scale, one shadow set, one motion vocabulary.**
-  No mismatched radii between cards and buttons. No ad-hoc margins.
-- **No placeholder energy.** No "coming soon", no "work in progress", no status apologies, no launch
-  excuses, no lorem ipsum. Copy comes from `src/content/*`; if a section needs words, use the real
-  product copy already in the contracts. Implementation status stays out of marketing copy.
-- **No default-framework smell.** It must not look like stock shadcn, stock Tailwind UI, a Vercel
-  template, or a Framer template lifted verbatim. The references are a *quality bar and a vibe*, not
-  a thing to clone. Adapt and elevate for our open-core dev-tools context.
-- **Real responsive, all breakpoints.** Dark + light both fully designed. Mobile, tablet, desktop —
-  no shortcuts, no "desktop-only and squish it later."
-- **Accessible by construction.** WCAG AA contrast minimum for text; visible focus rings (use the
-  `--ring` token); semantic landmarks; respects `prefers-reduced-motion`.
-- **Differentiation is required.** Five agents, five distinct results that all clear the bar. Pick a
-  lane (or blend), commit to it, and make it cohesive end-to-end.
-
-A design that is "fine" fails. The target is the kind of site a senior design studio would put at
-the top of its own portfolio.
+> One-line mandate: build the public hub for an open-core, agent-native product family so each lane reads like
+> **its assigned reference template, fully realized with our content** — five templates, five distinct studios.
 
 ---
 
-## 2. Two aesthetic lanes
+## 1. The one rule: reproduce your template
 
-Each agent picks **one** lane, or a deliberate blend, and commits fully. Both lanes must ship dark
-**and** light themes — the lane describes the *primary character*, not the only theme.
+This is a five-way design bakeoff. Each lane is assigned one real Framer template whose complete design system
+is already extracted into your worktree. **Build our site USING that template's design** — its real section
+structure and order, its colors, its textures, its component vocabulary, its layout — populated with our
+content. The finished `/` must **look like the template render** (`tools/framer-bridge/out/<lane>.home.png`).
 
-### Lane A — Dark, grainy, textured (the owner's favorite)
+- **Structure comes from your template, not a shared menu.** Your roadmap's "Home IA — BUILD THIS" lists the
+  template's real section sequence (extracted from its `pageTrees`). Build that sequence, in that order, with
+  those treatments. Do **NOT** build a generic `Hero → pillars → showcase-grid → proof → callout → FAQ → CTA`
+  skeleton — that uniform skeleton is the exact failure this rebuild replaces, and no two lanes may share a
+  `page.tsx` composition.
+- **Reproduce the visual language, intentionally and well.** The goal is your specific template realized to
+  production polish — not a vague "Framer vibe," and not generic stock shadcn/Tailwind. Match its hero
+  treatment, card style, spacing rhythm, signature elements, and palette.
+- **All five templates are DARK.** Each lane ships a dark primary theme true to its template **and** a working
+  light theme (both themes are a contract). There is no "light editorial" lane.
+- **Recreate atmosphere with code, not their assets.** Reproduce photographic/video glow, grain, and shaders
+  with token-driven CSS (layered radial gradients, SVG grain, etc.). Do **not** download the template's
+  copyrighted images — reproduce the *look*.
 
-The "hip gallery" lane. Deep near-black canvas, rich film-grain/noise texture, restrained accents,
-big confident type, lots of negative space. Think a creative studio's flagship site at night.
-
-- **Canvas:** deep near-black, *not* pure `#000`. Aim for a warm or cool charcoal (e.g. `#0b0b0d`–
-  `#121316` range) so the grain has something to sit on. Pure black banding is a tell of cheap work.
-- **Texture:** a tasteful, fine film-grain/noise overlay across the canvas and large surfaces (see
-  §4). Subtle layered radial gradients for depth/glow behind the hero and section dividers.
-- **Accent:** used sparingly — a single accent family from the schema lighting up CTAs, links, focus
-  rings, and one or two hero highlights. The accent should feel like neon through fog, not a
-  primary fill everywhere.
-- **Surfaces:** panels are barely-lifted from the canvas (a few percent lighter) with hairline
-  borders, not heavy cards. Glow and grain do the separation work, not drop shadows.
-- **Type:** large display headings, generous tracking control, high contrast text on dark.
-- **Mood words:** cinematic, nocturnal, precise, expensive, quiet confidence.
-
-### Lane B — Clean, fresh, light editorial
-
-The "gallery minimalism" lane. Crisp whitespace, sharp type, near-white canvas, editorial grid,
-hairline rules, work-forward. Think a print-quality design annual.
-
-- **Canvas:** warm or cool off-white (`#f6f6f3`–`#f7f4ed` neutrals already exist in the preset
-  generator). Avoid stark `#fff` everywhere; use layered neutrals for rhythm.
-- **Texture:** optional, *very* faint paper-grain at low opacity — or none. Editorial restraint over
-  effect. Structure and type carry the design.
-- **Accent:** disciplined. Mostly ink-on-paper with the accent reserved for interactive states and
-  one editorial highlight per section.
-- **Surfaces:** strong baseline grid, generous gutters, hairline dividers, oversized section numbers
-  (01 / 02 / 03) as structure. Cards are quiet — border + space, minimal shadow.
-- **Type:** confident editorial scale; consider a refined display face (grotesk or didone-adjacent)
-  paired with a clean body.
-- **Mood words:** editorial, gallery, calm, sharp, premium minimalism.
-
-Both lanes share the same **contracts** — the content data (`src/content/*`), the token contract
-(`schema.ts` + `css-vars.ts`), and the route/metadata layer. **Everything the visitor sees is per-lane
-and must diverge:** information architecture, the set and order of sections, hero treatment, grids,
-component decomposition, layout, and type. Each lane derives its structure from its assigned template's
-real exported structure (§3, §13) — five templates must yield five structurally different sites, not one
-skeleton in five palettes. Shared contracts, divergent design.
+The target is the kind of site a senior design studio would put at the top of its own portfolio. "Fine" fails.
 
 ---
 
-## 3. Reference DNA digest
+## 2. The five lanes
 
-These are the owner's reference templates (Framer), ranked most-liked first. The five chosen templates
-(Message AI, Nouva, Kirimo, Noir, Synk) are now live in dedicated Framer projects, connected headless
-via the Framer Server API (see §13 and `tools/framer-bridge/`), so each lane builds from the **real
-exported structure** of its assigned template — not synthesized DNA. **Borrow the DNA, never the layout
-verbatim:** translate the template's structure, rhythm, and craft into our content and token system;
-do not ship a reskinned clone.
+Each lane's full blueprint (exact section sequence, signature elements, color/type spec, honest-substitution
+map, component decomposition, acceptance criteria) lives in its roadmap — that is the authority on structure.
+Summary of what each must read as:
 
-**What to borrow across the set:**
-- A confident, oversized **hero statement** with one clear primary CTA and a quiet secondary.
-- **Numbered section markers** (01 / 02 / 03 …) as editorial structure — used by Noir, Kairy, Kirimo.
-- A **work/showcase grid** that gives each item room to breathe (client/name, year, disciplines).
-- **Modular, scannable sections** with generous whitespace and a steady vertical rhythm.
-- **Trust/proof bands** (logos, metrics, short testimonials) that feel earned, not stuffed.
-- **Progressive disclosure** on services/capabilities (numbered cards that expand or reveal detail).
-- A strong **final CTA band** before a content-rich, well-organized footer.
-- Premium **micro-motion**: scroll-reveal, subtle parallax/glow, restrained hover states.
+| Lane | Template | Canvas | Accent | Signature elements (must reproduce) |
+|---|---|---|---|---|
+| `message-ai` | Message AI | warm near-black `#0a0908` | lime `#e8ff9c` | volumetric-light glow bookends + film grain; centered hushed type; 48px-radius matte cards; ghost-pill section labels; two horizontal slideshows; 01-02-03 steps; scroll-to-explore cue |
+| `nouva` | Nouva | blue-black `#080c12` | neon-lime `#8cff2e` | cinematic hero + word blur-up; charcoal cards on void w/ 5%-white hairline seams; staggered count-up stat row; sticky-stacking features; us-vs-them comparison panel; light pill buttons |
+| `kirimo` | Kirimo | near-black `#0d0d0d`, **sand** fg `#b7ab98` | terra-cotta `#eb5939` | auto-play project slideshow; colossal 136px "JAMI STUDIO" ticker; numbered service accordion; hairline rules + vertical dividers; uppercase numbered eyebrows |
+| `noir` | Noir | near-black `#1a1a1a` | copper `#ed4515` | asymmetric over-spaced 5-project work grid; divider-ruled services list; ONE inverted white stats section (grain + counters); vertical guide-lines; colossal "JAMI" footer wordmark; mono micro-labels |
+| `synk` | Synk | near-black `#030303` | coral `#ff5e5d` | dashed-border card lattice (gap=0 shared seams); explicit dashed Divider between every section; ASCII/grid shader bg; embedded live UI feature cards; 5-product integration lattice |
 
-**What to avoid:** generic SaaS pricing-card energy, three-column "feature soup," stocky 3D blobs,
-loud multi-color gradients, hero mockups of fake dashboards, and any "trusted by 10,000 teams" claim
-we can't back. We are open-core dev tooling, not a B2B SaaS funnel.
-
-**Per-reference one-liners (top references):**
-
-1. **Message AI** *(prime / most-liked)* — dark, modern AI-product canvas with subtle grain; bold
-   display hero ("thoughts become actions"), scroll-to-explore cue, progressive value sections,
-   teal/blue/violet accent glow. The cleanest expression of Lane A's cinematic dark.
-2. **Nouva** *(prime)* — bold studio/agency portfolio energy: strong visual identity, work shown with
-   clarity and impact, editorial confidence. Lean on it for the *work-forward* showcase posture.
-3. **Recon** *(prime)* — dark-mode SaaS/AI/dev-platform template: modular sections, conversion-aware
-   layout, social-proof row, 3-step "how it works", restrained accent on a near-black base. Closest
-   analog to *our* dev-tools content shape in a dark lane.
-4. **B2bizz** *(prime)* — dark with subtle gradients + clean type; enterprise-credible. Strong
-   positioning hero → industry/coverage → service highlights → proof blocks → results. PageSpeed-100
-   discipline. Borrow its *credible, scannable proof architecture*.
-5. **Kirimo** *(prime)* — creative-portfolio template: immersive, dynamic showcase, intuitive nav,
-   aesthetic-forward. Borrow its *gallery immersion* for the product-family showcase.
-6. **Kairy** *(Marketing Agency / Studio)* — **light** editorial lane reference: light canvas, bold
-   headline type, numbered services (01–04) with progressive disclosure, card-grid selected work,
-   "play showreel", generous whitespace. The canonical Lane B blueprint.
-7. **Delivr** — modern product/service marketing template; clean modular sections, clear CTA rhythm.
-8. **Synk** — premium AI-SaaS template built on *global styling variables* and modular components —
-   exactly our token-driven philosophy. Borrow its systematized, swap-anything discipline.
-9. **Verona** — creative agency/freelancer portfolio: stylish, professional, conversion-minded.
-10. **Vertica** — bold, minimalist studio template (architecture/design firms): striking visuals,
-    refined typography, project-forward. Strong Lane B minimalism reference.
-11. **Sham** — agency/portfolio example; clean structure, work showcase.
-12. **Noir Agency Portfolio** — deep high-contrast dark, numbered sections, 5-project work grid →
-    services list → testimonials → blog → FAQ → CTA. The textbook *dark agency portfolio IA*.
-
-**Translation to our context** (do this, don't transcribe):
-- "Selected work" grid → **our product-family showcase** (the 5 Studio projects as the portfolio).
-- A portfolio "project card" → **our `ProjectCard`** (one per Studio product, from `projects.ts`).
-- "Services" / numbered offerings → **capabilities & proof points** per product.
-- "Case study / project detail page" → **our `/projects/[slug]` detail pages**.
-- "About the studio" → the Studio platform/ecosystem framing from `site.ts` home copy + pillars.
+Accents are template-true and authored as `color.accent` tokens (swappable on the token system); the dial
+`<select>` slot is only a label, the rendered hex is the template's.
 
 ---
 
-## 4. Grain / texture guidance (current best practice, June 2026)
+## 3. How to reproduce: the inputs in your worktree
 
-For Lane A this is core craft; for Lane B it's optional and faint. Get it right — bad grain reads as
-JPEG noise and instantly cheapens the site.
+The **complete design system of your assigned template is already extracted into your worktree** (gitignored),
+no setup required:
 
-### Recommended default: static SVG `feTurbulence` overlay (data-URI), not a runtime filter
+- **`tools/framer-bridge/out/<lane>.home.png`** — a full-page render of the template's home. **This is your
+  fidelity target — look at it.**
+- **`tools/framer-bridge/out/<lane>.json`** — compact brief: the template's named color token system
+  (`getColorStyles` — read the values, not the slot names; many fill only the `light` slot even when the design
+  is dark), its type system (`getTextStyles` → fonts, tags, per-breakpoint sizes), its used fonts, its
+  component inventory (the section vocabulary), pages, and `agentContext`. Read it top to bottom.
+- **`tools/framer-bridge/out/<lane>.full.json`** — `pageTrees` (each page as a nested hierarchy: named sections
+  in order, layout, gap, padding, per-breakpoint frames — **start here for structure and rhythm**) + flat
+  `nodes` arrays (exact geometry/color/border/radius values).
 
-A single fixed, GPU-cheap overlay layer is the performant standard. Use `fractalNoise`, encode the
-SVG as a CSS `background-image` data URI, and blend it at low opacity. Do **not** apply a live
-`filter: url(#…)` + `feDisplacementMap` to large/fixed backgrounds — the displacement approach is
-heavier and is meant for small decorative shapes, not a full-canvas film grain.
+Map the template's colors/type onto our token contract; build its section sequence with our content. Your
+roadmap has already distilled this into a section-by-section blueprint — follow it.
+
+---
+
+## 4. Grain / texture (when your template has it)
+
+Message AI and Noir use film grain; recreate it correctly — bad grain reads as JPEG noise and cheapens the
+site. The performant standard is a **static SVG `feTurbulence` overlay (data-URI), not a runtime filter.**
 
 ```css
 /* Token-driven grain overlay. Tune --grain-opacity per theme. */
 .grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;                 /* sits above canvas, below content */
+  position: fixed; inset: 0; pointer-events: none;
+  z-index: 0;                 /* above canvas, below content */
   opacity: var(--grain-opacity, 0.05);
-  mix-blend-mode: soft-light; /* or overlay; multiply on light themes */
-  /* fractalNoise, fine grain. baseFrequency ~0.6–0.9 = film grain;
-     lower = coarser. numOctaves 2–3 is plenty (never > 4). sRGB is required. */
+  mix-blend-mode: soft-light; /* overlay on dark; multiply at low opacity on light */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px; /* tile a small chunk so it stays crisp at any DPR */
+  background-size: 180px 180px;
 }
 ```
 
-### Rules
-
-- **Opacity range:** dark lane `0.03`–`0.07`; light lane `0.015`–`0.03`. If you can *see* it as
-  texture rather than *feel* it as tooth, it's too strong. Expose it as a token (`--grain-opacity`).
-- **Blend mode:** `soft-light` or `overlay` on dark canvases; `multiply` at very low opacity on light
-  canvases. Never `normal` (that just dumps gray noise on top).
-- **Color space:** always set `color-interpolation-filters='sRGB'` (the default `linearRGB` gives the
-  wrong cross-browser result).
-- **numOctaves:** 2–3. Above 4 costs real CPU/GPU for no visible gain.
-- **Tiling:** render a small tile (`background-size: ~160–220px`) and repeat. This keeps grain crisp
-  on Retina/2× displays and avoids a giant rasterized filter pass.
-- **Banding:** subtle grain is itself the fix for gradient banding. Layer the grain *over* your
-  radial/linear gradients (hero glow, section fades) so 8-bit color steps dissolve into tooth.
-- **Depth without banding:** build atmosphere from 1–2 large, low-contrast radial gradients
-  (`radial-gradient(... transparent)`) behind the hero/section, then the grain on top. Keep gradient
-  stops gentle; let grain hide the steps.
-- **Performance budget:** one fixed full-screen grain layer + ≤2 gradient layers per viewport.
-  `pointer-events: none`, `aria-hidden`, no animation by default. Never animate the grain (no
-  per-frame `feTurbulence` reseed) — it tanks battery and triggers reduced-motion concerns.
-- **`prefers-reduced-motion`:** a *static* grain layer is fine to keep (it's texture, not motion). If
-  any agent adds animated grain or parallax glow, it **must** freeze under
-  `@media (prefers-reduced-motion: reduce)`.
-- **Theme switch:** swap `--grain-opacity` and blend mode per theme; don't ship two separate overlay
-  components.
+- **Opacity:** dark `0.03`–`0.07`. If you *see* it as texture rather than *feel* it as tooth, it's too strong.
+  Expose it as `--grain-opacity` and swap per theme.
+- **Color space:** always `color-interpolation-filters='sRGB'`. **numOctaves:** 2–3 (above 4 wastes CPU).
+- **Tiling:** small tile (`~160–220px`) repeated, so grain stays crisp at 2× DPR.
+- **Depth without banding:** build atmosphere from 1–2 large low-contrast radial gradients, then grain on top so
+  8-bit steps dissolve into tooth.
+- **Performance:** one fixed grain layer + ≤2 gradient layers per viewport; `pointer-events:none`, `aria-hidden`,
+  **never animated** (no per-frame reseed). Static grain may stay under `prefers-reduced-motion`; any animated
+  glow/parallax/shader **must** freeze.
 
 ---
 
-## 5. Layout & section system (content checklist — composed per lane)
+## 5. Color & theming
 
-The lists below are the **content each page must cover**, **not** a shared information architecture. Each
-lane builds its OWN IA, section set, and order from its assigned template (§3 + the template's exported
-`pageTrees`) — two lanes must not end up with the same composition. Express the content through components
-fed by `src/content/*`. The only hard rules: every listed item finds a home somewhere, and no required
-content is dropped. Everything else — which sections exist, how they are named, their order, their
-treatment — is the lane's to derive from its template.
+Everything runs through the token schema (`src/tokens/schema.ts`), the preset generator (`src/tokens/presets.ts`),
+and the CSS-var plumbing (`src/tokens/css-vars.ts`). You author your **own preset VALUES**; you never rewrite the
+schema or the var-export contract.
 
-### Homepage (`/`)
-
-1. **Header / nav** — wordmark + `site.nav` (Projects, AI index, GitHub) + theme toggle.
-2. **Hero** — `site.home.eyebrow`, `title`, `lead`, primary + secondary CTA. The owner-grade moment:
-   oversized type, atmosphere (grain/glow or editorial whitespace), one decisive CTA.
-3. **Pillars band** — the four `site.home.pillars` (Governed runtime, Trusted interfaces, Durable
-   coordination, Agent-readable knowledge). Treat as the "what this studio stands for" statement.
-4. **Product-family showcase** — the five `projects` as the "selected work" grid. Each is a
-   `ProjectCard` (name, summary, positioning hook, capability tease, CTA into detail). This is the
-   centerpiece — give it portfolio-grade treatment.
-5. **Proof / capability band** — distilled proof points / the `site.home.proof` line about
-   everything being generated from shared source data. Earned credibility, not logo soup.
-6. **FAQ** — `site.faqs` (3 entries). Accordion or editorial Q&A list.
-7. **CTA band** — final conversion moment ("View projects" / "Read AI index").
-8. **Footer** — `site.footerLinks` (project shortlinks + Robots + Sitemap), handles, AI index link.
-
-### Project detail (`/projects/[slug]`)
-
-Mirror a "case study" with our data:
-
-1. **Header / nav** (shared).
-2. **Project hero** — `name`, `summary`, `positioning`, primary CTA(s) from `project.ctas`
-   (route/subdomain/repo/docs/api, resolved by the content layer — never hand-build hrefs).
-3. **Audience / positioning** — `audience` + `positioning` as a focused statement.
-4. **Capabilities** — `capabilities[]` as a numbered/structured list (progressive-disclosure style).
-5. **Proof points** — `proofPoints[]` as a proof band.
-6. **Family / cross-links** — "part of the Studio family" with links to sibling projects.
-7. **CTA band** — repo / docs / live-surface links per the project's CTAs.
-8. **Footer** (shared).
-
-### `/projects` index
-
-A clean gallery of all five `ProjectCard`s — the full portfolio view — with the same header/footer.
-
-**Shell rules:** one max-width container token (`--container`), one section vertical-rhythm token
-(`--section`). Every page is header → main → footer with consistent gutters at every breakpoint.
+- **Use your template's real palette.** Canvas, surfaces, borders, foreground, muted, and accent come from the
+  extraction (your roadmap lists the exact hexes). 6-digit hex only — convert any `rgb()` before authoring.
+- **Both themes required.** Author a full dark **and** a full light theme; wire a `[data-theme]` (or `.dark`)
+  switch over the same vars from `tokenCssVariables()`. The light theme is a real light design, never an
+  inverted dark.
+- **Accent is a token, not a literal.** Author your template-true accent as `color.accent` (+ matching `ring` /
+  `accentForeground`) → surfaced only via `--accent` / `--primary` / `--ring`. Use it sparingly (interactive +
+  emphasis), never a fill-everywhere.
+- **Consume the vars, never hardcode.** Backgrounds/text/panels/borders/shadows all come from the exported vars
+  (`--background --foreground --muted --card --panel --border --ring --primary --accent --surface-* --shadow-*`).
+  No raw hex in components.
+- **Contrast:** hit WCAG AA on text. Dark foreground is near-white but not pure `#fff` (tuned to the canvas);
+  muted text stays readable. Use `--surface-canvas/-panel/-panel-raised` for depth, not invented grays.
 
 ---
 
-## 6. Typography system guidance
+## 6. Typography
 
-Map everything to the existing schema roles: `typography.display`, `typography.sans`,
-`typography.mono`, `typography.scale.{xs,sm,base,lg,xl,hero}`, `typography.lineHeight.{tight,body}`.
-Set values in your **own** preset; consume via the CSS vars (`--font-display`, `--font-sans`,
-`--font-mono`, `--text-*`, `--line-tight`, `--line-body`).
+Map everything to the schema roles (`typography.display`, `typography.sans`, `typography.mono`,
+`typography.scale.{xs,sm,base,lg,xl,hero}`, `typography.lineHeight.{tight,body}`); set values in your own preset;
+consume via the CSS vars (`--font-display`, `--font-sans`, `--font-mono`, `--text-*`, `--line-tight`,
+`--line-body`).
 
-- **Display** (`--font-display`): the personality. Big hero + section headings. Pick a refined,
-  well-supported face with character at large sizes. Strong, well-supported choices for 2026:
-  **Geist** (sharp geometric, tech-credible, free, variable), **Cabinet Grotesk** (bold display
-  personality — free for commercial use under the ITF Free Font License via Fontshare; self-host
-  the files), **Aeonik** (neo-grotesque, premium — licensed), or an editorial **didone-adjacent**
-  face (e.g. Editorial New — licensed) for a Lane B fashion-annual feel. Inter Tight (current
-  default) is the safe baseline. The extracted templates themselves use Google-Fonts faces (e.g.
-  Host Grotesk, DM Sans) — all self-hostable via `next/font/google`.
-- **Sans / body** (`--font-sans`): maximal legibility, neutral. **Inter** (current default) or
-  **Geist Sans** are both excellent and self-hostable.
-- **Mono** (`--font-mono`): dev credibility — code-ish accents, eyebrows, labels, version tags, the
-  `01/02/03` section numbers. **JetBrains Mono** (current default) or **Geist Mono**.
-- **Scale & hierarchy:** `hero` is `clamp(3rem, 9vw, 8rem)` by default — own it; make the hero a
-  *moment*. Keep a clear, limited hierarchy: hero → xl section heads → lg subheads → base body →
-  sm/xs labels. Don't invent in-between sizes; use the scale.
-- **Tracking:** tighten display/hero slightly (negative tracking reads premium at large sizes); keep
-  body at default; letterspace small-caps labels/eyebrows positively. Line-height: `tight` (~1.0) for
-  display, `body` (~1.5–1.6) for prose.
-- **Webfont strategy:** prefer **self-hosted** variable fonts via `next/font/local` (or
-  `next/font/google` for any Google-Fonts face — Geist, Inter, Host Grotesk, DM Sans, …) —
-  `display: swap`, preload the display + body faces, subset to Latin. Cabinet Grotesk is free
-  (ITF Free Font License) but must be downloaded from Fontshare and shipped via `next/font/local`.
-  Truly licensed faces (Aeonik, Editorial New) require a purchased license; if an agent picks one,
-  document the license need and provide a free fallback in the font stack so the build never
-  depends on an unlicensed asset.
+- **Use your template's real fonts** (from the extraction), self-hosted via `next/font/google` or
+  `next/font/local` (`display: swap`, preload display + body, Latin subset): Message AI = Host Grotesk + DM Sans;
+  Nouva = Onest; Kirimo = Plus Jakarta Sans; Noir = Instrument Sans + Geist Mono; Synk = Inter. If a face is
+  licensed, document the license need and ship a free fallback so the build never depends on an unlicensed asset.
+- **Scale & hierarchy:** match the template's hero size and heading scale; keep a clear, limited hierarchy
+  (hero → xl heads → lg subheads → base body → sm/xs labels). Use the scale; don't invent in-between sizes.
+- **Tracking:** match the template (most of these run tight negative tracking on display, e.g. −0.02 to −0.04em;
+  uppercase eyebrows/labels letterspace positively). Line-height: tight (~1.0) for display, body (~1.5) for prose.
 
 ---
 
-## 7. Color & theming
+## 7. Motion
 
-Everything runs through the existing token preset schema (`src/tokens/schema.ts`), the preset
-generator (`src/tokens/presets.ts`), and the CSS-var plumbing (`src/tokens/css-vars.ts`). Agents
-author their **own preset VALUES**; they do not rewrite the schema or the var-export contract.
+Tasteful, restrained, scroll-aware. Map durations/easing to the motion tokens (`--motion-duration`,
+`--motion-duration-fast`, `--motion-easing`). Motion supports content; it never performs.
 
-- **Both themes required.** Ship a full **dark** and full **light** theme. The generator already
-  produces light neutrals from `warmth`; agents add the dark theme surfaces/foreground and wire a
-  `[data-theme]` (or `.dark`) switch over the same CSS vars from `tokenCssVariables()`.
-- **Accent is constrained by schema** to `cyan | green | amber | rose | violet`. Pick one as the
-  brand accent (do not introduce a new accent family). Use it for interactive/emphasis roles
-  (`--primary`, `--accent`, `--ring`, links, focus) — sparingly in Lane A, disciplined in Lane B.
-- **Consume the vars, never hardcode.** Backgrounds/text/panels/borders/shadows all come from the
-  exported vars: `--background`, `--foreground`, `--muted`, `--muted-foreground`, `--card`,
-  `--panel`, `--border`, `--ring`, `--primary`, `--accent`, `--surface-*`, `--shadow-*`. No raw hex
-  in components.
-- **Contrast:** respect the `contrast` dial intent and hit WCAG AA on text. Dark lane: foreground
-  near-white but not pure `#fff` (slightly warm/cool to match canvas); muted text stays readable.
-- **Surfaces:** use `--surface-canvas` / `--surface-panel` / `--surface-panel-raised` for depth
-  rather than inventing new grays. Glow/grain provide most dark-lane separation.
+- **Reproduce your template's signature motion** where it has one: Message AI's horizontal slideshows + in-view
+  count-up; Nouva's word blur-up + staggered counters + sticky-pin; Kirimo's auto-play slider + ticker marquees;
+  Noir's logo ticker + per-letter reveal; Synk's animated ASCII shader + marquee + embedded micro-UI loops.
+- **Scroll-reveal:** gentle fade/translate-in (8–16px, ~`--motion-duration`), once only.
+- **Hover:** subtle on cards/buttons (border/accent shift, ≤2px lift, faint glow on dark). Consistent everywhere.
+- **No:** scroll-hijacking, bouncy overshoot, anything that delays content paint.
+- **`prefers-reduced-motion: reduce` is a hard gate:** disable transforms/parallax/animated reveals; pause
+  auto-play sliders and marquees; make shaders static; show final state immediately. Static grain may stay.
+- **Performance:** animate only `transform` and `opacity`; respect a small motion budget so nothing blocks LCP/INP.
 
 ---
 
-## 8. Motion
+## 8. Responsive
 
-Tasteful, restrained, scroll-aware. Map durations/easing to the motion tokens
-(`--motion-duration`, `--motion-duration-fast`, `--motion-easing`); the preset also carries a
-`motion.intensity`. Motion supports the content; it never performs.
+Design and verify at all four breakpoints; both themes work at all four.
 
-- **Scroll-reveal:** gentle fade/translate-in (8–16px, ~`--motion-duration`) as sections enter. Once
-  only — no re-triggering loops.
-- **Hover:** subtle on cards/buttons (border/accent shift, ≤2px lift, faint glow in Lane A). Use
-  `--motion-duration-fast` and `--motion-easing`. Keep it consistent across every interactive
-  element.
-- **Hero atmosphere:** optional slow parallax/glow drift in Lane A — very slow, very subtle.
-- **No:** auto-playing carousels, bouncy spring overshoot, marquees, parallax that hijacks scroll,
-  or anything that delays content paint.
-- **`prefers-reduced-motion: reduce`:** disable transforms/parallax/animated reveals; show final
-  state immediately. Static grain may stay. This is a hard gate, not optional.
-- **Performance:** animate only `transform` and `opacity`. No layout thrash. Respect a small motion
-  budget so it never blocks LCP/INP.
+- **~1440 (desktop):** the full layout. Container ≈ `min(1120px, 100vw − 2rem)` (the `--container` token).
+- **~1024 (laptop):** container shrinks gracefully; multi-column grids step down; nav intact; type scales via `clamp`.
+- **~768 (tablet):** grids collapse to 1–2 columns; nav may become a menu; hero scales but stays a moment; rhythm preserved.
+- **~390 (mobile):** single column; tap targets ≥44px; nav is a clean menu/sheet; hero legible and punchy; grain
+  opacity may drop slightly; **no horizontal scroll, ever**; footer reflows to a readable stack. Signature
+  elements (tickers, lattices, work grids, wordmarks) must reflow cleanly, not overflow.
+
+Use fluid `clamp()` type and the spacing tokens so transitions between breakpoints are smooth.
 
 ---
 
-## 9. Responsive expectations
+## 9. Accessibility (by construction)
 
-Design and verify at all four. No breakpoint is an afterthought; both themes work at all four.
-
-- **~1440 (desktop):** full editorial layout. Container ≈ `min(1120px, 100vw − 2rem)` (the
-  `--container` token). Multi-column work grid (2–3 across), oversized hero, generous `--section`
-  rhythm. This is the showcase view.
-- **~1024 (laptop/landscape tablet):** container shrinks gracefully; work grid 2-across; nav intact;
-  type scale steps down via `clamp`. No cramped gutters.
-- **~768 (tablet/portrait):** single or 2-column work grid; nav may collapse to a menu; hero type
-  scales down but stays a moment; sections stack with preserved rhythm.
-- **~390 (mobile):** single column; tap targets ≥44px; nav is a clean menu/sheet; hero is legible and
-  punchy at small width; grain opacity may drop slightly; no horizontal scroll, ever. Footer reflows
-  to a readable stack.
-
-Use fluid `clamp()` type (already in the scale) and the spacing tokens so transitions between
-breakpoints are smooth, not snappy jumps.
+- WCAG AA contrast minimum for text (watch warm/low-contrast accents on near-black).
+- Visible focus rings via `--ring` on every interactive element.
+- Semantic landmarks; one `h1` per page; ordered heading hierarchy.
+- Respect `prefers-reduced-motion` (§7).
 
 ---
 
-## 10. Component capability menu (per-lane, token-driven)
+## 10. AI-friendliness (keep intact)
 
-This is the set of **content jobs** a lane's pages must do — a reference menu, **not a mandated identical
-component set or section order.** Each lane composes its OWN structure from its template (§3): name its
-own sections, merge/split/drop these as the template's `pageTrees` dictate, and invent sections the
-template has that this list doesn't. Two lanes should not ship the same component composition. What every
-lane still owes: each content job below has a home somewhere, it is token-driven, and variants are props,
-not forks.
+The site is AI-readable by design; the rebuild must not regress this.
 
-- **SiteHeader / Nav** — wordmark/mark, nav links (`site.nav`), GitHub, **theme toggle**, mobile
-  menu/sheet. Sticky/transparent-on-hero is allowed if consistent.
-- **Footer** — `site.footerLinks`, handles, AI-index link, fine print. Organized, not a dumping
-  ground.
-- **Hero** — eyebrow + display title + lead + primary/secondary CTA + atmosphere slot.
-- **Button** — primary / secondary / ghost / link variants; one shape, one radius scale, one motion.
-- **Badge / Tag / Eyebrow** — small-caps or mono labels (e.g. capability tags, "OSS", version pills).
-- **ProjectCard** — one Studio product: name, summary, positioning hook, capability tease, CTA into
-  detail. The portfolio unit. Must look intentional in a grid and standalone.
-- **ProductFamilyMap / Showcase grid** — the five projects as a cohesive family view (the "selected
-  work" centerpiece on home and the `/projects` index).
-- **PillarsBand** — the four home pillars as a statement band.
-- **Capability / Proof band** — numbered capability list + proof points (progressive-disclosure ok).
-- **FAQ** — accordion or editorial Q&A from `site.faqs`.
-- **CTABand** — reusable final-CTA section.
-- **ProjectDetail layout** — the case-study composition from §5.
-- **SectionHeading / SectionNumber** — consistent `01/02/03` + heading + optional kicker.
-- **Container / Section** — layout primitives bound to `--container` / `--section`.
-- **GrainOverlay / Atmosphere** — the texture + gradient-glow layer (Lane A; optional faint Lane B).
-- **ThemeToggle** — dark/light switch over the CSS-var contract.
-
-All of these are candidates for the registry (`SiteHeader`, `ProjectCard`, `ProjectDetail`,
-`ConfigPanel`, `ProofBand` are already named in `src/registry/manifest.ts`). Build them to that bar.
+- Keep canonical metadata (`src/lib/metadata.ts`), `sitemap.xml`, `robots.txt`, `llms.txt` / `llms-full.txt`
+  generation wired and correct.
+- Stable URLs: `/`, `/projects`, `/projects/[slug]` — never rename or break canonical paths.
+- Semantic, clean heading hierarchy so the structure parses.
+- Per-project social images + concise descriptions stay from the content layer.
+- Static-first — don't bury content behind client-only rendering that strips it from initial HTML.
 
 ---
 
 ## 11. Reuse boundary
 
 **Reuse as-is (shared contracts — do not reimplement, do not fork):**
-- `src/content/*` — `projects.ts`, `site.ts`, `links.ts` (all copy, projects, nav, FAQ, CTAs).
-- `src/lib/*` — `routes.ts`, `metadata.ts`, `sitemap.ts`, `ai-public-files.ts` (URL/route/metadata/
-  sitemap/`llms.txt` helpers and the generated `robots`/`sitemap`/`llms` routes they feed).
-- `src/tokens/schema.ts` + `presets.ts` + `css-vars.ts` — the token **contract** and var export.
+- `src/content/*` — `projects.ts` (5 projects: harness, registry, orchestra, intercal, collectiva), `site.ts`,
+  `links.ts` (all copy, projects, nav, FAQ, CTAs, socials, email).
+- `src/lib/*` — `routes.ts`, `metadata.ts`, `sitemap.ts`, `ai-public-files.ts` and the generated
+  `robots`/`sitemap`/`llms` routes they feed.
+- `src/tokens/schema.ts` + `css-vars.ts` — the token **contract** + var export (46 fixed vars).
 - `src/registry/manifest.ts` — registry-ready metadata.
+- Tests (`tests/*`) are frozen — incl. `config-panel.test.tsx` (every dial label + description, the
+  "Tokens"/"Registry" tabs) and the `public/social/*.svg` checks. Never edit a test to pass.
 
 **Build entirely fresh:**
-- All UI components (`src/components/*`), all app-route presentation (`src/app/**` pages/layouts),
-  `globals.css`, and **your own token preset VALUES** (your colors/type/spacing/radii/surfaces/motion
-  authored through the schema, plus your dark theme).
+- All UI components (`src/components/*`), all app-route presentation (`src/app/**`), `globals.css`, and your own
+  token preset VALUES (`src/tokens/theme.ts` — your colors/type/spacing/radii/surfaces/motion + your dark and
+  light themes, validated by `validateTokenPreset`).
 
-**Hard line:** do **not** reimplement any product runtime (Harness, UI Registry, Orchestra, Intercal,
-Collectiva). This repo owns the marketing site only. Do not invent new content fields, fake metrics,
-fake logos, or claims not present in the contracts. Hrefs come from the content layer (CTA resolver),
-never hand-assembled.
-
----
-
-## 12. AI-friendliness (keep intact)
-
-The site is AI-readable by design; the rebuild must not regress this.
-
-- Keep canonical metadata (`src/lib/metadata.ts`), `sitemap.xml`, `robots.txt`, and `llms.txt` /
-  `llms-full.txt` generation wired and correct.
-- Stable, clean URLs: `/`, `/projects`, `/projects/[slug]`. Don't rename or break canonical paths.
-- Semantic, clean heading hierarchy (one `h1` per page, ordered headings) so the structure parses.
-- Per-project social images and concise descriptions stay from the content layer.
-- Don't bury content behind client-only rendering that strips it from initial HTML — static-first.
+**Hard line:** do not reimplement any product runtime (Harness, UI Registry, Orchestra, Intercal, Collectiva) —
+this repo owns the marketing site only. Hrefs come only from the content/route layer (`resolveProjectLink`,
+`site.*`, `routes.ts`), never hand-assembled. Surface `site.social` + `site.email` in the footer on every lane.
 
 ---
 
-## 13. Framer connection (live — Server API)
+## 12. Honest substitution (anti-fabrication is absolute)
 
-Unlike the prior run, the real templates are fully reachable — the **complete design system of your
-assigned template is already extracted into your worktree**, headless, no setup required of you:
+Templates contain slots we have no real data for — client-logo walls, testimonial quotes, ROI stats, pricing
+tiers, blog feeds. **Keep the template's *treatment* (the marquee, stat row, testimonial block, pricing panel,
+blog grid); fill it with our real content** via the honest remaps your roadmap specifies. Never fabricate.
 
-- **`tools/framer-bridge/out/<lane>.json` — read this top to bottom.** A compact design brief pulled
-  live from the real Framer project: the template's named **color token system** (`getColorStyles` →
-  e.g. `/Main/Primary`, `/Background/Surface`; note many templates fill only the `light` slot even
-  when the design itself is dark — read the values, not the slot name), its **type system**
-  (`getTextStyles` → named styles mapped to `h1/h2/p` tags, font family/weight, alignment,
-  per-breakpoint sizes), its **used fonts**, its **component inventory** (names like `NavBar`, `Hero`,
-  `FeatureCard`, `PricingPlans`, `Footer` reveal the section vocabulary), page list, CMS/custom-code,
-  and `agentContext` — the project's own summary of fonts, components, tokens, and style presets.
-- **`tools/framer-bridge/out/<lane>.full.json` — drill here for exact layout.** Two complementary
-  views: **`pageTrees`** — each page as one nested hierarchy (named sections in order, `htmlTag`,
-  stack/grid layout, `gap`, `padding`, per-breakpoint frames) — **start here; this is the real
-  section structure and vertical rhythm** — and **`nodes`** — flat typed arrays of every
-  frame/text/svg/component/instance with exact geometry, background/border/radius (including
-  `backgroundImage` asset URLs), and per-breakpoint text styling. The flat arrays carry no
-  parent/child links; use `pageTrees` for structure and the arrays for exact values.
-- **`tools/framer-bridge/out/<lane>.home.png` — a full-page render** of the template's home page at
-  its desktop-breakpoint width (a visual anchor; the JSON above is the source of truth for values).
-
-This is produced headless by `node tools/framer-bridge/inspect.mjs <lane>` via the Framer **Server API**
-(`getColorStyles` + `getTextStyles` + `getNodesWithType` + `framer.agent.getNode`/`getContext`); you
-don't need to run it — the orchestrator deposits the files. **Map the template's color/type tokens onto
-our token contract and translate its section structure into our content — borrow the DNA, never clone
-the layout.** §3's digest is the art-direction guide; these files tighten fonts, colors, section rhythm,
-and spacing to the real thing. Connection status is tracked in `tools/framer-bridge/CONNECTIONS.md`.
+| Template slot | Honest substitution |
+|---|---|
+| Client-logo wall / "trusted by" marquee | the honest "everything generated from one shared source" proof line / a product-name marquee — never invented company logos |
+| Testimonial / review quotes | distilled **real** `proofPoints[]` — never invented quotes or names |
+| Stats / metrics (ROI %, counts) | **real** counts only (5 products · 4 foundations · 1 shared source) or the `site.home.proof` statement — never a fabricated statistic |
+| Pricing tiers / toggle | an **open-core / OSS** callout (GitHub via `studioLinks.githubOrg`) — never invented tiers/prices |
+| Blog / news feed | the **AI-readable index** (`site.nav` "AI index" + `llms.txt`) — never invented posts |
 
 ---
 
-## 14. Anti-slop checklist (reject the design if any are true)
+## 13. Anti-slop checklist (reject the design if any are true)
 
+- Collapsed to a generic `Hero → pillars → showcase-grid → proof → FAQ → CTA` skeleton instead of the template's
+  real section structure; a composition that matches another lane's.
 - Generic multi-color gradient blobs; stock "AI" mesh gradients; gradient text everywhere.
-- Pure `#000` or pure `#fff` flat canvas with no atmosphere, depth, or texture.
+- Pure `#000` or pure `#fff` flat canvas with no atmosphere, depth, or texture; wrong (not template-true) palette.
 - Visible/heavy grain that reads as JPEG artifacting instead of fine film tooth.
-- Lorem ipsum, placeholder copy, "coming soon", status apologies, or implementation caveats in
-  marketing copy.
-- Default shadcn/Tailwind-UI/Framer-template look shipped unchanged; obvious cloned hero.
+- Lorem ipsum, placeholder copy, "coming soon", status apologies, or implementation caveats in marketing copy.
+- Generic stock shadcn/Tailwind-UI look shipped unchanged instead of the assigned template's realized design.
 - Mismatched radii (card ≠ button ≠ input); inconsistent spacing; ad-hoc margins; off-scale type.
 - Hardcoded hex/px in components instead of tokens/CSS vars.
 - Low-contrast body text (fails AA); invisible or missing focus rings.
-- Fake metrics, fake "trusted by" logo walls, invented testimonials, or claims not in the contracts.
-- Three-column "feature soup" or SaaS pricing-card energy that ignores our open-core dev context.
+- **Fabricated** metrics, "trusted by" logo walls, testimonials, pricing tiers, or blog posts (see §12).
+- Three-column "feature soup" / SaaS pricing-card energy that ignores our open-core dev context.
 - Broken/cramped layout at 768 or 390; horizontal scroll on mobile; desktop-only thinking.
-- Light theme that's just the dark theme inverted (or missing entirely); grain that doesn't adapt.
-- Heavy `feDisplacementMap` filter on a full-screen background (perf); animated grain with no
-  reduced-motion guard.
-- Carousels/marquees/scroll-hijacking; motion that delays content paint.
+- Light theme that's just the dark theme inverted (or missing); grain that doesn't adapt per theme.
+- Heavy `feDisplacementMap` filter on a full-screen background; animated grain/shader with no reduced-motion guard.
+- Carousels/marquees that scroll-hijack or auto-play without a reduced-motion pause; motion that delays content paint.
 - One-off page styling that can't be reused; components that only work in one spot.
 
 ---
 
-*Build it like a studio showing its own best work. Pick a lane, commit, and make every pixel earn its
-place.*
+## 14. Verification — screenshots are part of the bar
+
+Build-green is necessary, not sufficient. Your lane is judged visually:
+
+1. **Fidelity** — does the built `/` look like its template render `out/<lane>.home.png`? (same structure, same
+   palette, signature elements present)
+2. **Divergence** — does it look like a different studio from the other four lanes?
+
+Capture full-page `/` at 1440 and 390, and `/projects` at 1440, to `screenshots/<lane>-*.png`, and self-check the
+home shot against the template render before polishing. The orchestrator compares every lane's screenshots
+against its render and side-by-side; a lane that doesn't match its template, or collapses toward the generic
+spine, is rejected and rebuilt.
+
+---
+
+*Build it like a studio showing its own best work — your template, fully realized, every pixel earning its place.*

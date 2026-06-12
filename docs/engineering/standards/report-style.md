@@ -236,5 +236,5 @@ Feasibility reports are dated source reports. When a report has been consumed:
 
 - Promote permanent decisions into `docs/decisions/` or durable architecture/operations docs.
 - Convert accepted direction into `docs/roadmaps/`.
-- Move obsolete dated reports to `docs/_legacy/research/` when their useful content has been promoted.
+- Delete obsolete dated reports once their useful content has been promoted; git history is the archive (the repo keeps no `_legacy/` shelf).
 - Keep active docs focused on current operating rules.
