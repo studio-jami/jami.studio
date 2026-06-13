@@ -70,11 +70,25 @@ Point-in-time provider evidence from 2026-06-13:
 - `vercel inspect https://www.jami.studio --scope yrka` and the Vercel MCP
   deployment lookup for `www.jami.studio` cannot resolve a deployment under the
   accessible `yrka` team.
+- The local `.env` names include `VERCEL_ACCESS_TOKEN`, `VERCEL_TEAM_ID`, and
+  `VERCEL_USER_ID`; the values were used only as local credentials and were not
+  printed or copied into tracked files.
+- With the local Vercel access token loaded as `VERCEL_TOKEN`, `vercel teams ls`
+  resolves the owning scope as `studio-jami` / `jami-studio`, and
+  `vercel project ls` exposes `jami.studio`, `intercal`, and `collectiva`.
+- `vercel project inspect jami.studio` proves project
+  `studio-jami/jami.studio`: Framework Preset Next.js, Root Directory `.`,
+  Node.js `24.x`, and default Vercel install/build commands for the detected
+  package manager/framework.
+- The Vercel Projects API proves the project is Git-linked to
+  `JamiStudio/jami.studio`, production branch `main`, with production and
+  preview targets.
+- The project currently has no Vercel environment variables configured. This is
+  acceptable for the current static-first marketing site; required variable
+  names remain documented below for future host/local configuration.
 
-Conclusion: Vercel access exists, but this audit cannot prove a manageable
-Vercel project currently linked to `studio-jami/jami.studio`. Do not claim
-project-level deploy readiness until the owning Vercel project is inspected or
-created and linked to this repo.
+Conclusion: the owning Vercel project is proven and manageable from the local
+token path. The MCP-visible `yrka` team is not the owner for this site.
 
 ## Production Domain Mapping
 
@@ -89,17 +103,21 @@ Verified DNS and HTTP behavior on 2026-06-13:
 - `https://www.jami.studio/` returns `200 OK` from Vercel.
 - `https://jami.studio/` returns `308 Permanent Redirect` with
   `Location: https://www.jami.studio/`.
-
-Important current gap:
-
-- The live `https://www.jami.studio/` HTML still serves the older
-  starter/system-map presentation. It does not serve the Kirimo presentation now
-  on `main`. The domain is live, but the current `main` production candidate is
-  not verified as deployed.
-
-Production closeout requires the Vercel project for `studio-jami/jami.studio`
-to build the current `main` commit and attach both `www.jami.studio` and
-`jami.studio` to that project with `www` as the canonical host.
+- `www.jami.studio` and `jami.studio` are both verified domains on the
+  `jami.studio` Vercel project; the apex is configured as a `308` redirect to
+  `www.jami.studio`.
+- Production deployment `dpl_7RwnuGqTaLKKk9o4faHLfZQomQeL` was created from
+  Git source `main` at commit `577d8ddb30e519434c500285aef22ea47777226c`.
+  Vercel reported `READY`, `PROMOTED`, and `aliasAssigned: true`.
+- `vercel inspect https://www.jami.studio/` and
+  `vercel inspect https://jamistudio-git-main-studio-jami.vercel.app/` both
+  resolve to deployment `dpl_7RwnuGqTaLKKk9o4faHLfZQomQeL`.
+- Remote HTTP smoke after promotion returned `200 OK` for `/`, `/projects`, all
+  five `/projects/[slug]` routes, `/robots.txt`, `/sitemap.xml`, `/llms.txt`,
+  and `/llms-full.txt`.
+- Live `https://www.jami.studio/` no longer contains the older
+  starter/system-map marker and serves the current Kirimo-era project-family
+  content.
 
 ## Product Subdomain Ownership
 
@@ -117,7 +135,8 @@ CTA destinations. Operational ownership is:
 - `orchestra.jami.studio`: reserved for the Orchestra repo or docs/API surface.
   Not live in DNS as of this audit.
 - `collectiva.jami.studio`: reserved for the Collectiva repo or future product
-  surface. Not live in DNS as of this audit.
+  surface. A `collectiva` project exists in the `studio-jami` Vercel scope, but
+  `collectiva.jami.studio` is not live in DNS as of this audit.
 
 Do not hardcode these subdomains in components. Change `src/content/projects.ts`
 first, then verify generated routes, sitemap, metadata, and AI-readable files.
@@ -138,10 +157,17 @@ Preferred preview path after the Vercel project is linked:
 Fallback preview path when GitHub-connected previews are unavailable:
 
 1. Run `pnpm verify` locally.
-2. Use Vercel CLI preview deploy from the repository root only after confirming
+2. Prefer a Git-source Vercel API deployment for the target ref after confirming
    the target project and scope.
 3. Treat the generated `*.vercel.app` URL as review-only, not as a canonical
    public URL.
+
+Current caveat: direct local-source Vercel CLI uploads from a clean detached
+worktree created `BLOCKED` deployments with no build logs and no production
+alias assignment. Git-source API deployment succeeded and is the verified
+automation path from this pass. Generated branch/deployment aliases are covered
+by Vercel deployment protection; use `vercel inspect` or `vercel curl` with the
+local Vercel token path for protected preview checks.
 
 ## Production Deployment Path
 
@@ -150,11 +176,15 @@ Fallback preview path when GitHub-connected previews are unavailable:
 2. Confirm required environment variable names exist in Vercel with real values
    only where the variable is needed.
 3. Push `main` to `origin`.
-4. Wait for the production deployment to reach `READY`.
-5. Verify `https://www.jami.studio/`, `https://jami.studio/`, `/projects`, all
+4. If Git auto-deploy does not produce a current production deployment, create a
+   Git-source deployment through Vercel's deployment API using `target:
+   "production"`, `name: "jami.studio"`, the `jami.studio` project, and
+   `gitSource` for `JamiStudio/jami.studio` on `main`.
+5. Wait for the production deployment to reach `READY` and `PROMOTED`.
+6. Verify `https://www.jami.studio/`, `https://jami.studio/`, `/projects`, all
    project routes, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
    `/llms-full.txt`.
-6. Confirm the deployed HTML is Kirimo, not the older starter/system-map
+7. Confirm the deployed HTML is Kirimo, not the older starter/system-map
    presentation.
 
 ## Rollback
@@ -188,10 +218,12 @@ store. `.env.example` is the tracked name-only reference.
 
 ## Open External Checks
 
-- Inspect or create the actual Vercel project for `studio-jami/jami.studio`.
-- Link that project to `main` and verify a Kirimo production deployment.
-- Attach or transfer `www.jami.studio` and `jami.studio` to the correct project
-  if the current live deployment is owned by a stale or inaccessible project.
+- Decide whether direct local-source CLI deployments should remain blocked for
+  this project, or whether Vercel deployment protection / automation bypass
+  should be adjusted for trusted release automation.
+- Decide whether GitHub push-to-production should be relied on for `main`, or
+  whether the Git-source Vercel API deployment should remain the documented
+  release fallback.
 - Decide whether the reserved product subdomains should remain absent from DNS
   until their owners launch, or should receive holding redirects/docs surfaces.
 - Resolve analytics/privacy in `docs/decisions/` before final launch closeout.

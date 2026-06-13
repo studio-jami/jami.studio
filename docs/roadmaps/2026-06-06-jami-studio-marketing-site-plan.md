@@ -620,6 +620,25 @@ Suggested verification:
   `registry`, `orchestra`, and `collectiva` subdomains do not resolve. Remaining Stream B risk: live
   `www.jami.studio` still serves the older starter/system-map presentation, so the domain is live but
   the current Kirimo `main` production candidate is not verified as deployed.
+- [~] 2026-06-12T22:01:03.3332169-04:00 - Dispatched fresh Stream B / Workstream 6
+  deployment-domain AUDIT/EXECUTE pass 2 to subagent `019ebeb5-edaa-7d23-bcb3-b61517f0b5a2`
+  (`Hypatia`). Ownership boundary: exhaust accessible Vercel/GitHub/CLI/DNS evidence for the stale
+  production deployment, establish or verify a safe deploy path if available, update only proven
+  deployment/domain docs and roadmap evidence, and avoid workflow mechanics changes. Active workstreams:
+  Stream B only. Next coordinator action: wait for terminal result, then gate Stream B using the
+  second-pass commit/no-change evidence.
+  Result 2026-06-13: pass 2 proved the owning Vercel path through the local token-backed
+  `studio-jami` scope. The `jami.studio` Vercel project is linked to `JamiStudio/jami.studio`, production
+  branch `main`, root directory `.`, and Next.js/Node 24 build settings. A Git-source production deploy
+  for commit `577d8ddb30e519434c500285aef22ea47777226c` reached `READY` / `PROMOTED` as
+  `dpl_7RwnuGqTaLKKk9o4faHLfZQomQeL` with `www.jami.studio`, `jami.studio`, and the main branch alias
+  assigned. Verification passed: `pnpm verify`; Vercel inspect for `www.jami.studio` and
+  `jamistudio-git-main-studio-jami.vercel.app`; remote HTTP smoke for `/`, `/projects`, all five project
+  pages, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`; apex `308` redirect to
+  `https://www.jami.studio/`; DNS for `www`, apex, Intercal, and absent reserved subdomains; live HTML no
+  longer contains the old starter/system-map marker. Caveat: local-source CLI preview/production uploads
+  created `BLOCKED` deployments with no build logs or alias assignment, so Git-source API deployment is the
+  proven fallback path.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
