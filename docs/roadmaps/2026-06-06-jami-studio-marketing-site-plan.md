@@ -30,8 +30,9 @@ finished and is restored here as the canonical forward plan.
   the restored roadmap/ADR/docs on `main`, then do only launch-critical QA/polish that keeps the Kirimo
   design intact.
 - **WS6 Deployment, QA, Closeout** — [~] **in progress.** Stream A production-candidate QA is closed;
-  Stream B pass 1 refreshed deployment/domain operations with DNS/HTTP evidence and exact Vercel access
-  gaps; analytics/privacy and a verified Kirimo production deployment remain open.
+  Stream B closed with verified Kirimo production deployment and domain evidence. Stream C pass 1
+  explicitly deferred analytics/privacy for launch in
+  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`; fresh pass 2 and final closeout remain.
 - **Expansion Track** — ❌ not started.
 
 **Owner-requested scope folded back in (from the 2026-06-09 rewrite, do not lose):**
@@ -499,7 +500,7 @@ Implementation tasks:
 
 - [ ] Add deployment configuration and document Vercel setup.
 - [ ] Add domain mapping checklist for apex, `www`, and project subdomains.
-- [ ] Add analytics/privacy setup or explicitly defer with a decision record.
+- [x] Add analytics/privacy setup or explicitly defer with a decision record.
 - [ ] Run full verification.
 - [ ] Run visual QA across desktop and mobile.
 - [ ] Update durable docs with final operating instructions.
@@ -654,7 +655,21 @@ Suggested verification:
   `orchestra`, and `collectiva` do not resolve. Documentation precision fix: the Projects API currently
   returns default/blank `productionBranch` and command fields, while the deployment API proves Git source
   ref `main`; no `.vercel` metadata, credentials, deploy tokens, or local secret/account files were staged
-  or introduced.
+  or introduced. Coordinator gate on commit `af915f0af70e084b75dfd4abfed37601ee4d571f`: numeric gate
+  passed (2 files, 21 insertions, 2 deletions), character classified as C - docs/evidence precision
+  cleanup. Stream B is closed.
+- [~] 2026-06-12T22:41:25.9398518-04:00 - Dispatched Stream C / Workstream 6 analytics-privacy
+  AUDIT/EXECUTE pass 1 to subagent `019ebeda-e995-7442-a1ec-8e44faf2d272` (`Linnaeus`). Ownership
+  boundary: decide and execute minimal analytics implementation or explicit analytics/privacy deferral,
+  durable decision record if deferring, env names only if implementing, no secrets, and directly required
+  roadmap evidence. Active workstreams: Stream C only. Next coordinator action: wait for terminal result
+  and dispatch a fresh Stream C pass 2 before gating closeout.
+  Result 2026-06-13: pass 1 found no runtime analytics implementation in the tracked app and no
+  launch-critical dependency on analytics data. Analytics is explicitly deferred for launch in
+  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`: PostHog Cloud is the deferred first-choice
+  provider, Amplitude is a backup pending fresh implementation evidence, and launch proceeds without
+  analytics scripts, cookies, session replay, or required analytics host variables. Directly related
+  operations evidence now records that no analytics Vercel variables are required for launch.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,

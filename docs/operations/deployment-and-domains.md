@@ -87,8 +87,9 @@ Point-in-time provider evidence from 2026-06-13:
   and deployment evidence below proves the production deployment was created
   from Git source `main`.
 - The project currently has no Vercel environment variables configured. This is
-  acceptable for the current static-first marketing site; required variable
-  names remain documented below for future host/local configuration.
+  acceptable for the current static-first marketing site and the deferred
+  analytics launch posture; required variable names remain documented below for
+  future host/local configuration.
 
 Conclusion: the owning Vercel project is proven and manageable from the local
 token path. The MCP-visible `yrka` team is not the owner for this site.
@@ -229,4 +230,3 @@ store. `.env.example` is the tracked name-only reference.
   release fallback.
 - Decide whether the reserved product subdomains should remain absent from DNS
   until their owners launch, or should receive holding redirects/docs surfaces.
-- Resolve analytics/privacy in `docs/decisions/` before final launch closeout.
