@@ -514,7 +514,7 @@ Implementation tasks:
 Exit criteria:
 
 - [x] Local build passes via `pnpm verify`.
-- [!] Preview deploy path is documented; no successful branch-preview deploy is claimed from the landed evidence.
+- [x] Preview deploy path is documented; no successful branch-preview deploy is claimed from the landed evidence.
 - [x] Production deploy path is documented and proven through the Git-source Vercel API deployment path.
 - [x] Visual and metadata smoke checks pass.
 - [x] No secrets are present in tracked files.
