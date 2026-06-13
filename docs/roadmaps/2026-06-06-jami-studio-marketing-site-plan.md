@@ -29,7 +29,9 @@ finished and is restored here as the canonical forward plan.
   hardened a now-superseded direction; the real hardening is: merge Kirimo → `main` while preserving
   the restored roadmap/ADR/docs on `main`, then do only launch-critical QA/polish that keeps the Kirimo
   design intact.
-- **WS6 Deployment, QA, Closeout** — ❌ **not started** (the main open block: Vercel deploy, domain/subdomain mapping, analytics decision).
+- **WS6 Deployment, QA, Closeout** — [~] **in progress.** Stream A production-candidate QA is closed;
+  Stream B pass 1 refreshed deployment/domain operations with DNS/HTTP evidence and exact Vercel access
+  gaps; analytics/privacy and a verified Kirimo production deployment remain open.
 - **Expansion Track** — ❌ not started.
 
 **Owner-requested scope folded back in (from the 2026-06-09 rewrite, do not lose):**
@@ -466,8 +468,8 @@ typecheck so vendored research packs do not enter the web-app gate. Verification
 `pnpm format:check`, `pnpm verify` (`lint`, `typecheck`, `test`, `build`), local HTTP smoke for `/`,
 `/projects`, `/projects/intercal`, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
 `/llms-full.txt`, plus Chrome-headless screenshots for desktop and mobile-width homepage views.
-Next action: begin Workstream 6 by checking the Vercel preview/production deployment and live
-`www.jami.studio` domain.
+Next action: continue Workstream 6 by resolving the Vercel project link/current Kirimo production
+deployment gap and the analytics/privacy decision.
 
 ## Workstream 6: Deployment, QA, And Closeout
 
@@ -585,6 +587,39 @@ Suggested verification:
   in-app Browser plugin was unavailable for `iab`, so visual/browser evidence used local Playwright
   instead. No screenshots, design-bakeoff leftovers, local helper logs, or pre-existing untracked helper
   directories were staged.
+- [~] 2026-06-12T21:26:59.5417469-04:00 - Dispatched fresh Stream A / Workstream 6
+  production-candidate AUDIT/EXECUTE pass 2 to subagent `019ebe96-96a4-7f53-8c96-5e55b866c5bd`
+  (`Archimedes`). Ownership boundary: confirm or fix current Kirimo production-candidate state after
+  pass 1, with no workflow mechanics changes. Active workstreams: Stream A only. Next coordinator
+  action: wait for terminal result, then gate Stream A using the second-pass commit/no-change evidence.
+  Result 2026-06-12: pass 2 found no launch-grade defects and made no file changes. Verification
+  passed: `pnpm verify`, production-server smoke for `/`, `/projects`, all five project pages,
+  `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt`, Playwright route capture,
+  desktop/mobile visual smoke for home, project index, and `/projects/intercal`, metadata/canonical
+  inspection for `/`, `/projects`, and `/projects/intercal`, tracked secret scan, CTA/link placeholder
+  scan, and tracked artifact check. The in-app Browser control tool was not exposed, so Playwright CLI
+  was used; mobile smoke used Chromium at `390x844` because the WebKit device preset was unavailable.
+  Coordinator gate: Stream A is closed as class C / quiet second pass. Remaining Workstream 6 lanes:
+  deployment/domain closeout and analytics/privacy decision.
+- [~] 2026-06-12T21:47:38.9064090-04:00 - Dispatched Stream B / Workstream 6 deployment-domain
+  AUDIT/EXECUTE pass 1 to subagent `019ebea9-8c48-78e3-9402-7884003d69f5` (`Boole`). Ownership
+  boundary: deployment/domain operations docs/config, Vercel/build/domain evidence, preview and rollback
+  path, required env-var names only, product-subdomain ownership plan, and directly required roadmap
+  evidence. Active workstreams: Stream B only. Next coordinator action: wait for terminal result, log it,
+  and dispatch a fresh Stream B pass 2 before gating closeout.
+  Result 2026-06-13: pass 1 updated `docs/operations/deployment-and-domains.md` to the current
+  Kirimo-era operating shape and recorded verified external evidence without inventing missing provider
+  proof. Verified: no repo-local `.vercel/project.json` or `vercel.json`; source build settings are
+  Next.js from repo root with `pnpm install --frozen-lockfile`, `pnpm build`, and `pnpm verify`;
+  Vercel MCP authenticated to team `yrka` but exposed no `jami.studio`/`jami-studio` project; accessible
+  `marketing` project is tied to `yrka-io/yrka`, not this repo; Vercel CLI authenticated as
+  `jamienavinhill` with no personal-scope projects; Cloudflare authoritative nameservers are
+  `elliott.ns.cloudflare.com` and `irena.ns.cloudflare.com`; `www.jami.studio` CNAMEs to a Vercel DNS
+  target and returns `200 OK`; apex `jami.studio` resolves to Vercel A records and returns `308` to
+  `https://www.jami.studio/`; `intercal.jami.studio` CNAMEs to Vercel and returns `200 OK`; `harness`,
+  `registry`, `orchestra`, and `collectiva` subdomains do not resolve. Remaining Stream B risk: live
+  `www.jami.studio` still serves the older starter/system-map presentation, so the domain is live but
+  the current Kirimo `main` production candidate is not verified as deployed.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
