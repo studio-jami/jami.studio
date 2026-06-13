@@ -32,7 +32,8 @@ finished and is restored here as the canonical forward plan.
 - **WS6 Deployment, QA, Closeout** — [~] **in progress.** Stream A production-candidate QA is closed;
   Stream B closed with verified Kirimo production deployment and domain evidence. Stream C pass 1
   explicitly deferred analytics/privacy for launch in
-  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`; fresh pass 2 and final closeout remain.
+  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`; pass 2 confirmed the deferral still
+  matches docs, tracked code, and tracked env-name posture. Final closeout remains.
 - **Expansion Track** — ❌ not started.
 
 **Owner-requested scope folded back in (from the 2026-06-09 rewrite, do not lose):**
@@ -670,6 +671,19 @@ Suggested verification:
   provider, Amplitude is a backup pending fresh implementation evidence, and launch proceeds without
   analytics scripts, cookies, session replay, or required analytics host variables. Directly related
   operations evidence now records that no analytics Vercel variables are required for launch.
+- [~] 2026-06-12T22:48:05.1756621-04:00 - Dispatched fresh Stream C / Workstream 6 analytics-privacy
+  AUDIT/EXECUTE pass 2 to subagent `019ebee1-0162-78b3-8f30-0686e57b1c98` (`Tesla`). Ownership
+  boundary: confirm or fix analytics/privacy deferral clarity, deployment/domain and roadmap parity,
+  absence of analytics runtime code, and absence of tracked analytics keys/secrets. Active workstreams:
+  Stream C only. Next coordinator action: wait for terminal result, then gate Stream C using the
+  second-pass commit/no-change evidence.
+  Result 2026-06-13: pass 2 confirmed the deferral decision is durable and launch-sufficient. The
+  decision record, deployment/domain runbook, `.env.example`, and roadmap evidence agree that launch
+  requires no analytics script, cookie banner, consent manager, session replay, tracking event, or
+  analytics host value. Current tracked app code has no analytics provider dependency or instrumentation;
+  the only browser storage hit is the existing theme preference. Tracked analytics key scan found no
+  PostHog, Amplitude, analytics-site-id, Vercel token, or required analytics host values. Stream C is
+  quiet after this evidence update.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
