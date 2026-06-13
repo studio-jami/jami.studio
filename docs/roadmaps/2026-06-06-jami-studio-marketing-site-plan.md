@@ -1,7 +1,7 @@
 # Jami Studio Marketing Site Implementation Plan
 
 Date: 2026-06-06 · Recovered & reconciled: 2026-06-12
-Status: [~] Active — Kirimo marketing design selected; merge/launch/QA remain (see Recovery note below)
+Status: [~] Active — Kirimo imported, production launch evidence landed, fresh Stream D pass 2 gate remains
 Source reports: `C:\Users\james\dev\docs\reports\E-operations-gtm\F18-brand-and-identity.md`, `C:\Users\james\dev\docs\reports\E-operations-gtm\F19-marketing-and-content.md`, `C:\Users\james\dev\docs\reports\D-distribution-products-ax\F16-products.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F05-harness-runtime.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F09-ui-registry-and-render-seam.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F10-orchestra-and-dev-system.md`
 Owner: Jamie
 Surface: `www.jami.studio` marketing site and OSS project hub
@@ -21,19 +21,18 @@ finished and is restored here as the canonical forward plan.
 - **WS3 Content/Routing/Metadata/AI Files** — ✅ complete (`src/content/*`, `src/lib/*`, generated `robots`/`sitemap`/`llms[-full].txt`).
 - **WS4 Design Directions** — ✅ **concluded, superseded by the run-4 bakeoff.** The original 3-branch
   plan (and the 2026-06-07 "starter" selection in WS5 below) was redone as a **five-template** bakeoff;
-  the owner selected **Kirimo** on 2026-06-12. Decision + rationale + pending design tweaks:
+  the owner selected **Kirimo** on 2026-06-12. Decision, rationale, and launch constraints:
   **`docs/decisions/2026-06-12-design-direction-kirimo.md`**. Chosen-lane spec:
-  `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`. The Kirimo build is complete on
-  `design/kirimo-2` at `a4596c5` and is the locked marketing-site presentation.
-- **WS5 Selected-Direction Hardening** — ⏳ **re-opens for Kirimo.** The 2026-06-07 closeout in WS5
-  hardened a now-superseded direction; the real hardening is: merge Kirimo → `main` while preserving
-  the restored roadmap/ADR/docs on `main`, then do only launch-critical QA/polish that keeps the Kirimo
-  design intact.
-- **WS6 Deployment, QA, Closeout** — [~] **in progress.** Stream A production-candidate QA is closed;
-  Stream B closed with verified Kirimo production deployment and domain evidence. Stream C pass 1
-  explicitly deferred analytics/privacy for launch in
-  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`; pass 2 confirmed the deferral still
-  matches docs, tracked code, and tracked env-name posture. Final closeout remains.
+  `docs/roadmaps/2026-06-11-design-rebuild-kirimo.md`. The Kirimo build was imported to `main` in
+  `25e5b73` and is the locked marketing-site presentation.
+- **WS5 Selected-Direction Hardening** — ✅ **complete for Kirimo.** The earlier 2026-06-07 hardening
+  applied to a now-superseded direction; the current selected-direction closeout is the Kirimo import on
+  `main` plus Stream A production-candidate verification.
+- **WS6 Deployment, QA, Closeout** — ✅ **launch evidence complete.** Stream A production-candidate QA is
+  closed; Stream B closed with verified Kirimo production deployment, live `www.jami.studio`, and apex
+  redirect evidence; Stream C explicitly deferred analytics/privacy for launch in
+  `docs/decisions/2026-06-13-analytics-privacy-deferral.md`. Stream D pass 1 updates roadmap/durable-doc
+  status from that evidence; a fresh Stream D pass 2 remains as the normal final audit gate.
 - **Expansion Track** — ❌ not started.
 
 **Owner-requested scope folded back in (from the 2026-06-09 rewrite, do not lose):**
@@ -44,15 +43,15 @@ finished and is restored here as the canonical forward plan.
   the Kirimo visual system is not governed by Studio UI Registry styling requirements. Registry promotion
   can happen later from candidate primitives; it must not pull the public marketing site back toward the
   older utilitarian layouts.
-- **Subdomain deploy mapping (OPEN, WS6).** Document `harness.jami.studio`, `registry.jami.studio`,
+- **Subdomain deploy mapping (WS6 documented).** Document `harness.jami.studio`, `registry.jami.studio`,
   `orchestra.jami.studio`, `intercal.jami.studio`, `collectiva.jami.studio` as separate deploy targets in
   `docs/operations/`.
 
-**Resume order when work restarts:** (1) merge/import Kirimo → `main` as the locked presentation layer,
-preserving `main` docs/roadmap/ADR updates and shared contracts; (2) run launch-critical verification and
-visual smoke against `/`, `/projects`, and current `/projects/[slug]` routes without redesigning the project
-page system; (3) WS6 deploy + subdomain mapping + analytics; (4) after the public site is live and product
-surfaces mature, open a separate global project-page layout redesign. Cross-ref:
+**Current closeout posture:** Kirimo is imported to `main`, production-candidate verification and visual smoke
+passed, `www.jami.studio` is live on the verified Vercel production deployment, apex redirects to `www`, and
+analytics/privacy is explicitly deferred for launch. The deeper project-page layout redesign remains
+post-launch and should be opened later as one global project-page system, not as a pre-launch rewrite.
+Cross-ref:
 `docs/decisions/2026-06-12-design-direction-kirimo.md`, `docs/operations/credit-utilization-plan.md`
 ("Launch Sequencing"), and `docs/decisions/2026-06-06-framework-and-deployment.md`.
 
@@ -470,8 +469,12 @@ typecheck so vendored research packs do not enter the web-app gate. Verification
 `pnpm format:check`, `pnpm verify` (`lint`, `typecheck`, `test`, `build`), local HTTP smoke for `/`,
 `/projects`, `/projects/intercal`, `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and
 `/llms-full.txt`, plus Chrome-headless screenshots for desktop and mobile-width homepage views.
-Next action: continue Workstream 6 by resolving the Vercel project link/current Kirimo production
-deployment gap and the analytics/privacy decision.
+
+Kirimo replacement closeout, 2026-06-13: the 2026-06-07 selected direction above is historical and
+superseded. Kirimo is now the selected and imported presentation on `main` (`25e5b73`), and Stream A
+confirmed the current Kirimo production candidate with `pnpm verify`, route/public-file smoke, sampled
+metadata/canonical inspection, tracked secret scan, and desktop/mobile Playwright visual smoke. Current
+Kirimo project routes are accepted for launch; deeper per-project page layout redesign remains post-launch.
 
 ## Workstream 6: Deployment, QA, And Closeout
 
@@ -483,7 +486,7 @@ Depends on:
 
 Enables:
 
-- [ ] Production deployment, preview review, future project/subdomain expansion.
+- [x] Production deployment, documented preview path, future project/subdomain expansion.
 
 Repo guidance:
 
@@ -499,21 +502,21 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Add deployment configuration and document Vercel setup.
-- [ ] Add domain mapping checklist for apex, `www`, and project subdomains.
+- [x] Add deployment configuration and document Vercel setup.
+- [x] Add domain mapping checklist for apex, `www`, and project subdomains.
 - [x] Add analytics/privacy setup or explicitly defer with a decision record.
-- [ ] Run full verification.
-- [ ] Run visual QA across desktop and mobile.
-- [ ] Update durable docs with final operating instructions.
-- [ ] Update roadmap status truthfully.
+- [x] Run full verification.
+- [x] Run visual QA across desktop and mobile.
+- [x] Update durable docs with final operating instructions.
+- [x] Update roadmap status truthfully.
 
 Exit criteria:
 
-- [ ] Local build passes.
-- [ ] Preview deploy succeeds.
-- [ ] Production deploy path is documented and ready.
-- [ ] Visual and metadata smoke checks pass.
-- [ ] No secrets are present in tracked files.
+- [x] Local build passes via `pnpm verify`.
+- [!] Preview deploy path is documented; no successful branch-preview deploy is claimed from the landed evidence.
+- [x] Production deploy path is documented and proven through the Git-source Vercel API deployment path.
+- [x] Visual and metadata smoke checks pass.
+- [x] No secrets are present in tracked files.
 
 Suggested verification:
 
@@ -524,33 +527,32 @@ Suggested verification:
 
 ## Final Verification And Closeout
 
-- [ ] `pnpm install`
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm test`
-- [ ] `pnpm build`
-- [ ] `pnpm verify`
-- [ ] Visual smoke at desktop and mobile.
-- [ ] Inspect `robots.txt`, `sitemap.xml`, `llms.txt`, and canonical metadata.
-- [ ] Confirm no secrets in tracked files.
-- [ ] Confirm docs and roadmap reflect actual delivered behavior.
+- [x] `pnpm lint` via Stream A/B `pnpm verify`.
+- [x] `pnpm typecheck` via Stream A/B `pnpm verify`.
+- [x] `pnpm test` via Stream A/B `pnpm verify`.
+- [x] `pnpm build` via Stream A/B `pnpm verify`.
+- [x] `pnpm verify`
+- [x] Visual smoke at desktop and mobile.
+- [x] Inspect `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`, and canonical metadata.
+- [x] Confirm no secrets in tracked files.
+- [x] Confirm docs and roadmap reflect actual delivered behavior.
 - [ ] Stage only intentional files.
 - [ ] Commit with a conventional-style subject and body.
 - [ ] Push to the default branch when a git remote exists.
 
 ## Acceptance Criteria
 
-- [ ] `www.jami.studio` is a complete production marketing site, not a placeholder.
-- [ ] The homepage is polished, on-brand, responsive, accessible, and copy-complete.
-- [ ] Harness, Registry, Orchestra, Intercal, and Collectiva each have launch-grade project routes backed by centralized content data; deeper per-project page layout redesign is explicitly post-launch.
-- [ ] Three design directions were either run to complete comparable branches after the shared foundation or explicitly skipped by owner decision.
-- [ ] The shared token/dial system is reusable as a Studio UI Registry seed or candidate item set.
-- [ ] All project URLs, subdomains, repos, docs links, CTAs, and summaries are centralized.
-- [ ] Subdomain or standalone-domain changes require metadata edits, not component rewrites.
-- [ ] The site emits complete canonical metadata, sitemap, robots, and AI-readable files.
-- [ ] The codebase has working lint, typecheck, test, build, and verify commands.
-- [ ] Deployment and domain setup are documented.
-- [ ] No tracked file contains secrets or private operational credentials.
+- [x] `www.jami.studio` is a complete production marketing site, not a placeholder.
+- [x] The homepage is polished, on-brand, responsive, accessible, and copy-complete.
+- [x] Harness, Registry, Orchestra, Intercal, and Collectiva each have launch-grade project routes backed by centralized content data; deeper per-project page layout redesign is explicitly post-launch.
+- [x] Three design directions were either run to complete comparable branches after the shared foundation or explicitly skipped by owner decision.
+- [x] The shared token/dial system is reusable as a Studio UI Registry seed or candidate item set.
+- [x] All project URLs, subdomains, repos, docs links, CTAs, and summaries are centralized.
+- [x] Subdomain or standalone-domain changes require metadata edits, not component rewrites.
+- [x] The site emits complete canonical metadata, sitemap, robots, and AI-readable files.
+- [x] The codebase has working lint, typecheck, test, build, and verify commands.
+- [x] Deployment and domain setup are documented.
+- [x] No tracked file contains secrets or private operational credentials.
 
 ## Implementation Order
 
@@ -683,7 +685,22 @@ Suggested verification:
   analytics host value. Current tracked app code has no analytics provider dependency or instrumentation;
   the only browser storage hit is the existing theme preference. Tracked analytics key scan found no
   PostHog, Amplitude, analytics-site-id, Vercel token, or required analytics host values. Stream C is
-  quiet after this evidence update.
+  quiet after this evidence update. Coordinator gate on commit
+  `e9f04f1a7a9c76681d27a19452d65454d20857ed`: numeric gate passed (1 file, 15 insertions, 1
+  deletion), character classified as C - roadmap evidence confirmation. Stream C is closed.
+- [~] 2026-06-12T22:54:34.3920573-04:00 - Dispatched Stream D / roadmap closeout AUDIT/EXECUTE
+  pass 1 to subagent `019ebee6-eae0-70e2-931a-23f6c48cc7b0` (`Hubble`). Ownership boundary: final
+  roadmap and durable-doc status parity after Streams A/B/C, Workstream 5 and Workstream 6 evidence,
+  project-page redesign post-launch note, closed design-goal posture, deployment/domain and analytics
+  decision references, and final checklist truthfulness. Active workstreams: Stream D only. Next
+  coordinator action: wait for terminal result and dispatch a fresh Stream D pass 2 before final gating.
+  Result 2026-06-13: pass 1 updated status surfaces only. Workstream 5 is marked complete for the
+  already-imported Kirimo design and Stream A production-candidate verification. Workstream 6 tasks now
+  reflect the landed evidence from Stream A/B/C: local verification and visual smoke passed, production
+  deployment is live on `www.jami.studio`, apex redirects to `www`, deployment/domain operations are
+  documented, analytics/privacy is explicitly deferred, and no successful branch-preview deploy is invented.
+  Durable decision references were aligned with Kirimo imported-to-`main` reality, the design-goal brief stays
+  closed/history-only, and deeper project-page redesign remains post-launch.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
