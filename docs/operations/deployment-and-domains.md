@@ -81,8 +81,11 @@ Point-in-time provider evidence from 2026-06-13:
   Node.js `24.x`, and default Vercel install/build commands for the detected
   package manager/framework.
 - The Vercel Projects API proves the project is Git-linked to
-  `JamiStudio/jami.studio`, production branch `main`, with production and
-  preview targets.
+  `JamiStudio/jami.studio`; current API readback reports default/blank
+  `rootDirectory`, `productionBranch`, `buildCommand`, `installCommand`, and
+  `outputDirectory` fields. The CLI readback resolves the default root as `.`,
+  and deployment evidence below proves the production deployment was created
+  from Git source `main`.
 - The project currently has no Vercel environment variables configured. This is
   acceptable for the current static-first marketing site; required variable
   names remain documented below for future host/local configuration.

@@ -639,6 +639,22 @@ Suggested verification:
   longer contains the old starter/system-map marker. Caveat: local-source CLI preview/production uploads
   created `BLOCKED` deployments with no build logs or alias assignment, so Git-source API deployment is the
   proven fallback path.
+- [~] 2026-06-12T22:34:51.3978134-04:00 - Dispatched fresh Stream B / Workstream 6 deployment-domain
+  AUDIT/EXECUTE pass 3 to subagent `019ebed4-d6ad-7302-be78-e097b6bee6b7` (`Fermat`). Ownership
+  boundary: quiet confirmation of production Kirimo deployment, apex redirect, public route/file
+  status, Vercel runbook accuracy, product-subdomain status, and absence of staged Vercel/secret
+  metadata. Active workstreams: Stream B only. Next coordinator action: wait for terminal result, then
+  close Stream B if the pass is quiet or rerun if it finds meaningful gaps.
+  Result 2026-06-13: pass 3 confirmed the live production surface remains Kirimo-era content and not
+  the old starter/system-map presentation; `https://jami.studio/` returns `308` to
+  `https://www.jami.studio/`; `/`, `/projects`, all five project pages, `/robots.txt`,
+  `/sitemap.xml`, `/llms.txt`, and `/llms-full.txt` return `200`; Vercel CLI/API evidence still points
+  to `studio-jami/jami.studio`, deployment `dpl_7RwnuGqTaLKKk9o4faHLfZQomQeL`, READY production target,
+  aliases for `www`, apex, and main; Intercal resolves and serves `200`, while `harness`, `registry`,
+  `orchestra`, and `collectiva` do not resolve. Documentation precision fix: the Projects API currently
+  returns default/blank `productionBranch` and command fields, while the deployment API proves Git source
+  ref `main`; no `.vercel` metadata, credentials, deploy tokens, or local secret/account files were staged
+  or introduced.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
