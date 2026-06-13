@@ -1,7 +1,7 @@
 # Jami Studio Marketing Site Implementation Plan
 
 Date: 2026-06-06 · Recovered & reconciled: 2026-06-12
-Status: [~] Active — Kirimo imported, production launch evidence landed, fresh Stream D pass 2 gate remains
+Status: [x] Complete — Kirimo imported, production launch evidence landed, Stream D pass 2 verified
 Source reports: `C:\Users\james\dev\docs\reports\E-operations-gtm\F18-brand-and-identity.md`, `C:\Users\james\dev\docs\reports\E-operations-gtm\F19-marketing-and-content.md`, `C:\Users\james\dev\docs\reports\D-distribution-products-ax\F16-products.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F05-harness-runtime.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F09-ui-registry-and-render-seam.md`, `C:\Users\james\dev\docs\reports\B-agent-substrate\F10-orchestra-and-dev-system.md`
 Owner: Jamie
 Surface: `www.jami.studio` marketing site and OSS project hub
@@ -32,7 +32,8 @@ finished and is restored here as the canonical forward plan.
   closed; Stream B closed with verified Kirimo production deployment, live `www.jami.studio`, and apex
   redirect evidence; Stream C explicitly deferred analytics/privacy for launch in
   `docs/decisions/2026-06-13-analytics-privacy-deferral.md`. Stream D pass 1 updates roadmap/durable-doc
-  status from that evidence; a fresh Stream D pass 2 remains as the normal final audit gate.
+  status from that evidence; Stream D pass 2 confirmed the final roadmap/durable-doc closeout without
+  changing workflow mechanics or public design surfaces.
 - **Expansion Track** — ❌ not started.
 
 **Owner-requested scope folded back in (from the 2026-06-09 rewrite, do not lose):**
@@ -701,6 +702,17 @@ Suggested verification:
   documented, analytics/privacy is explicitly deferred, and no successful branch-preview deploy is invented.
   Durable decision references were aligned with Kirimo imported-to-`main` reality, the design-goal brief stays
   closed/history-only, and deeper project-page redesign remains post-launch.
+- [~] 2026-06-13T02:39:39.5306251-04:00 - Dispatched fresh Stream D / roadmap closeout
+  AUDIT/EXECUTE pass 2 to subagent `019ebfb5-0a96-7fb1-ae97-2ef0297fa758` (`Lorentz`). Ownership
+  boundary: confirm or fix final roadmap/durable-doc parity, design-goal closed posture, deployment,
+  domain, analytics, final checklist truthfulness, and absence of workflow/process changes. Active
+  workstreams: Stream D only. Next coordinator action: wait for terminal result, then gate Stream D.
+  Result 2026-06-13: pass 2 found no contradiction across the roadmap, deployment/domain runbook, Kirimo
+  ADR, analytics/privacy decision, active goal prompt, or closed design-goal brief. Fresh external checks
+  confirmed `www.jami.studio` returns `200 OK`, apex `jami.studio` returns `308` to `www`, all public
+  routes and AI files return `200`, `intercal.jami.studio` is live, and the reserved `harness`, `registry`,
+  `orchestra`, and `collectiva` subdomains remain absent from DNS. No successful branch-preview deploy is
+  claimed; the preview path remains documented only. Stream D is closed with a roadmap-status-only update.
 
 - [~] 2026-06-06T13:15:59.9373818-04:00 - Dispatched Workstream 1 pass 1 to subagent
   `019e9def-09d0-7e11-84b5-41a7ba7f739d` (`Boole`). Ownership boundary: app foundation,
