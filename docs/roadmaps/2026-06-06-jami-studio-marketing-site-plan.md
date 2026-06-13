@@ -536,9 +536,9 @@ Suggested verification:
 - [x] Inspect `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`, and canonical metadata.
 - [x] Confirm no secrets in tracked files.
 - [x] Confirm docs and roadmap reflect actual delivered behavior.
-- [ ] Stage only intentional files.
-- [ ] Commit with a conventional-style subject and body.
-- [ ] Push to the default branch when a git remote exists.
+- [x] Stage only intentional files.
+- [x] Commit with a conventional-style subject and body.
+- [x] Push to the default branch when a git remote exists.
 
 ## Acceptance Criteria
 
