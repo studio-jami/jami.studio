@@ -7,7 +7,7 @@ jami.studio is the public marketing site and central OSS hub for the Studio proj
 1. The live site code and generated routes, metadata, feeds, robots, sitemap, `llms.txt`, and deployed previews.
 2. Durable docs under `docs/architecture/`, `docs/operations/`, and `docs/decisions/`.
 3. Cross-repo planning, plan/report standards, and agent coordination in the sibling `_ops` repo.
-4. Active roadmaps under `docs/roadmaps/`.
+4. Active roadmaps under `_ops/planning/jami.studio/roadmaps/`.
 
 Never treat a product concept, dated report, roadmap, or founder note as implemented behavior unless the repo or deployed surface proves it.
 
@@ -62,13 +62,12 @@ For docs-only work before the app exists, read back changed Markdown and run `gi
 
 ## Docs And Changelog
 
-- Active plans live in `docs/roadmaps/`.
+- Active plans live in `_ops/planning/jami.studio/roadmaps/`.
 - Durable product and architecture docs live under `docs/architecture/`.
 - Operations docs live under `docs/operations/`.
 - Decision records live under `docs/decisions/`.
-- Plan/report standards and agent goal/reliability docs live in `_ops`; docs standards live in
-  `registry`. Local `docs/engineering/{standards,agents}/` files are pointers, except
-  project-specific design/state records.
+- Plan/report standards and agent goal/reliability docs live in `_ops/planning`; docs standards live in
+  `registry`. Local `docs/engineering/agents/` and plan/report standard files are retired.
 - Delete completed or superseded dated plans once their durable rules are promoted; git history is the archive. The repo keeps no `_legacy/` shelf and no dead copy.
 - Add changelog fragments once the codebase has a changelog fragment convention and a production-meaningful change lands.
 

@@ -58,3 +58,10 @@ temp/
 .tmp/
 *.local
 mcps/
+
+# Planning and agent coordination live only in _ops.
+docs/engineering/agents/
+docs/engineering/standards/planning-style.md
+docs/engineering/standards/report-style.md
+docs/roadmaps/
+docs/research/
