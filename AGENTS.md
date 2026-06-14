@@ -20,8 +20,8 @@ The site must present the full intended end-state product family in a polished, 
 - Jami Agent Harness: governed agent runtime and BYOK reference foundation.
 - Studio UI Registry: tokenized UI registry and trusted render contract.
 - Orchestra: development and multi-agent coordination framework.
-- Intercal: live provenance-backed temporal knowledge substrate, currently routed from `intercal.jami.studio`.
-- Collectiva: open agent society and governance layer, initially expected to route from a subdomain.
+- Intercal: live provenance-backed temporal knowledge substrate.
+- Collectiva: open agent society and governance layer.
 
 The implementation must keep subdomain/repo/project links data-driven so `intercal.jami.studio`, `collectiva.jami.studio`, `harness.jami.studio`, `registry.jami.studio`, and `orchestra.jami.studio` can move to separate domains or projects without content rewrites.
 
@@ -35,6 +35,14 @@ The implementation must keep subdomain/repo/project links data-driven so `interc
 - Keep the brand globally reusable: shared tokens, reusable content models, reusable section components, consistent metadata, and no one-off page styling.
 - Do not put secrets, tokens, analytics keys, deploy tokens, or private notes in tracked files. `.env` is local-only; `.env.example` documents names only.
 - Verify drift-prone external claims before committing them to durable docs or public pages.
+- Agents have full access and a green light to complete requested work; build to a sturdy,
+  production-ready shape, not a placeholder.
+- No mocks, fake metrics, invented testimonials, or hidden demo data in shipped pages.
+- Work from first principles: ask why a constraint or surprise exists, several layers deep,
+  before committing to a fix. Never trade away integrity, security, correctness, or evidence
+  quality for speed.
+- No-cost constraint: stay within approved subscriptions, credits, and free tiers; stop and
+  report rather than incur spend.
 
 ## Expected Repo Shape
 
@@ -49,7 +57,7 @@ The exact framework is selected by the active plan, but the implementation must 
 
 ## Verification
 
-Run the narrowest complete set for what changed. Once the app exists, expected gates are:
+Run the narrowest complete set for what changed. The frontend gates are:
 
 - `pnpm lint`
 - `pnpm typecheck`
@@ -58,7 +66,7 @@ Run the narrowest complete set for what changed. Once the app exists, expected g
 - `pnpm verify`
 - Visual smoke against desktop and mobile routes after meaningful frontend changes.
 
-For docs-only work before the app exists, read back changed Markdown and run `git diff --check` when a git repository is initialized.
+For docs-only work, read back changed Markdown and run `git diff --check`.
 
 ## Docs And Changelog
 
@@ -69,7 +77,7 @@ For docs-only work before the app exists, read back changed Markdown and run `gi
 - Plan/report standards and agent goal/reliability docs live in `_ops/planning`; docs standards live in
   `registry`. Local `docs/engineering/agents/` and plan/report standard files are retired.
 - Delete completed or superseded dated plans once their durable rules are promoted; git history is the archive. The repo keeps no `_legacy/` shelf and no dead copy.
-- Add changelog fragments once the codebase has a changelog fragment convention and a production-meaningful change lands.
+- Add a changelog fragment when a production-meaningful change lands, following the repo's changelog convention.
 
 ## Closeout
 
