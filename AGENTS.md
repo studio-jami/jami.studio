@@ -74,8 +74,9 @@ For docs-only work, read back changed Markdown and run `git diff --check`.
 - Durable product and architecture docs live under `docs/architecture/`.
 - Operations docs live under `docs/operations/`.
 - Decision records live under `docs/decisions/`.
-- Plan/report standards and agent goal/reliability docs live in `_ops/planning`; docs standards live in
-  `registry`. Local `docs/engineering/agents/` and plan/report standard files are retired.
+- Plan/report and docs standards are canonical in `_ops/planning/_standards/`, symlinked here
+  at `docs/_standards/`; follow the dev-docs standard for internal docs. This site has no user
+  docs. Local `docs/engineering/agents/` and plan/report standard files are retired.
 - Delete completed or superseded dated plans once their durable rules are promoted; git history is the archive. The repo keeps no `_legacy/` shelf and no dead copy.
 - Add a changelog fragment when a production-meaningful change lands, following the repo's changelog convention.
 
