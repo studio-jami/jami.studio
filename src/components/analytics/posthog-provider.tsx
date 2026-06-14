@@ -11,6 +11,41 @@ import {
   posthogEnabled
 } from "@/lib/analytics";
 
+type QueuedMarketingEvent = {
+  event: AnalyticsEventName | "$pageview";
+  properties?: Record<string, unknown>;
+};
+
+const pendingEvents: QueuedMarketingEvent[] = [];
+let flushTimer: number | undefined;
+
+function flushPendingEvents(ph: Pick<typeof posthog, "capture">) {
+  while (pendingEvents.length > 0) {
+    const queued = pendingEvents.shift();
+    if (queued) ph.capture(queued.event, queued.properties);
+  }
+}
+
+function schedulePendingFlush() {
+  if (flushTimer || typeof window === "undefined") return;
+
+  let attempts = 0;
+  flushTimer = window.setInterval(() => {
+    attempts += 1;
+    if (posthog.__loaded) {
+      window.clearInterval(flushTimer);
+      flushTimer = undefined;
+      flushPendingEvents(posthog);
+      return;
+    }
+
+    if (attempts >= 40) {
+      window.clearInterval(flushTimer);
+      flushTimer = undefined;
+    }
+  }, 250);
+}
+
 /**
  * Initializes the PostHog **marketing** project on the client, under the
  * family analytics posture:
@@ -51,6 +86,7 @@ if (typeof window !== "undefined" && posthogEnabled && POSTHOG_KEY && !posthog._
     // uncaught errors — we add no manual handlers (avoids duplicates).
     loaded: (ph) => {
       if (process.env.NODE_ENV === "development") ph.debug(false);
+      flushPendingEvents(ph);
     }
   });
 }
@@ -60,6 +96,12 @@ export function captureMarketingEvent(
   properties?: Record<string, unknown>
 ) {
   if (typeof window === "undefined" || !posthogEnabled || !POSTHOG_KEY) {
+    return;
+  }
+
+  if (!posthog.__loaded) {
+    pendingEvents.push({ event, properties });
+    schedulePendingFlush();
     return;
   }
 
