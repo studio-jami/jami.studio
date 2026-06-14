@@ -90,3 +90,13 @@ export function outboundChannel(href: string): string {
     return "external";
   }
 }
+
+/** Sanitized destination label for outbound events; never emit email addresses, paths, or query strings. */
+export function outboundDestination(href: string): string {
+  if (href.startsWith("mailto:")) return "email";
+  try {
+    return new URL(href).origin.replace(/^https?:\/\/www\./, (match) => match.replace("www.", ""));
+  } catch {
+    return "external";
+  }
+}

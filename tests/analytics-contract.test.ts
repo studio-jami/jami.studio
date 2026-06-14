@@ -3,6 +3,7 @@ import {
   ANALYTICS_EVENTS,
   isOutboundHref,
   outboundChannel,
+  outboundDestination,
   posthogIngestHost
 } from "@/lib/analytics";
 import { studioLinks } from "@/content/links";
@@ -54,6 +55,25 @@ describe("outbound channel labelling (non-PII)", () => {
 
   it("never throws on a malformed href", () => {
     expect(outboundChannel("not a url")).toBe("external");
+  });
+});
+
+describe("outbound destination labelling (non-PII)", () => {
+  it("does not emit email addresses for mailto links", () => {
+    expect(outboundDestination("mailto:hello@jami.studio")).toBe("email");
+  });
+
+  it("strips path, query, and fragment from external URLs", () => {
+    expect(outboundDestination("https://www.linkedin.com/in/jami-studio/?trk=email#bio")).toBe(
+      "https://linkedin.com"
+    );
+    expect(outboundDestination("https://github.com/studio-jami/registry?tab=readme")).toBe(
+      "https://github.com"
+    );
+  });
+
+  it("never throws on a malformed href", () => {
+    expect(outboundDestination("not a url")).toBe("external");
   });
 });
 
