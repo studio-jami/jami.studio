@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
+import { PostHogProvider } from "@/components/analytics/posthog-provider";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { site } from "@/content/site";
@@ -38,12 +43,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <a className="skip-link" href="#main">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <PostHogProvider>
+          <PageViewTracker />
+          <a className="skip-link" href="#main">
+            Skip to content
+          </a>
+          <SiteHeader />
+          <main id="main">{children}</main>
+          <SiteFooter />
+        </PostHogProvider>
+        {/* GA4 (marketing stream) + Vercel Web Analytics & Speed Insights. */}
+        <GoogleAnalytics />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { createMetadata, createProjectMetadata, projectJsonLd } from "@/lib/metadata";
 import { projectLinkTargets } from "@/lib/routes";
+import { ProjectViewBeacon } from "@/components/analytics/project-view-beacon";
 import { Section } from "@/components/layout/section";
 import { ContentSection } from "@/components/detail/content-section";
 import { DetailHero } from "@/components/detail/detail-hero";
@@ -61,6 +62,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
   return (
     <article className="detail">
+      <ProjectViewBeacon view={project.slug} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

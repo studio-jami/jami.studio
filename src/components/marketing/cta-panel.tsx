@@ -23,7 +23,7 @@ export function CtaPanel({ titleId }: { titleId: string }) {
           project family.
         </p>
         <div className="cta-panel__actions">
-          <Button href={`mailto:${site.email}`} variant="primary">
+          <Button href={`mailto:${site.email}`} variant="primary" analyticsLocation="cta-panel">
             Email the studio
           </Button>
         </div>

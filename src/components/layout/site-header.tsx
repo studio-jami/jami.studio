@@ -25,7 +25,7 @@ export function SiteHeader() {
           <ul>
             {site.nav.map((item) => (
               <li key={item.href}>
-                <SmartLink href={item.href} className="site-header__link">
+                <SmartLink href={item.href} className="site-header__link" analyticsLocation="header-nav">
                   {item.label}
                 </SmartLink>
               </li>
