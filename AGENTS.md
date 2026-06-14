@@ -6,7 +6,7 @@ jami.studio is the public marketing site and central OSS hub for the Studio proj
 
 1. The live site code and generated routes, metadata, feeds, robots, sitemap, `llms.txt`, and deployed previews.
 2. Durable docs under `docs/architecture/`, `docs/operations/`, and `docs/decisions/`.
-3. Source reports copied from the wider Studio research program under `C:\Users\james\dev\docs\reports\`.
+3. Cross-repo planning, plan/report standards, and agent coordination in the sibling `_ops` repo.
 4. Active roadmaps under `docs/roadmaps/`.
 
 Never treat a product concept, dated report, roadmap, or founder note as implemented behavior unless the repo or deployed surface proves it.
@@ -43,7 +43,7 @@ The implementation must keep subdomain/repo/project links data-driven so `interc
 - `src/components/` - reusable marketing sections, project cards, nav, footer, metadata helpers, and layout primitives.
 - `src/lib/` - URL, route, metadata, sitemap, `llms.txt`, and content helpers.
 - `public/` - icons, social images, robots assets, and static files.
-- `docs/` - architecture, operations, decisions, roadmaps, research, and engineering standards.
+- `docs/` - architecture, operations, decisions, roadmaps, research, and engineering pointers.
 
 The exact framework is selected by the active plan, but the implementation must be static-first, Vercel-ready, and easy to keep portable.
 
@@ -66,6 +66,9 @@ For docs-only work before the app exists, read back changed Markdown and run `gi
 - Durable product and architecture docs live under `docs/architecture/`.
 - Operations docs live under `docs/operations/`.
 - Decision records live under `docs/decisions/`.
+- Plan/report standards and agent goal/reliability docs live in `_ops`; docs standards live in
+  `registry`. Local `docs/engineering/{standards,agents}/` files are pointers, except
+  project-specific design/state records.
 - Delete completed or superseded dated plans once their durable rules are promoted; git history is the archive. The repo keeps no `_legacy/` shelf and no dead copy.
 - Add changelog fragments once the codebase has a changelog fragment convention and a production-meaningful change lands.
 

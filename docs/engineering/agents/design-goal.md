@@ -4,10 +4,10 @@ Date: 2026-06-11
 Status: [x] **CLOSED — DECIDED AND IMPORTED (2026-06-12): Kirimo.** Run 4 delivered five distinct,
 template-faithful, image-rich lanes; the owner chose **Kirimo** for the OSS hub. Kirimo is now imported to
 `main` at `25e5b73`. This brief is retained only as bakeoff history. The active prompt is
-`docs/engineering/agents/goal.md`.
+`_ops/projects/jami.studio/planning/agents/goal.md`.
 Active roadmap: `docs/roadmaps/2026-06-06-jami-studio-marketing-site-plan.md`
 Design guidelines: `docs/design/reference-brief.md`
-Orchestration reliability: `docs/engineering/agents/orchestration-reliability.md`
+Orchestration reliability: `_ops/projects/jami.studio/planning/agents/orchestration-reliability.md`
 State checkpoint: `docs/engineering/agents/orchestration-state.md`
 Owner: Jamie
 
