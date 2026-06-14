@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { ANALYTICS_EVENTS, isOutboundHref, outboundChannel } from "@/lib/analytics";
+import {
+  ANALYTICS_EVENTS,
+  isOutboundHref,
+  outboundChannel,
+  posthogIngestHost
+} from "@/lib/analytics";
 import { studioLinks } from "@/content/links";
 import { projects } from "@/content/projects";
 
@@ -49,5 +54,31 @@ describe("outbound channel labelling (non-PII)", () => {
 
   it("never throws on a malformed href", () => {
     expect(outboundChannel("not a url")).toBe("external");
+  });
+});
+
+describe("posthog ingest-host derivation (events must reach the ingestion host)", () => {
+  it("rewrites the US app host to the US ingestion host", () => {
+    // The bug this guards: api_host = app host silently drops every event,
+    // because posthog-js only auto-rewrites the legacy app.posthog.com value.
+    expect(posthogIngestHost("https://us.posthog.com")).toBe("https://us.i.posthog.com");
+  });
+
+  it("rewrites the EU app host to the EU ingestion host", () => {
+    expect(posthogIngestHost("https://eu.posthog.com")).toBe("https://eu.i.posthog.com");
+  });
+
+  it("rewrites the legacy app.posthog.com host to the US ingestion host", () => {
+    expect(posthogIngestHost("https://app.posthog.com")).toBe("https://us.i.posthog.com");
+  });
+
+  it("leaves an already-correct ingestion host unchanged", () => {
+    expect(posthogIngestHost("https://us.i.posthog.com")).toBe("https://us.i.posthog.com");
+    expect(posthogIngestHost("https://eu.i.posthog.com")).toBe("https://eu.i.posthog.com");
+  });
+
+  it("tolerates a trailing slash and leaves self-hosted hosts as-is", () => {
+    expect(posthogIngestHost("https://us.posthog.com/")).toBe("https://us.i.posthog.com");
+    expect(posthogIngestHost("https://ph.example.com")).toBe("https://ph.example.com");
   });
 });

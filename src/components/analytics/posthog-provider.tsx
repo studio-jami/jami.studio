@@ -3,7 +3,7 @@
 import { PostHogProvider as PHProvider } from "@posthog/react";
 import posthog from "posthog-js";
 import type { ReactNode } from "react";
-import { POSTHOG_HOST, POSTHOG_KEY, posthogEnabled } from "@/lib/analytics";
+import { POSTHOG_INGEST_HOST, POSTHOG_KEY, POSTHOG_UI_HOST, posthogEnabled } from "@/lib/analytics";
 
 /**
  * Initializes the PostHog **marketing** project on the client, under the
@@ -18,6 +18,11 @@ import { POSTHOG_HOST, POSTHOG_KEY, posthogEnabled } from "@/lib/analytics";
  * - `respect_dnt: true` + `person_profiles: 'identified_only'` — consent-/
  *   cookieless-friendly and anonymous. No PII is ever sent.
  *
+ * `api_host` is the **ingestion** host (`us.i.posthog.com`), derived from the
+ * configured host; `ui_host` is the **app** host (`us.posthog.com`) for in-app
+ * links. Pointing `api_host` at the app host would silently drop every event
+ * (posthog-js only auto-rewrites the legacy `app.posthog.com` value).
+ *
  * Init runs once at module scope (the documented PostHog pattern — guarded to
  * the browser and against double-init). If `NEXT_PUBLIC_POSTHOG_KEY` is absent
  * (e.g. local dev without env), PostHog is skipped and children render
@@ -25,8 +30,8 @@ import { POSTHOG_HOST, POSTHOG_KEY, posthogEnabled } from "@/lib/analytics";
  */
 if (typeof window !== "undefined" && posthogEnabled && POSTHOG_KEY && !posthog.__loaded) {
   posthog.init(POSTHOG_KEY, {
-    api_host: POSTHOG_HOST,
-    ui_host: "https://us.posthog.com",
+    api_host: POSTHOG_INGEST_HOST,
+    ui_host: POSTHOG_UI_HOST,
     // Explicit-events posture: replay + autocapture OFF.
     autocapture: false,
     disable_session_recording: true,
