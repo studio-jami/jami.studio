@@ -3,7 +3,13 @@
 import { PostHogProvider as PHProvider } from "@posthog/react";
 import posthog from "posthog-js";
 import type { ReactNode } from "react";
-import { POSTHOG_INGEST_HOST, POSTHOG_KEY, POSTHOG_UI_HOST, posthogEnabled } from "@/lib/analytics";
+import {
+  type AnalyticsEventName,
+  POSTHOG_INGEST_HOST,
+  POSTHOG_KEY,
+  POSTHOG_UI_HOST,
+  posthogEnabled
+} from "@/lib/analytics";
 
 /**
  * Initializes the PostHog **marketing** project on the client, under the
@@ -47,6 +53,17 @@ if (typeof window !== "undefined" && posthogEnabled && POSTHOG_KEY && !posthog._
       if (process.env.NODE_ENV === "development") ph.debug(false);
     }
   });
+}
+
+export function captureMarketingEvent(
+  event: AnalyticsEventName | "$pageview",
+  properties?: Record<string, unknown>
+) {
+  if (typeof window === "undefined" || !posthogEnabled || !POSTHOG_KEY) {
+    return;
+  }
+
+  posthog.capture(event, properties);
 }
 
 export function PostHogProvider({ children }: { children: ReactNode }) {

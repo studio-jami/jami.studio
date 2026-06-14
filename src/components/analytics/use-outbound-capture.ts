@@ -1,6 +1,6 @@
 "use client";
 
-import { usePostHog } from "@posthog/react";
+import { captureMarketingEvent } from "@/components/analytics/posthog-provider";
 import { ANALYTICS_EVENTS, isOutboundHref, outboundChannel, outboundDestination } from "@/lib/analytics";
 
 /**
@@ -20,13 +20,12 @@ export function useOutboundCapture(
   meta?: { location?: string; label?: string },
   userOnClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
 ) {
-  const posthog = usePostHog();
   const outbound = isOutboundHref(href);
 
   return (event: React.MouseEvent<HTMLAnchorElement>) => {
     userOnClick?.(event);
-    if (!outbound || !posthog) return;
-    posthog.capture(ANALYTICS_EVENTS.outboundCtaClick, {
+    if (!outbound) return;
+    captureMarketingEvent(ANALYTICS_EVENTS.outboundCtaClick, {
       destination: outboundDestination(href),
       channel: outboundChannel(href),
       ...(meta?.location ? { location: meta.location } : {}),

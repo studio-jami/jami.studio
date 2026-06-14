@@ -1,8 +1,8 @@
 "use client";
 
-import { usePostHog } from "@posthog/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
+import { captureMarketingEvent } from "@/components/analytics/posthog-provider";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 /**
@@ -17,22 +17,21 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
  * the inner tracker is wrapped below.
  */
 function Tracker() {
-  const posthog = usePostHog();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!posthog || !pathname) return;
+    if (!pathname) return;
 
     const query = searchParams?.toString();
     const path = query ? `${pathname}?${query}` : pathname;
     const url = typeof window !== "undefined" ? window.location.origin + path : path;
 
     // Native pageview for dashboards.
-    posthog.capture("$pageview", { $current_url: url });
+    captureMarketingEvent("$pageview", { $current_url: url });
     // Explicit, contract-named event (no PII — path only).
-    posthog.capture(ANALYTICS_EVENTS.pageView, { pathname, path });
-  }, [posthog, pathname, searchParams]);
+    captureMarketingEvent(ANALYTICS_EVENTS.pageView, { pathname, path });
+  }, [pathname, searchParams]);
 
   return null;
 }

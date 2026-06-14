@@ -1,7 +1,7 @@
 "use client";
 
-import { usePostHog } from "@posthog/react";
 import { useEffect, useRef } from "react";
+import { captureMarketingEvent } from "@/components/analytics/posthog-provider";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 type ProjectViewBeaconProps = {
@@ -18,19 +18,18 @@ type ProjectViewBeaconProps = {
  * Mounted from the corresponding Server Component pages. Renders nothing.
  */
 export function ProjectViewBeacon({ view }: ProjectViewBeaconProps) {
-  const posthog = usePostHog();
   const sent = useRef(false);
 
   useEffect(() => {
-    if (!posthog || sent.current) return;
+    if (sent.current) return;
     sent.current = true;
 
     if (view === "index") {
-      posthog.capture(ANALYTICS_EVENTS.projectIndexView);
+      captureMarketingEvent(ANALYTICS_EVENTS.projectIndexView);
     } else {
-      posthog.capture(ANALYTICS_EVENTS.projectDetailView, { slug: view });
+      captureMarketingEvent(ANALYTICS_EVENTS.projectDetailView, { slug: view });
     }
-  }, [posthog, view]);
+  }, [view]);
 
   return null;
 }
