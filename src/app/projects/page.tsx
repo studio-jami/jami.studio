@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { projects } from "@/content/projects";
 import { createMetadata } from "@/lib/metadata";
+import { ProjectViewBeacon } from "@/components/analytics/project-view-beacon";
 import { Section } from "@/components/layout/section";
 import { projectSlideImage } from "@/components/marketing/project-media";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export const metadata: Metadata = createMetadata({
 export default function ProjectsPage() {
   return (
     <>
+      <ProjectViewBeacon view="index" />
       <Section size="hero" rule={false} aria-labelledby="projects-index-title">
         <SectionHead
           eyebrow="Project index"

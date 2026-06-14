@@ -10,6 +10,7 @@ This directory holds the durable operating guidance for the `jami.studio` market
 - `operations/` - deployment, domains, benefits, analytics, and maintenance runbooks.
 - `security/` - account access, secrets, and agent authorization guidance.
 - `roadmaps/` - active implementation plans.
+- `changelog/` - dated fragments for production-meaningful changes.
 
 ## Active plan
 
@@ -25,6 +26,7 @@ Key architecture notes:
 
 Key operating notes:
 
+- `docs/operations/analytics.md`
 - `docs/operations/benefits-and-credits.md`
 - `docs/operations/credit-utilization-plan.md`
 - `docs/security/agent-account-access.md`

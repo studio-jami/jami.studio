@@ -71,7 +71,11 @@ export function SiteFooter() {
           <ul>
             {site.social.map((profile) => (
               <li key={profile.href}>
-                <SmartLink href={profile.href} className="site-footer__social-link">
+                <SmartLink
+                  href={profile.href}
+                  className="site-footer__social-link"
+                  analyticsLocation="footer-social"
+                >
                   <span className="btn__arrow" aria-hidden="true">
                     <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
                       <path

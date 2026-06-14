@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
+import { useOutboundCapture } from "@/components/analytics/use-outbound-capture";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 
@@ -19,6 +22,9 @@ function isStaticFile(href: string): boolean {
  *                 "VIEW ALL PROJECT").
  * - `text`      — circle-arrow + uppercase label link (template `Button/Text`,
  *                 e.g. "GET STARTED NOW", "READ ABOUT US").
+ *
+ * Off-site / `mailto:` buttons emit the explicit `outbound_cta_click` event;
+ * internal routes are left to `page_view`.
  */
 export function Button({
   href,
@@ -26,7 +32,8 @@ export function Button({
   variant = "primary",
   external,
   className,
-  tabIndex
+  tabIndex,
+  analyticsLocation
 }: {
   href: string;
   children: ReactNode;
@@ -34,9 +41,12 @@ export function Button({
   external?: boolean;
   className?: string;
   tabIndex?: number;
+  /** Optional non-PII funnel label for `outbound_cta_click` (e.g. "cta-panel"). */
+  analyticsLocation?: string;
 }) {
   const isExternal = external ?? (/^(https?:|mailto:)/.test(href) || isStaticFile(href));
   const classes = [`btn btn--${variant}`, className].filter(Boolean).join(" ");
+  const handleClick = useOutboundCapture(href, { location: analyticsLocation });
 
   const content = (
     <>
@@ -61,6 +71,7 @@ export function Button({
         className={classes}
         href={href}
         tabIndex={tabIndex}
+        onClick={handleClick}
         {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
       >
         {content}
