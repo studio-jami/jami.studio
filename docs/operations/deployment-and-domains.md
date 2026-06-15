@@ -103,9 +103,10 @@ token path. The MCP-visible `yrka` team is not the owner for this site.
 > `studio-jami`; all three studio-jami Vercel projects (`jami.studio`,
 > `intercal`, `collectiva`) now git-link to `studio-jami/*`. The Vercel MCP now
 > also surfaces the `studio-jami` team directly, so the earlier `yrka`-only
-> visibility note no longer holds. (Minor open item: the `intercal` project
-> carries a `lntercal.vercel.app` alias — a homoglyph of "intercal"; left as-is
-> pending confirmation it is intentional vanity vs a typo to remove.)
+> visibility note no longer holds. The `intercal` project intentionally carries
+> homoglyph vanity aliases `lntercal.vercel.app` and `interca1.vercel.app`
+> (because `intercal.vercel.app` was unavailable) — these are deliberate, not
+> typos. The canonical public host remains `intercal.jami.studio`.
 
 ## Production Domain Mapping
 
