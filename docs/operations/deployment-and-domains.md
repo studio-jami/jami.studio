@@ -81,7 +81,9 @@ Point-in-time provider evidence from 2026-06-13:
   Node.js `24.x`, and default Vercel install/build commands for the detected
   package manager/framework.
 - The Vercel Projects API proves the project is Git-linked to
-  `JamiStudio/jami.studio`; current API readback reports default/blank
+  `studio-jami/jami.studio` (canonical org slug; the earlier `JamiStudio`
+  spelling is a pre-rename alias GitHub still redirects); current API readback
+  reports default/blank
   `rootDirectory`, `productionBranch`, `buildCommand`, `installCommand`, and
   `outputDirectory` fields. The CLI readback resolves the default root as `.`,
   and deployment evidence below proves the production deployment was created
@@ -93,6 +95,17 @@ Point-in-time provider evidence from 2026-06-13:
 
 Conclusion: the owning Vercel project is proven and manageable from the local
 token path. The MCP-visible `yrka` team is not the owner for this site.
+
+> **2026-06-15 correction.** The GitHub org canonical slug is `studio-jami`
+> (`JamiStudio` is a pre-rename alias GitHub redirects; `JamiStudio/<repo>`
+> resolves to `studio-jami/<repo>`). On this date the Vercel `intercal` and
+> `collectiva` projects were re-linked from the stale `JamiStudio` org to
+> `studio-jami`; all three studio-jami Vercel projects (`jami.studio`,
+> `intercal`, `collectiva`) now git-link to `studio-jami/*`. The Vercel MCP now
+> also surfaces the `studio-jami` team directly, so the earlier `yrka`-only
+> visibility note no longer holds. (Minor open item: the `intercal` project
+> carries a `lntercal.vercel.app` alias — a homoglyph of "intercal"; left as-is
+> pending confirmation it is intentional vanity vs a typo to remove.)
 
 ## Production Domain Mapping
 
