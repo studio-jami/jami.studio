@@ -251,7 +251,7 @@ const rawProjects = [
     subdomain: "intercal.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/intercal`,
     docsUrl: "https://intercal.jami.studio/docs",
-    apiUrl: "https://intercal.jami.studio/api",
+    apiUrl: "https://intercal.jami.studio/api/openapi.json",
     summary: "A provenance-backed temporal knowledge substrate.",
     aiSummary:
       "Intercal is the temporal and delta knowledge layer for provenance-backed updates, changelog-oriented knowledge, and agent-readable freshness.",
