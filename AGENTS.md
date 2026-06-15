@@ -23,7 +23,7 @@ The site must present the full intended end-state product family in a polished, 
 - Intercal: live provenance-backed temporal knowledge substrate.
 - Collectiva: open agent society and governance layer.
 
-The implementation must keep subdomain/repo/project links data-driven so `intercal.jami.studio`, `collectiva.jami.studio`, `harness.jami.studio`, `registry.jami.studio`, and `orchestra.jami.studio` can move to separate domains or projects without content rewrites.
+The implementation must keep subdomain/repo/project links data-driven. Only live product surfaces carry a subdomain — `intercal.jami.studio` (separate app) and `registry.jami.studio` (registry/docs host); Harness, Orchestra, and Collectiva resolve as apex sections (`www.jami.studio/projects/<slug>`) plus their `github.com/studio-jami/<repo>` repos until a dedicated surface ships. Never fabricate `/docs` or `/api` URLs for a surface that is not live. Any product can move to a separate domain or project by editing `src/content/projects.ts` without content rewrites.
 
 ## Hard Rules
 

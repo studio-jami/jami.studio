@@ -20,7 +20,7 @@ export function projectCanonicalUrl(project: StudioProject): string {
   return absoluteUrl(projectPath(project));
 }
 
-export function projectSubdomainUrl(project: StudioProject): string {
+export function projectSubdomainUrl(project: StudioProject): string | undefined {
   return project.domainTarget;
 }
 
@@ -28,7 +28,7 @@ export function projectRepositoryUrl(project: StudioProject): string {
   return project.repoUrl;
 }
 
-export function projectDocsUrl(project: StudioProject): string {
+export function projectDocsUrl(project: StudioProject): string | undefined {
   return project.docsUrl;
 }
 
@@ -39,13 +39,17 @@ export function projectApiUrl(project: StudioProject): string | undefined {
 export function projectLinkTargets(project: StudioProject) {
   return [
     { label: "Route", href: projectCanonicalUrl(project), value: projectPath(project) },
-    { label: "Subdomain", href: projectSubdomainUrl(project), value: project.subdomain },
+    ...(projectSubdomainUrl(project)
+      ? [{ label: "Subdomain", href: projectSubdomainUrl(project), value: project.subdomain }]
+      : []),
     {
       label: "Repository",
       href: projectRepositoryUrl(project),
       value: projectRepositoryUrl(project)
     },
-    { label: "Docs", href: projectDocsUrl(project), value: projectDocsUrl(project) },
+    ...(projectDocsUrl(project)
+      ? [{ label: "Docs", href: projectDocsUrl(project), value: projectDocsUrl(project) }]
+      : []),
     ...(projectApiUrl(project)
       ? [{ label: "API", href: projectApiUrl(project), value: projectApiUrl(project) }]
       : [])

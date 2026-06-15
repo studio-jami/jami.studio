@@ -123,27 +123,28 @@ Verified DNS and HTTP behavior on 2026-06-13:
   starter/system-map marker and serves the current Kirimo-era project-family
   content.
 
-## Product Subdomain Ownership
+## Product Surface Ownership
 
-`src/content/projects.ts` is the source-owned roster for product subdomains and
-CTA destinations. Operational ownership is:
+`src/content/projects.ts` is the source-owned roster for product surfaces and
+CTA destinations. Per the 2026-06-15 topology decision, per-product subdomains
+were **not** adopted: only a product with a live, separately deployed surface
+carries a subdomain. Operational ownership is:
 
 - `intercal.jami.studio`: live product surface outside this marketing repo.
   Verified on 2026-06-13 as a CNAME to
   `25b8236304cda166.vercel-dns-017.com`, with
   `https://intercal.jami.studio/` returning `200 OK` from Vercel.
-- `harness.jami.studio`: reserved for the Jami Agent Harness repo or docs/API
-  surface. Not live in DNS as of this audit.
-- `registry.jami.studio`: reserved for the Studio UI Registry repo or registry
-  distribution/docs surface. Not live in DNS as of this audit.
-- `orchestra.jami.studio`: reserved for the Orchestra repo or docs/API surface.
-  Not live in DNS as of this audit.
-- `collectiva.jami.studio`: reserved for the Collectiva repo or future product
-  surface. A `collectiva` project exists in the `studio-jami` Vercel scope, but
-  `collectiva.jami.studio` is not live in DNS as of this audit.
+- `registry.jami.studio`: live Studio UI Registry / docs host.
+- Harness, Orchestra, and Collectiva carry **no** subdomain. They are presented
+  as apex sections (`www.jami.studio/projects/<slug>`) and link to their GitHub
+  repos (`github.com/studio-jami/<repo>`) until a dedicated surface ships. A
+  `collectiva` project exists in the `studio-jami` Vercel scope but publishes no
+  public URL yet.
 
-Do not hardcode these subdomains in components. Change `src/content/projects.ts`
-first, then verify generated routes, sitemap, metadata, and AI-readable files.
+Do not hardcode product subdomains or fabricate `/docs` or `/api` URLs in
+components or content. A product gains a subdomain/docs/api entry in
+`src/content/projects.ts` only when that surface is actually live; then verify
+generated routes, sitemap, metadata, and AI-readable files.
 
 ## Preview Deployment Path
 

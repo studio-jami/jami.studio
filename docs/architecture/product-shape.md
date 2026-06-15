@@ -38,16 +38,14 @@ The site presents these as one coherent OSS ecosystem:
 
 ## Routing Model
 
-Project routing must be data-driven. The initial assumption is:
+Project routing must be data-driven. Per the 2026-06-15 topology decision, per-product subdomains were **not** adopted; only products with a live, separately deployed surface carry a subdomain:
 
-- `www.jami.studio` - main hub.
-- `intercal.jami.studio` - Intercal product surface.
-- `harness.jami.studio` - Harness product/docs surface.
-- `registry.jami.studio` - Studio UI Registry product/docs surface.
-- `orchestra.jami.studio` - Orchestra product/docs surface.
-- `collectiva.jami.studio` - Collectiva product/docs surface.
+- `www.jami.studio` - main hub; also hosts each non-subdomain product at `www.jami.studio/projects/<slug>`.
+- `intercal.jami.studio` - Intercal product surface (live, separate app).
+- `registry.jami.studio` - Studio UI Registry / docs host (live).
+- Harness, Orchestra, and Collectiva carry **no** subdomain. They are apex sections (`www.jami.studio/projects/harness`, `/orchestra`, `/collectiva`) that link to their GitHub repos until a dedicated surface ships.
 
-These are target route contracts, not hardcoded infrastructure. The implementation should allow any project to move to a separate domain, repo, Vercel project, docs provider, or API surface by changing centralized project metadata.
+These are target route contracts, not hardcoded infrastructure. Any project can gain a subdomain/docs/API surface — or move to a separate domain, repo, Vercel project, or docs provider — by changing centralized project metadata in `src/content/projects.ts`, only once that surface is actually live.
 
 ## Marketing Copy Rules
 

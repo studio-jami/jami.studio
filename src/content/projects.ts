@@ -15,10 +15,10 @@ export type StudioProject = {
   name: string;
   shortName: string;
   route: `/projects/${ProjectSlug}`;
-  subdomain: string;
-  domainTarget: string;
+  subdomain?: string;
+  domainTarget?: string;
   repoUrl: string;
-  docsUrl: string;
+  docsUrl?: string;
   apiUrl?: string;
   summary: string;
   aiSummary: string;
@@ -49,9 +49,12 @@ const projectSchema = z.object({
   slug: projectSlugSchema,
   name: z.string().min(2),
   shortName: z.string().min(2),
-  subdomain: z.string().regex(/^[a-z0-9-]+\.jami\.studio$/),
+  subdomain: z
+    .string()
+    .regex(/^[a-z0-9-]+\.jami\.studio$/)
+    .optional(),
   repoUrl: z.string().url(),
-  docsUrl: z.string().url(),
+  docsUrl: z.string().url().optional(),
   apiUrl: z.string().url().optional(),
   summary: z.string().min(20),
   aiSummary: z.string().min(40),
@@ -81,6 +84,18 @@ const projectsSchema = z
       slugs.add(project.slug);
 
       for (const cta of project.ctas) {
+        if (cta.target === "subdomain" && !project.subdomain) {
+          context.addIssue({
+            code: "custom",
+            message: `${project.slug} CTA references a subdomain that is not listed`
+          });
+        }
+        if (cta.target === "docs" && !project.docsUrl) {
+          context.addIssue({
+            code: "custom",
+            message: `${project.slug} CTA references a docs URL that is not listed`
+          });
+        }
         if (cta.target === "api" && !project.apiUrl) {
           context.addIssue({
             code: "custom",
@@ -104,10 +119,16 @@ function resolveProjectLink(project: RawStudioProject, target: RawProjectLink["t
     case "route":
       return projectRoute(project.slug);
     case "subdomain":
+      if (!project.subdomain) {
+        throw new Error(`${project.slug} does not list a subdomain`);
+      }
       return projectDomainTarget(project.subdomain);
     case "repo":
       return project.repoUrl;
     case "docs":
+      if (!project.docsUrl) {
+        throw new Error(`${project.slug} does not list a docs URL`);
+      }
       return project.docsUrl;
     case "api":
       if (!project.apiUrl) {
@@ -121,7 +142,7 @@ function materializeProject(project: RawStudioProject): StudioProject {
   return {
     ...project,
     route: projectRoute(project.slug),
-    domainTarget: projectDomainTarget(project.subdomain),
+    domainTarget: project.subdomain ? projectDomainTarget(project.subdomain) : undefined,
     ctas: project.ctas.map((cta) => ({
       ...cta,
       href: resolveProjectLink(project, cta.target)
@@ -134,10 +155,7 @@ const rawProjects = [
     slug: "harness",
     name: "Jami Agent Harness",
     shortName: "Harness",
-    subdomain: "harness.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/jami-harness`,
-    docsUrl: "https://harness.jami.studio/docs",
-    apiUrl: "https://harness.jami.studio/api",
     summary: "A governed agent runtime and BYOK reference foundation.",
     aiSummary:
       "Harness is the Studio runtime layer for governed agent loops, durable runs, provider abstraction, tool contracts, memory, and policy-gated dual invocation.",
@@ -200,10 +218,7 @@ const rawProjects = [
     slug: "orchestra",
     name: "Orchestra",
     shortName: "Orchestra",
-    subdomain: "orchestra.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/orchestra`,
-    docsUrl: "https://orchestra.jami.studio/docs",
-    apiUrl: "https://orchestra.jami.studio/api",
     summary: "A development and multi-agent coordination framework.",
     aiSummary:
       "Orchestra coordinates work records, squads, scheduling, approvals, and supervised harness runs without reimplementing the core agent loop.",
@@ -266,10 +281,7 @@ const rawProjects = [
     slug: "collectiva",
     name: "Collectiva",
     shortName: "Collectiva",
-    subdomain: "collectiva.jami.studio",
     repoUrl: `${studioLinks.githubOrg}/collectiva`,
-    docsUrl: "https://collectiva.jami.studio/docs",
-    apiUrl: "https://collectiva.jami.studio/api",
     summary: "An open agent society and governance layer.",
     aiSummary:
       "Collectiva is the Studio family surface for open agent society mechanics: deposits, reputation, governance, and public-view harnesses.",

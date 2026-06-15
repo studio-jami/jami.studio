@@ -27,17 +27,34 @@ describe("project content contract", () => {
   it("centralizes public project route and link data", () => {
     for (const project of projects) {
       expect(project.route).toBe(`/projects/${project.slug}`);
-      expect(project.subdomain).toMatch(/\.jami\.studio$/);
-      expect(project.domainTarget).toMatch(/^https:\/\//);
       expect(project.repoUrl).toMatch(/^https:\/\/github\.com\/studio-jami\//);
-      expect(project.docsUrl).toMatch(/^https:\/\//);
-      expect(project.apiUrl).toMatch(/^https:\/\//);
+      // Optional surfaces (subdomain/docs/api) are published only when they resolve.
+      if (project.subdomain !== undefined) {
+        expect(project.subdomain).toMatch(/\.jami\.studio$/);
+        expect(project.domainTarget).toBe(`https://${project.subdomain}`);
+      } else {
+        expect(project.domainTarget).toBeUndefined();
+      }
+      if (project.docsUrl !== undefined) {
+        expect(project.docsUrl).toMatch(/^https:\/\//);
+      }
+      if (project.apiUrl !== undefined) {
+        expect(project.apiUrl).toMatch(/^https:\/\//);
+      }
       expect(project.summary.length).toBeGreaterThan(20);
       expect(project.aiSummary.length).toBeGreaterThan(40);
       expect(project.ctas.some((cta) => cta.href === project.route)).toBe(true);
       expect(project.ctas.every((cta) => cta.href.length > 0)).toBe(true);
       expect(existsSync(join(process.cwd(), "public", project.socialImage))).toBe(true);
     }
+  });
+
+  it("publishes per-product subdomains only for live surfaces", () => {
+    const withSubdomain = projects
+      .filter((project) => project.subdomain !== undefined)
+      .map((project) => project.slug)
+      .sort();
+    expect(withSubdomain).toEqual(["intercal", "registry"]);
   });
 
   it("derives public project URL targets through route helpers", () => {
@@ -47,13 +64,15 @@ describe("project content contract", () => {
       expect(projectRepositoryUrl(project)).toBe(project.repoUrl);
       expect(projectDocsUrl(project)).toBe(project.docsUrl);
       expect(projectApiUrl(project)).toBe(project.apiUrl);
-      expect(projectLinkTargets(project).map((target) => target.label)).toEqual([
+
+      const expectedLabels = [
         "Route",
-        "Subdomain",
+        ...(project.subdomain ? ["Subdomain"] : []),
         "Repository",
-        "Docs",
-        "API"
-      ]);
+        ...(project.docsUrl ? ["Docs"] : []),
+        ...(project.apiUrl ? ["API"] : [])
+      ];
+      expect(projectLinkTargets(project).map((target) => target.label)).toEqual(expectedLabels);
 
       for (const cta of project.ctas) {
         const expectedHrefByTarget = {

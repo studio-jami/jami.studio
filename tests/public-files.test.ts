@@ -16,9 +16,9 @@ describe("generated public files", () => {
     for (const project of projects) {
       expect(llms).toContain(project.name);
       expect(full).toContain(project.repoUrl);
-      expect(full).toContain(project.docsUrl);
-      expect(full).toContain(project.apiUrl);
-      expect(full).toContain(project.domainTarget);
+      if (project.docsUrl) expect(full).toContain(project.docsUrl);
+      if (project.apiUrl) expect(full).toContain(project.apiUrl);
+      if (project.domainTarget) expect(full).toContain(project.domainTarget);
       for (const cta of project.ctas) {
         expect(full).toContain(`${cta.label}: ${cta.href}`);
       }

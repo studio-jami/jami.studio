@@ -39,14 +39,20 @@ This site is the marketing and OSS hub. Runtime implementations live in their ow
 
 export function createLlmsFullTxt(): string {
   const projectsBlock = projects
-    .map(
-      (project) => `## ${project.name}
+    .map((project) => {
+      const surfaceLines = [
+        `Route: ${projectCanonicalUrl(project)}`,
+        ...(projectSubdomainUrl(project)
+          ? [`Subdomain target: ${projectSubdomainUrl(project)}`]
+          : []),
+        `Repository: ${projectRepositoryUrl(project)}`,
+        ...(projectDocsUrl(project) ? [`Docs: ${projectDocsUrl(project)}`] : []),
+        ...(projectApiUrl(project) ? [`API: ${projectApiUrl(project)}`] : [])
+      ].join("\n");
 
-Route: ${projectCanonicalUrl(project)}
-Subdomain target: ${projectSubdomainUrl(project)}
-Repository: ${projectRepositoryUrl(project)}
-Docs: ${projectDocsUrl(project)}
-API: ${projectApiUrl(project) ?? "No public API URL listed"}
+      return `## ${project.name}
+
+${surfaceLines}
 
 Summary: ${project.summary}
 
@@ -62,8 +68,8 @@ ${project.proofPoints.map((item) => `- ${item}`).join("\n")}
 
 Calls to action:
 ${project.ctas.map((cta) => `- ${cta.label}: ${cta.href}`).join("\n")}
-`
-    )
+`;
+    })
     .join("\n");
 
   return `# ${site.name} Full Agent Source
