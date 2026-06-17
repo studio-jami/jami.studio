@@ -1,67 +1,49 @@
-# Dependencies
-node_modules/
-.pnp/
-.pnp.*
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Environment and secrets
-.env
-.env.*
-!.env.example
-docs/user-notes/framer-project-keys.md
-
-# Framework and build output
-.next/
-.nuxt/
-.svelte-kit/
-.astro/
-dist/
-build/
-out/
-.output/
-.vercel/
-
-# Test and coverage output
-coverage/
-test-results/
-playwright-report/
-blob-report/
-.nyc_output/
-.playwright-cli/
-agent-tools/
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# TypeScript and tooling caches
+# compiled output
+dist
+tmp
+out-tsc
 *.tsbuildinfo
-.eslintcache
-.stylelintcache
-.turbo/
-.cache/
+.expo
+.expo-shared
 
-# Local editor and OS files
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
 .DS_Store
 Thumbs.db
-Desktop.ini
-.idea/
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
 
-# Generated local artifacts
-tmp/
-temp/
-.tmp/
-*.local
-mcps/
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
 
-# Planning and agent coordination live only in _ops.
-docs/engineering/agents/
-docs/engineering/standards/planning-style.md
-docs/engineering/standards/report-style.md
-docs/roadmaps/
-docs/research/
+# Replit
+.cache/
+.local/

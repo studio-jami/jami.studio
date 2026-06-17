@@ -1,48 +1,16 @@
 {
-  "name": "jami-studio-site",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "start": "next start",
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,css}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,json,css}\"",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "build": "next build",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
-  "dependencies": {
-    "@next/env": "^16.0.7",
-    "@posthog/react": "1.10.1",
-    "@vercel/analytics": "2.0.1",
-    "@vercel/speed-insights": "2.0.0",
-    "next": "^16.0.7",
-    "posthog-js": "1.386.6",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "zod": "^4.1.13"
-  },
+  "private": true,
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "^16.0.7",
-    "jsdom": "^27.2.0",
     "prettier": "^3.8.3",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.14"
-  },
-  "packageManager": "pnpm@10.33.2",
-  "pnpm": {
-    "overrides": {
-      "postcss": "^8.5.10"
-    }
+    "typescript": "~5.9.3"
   }
 }
