@@ -16,11 +16,3 @@ updates:
     npm-dependencies:
       patterns:
       - '*'
-- package-ecosystem: pip
-  directory: /
-  schedule:
-    interval: weekly
-  groups:
-    pip-dependencies:
-      patterns:
-      - '*'
