@@ -38,10 +38,17 @@ describe("outbound href classification", () => {
   });
 
   it("classifies every project subdomain/repo/docs link as outbound", () => {
+    // Only `repoUrl` is guaranteed; a live subdomain (`domainTarget`) and a
+    // `docsUrl` exist only for projects that ship those surfaces (e.g. intercal,
+    // registry). Every link that *does* exist must classify as outbound.
     for (const project of projects) {
-      expect(isOutboundHref(project.domainTarget)).toBe(true);
       expect(isOutboundHref(project.repoUrl)).toBe(true);
-      expect(isOutboundHref(project.docsUrl)).toBe(true);
+      if (project.domainTarget) {
+        expect(isOutboundHref(project.domainTarget)).toBe(true);
+      }
+      if (project.docsUrl) {
+        expect(isOutboundHref(project.docsUrl)).toBe(true);
+      }
     }
   });
 });
